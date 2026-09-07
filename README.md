@@ -2,7 +2,7 @@
 
 Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它们用于把已经确认的个人代码习惯固化为不同 agent 都能理解、模仿和验证的明确写法，不是框架 API 手册，也不是面向所有团队的通用最佳实践合集。
 
-每个技术栈都是独立 skill：入口只负责识别任务和分流，具体代码习惯放在该 skill 的 `references/` 中。
+每个技术栈或可复用协作流程都是独立 skill：入口只负责识别任务和分流，具体代码习惯放在该 skill 的 `references/` 中。
 
 ## Skills
 
@@ -15,6 +15,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `rust-sdcore` | 基于 sdcore 的 Rust 工具型 Web 应用 |
 | `npm-package` | 可发布 npm 包的结构、校验与发布流程 |
 | `software-installation-docs` | Linux 软件安装、升级、回滚与运维文档 |
+| `deepseek-share-reader` | 读取 DeepSeek 分享对话、检查正文完整性，并按需整理成笔记 |
 
 ## 安装
 
