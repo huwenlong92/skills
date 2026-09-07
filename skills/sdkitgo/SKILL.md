@@ -19,7 +19,10 @@ description: 为固定采用 sdkitgo、Gin、GORM、PostgreSQL、runtime capabil
 
 | 目标路径或任务 | 必须读取 |
 |---|---|
+| 开发环境启动、`sdgo serve`、打包或 `build.yaml` 的包加载配置 | [workflow.md](references/workflow.md) 的“开发启动与打包配置” |
+| 数据库连接、查询、dump、恢复、结构开发、seed、清理或远端同步 | [database/safety.md](references/database/safety.md)；结构变更同时读取 [database/migration.md](references/database/migration.md) |
 | 新增 Go 文件、修改 import、增加或删除 package alias | [code/imports.md](references/code/imports.md) |
+| 新增、修改或评审 map 字面量，包括 GORM Updates 更新字段和 gin.H 响应对象 | [code/formatting.md](references/code/formatting.md) |
 | 新增 `app/{service}` 服务及其命令、配置和注册 | [service/creation.md](references/service/creation.md)、[service/config.md](references/service/config.md)、[service/provider.md](references/service/provider.md)；HTTP 服务同时读取 [service/router.md](references/service/router.md) |
 | `app/{service}/router.go` | [service/router.md](references/service/router.md)；涉及 middleware 作用域时同时读取 [service/middleware.md](references/service/middleware.md) |
 | `app/{service}/handler/**/*.go` | [service/handler.md](references/service/handler.md)、[service/request.md](references/service/request.md)、[http/response.md](references/http/response.md) |
@@ -46,6 +49,7 @@ description: 为固定采用 sdkitgo、Gin、GORM、PostgreSQL、runtime capabil
 
 ## 共同门禁
 
+- 正式库禁止 AI 直接或间接操作，只允许提供人工执行指导；数据库任务必须遵循 [database/safety.md](references/database/safety.md) 的环境核验、先备份再开发、本地验收与远端开发库同步门禁。
 - reference 中的目录名、model、字段、schema、route 和业务文案必须是虚构示例，只用于表达代码形态；实现时必须替换为目标项目的真实语义，禁止复制示例标识符充当业务设计。
 - 常规 HTTP 查询和 CRUD 必须直接写在 handler；共享不变量或确有独立阶段的复杂流程，才允许按 [handler.md](references/service/handler.md) 提取 private helper。复杂度不构成新增 capability 的理由。
 - 关联展示对象、数组或数据库树能够由 PostgreSQL 表达时，必须在 handler 查询中使用 `JOIN`、相关子查询、`LEFT JOIN LATERAL`、`jsonb_build_object` 或 `jsonb_agg` 直接形成最终 projection；禁止查询后用 Go `for range` 补关联或组装 JSON。

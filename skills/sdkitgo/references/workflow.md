@@ -9,6 +9,7 @@ description: 使用 sdkitgo 规范修改业务项目时的读取、实施、验�
 
 ## 修改前
 
+- 涉及数据库操作或结构开发时，必须先读取 [database/safety.md](database/safety.md)，完成环境分类与对应备份门禁；正式库只能提供人工操作指导。
 - 必须先读取 `SKILL.md` 的路径分流，并加载本次任务命中的全部 reference。
 - 新增 Go 文件或修改 `import` block 时必须读取 [code/imports.md](code/imports.md)；别名规则不得从历史文件反推。
 - 新增完整 service 时读取 [service/creation.md](service/creation.md)、[service/config.md](service/config.md) 和 [service/provider.md](service/provider.md)。
@@ -18,6 +19,19 @@ description: 使用 sdkitgo 规范修改业务项目时的读取、实施、验�
 - 修改 worker、crontab 或 realtime event 时分别读取 [worker/handler.md](worker/handler.md)、[crontab/handler.md](crontab/handler.md)、[realtime/events.md](realtime/events.md)。
 - 涉及项目公共能力、服务私有 adapter 或 capability 落点时读取 [infra/placement.md](infra/placement.md)；涉及通用框架能力或疑似 sdkit 缺陷时继续读取 [framework/boundary.md](framework/boundary.md)。
 - 必须检查目标项目实际目录和已有实现。历史写法与 skill 冲突时，新代码和本次修改按 skill 执行，但不得顺带重构不在任务范围内的历史代码。
+
+## 开发启动与打包配置
+
+- 开发环境允许在项目根目录使用 `sdgo serve` 启动项目；执行前必须确认目标项目已配置 `sdgo` 且当前环境为开发环境。命令或配置不可用时，必须检查项目已有启动说明，禁止猜测命令参数。
+
+```sh
+# 在已配置 sdgo 的项目根目录启动开发服务
+sdgo serve
+```
+
+- 项目根目录的 `build.yaml` 用于配置项目打包以及需要加载哪些包；修改打包范围或包加载配置时必须检查该文件，具体字段必须沿用目标项目现有配置与所用 `sdgo` 版本支持的格式，禁止凭空编造 YAML 字段。
+- 新增、删除或调整需要纳入打包或加载的包时，必须同步核对 `build.yaml` 中的相关配置；禁止把包选择配置放入 handler、model 或服务运行参数文件。
+- 服务运行参数与实例启用配置必须继续放在 `configs/services/{service}.yaml` 和 `configs/services/instances.yaml`，禁止用 `build.yaml` 替代这些配置；需要显式注册的 Provider 仍必须按 [service/creation.md](service/creation.md) 维护注册入口。
 
 ## 实现中
 
@@ -36,5 +50,7 @@ description: 使用 sdkitgo 规范修改业务项目时的读取、实施、验�
 - 必须检查 Router 的完整 path、method、group 层级和 middleware 继承没有意外变化。
 - 必须检查 request binding、response helper、model base、schema helper、软删除条件和 projection 符合命中 reference。
 - 必须检查新增 service 的 app 目录、独立命令、service 配置、instances 声明和 `cmd/serve` Provider 注册齐全。
+- 涉及开发启动时，必须验证所用启动命令能启动目标服务；无法启动时必须说明缺失的工具、配置或依赖。
+- 涉及打包或包加载变更时，必须核对 `build.yaml` 与目标包范围一致，并运行项目已有构建命令验证；人工检查构建结果是否包含所需包、排除已移除包，无法运行时必须说明原因与未验证范围。
 - 必须检查 crontab template、worker task 和 realtime event 均有显式集中注册，并且业务定义仍归属自己的领域 package。
 - 必须读取 [testing.md](testing.md)，运行与改动风险匹配的最小有效测试；无法运行时必须说明具体原因。

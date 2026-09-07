@@ -64,6 +64,7 @@ func CreateResource(c *gin.Context) {
 - Update 必须先查询当前 model，区分 `gorm.ErrRecordNotFound`，再计算并写入实际变化。
 - 可选更新字段必须使用 pointer，确保“未传入”和“显式零值”可以区分。
 - 使用 `map[string]any` 明确更新字段；禁止使用包含未传零值的完整 request/model 执行 `Save`。
+- 更新字段 map 的排版必须遵循 [code/formatting.md](../code/formatting.md)。
 
 ```go
 func UpdateResource(c *gin.Context) {

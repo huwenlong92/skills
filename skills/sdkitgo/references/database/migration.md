@@ -7,6 +7,8 @@ description: sdkitgo PostgreSQL schema、DDL、迁移、分区和历史数据回
 
 本文适用于 sdkitgo 项目的数据库迁移、schema 创建、分区表 DDL 和历史兼容。新增或修改 migration、schema、DDL、索引、约束、分区维护或历史数据回填时必须读取本文。
 
+开始结构开发或连接数据库前必须先遵循 [safety.md](safety.md)：先备份，再在本地开发与验收，最后按授权同步增量迁移到远端开发库。正式库只允许提供人工执行指导，本文任何执行步骤均不得作为 AI 操作正式库的例外。
+
 ## 迁移入口
 
 - 项目根目录的 `migrations/` 负责迁移入口、执行顺序、跨表/跨领域编排、schema 与父表创建、约束/索引/触发器、历史数据回填和旧表搬迁；`command/migrate/` 只负责参数解析、配置加载和调用。
@@ -20,7 +22,7 @@ description: sdkitgo PostgreSQL schema、DDL、迁移、分区和历史数据回
 
 - 项目内直接执行的 `migrate` 命令只允许 `app.mode=dev`；空值、`test`、`prod`、`production` 和其他值全部拒绝。
 - 模式校验必须发生在数据库 DDL/DML 之前，失败时返回明确错误，不允许先执行一部分迁移再拒绝。
-- 非开发环境的 schema 变更必须走项目明确建设的受控发布/运维流程，不复用开发命令绕过环境门禁。
+- 非开发环境的 schema 变更必须走项目明确建设的受控发布/运维流程，不复用开发命令绕过环境门禁；正式库流程只能由人执行，AI 禁止触发发布流水线代执行。
 - `seed` 不得隐式调用 migration；需要一键初始化开发环境时，另建显式 setup 编排，内部仍按 migrate 后 seed 的顺序调用。
 
 ## 在已有环境执行迁移

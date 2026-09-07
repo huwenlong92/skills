@@ -71,20 +71,72 @@ pnpx skills add huwenlong92/skills --skill sdkitgo -a claude-code
 # Kimi Code CLI：项目级；全局时在末尾加 -g
 pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli
 
+# OpenCode
+pnpx skills add huwenlong92/skills --skill sdkitgo -a opencode
+
+# Gemini CLI
+pnpx skills add huwenlong92/skills --skill sdkitgo -a gemini-cli
+
+# GitHub Copilot
+pnpx skills add huwenlong92/skills --skill sdkitgo -a github-copilot
+
+# Qwen Code
+pnpx skills add huwenlong92/skills --skill sdkitgo -a qwen-code
+
 # 同一个项目同时供多个 agent 使用
 pnpx skills add huwenlong92/skills --skill sdkitgo \
   -a codex -a claude-code -a kimi-code-cli
 ```
 
-CLI 当前安装位置如下；其他 agent 名称和路径查看其官方支持表，不要自行猜测：
+上面的单工具命令均为项目级，末尾加 `-g` 即为该工具的全局安装。`--skill` 选择技能，`-a` 选择安装目标，二者无绑定关系；例如 Gemini CLI 同样可以安装 `sdkitgo`、`vab-admin` 或 `nuxtjs`。
+
+常见 coding CLI 与编辑器 agent 的目录如下，按 [skills CLI 支持表](https://github.com/vercel-labs/skills#supported-agents) 核对；这里区分的是安装目标，不代表本仓库已逐个运行这些工具做行为测试。
 
 | Agent | `-a` 名称 | 项目级 | 全局 |
 |---|---|---|---|
 | Codex | `codex` | `.agents/skills/` | `~/.codex/skills/` |
 | Claude Code | `claude-code` | `.claude/skills/` | `~/.claude/skills/` |
 | Kimi Code CLI | `kimi-code-cli` | `.agents/skills/` | `~/.agents/skills/` |
+| OpenCode | `opencode` | `.agents/skills/` | `~/.config/opencode/skills/` |
+| Gemini CLI | `gemini-cli` | `.agents/skills/` | `~/.gemini/skills/` |
+| GitHub Copilot | `github-copilot` | `.agents/skills/` | `~/.copilot/skills/` |
+| Qwen Code | `qwen-code` | `.qwen/skills/` | `~/.qwen/skills/` |
+| Cursor | `cursor` | `.agents/skills/` | `~/.cursor/skills/` |
+| Cline | `cline` | `.agents/skills/` | `~/.agents/skills/` |
+| Kilo Code | `kilo` | `.kilocode/skills/` | `~/.kilocode/skills/` |
+| Roo Code | `roo` | `.roo/skills/` | `~/.roo/skills/` |
+| Windsurf | `windsurf` | `.windsurf/skills/` | `~/.codeium/windsurf/skills/` |
+| DSH（共享目录方式） | 借用 `kimi-code-cli`，见下一节 | `.agents/skills/` | `~/.agents/skills/` |
 
-CLI 的 symlink 模式是让 agent 入口引用安装后的 canonical copy，不等于实时链接开发中的源仓库。需要独立副本时使用 `--copy`。未列入 CLI 的 agent（例如 DSH），必须先核对该工具实际支持的 skill 搜索路径；支持 `.agents/skills` 时可以复用该目录，禁止假定它一定读取 Codex 或 Claude 的专属目录。
+其他工具可以使用不带 `-a` 的交互安装，在 CLI 提供的目标列表中选择：
+
+```bash
+pnpx skills add huwenlong92/skills --skill sdkitgo
+```
+
+列表没有目标工具时，先核对该工具官方文档的 Agent Skills 支持与搜索路径。支持标准目录加载时，允许把完整 `<skill-name>/`（含 `references/`）放进其明确支持的目录；不支持时必须说明不兼容，禁止只改目录名、只复制 `SKILL.md` 或假称安装成功。
+
+同为 `.agents/skills` 的项目级入口可以共享；不同全局路径不能自动互通。共享目录已存在同名技能时必须先核对内容，禁止重复覆盖。
+
+CLI 的 symlink 模式是让 agent 入口引用安装后的 canonical copy，不等于实时链接开发中的源仓库。需要独立副本时使用 `--copy`。未列入 CLI 的 agent 必须核对其实际技能搜索路径，禁止猜测 agent 参数。
+
+### DeepSeek Harness（DSH）
+
+已按本机 DSH 的 `@deepseek-ai/dsh-skill-filesystem` 文档核对：默认支持项目根目录的 `.agents/skills` 与用户目录的 `.agents/skills`。因此可以借用 CLI 的 `kimi-code-cli` 安装目标，把文件放进两者共用的路径；这只是选择安装目录，不要求安装或运行 Kimi，也不把 skill 改成 Kimi 专用格式。
+
+```bash
+# DSH 项目级：在实际项目根目录执行
+pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli
+
+# DSH 全局：写入 ~/.agents/skills
+pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli -g
+```
+
+前端分别将 `sdkitgo` 换成 `vab-admin` 或 `nuxtjs`。已有 Codex 项目级 `.agents/skills` 副本时，DSH 可以直接复用，禁止再复制一套；Codex 全局安装目标与此不同，不能据此假定 DSH 会发现 `~/.codex/skills`。
+
+如果使用的 DSH profile 修改或关闭了 filesystem skill provider，必须以该 profile 的配置为准；安装后在对应 DSH 项目会话中核对技能列表。不要直接使用未经 CLI 支持表确认的 `-a dsh`。
+
+需要只供 DSH 使用时，也允许把完整技能目录手动复制到项目级 `.dsh/skills/<skill-name>/`，或全局 `~/.dsh/skills/<skill-name>/`；手动副本不由上述 CLI 自动更新。DSH 默认还允许配置 `DSH_HOME`、`DSH_AGENTS_HOME` 和自定义搜索目录，已配置时必须以实际值为准。项目根按最近含 `.git` 的祖先目录识别，没有时才使用 cwd；不能随意在任意嵌套目录放置后就假定会被发现。
 
 ### 本地未发布版本
 
