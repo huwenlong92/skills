@@ -15,7 +15,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `rust-sdcore` | 基于 sdcore 的 Rust 工具型 Web 应用 |
 | `npm-package` | 可发布 npm 包的结构、校验与发布流程 |
 | `software-installation-docs` | Linux 软件安装、升级、回滚与运维文档 |
-| `deepseek-share-reader` | 读取 DeepSeek 分享对话、检查正文完整性，并按需整理成笔记 |
+| `sd-deepseek` | DeepSeek 方法统一入口；当前包含分享对话读取、正文完整性检查与按需笔记整理 |
 
 ## 安装
 
