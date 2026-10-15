@@ -1,5 +1,5 @@
 ---
-name: sdenv-service-entrypoints
+name: sdenv-services
 description: 根据已安装 sdenv 的帮助和配置定位开发服务，约束数据库、Docker context、NATS 与备份恢复操作。
 ---
 
