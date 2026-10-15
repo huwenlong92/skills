@@ -1,5 +1,5 @@
 ---
-name: software-installation-docs
+name: swops
 description: 创建、更新或评审精确的 Linux 软件安装与运维文档。处理 package repository 安装、源码编译、容器、静态二进制、升级、降级、回滚、卸载、systemd 集成、供应链验证和版本敏感的安装说明时使用。
 ---
 

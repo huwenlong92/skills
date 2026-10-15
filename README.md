@@ -14,7 +14,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `nuxtjs` | 基于 Nuxt 4、Vue 3、Element Plus 的门户前端 |
 | `rust-sdcore` | 基于 sdcore 的 Rust 工具型 Web 应用 |
 | `npm-package` | 可发布 npm 包的结构、校验与发布流程 |
-| `software-installation-docs` | Linux 软件安装、升级、回滚与运维文档 |
+| `swops` | Linux 软件安装、升级、回滚与运维文档 |
 | `sd-deepseek` | DeepSeek 方法统一入口；当前包含分享对话读取、正文完整性检查与按需笔记整理 |
 | `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收；原名 `sd-product` |
 
