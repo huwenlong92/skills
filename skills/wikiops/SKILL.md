@@ -1,6 +1,6 @@
 ---
 name: wikiops
-description: 管理 GitHub 私有 Wiki 知识库：按仓库规范搜索，将聊天中的方法、排障、决策与摘录入库，维护过期/重复知识、主题与来源，迁移旧笔记，并维护 VitePress 构建和 Cloudflare 发布与访问控制。包含 DeepSeek 分享对话读取与提取；用户要求记录、归档、沉淀知识或维护 Wiki 时使用，不负责产品 PRD 的权威维护。
+description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用来源回答，按仓库规范将聊天中的方法、排障、决策与摘录入库，维护过期/重复知识、主题与来源，迁移旧笔记，并维护 VitePress 构建和 Cloudflare 发布与访问控制。包含 DeepSeek 分享对话读取与提取；用户要求查 Wiki/知识库、回顾以前的做法、记录、归档、沉淀知识或维护 Wiki 时使用，不负责产品 PRD 的权威维护。
 ---
 
 # WikiOps 知识库协作
@@ -12,7 +12,8 @@ GitHub 是知识库唯一事实源，站点是只读门户。允许保留常规�
 | 任务 | 必须读取 |
 |---|---|
 | 定位知识库、跨会话恢复、云端读写与提交 | [仓库协作](references/repository.md) |
-| 搜索知识、更新主题索引 | [仓库协作](references/repository.md)、[知识写入](references/writing.md) |
+| “查一下知识库”“我以前怎么做的”“根据 Wiki 回答”，搜索与综合回答 | [仓库协作](references/repository.md)、[知识检索与回答](references/answer.md) |
+| 更新主题索引 | [仓库协作](references/repository.md)、[知识写入](references/writing.md) |
 | “记录一下”“沉淀一下”“归档一下”，保存聊天中的方法、排障、决策或资料摘录 | [仓库协作](references/repository.md)、[知识写入](references/writing.md)、[聊天入库](references/capture.md) |
 | 核验旧知识、更新过期命令、合并相似文章、修复链接或处理历史草稿 | [仓库协作](references/repository.md)、[知识维护](references/maintenance.md) |
 | 从旧知识库迁移、转换链接与清洗内容 | [迁移](references/migration.md)、[知识写入](references/writing.md) |
@@ -23,8 +24,8 @@ GitHub 是知识库唯一事实源，站点是只读门户。允许保留常规�
 
 1. 从用户指示或明确的会话绑定确定目标；读取最新根 AGENTS.md、主题注册表及命中的规范。
 2. 先搜索已有相关知识，区分用户确认、来源陈述、Agent 分析及未验证事项。
-3. 在仓库允许的位置更新内容、来源和索引；记录原始版本，检测并发修改。
-4. 按仓库规则验证并提交，分别报告写入、CI、部署和访问验收状态。
+3. 查询任务按已读证据回答并引用来源；只有要求写入或维护时，才更新仓库允许位置的内容、来源和索引，并检测并发修改。
+4. 查询任务交付答案、来源与未确认范围；写入任务按仓库规则验证并提交，分别报告写入、CI、部署和访问验收状态。
 
 ## 共同门禁
 
