@@ -17,7 +17,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `sdenv` | 通过已安装的 sdenv 使用 Docker context 中的数据库与基础服务，动态解析配置并完成查询、结构检查、备份恢复和连接排查 |
 | `npmops` | 可发布 npm 包的结构、校验与发布流程 |
 | `swops` | Linux 软件安装方式、升级迁移与回滚、卸载保留数据、服务验证及运维文档 |
-| `wikiops` | GitHub 私有知识库记录、整理与迁移，VitePress / Cloudflare 门户维护，包含 DeepSeek 分享提取 |
+| `wikiops` | 聊天方法、排障与决策入库，旧知识核验、合并与链接修复，迁移和 VitePress / Cloudflare 门户维护，包含 DeepSeek 分享提取 |
 | `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收 |
 
 ## 安装
