@@ -18,6 +18,7 @@ GitHub 是知识库唯一事实源，站点是只读门户。允许保留常规�
 | 核验旧知识、更新过期命令、合并相似文章、修复链接或处理历史草稿 | [仓库协作](references/repository.md)、[知识维护](references/maintenance.md) |
 | 从旧知识库迁移、转换链接与清洗内容 | [迁移](references/migration.md)、[知识写入](references/writing.md) |
 | VitePress 工程、构建、Cloudflare 部署与访问验证 | [门户与发布](references/publishing.md) |
+| Wiki 版本里程碑评估、候选报告与正式发布 | [版本管理](references/versioning.md)、[仓库协作](references/repository.md)、[门户与发布](references/publishing.md)；正式 Tag 需用户明确确认 |
 | DeepSeek 分享的读取、提取、完整性与失败处理 | [wikiops-ds-share](references/ds-share.md)；需要入库时另读知识写入 |
 
 ## 执行顺序
