@@ -1,6 +1,6 @@
 ---
 name: foundry
-description: Foundry 专用 Skill，默认操作 huwenlong92/product-docs 产品仓库。处理产品规划、PRD、技术方案、市场研究、设计规范、可操作 HTML 交互原型、产品文档仓库同步、原型版本发布与在线验收时使用；不负责正式业务代码开发。
+description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、市场研究、UI 设计、交互原型、项目初始化与导入、跨会话项目路由及发布验收；默认绑定 huwenlong92/product-docs，不负责正式业务代码开发。
 ---
 
 # Foundry 产品研发协作（专用 Skill）
