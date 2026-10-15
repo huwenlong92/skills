@@ -1,11 +1,11 @@
 ---
-name: ds-share-read
+name: wikiops-ds-share
 description: 分享 URL 校验、GET 请求、本地响应提取、完整性信号与失败降级。
 ---
 
 # 分享读取与完整性
 
-适用范围：读取、导出或总结 DeepSeek 分享链接，以及排查只有摘要、接口失败和正文不完整。笔记写入必须另外读取[笔记与知识库](notes.md)。
+适用范围：读取、导出或总结 DeepSeek 分享链接，以及排查只有摘要、接口失败和正文不完整。笔记写入必须另外读取[知识写入](writing.md)。
 
 ## URL 与请求入口
 

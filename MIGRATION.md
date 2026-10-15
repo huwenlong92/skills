@@ -215,3 +215,9 @@
 - 不执行 `git add`、`git commit` 或 `git push`，除非用户明确要求。
 - 不修改现有 remote。
 - 不把 `.idea/` 纳入迁移内容。
+
+## WikiOps 知识库协作
+
+- `ds-share` 并入 `wikiops`，分享提取能力入口为 `references/ds-share.md`（wikiops-ds-share）。
+- 保留原提取脚本与 13 项离线夹具；新增云端知识库写入、分类、迁移和私有门户发布规则。
+- 私有目标通过会话、环境或用户配置绑定，共享 skill 不记录个人知识库地址。
