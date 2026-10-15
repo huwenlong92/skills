@@ -33,7 +33,9 @@ GitHub 安装只能取得已经推送的内容；本地尚未发布的修改必�
 pnpx skills add huwenlong92/skills --list
 ```
 
-**专用 Skill 说明：** `foundry` 默认连接公开定位信息 `huwenlong92/product-docs`（`main`），文档中心为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。使用者必须自行具备仓库访问与写入权限；安装不授予权限，也不会固定项目版本。其余 Skill 保持各自通用或特定技术栈的约束。\n\n产品协作 Skill 可按需安装：
+**专用 Skill 说明：** `foundry` 默认连接公开定位信息 `huwenlong92/product-docs`（`main`），文档中心为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。使用者必须自行具备仓库访问与写入权限；安装不授予权限，也不会固定项目版本。其余 Skill 保持各自通用或特定技术栈的约束。
+
+产品协作 Skill 可按需安装：
 
 ```bash
 # 查看并安装 SD 产品协作 Skill

@@ -1,6 +1,6 @@
 # Engineering Standards → Agent Skills 迁移记录
 
-> 状态：整理中。本文用于在新会话中继续迁移；完成全部验收后再决定保留、归档或删除。
+> 状态：技能结构与安装一致性检查已完成；sdkit 边界草稿和下文记录的 sdcore 关闭默认 features 问题仍待处理。历史记录仅说明对应轮次结果。
 
 ## 目标
 
@@ -122,12 +122,13 @@
 
 - `ds-share` 已将分享读取与笔记写入分流，补充不联网的本地响应提取工具；13 项离线夹具覆盖 URL、业务与结构失败、顺序/ID、附件和状态信号、输入/输出保护。未使用真实分享验证在线接口。
 
+- `rust-sdcore` 已统一公共机制归属，移除业务 pkg 中重复 logger/reporter/HTTP 基础设施的冲突，补齐四份 reference 的范围、正反形态与完成标准。使用实际 sdcore 默认 features 编译临时示例 crate，路由片段及执行器调用编译通过，固定命令输出测试通过；路由鉴权只验证类型接线，未验证业务鉴权行为。
+- 全仓 11 个 skill、106 份 Markdown 通过官方 skill 校验、frontmatter、名称唯一性、代码围栏、相对链接与自包含路径检查；README 入口与目录一致，旧名称及旧安装入口无残留，共享全局入口与源码一致。
+
 尚未完成：
 
 - `sdkit` 的 `core/` 与 `pkg/` 规则仍是讨论草稿，需要结合框架仓库的真实设计继续确认，不得视为最终稳定规范。
-- 对 `rust-sdcore` 的每一份 reference 做最终精度审计，消除无条件的“优先、建议、可以、按需、尽量、视情况、默认”等措辞。
-- 给该 skill 中缺少验收条件的 references 补齐完成检查。
-- 合并该 skill 中的重复规则，确保每条规则只有一个权威位置。
+- 实际 sdcore checkout 在关闭默认 features 时无法编译：auth/session 引用了未启用的 rand_core/hex，db/runtime 存在无数据库 feature 时的匹配问题。本轮仅记录观察，未修改框架源码；不能把默认 features 下示例通过当成所有 feature 组合通过。
 
 ## 已解决的冲突
 
@@ -149,9 +150,9 @@
 
 ## 继续工作的建议顺序
 
-### 本轮交叉复查
+### 历史交叉复查（Go/Vue/Nuxt）
 
-本轮复查范围为 `sdkit`、`sdkitgo`、`vab-admin`、`nuxtjs`，没有扩展到其余三个 skill 的内容审计，也没有安装全局 skill 或修改业务项目。
+以下记录仅对应当时的审计和安装状态。当时复查范围为 `sdkit`、`sdkitgo`、`vab-admin`、`nuxtjs`，没有扩展到其余三个 skill 的内容审计，也没有安装全局 skill 或修改业务项目。
 
 - 统一 handler/helper 门槛：普通查询与 CRUD 内联；共享不变量或具有明确独立阶段的复杂流程允许 private helper，复杂度不自动导向 infra/capability。
 - 修正框架归属判定顺序：先分机制与业务语义，再看调用范围；单调用方不能掩盖已有 core 契约缺口。普通业务 adapter 与 runtime capability 不再混用名称。
@@ -164,7 +165,7 @@
 ### 后续顺序
 
 1. 继续确认 `sdkit` 的 core/pkg 边界草稿。
-2. 继续审计 `rust-sdcore` 的 references。
+2. 若后续授权修复 sdcore 的 features 问题，必须在底座补回归并验证实际消费方；本轮技能整理不自动扩展为框架修复。
 3. 每完成一个 skill，运行：
 
    ```bash
@@ -177,13 +178,15 @@
 
 ## 校验环境说明
 
-本轮修改后调用 `skill-creator/scripts/quick_validate.py` 校验 `sdkit`、`sdkitgo`、`vab-admin` 和 `nuxtjs` 时，当前 Python 解释器缺少 `PyYAML`，脚本停止在 `ModuleNotFoundError: No module named 'yaml'`。未修改全局 Python 环境；已使用 Ruby YAML 按相同 frontmatter 条件完成等价校验，并额外通过 Markdown 相对链接、代码围栏、绝对路径、模糊措辞和 reference 验收检查。
+当前已通过临时 uv 依赖环境运行全部 11 个 skill 的官方校验；PyYAML 只安装在工具缓存中，未修改全局 Python 或仓库依赖。以下是早期校验的历史记录。
+
+早期修改后调用 `skill-creator/scripts/quick_validate.py` 校验 `sdkit`、`sdkitgo`、`vab-admin` 和 `nuxtjs` 时，当前 Python 解释器缺少 `PyYAML`，脚本停止在 `ModuleNotFoundError: No module named 'yaml'`。未修改全局 Python 环境；已使用 Ruby YAML 按相同 frontmatter 条件完成等价校验，并额外通过 Markdown 相对链接、代码围栏、绝对路径、模糊措辞和 reference 验收检查。
 
 项目级行为测试已通过：临时 Codex 实例可以从 `.agents/skills` 发现 `sdkit` 与 `sdkitgo`。`sdkit` 能把“可独立构造且无需 runtime 的 queue driver”分流到 `pkg/queue/{driver}`，并读取 workflow、core/pkg 判定、pkg 和 testing reference；`sdkitgo` 能把分页列表 handler 分流到 workflow、handler、request、response、query、projection 和 testing reference。两次测试均为只读，没有修改业务项目或安装全局 skill。
 
 ## 源库保护
 
-源规范库当前包含用户尚未提交的修改。迁移只读取和复制，不得清理、回滚、覆盖或提交源库内容。开始迁移时观察到的状态包括：
+以下状态是开始迁移时的历史快照，不代表源库当前状态。未经对应任务授权，不得清理、回滚、覆盖或提交源库内容。当时观察到的状态包括：
 
 ```text
  M go/sdkitgo/README.md

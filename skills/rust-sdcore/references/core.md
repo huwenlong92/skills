@@ -1,50 +1,67 @@
-# Rust 工程规范
+---
+name: rust-sdcore-core
+description: sdcore 共享机制与业务语义的唯一归属定义，领域 pkg 结构及日志、请求响应和 reporter 边界。
+---
 
-## 适用场景
+# 能力归属与结构
 
-- 修改 Rust 后端项目的目录骨架、能力包、路由、handler、middleware、config、models、pkg 等结构时，先读本文件。
-- 新增跨项目可复用能力时必须沉淀到实际解析出的 `sdcore` crate；只有业务项目特有能力才留在项目内 `src/pkg/<ability>`。从 `Cargo.toml`、workspace、path/git dependency、仓库说明或用户输入解析 `sdcore` 源码位置，禁止假定本机目录。
+适用范围：所有匹配本 skill 的任务，尤其目录骨架、能力包、共享 API、日志、命令执行与 reporter 调整。路由、联调、测试分别读取对应 reference，禁止在其他文件重复定义归属。
 
-## 分流
+## 解析源码与归属
 
-- 修改 HTTP 路由、API path、handler 鉴权边界或前端 API 文件组织时，先读 `routing.md`。
-- 调试带 Web UI、后端服务和 agent 的 Rust 工具型项目时，先读 `workflow.md`。
-- 新增或调整 Rust 测试时，先读 `testing.md`。
+- 必须从 Cargo.toml、Cargo.lock、workspace、path/git dependency、项目说明或用户输入定位 sdcore；必须核对实际 revision 与 features，禁止把本机同名仓库自动当成已消费版本。
+- Rust 工具应用的公共运行时和基础设施机制必须放入解析出的 sdcore crate。业务项目只允许保留领域模型、业务路由/handler、业务 runner、前端与产品专属适配，禁止复制 framework/core 或通过换目录名掩盖重复实现。
+- 公共机制缺口必须先扩展 sdcore，再通过依赖接入。仅当新增逻辑具有本产品独有的领域规则或输出语义时，才允许放在业务 src/pkg/<ability>；调用方暂时只有一个不构成把通用机制留在业务中的理由。
+- sdcore 公开 API 与 feature 行为必须从实际导出与实现读取；禁止为了套用示例假造不存在的方法、模块或依赖版本。
 
-## `sdcore` 公共能力边界
+| 能力 | 允许位置 | 禁止位置 |
+|---|---|---|
+| 命令执行、process 生命周期、SSE、认证、连接管理、静态资源、配置、日志、后台任务/进度 | sdcore 当前对应公共模块 | 业务项目的第二套 core、通用 executor/logger/reporter 等实现 |
+| 通用 reporter 事件、trait、集合和分发 | sdcore reporter 模块，按 event/set 等职责拆分 | 业务 runner 中复制通用分发器 |
+| 统一入站 HTTP 响应与通用出站传输机制 | sdcore 当前对应公共模块 | 业务 pkg/response 或 pkg/request 中重建通用协议层 |
+| 目录导入、产品执行步骤、领域第三方客户端、专属文件/数据库输出 | 业务 src/pkg/<ability> 的职责文件 | sdcore 中硬编码产品字段、表名、路径与流程 |
 
-- Rust 工具型 Web 应用的公共运行时和基础设施能力必须进入实际解析出的 `sdcore` crate。
-- 公共能力包括但不限于命令执行、SSE 推送、reporter、认证、数据库连接、静态资源、日志、配置、后台任务、长任务进度、文件/系统操作辅助等。
-- 如果业务项目发现现有 `sdcore` 能力不够用，应优先扩展 `sdcore` 的通用 API，再由业务项目消费。
-- 业务项目只保留领域模型、业务路由、业务 handler、业务 runner、业务前端页面和产品特有流程。
-- 不要在业务项目里复制一套局部可用的 framework/core 能力。
+## 领域 pkg 形态
 
-## `pkg` 能力包结构
+- src/pkg/mod.rs 与 src/pkg/<ability>/mod.rs 必须只声明模块与导出门面，实现必须放在同级 runner.rs、client.rs、types.rs、guard.rs、log.rs 或 registry.rs 等职责文件。子能力目录遵守同一规则，禁止把多种职责堆进 mod.rs。
+- 仅创建当前确实需要的职责文件，禁止为了目录完整性创建空模块或无调用方封装。
 
-- `src/pkg/<ability>` 只用于当前项目特有的领域能力；跨项目公共能力按上一节沉淀到 `sdcore`。
-- `src/pkg/<ability>/mod.rs` 只负责声明子模块和导出门面，例如 `mod client;`、`mod types;`、`pub use client::HttpClient;`。
-- 具体实现必须放到同级职责文件中，按职责命名，例如 `client.rs`、`types.rs`、`runner.rs`、`guard.rs`、`sender.rs`、`registry.rs`。
-- 不要把请求构建、响应类型、执行器、reporter、校验逻辑、注册表等不同职责混在一个 `mod.rs` 里。
-- 如果一个能力内还有子能力目录，子目录的 `mod.rs` 也遵守同样规则：只声明和导出，注册表或集合逻辑放到 `registry.rs` 等职责文件。
-- `src/pkg/mod.rs` 是全局能力入口，只声明和导出能力包，不承载实现。
+以下是虚构目录导入能力的形态；通用执行器直接消费 sdcore，不在业务目录实现：
 
-## 请求和响应边界
+```rust
+// src/pkg/catalogrunner/mod.rs
+mod runner;
+pub use runner::inspect_catalog_input;
+```
 
-- `src/pkg/response` 表示本服务对外输出的 HTTP 响应能力，负责统一 JSON、文本、静态资源等响应格式。
-- `src/pkg/request` 表示本服务访问外部 URL 的出站请求能力，可以有自己的 `HttpRequest`、`HttpResponse` 类型。
-- 出站请求的响应不能套用本服务固定响应格式；外部服务响应应保留状态码、响应头、原始 body 等通用字段。
+```rust
+// src/pkg/catalogrunner/runner.rs
+use std::{path::Path, time::Duration};
+use sdcore::exec::{ExecOutput, ExecRequest, ShellExecutor};
 
-## 日志能力
+pub fn inspect_catalog_input(working_dir: &Path) -> Result<ExecOutput, String> {
+    let request = ExecRequest::new(working_dir, "printf 'fixture-ready\n'")
+        .with_timeout(Duration::from_secs(2));
+    ShellExecutor.run_capture(request)
+}
+```
 
-- 基础日志能力目录统一叫 `src/pkg/logger`，对齐 `core/logger` 的命名，不使用 `logstore` 这类只描述存储方式的名字。
-- `pkg/logger` 应提供初始化和常用 level 方法，例如 `init`、`named`、`debug`、`info`、`warn`、`error`、`sync`。
-- 运行日志由 `pkg/logger` 统一写入日志根目录，例如 `logs/app/app.log`；启动后不要在业务路径里直接用 `println!` / `eprintln!` 记录运行日志。
-- 项目部署日志这类按业务对象落文件的日志，不放在 `pkg/logger` 下；它属于部署 runner 能力，应放在 `src/pkg/deployrunner/log.rs`，提供 `append_deploy_log`、`read_deploy_log_tail`、`deploy_log_dir`。
-- CLI 帮助信息、安装进度、启动前 logger 尚未初始化的 fatal 错误，可以保留标准输出或标准错误。
+该片段仅演示调用边界，业务必须核对实际工作目录和输入。禁止把用户文本直接拼接进 shell 命令；工作目录、环境、超时与取消必须使用已确认的底座契约，缺口必须回到底座修复。
 
-## 可复用过程输出
+## 请求响应、日志与过程输出
 
-- 执行过程日志、SSE 推送、数据库记录、文件日志等输出通道应抽成 `pkg` 下的公共能力，例如 `src/pkg/reporter`。
-- 业务 runner 只负责业务流程编排，不把通用 reporter 实现写在自己的目录里。
-- `reporter` 只负责通用过程事件分发；部署专用的 file/db reporter 应放在 `pkg/deployrunner` 下，由 runner 自己组合。`pkg/logger` 不依赖 `reporter`，也不承载部署日志存储。
-- 新增 reporter 时按职责拆文件：通用事件类型放 `pkg/reporter/event.rs`，集合和 trait 放 `pkg/reporter/set.rs`；业务专用输出通道放回对应能力包，例如部署 file/db reporter 放在 `pkg/deployrunner/file_reporter.rs`、`pkg/deployrunner/record_reporter.rs`。
+- 入站响应必须复用 sdcore 已有 HTTP 能力；出站适配必须保留外部响应状态、头和原始 body 等通用信息，禁止套用本服务固定响应格式掩盖外部协议。
+- 基础日志必须使用 sdcore 的 logger 公共模块，命名禁止退回只描述存储的 logstore。初始化、named/level 输出与 flush 等能力必须按实际 API 使用，禁止在业务 src/pkg/logger 复制实现。
+- 日志根目录必须由配置解析。logger 初始化后禁止在业务路径使用 println!/eprintln! 替代运行日志；CLI 帮助、明确的终端进度及 logger 初始化前的 fatal 错误允许标准输出/错误。
+- 按业务对象保存的执行日志必须放在所属能力包，例如 src/pkg/catalogrunner/log.rs，不得塞进通用 logger；其读取/追加接口必须表达领域含义。
+- 通用 reporter 事件与分发必须在 sdcore，业务 file/db reporter 必须放在所属领域包，由 runner 组合。logger 禁止依赖业务 reporter 或承载业务记录存储。
+
+反例：业务 src/pkg/reporter 重写通用事件集合，或 sdcore logger 直接写本产品的导入记录表。
+
+## 完成标准
+
+- 实际 sdcore 路径、revision、features 与消费声明一致，公共机制和领域逻辑各有唯一实现位置。
+- mod.rs 只声明/导出，正向调用形态采用真实 API，没有空模块或为单项目复制的 framework。
+- 人工检查 logger/reporter、请求响应与 runner 的依赖方向，没有产品数据流入通用底座。
+- 数据库迁移或清理必须另有精确范围授权、备份与恢复验证；缺少前提时必须停止对应数据操作，禁止把代码修改视为数据授权。
+- 修改后的编译、公共行为与消费验证必须满足[测试与验收](testing.md)。

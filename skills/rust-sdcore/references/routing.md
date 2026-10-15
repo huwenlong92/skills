@@ -1,40 +1,54 @@
-# Rust 后端路由规范
+---
+name: rust-sdcore-routing
+description: Axum 按业务分组的 action 路径、group 鉴权、公开回调例外与前端 API 对齐。
+---
 
-## 路由分组
+# 路由与鉴权
 
-- 同一业务能力必须先建独立 `Router` group，再通过 `.nest("/xxx", group)` 挂到父路由，不把不同业务能力平铺在一个 `Router::new()` 链里。
-- 每个 group 前必须有一行简短注释，说明这个 group 的职责边界和鉴权边界。
-- group 命名要对应业务名，例如 `project`、`project_groups`、`project_deploy`、`project_rollback`、`nodes`、`users`、`agent`。
+适用范围：修改 route、handler、middleware、auth 边界或前端 API 组织。共享 HTTP/认证机制归属以[能力归属](core.md)为准。
 
-## 管理接口路径
+## 分组与路径
 
-- 后台管理接口使用“group + action”路径，不使用资源 id path 参数。
-- 列表和详情查询使用 query 参数，例如 `/api/project/detail?key=demo`。
-- 创建、更新、删除、重置、执行等写操作使用 JSON body 传参，例如 `/api/nodes/update` body `{ "key": "node-a", ... }`。
-- 不写 `/api/nodes/{key}`、`/api/users/{username}`、`/api/project/groups/{id}` 这类路径。
-- 业务删除动作不用 HTTP `DELETE` method，统一用 `POST /delete`，避免代理、表单、前端封装和权限审计里的特殊处理。
+- 同一业务能力必须先构建独立 Router group，再通过 nest 挂载父路由，禁止在一个 Router::new 链中平铺无关能力。每个 group 前必须用简短注释说明业务职责与鉴权边界。
+- 管理 API 必须使用 group + action，查询通过 query 传参，创建、更新、删除、重置、执行通过 JSON body 传参；禁止在管理 API 使用资源 ID path 参数。
+- 业务删除必须使用 POST /delete，禁止 HTTP DELETE。子能力必须继续按语义分组，例如 /api/catalog/import/execute、/api/catalog/logs/stream，禁止在父级拼 import-records、rollback-config 等复合动作名。
+- handler 必须只处理参数和业务流程；多个 handler 共用的 token/session 校验必须由 group middleware 完成，并通过 request extension 传递认证上下文。
 
-## 子能力路径
+## 鉴权与回调例外
 
-- 子能力按业务语义继续分 group，不把所有动作堆在父级。
-- 发布相关放到 `/deploy` 下，例如 `/api/project/deploy/manual`、`/api/project/deploy/records`。
-- 回滚相关放到 `/rollback` 下，例如 `/api/project/rollback/config`、`/api/project/rollback/execute`、`/api/project/rollback/records`。
-- 日志相关放到 `/logs` 下，例如 `/api/project/logs/tail`、`/api/project/logs/stream`。
-- 不使用 `rollback-config`、`deploy-records` 这类在父级拼业务名的路径。
+- 鉴权必须先挂在 group；仅当同组个别动作具有不同权限边界时，才允许再拆子 group 或对该独立路由施加匹配 middleware。禁止为方便把全组鉴权重复粘进 handler。
+- 外部回调、Webhook 与公开可配置 URL 允许保留协议所需的稳定 path 参数，该例外禁止扩散到管理 API。公开路由仍必须遵守对应协议的验签/访问控制，禁止把路径例外当成免认证授权。
+- route_layer 必须覆盖已声明的目标路由；新增路由和 nest 顺序必须按当前 Axum 版本核对，并验证管理组与公开回调没有错误共享认证边界。
 
-## 鉴权边界
+以下片段展示边界与路径形态，handler 和 middleware 必须由目标项目实现，禁止复制空鉴权实现：
 
-- 鉴权优先挂在 group 上，例如 `.route_layer(middleware::from_fn_with_state(state.clone(), require_admin))`。
-- 多个 handler 共享同一鉴权逻辑时，抽成 middleware，并把认证后的上下文放进 request extension。
-- handler 不重复实现同一套 token/session 校验，只处理业务参数和业务流程。
+```rust
+use sdcore::axum::{middleware, routing::{get, post}, Router};
+use crate::http::{handler::{detail, delete, notify}, middleware::require_admin};
 
-## 例外
+pub fn routes() -> Router {
+    // 目录管理：需要管理会话，资源 key 由 query/JSON 提供。
+    let catalog = Router::new()
+        .route("/detail", get(detail))
+        .route("/delete", post(delete))
+        .route_layer(middleware::from_fn(require_admin));
 
-- 外部系统回调、Webhook、公网可配置 URL 可以保留稳定、直观的 path 参数，例如 `/hook/{hook_type}/{project_key}`。
-- 这类例外要限于公开回调入口，不扩散到后台管理 API。
+    // 外部通知：按回调协议校验，不复用管理会话入口。
+    let hooks = Router::new().route("/notify/{catalog_key}", post(notify));
+    Router::new().nest("/api/catalog", catalog).nest("/hook", hooks)
+}
+```
 
-## 前端 API 文件
+路径参数写法必须匹配项目实际 Axum 版本，示例不授权升级依赖。反例：管理 API 使用 /api/catalog/{key} 或 DELETE /api/catalog/delete，并在每个 handler 内复制 token 检查。
 
-- 前端 API 文件结构要和后端 route group 对齐。
-- group 复杂时使用目录和 `index.ts` 统一导出，例如 `api/projects/manage.ts`、`groups.ts`、`deploy.ts`、`logs.ts`、`rollback.ts`、`version.ts`。
-- 页面层从 group 入口导入能力，不在页面里拼装 URL。
+## 前端 API
+
+- 前端 API 模块必须与后端 group 对齐；一个文件无法保持单一 group 职责时必须按子 group 建文件，并由 index.ts 导出，例如 api/catalog/manage.ts、import.ts、logs.ts 与 index.ts。
+- 页面必须从对应 group 入口导入，禁止在页面拼 URL。API 文件只允许位于目标前端已有 API 层，禁止放入 sdcore、业务后端 pkg 或复制到多个页面。
+
+## 完成标准
+
+- group 职责和鉴权注释明确，管理查询/写入分别通过 query/JSON，删除使用 POST /delete。
+- 真实回调协议的稳定路径保留；无管理路径参数扩散、重复鉴权或公开回调被管理会话错误拦截。
+- 必须验证未认证、无权限和合法请求的结果；仅编译通过不证明鉴权正确。
+- 人工检查前端 API 导出与后端路径/方法对齐，管理组与回调各自执行正确校验。
