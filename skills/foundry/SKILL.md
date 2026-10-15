@@ -22,7 +22,7 @@ description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、�
 
 ## 名称和调用约定
 
-- 本 Skill 的正式标识为 `foundry`，旧 `sd-product` 仅作为历史名称。项目数据仍位于 `huwenlong92/product-docs`，不得据此更改项目 slug 或仓库。
+- 本 Skill 的唯一标识为 `foundry`。项目数据仍位于 `huwenlong92/product-docs`，不得据此更改项目 slug 或仓库。
 - “使用 Foundry 继续 @oranzy/app”“foundry init”“foundry import”“foundry sync”属于自然语言调用约定；除非调用环境已提供命令注册，不得宣称是真实 shell/斜杠命令。
 - 每次初始化、导入或模块路由必须先读取最新仓库协议 `projects/product-docs/docs/foundry-routing-and-import.md`。项目 slug、别名、模块冲突必须停止写入并向用户询问如何处理，不得自动改名、覆盖或合并。
 

@@ -16,7 +16,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `npm-package` | 可发布 npm 包的结构、校验与发布流程 |
 | `swops` | Linux 软件安装、升级、回滚与运维文档 |
 | `sd-deepseek` | DeepSeek 方法统一入口；当前包含分享对话读取、正文完整性检查与按需笔记整理 |
-| `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收；原名 `sd-product` |
+| `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收 |
 
 ## 安装
 
@@ -37,8 +37,6 @@ pnpx skills add huwenlong92/skills --list
 # 查看并安装 SD 产品协作 Skill
 pnpx skills add huwenlong92/skills --skill foundry -a codex -g
 ```
-
-**迁移提示：** 已安装 `sd-product` 时，先安装并验证 `foundry`，确认新会话正确读取 Product Docs 后再卸载或停用旧技能。不要让两个同范围 Skill 长期同时触发。
 
 ### 项目级安装（默认）
 
