@@ -16,7 +16,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `npm-package` | 可发布 npm 包的结构、校验与发布流程 |
 | `software-installation-docs` | Linux 软件安装、升级、回滚与运维文档 |
 | `sd-deepseek` | DeepSeek 方法统一入口；当前包含分享对话读取、正文完整性检查与按需笔记整理 |
-| `sd-product`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、交互原型、文档同步与发布验收 |
+| `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收；原名 `sd-product` |
 
 ## 安装
 
@@ -31,12 +31,14 @@ GitHub 安装只能取得已经推送的内容；本地尚未发布的修改必�
 pnpx skills add huwenlong92/skills --list
 ```
 
-**专用 Skill 说明：** `sd-product` 默认连接公开定位信息 `huwenlong92/product-docs`（`main`），文档中心为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。使用者必须自行具备仓库访问与写入权限；安装不授予权限，也不会固定项目版本。其余 Skill 保持各自通用或特定技术栈的约束。\n\n产品协作 Skill 可按需安装：
+**专用 Skill 说明：** `foundry` 默认连接公开定位信息 `huwenlong92/product-docs`（`main`），文档中心为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。使用者必须自行具备仓库访问与写入权限；安装不授予权限，也不会固定项目版本。其余 Skill 保持各自通用或特定技术栈的约束。\n\n产品协作 Skill 可按需安装：
 
 ```bash
 # 查看并安装 SD 产品协作 Skill
-pnpx skills add huwenlong92/skills --skill sd-product -a codex -g
+pnpx skills add huwenlong92/skills --skill foundry -a codex -g
 ```
+
+**迁移提示：** 已安装 `sd-product` 时，先安装并验证 `foundry`，确认新会话正确读取 Product Docs 后再卸载或停用旧技能。不要让两个同范围 Skill 长期同时触发。
 
 ### 项目级安装（默认）
 
