@@ -5,7 +5,9 @@ description: 专用 Skill，默认操作 huwenlong92/product-docs 产品仓库�
 
 # SD 产品协作（专用 Skill）
 
-本 Skill 为仓库所有者专用，默认 GitHub 仓库为 `huwenlong92/product-docs`（`main`），文档站为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。这些公开地址用于定位，不代表已经连接或获得写入权限。\n\n本 Skill 约束产品协作的任务分流与交付门禁。实际项目目录、版本和发布约定必须在每次操作时读取目标产品仓库的最新 `PROJECTS.md` 和 `AGENTS.md`，禁止把某次读取结果当作永久规则。
+本 Skill 为仓库所有者专用，默认 GitHub 仓库为 `huwenlong92/product-docs`（`main`），文档站为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。这些公开地址用于定位，不代表已经连接或获得写入权限。
+
+本 Skill 约束产品协作的任务分流与交付门禁。实际项目目录、版本和发布约定必须在每次操作时读取目标产品仓库的最新 `PROJECTS.md` 和 `AGENTS.md`，禁止把某次读取结果当作永久规则。
 
 ## 任务分流
 
@@ -20,9 +22,9 @@ description: 专用 Skill，默认操作 huwenlong92/product-docs 产品仓库�
 ## 执行顺序
 
 1. 判断当前是讨论、文档同步、原型开发还是发布验收；只加载命中的 references。
-2. 涉及仓库时，默认使用本 Skill 已绑定的产品仓库；只有用户明确指定其他仓库时才切换。先确定项目；必须读取最新根 `PROJECTS.md`、`AGENTS.md`，再读取项目内已有内容。
+2. 涉及仓库时默认使用已绑定仓库，通过已连接的 GitHub 插件读取最新 `PROJECTS.md` 和 `AGENTS.md`，再读取命中的子规范与项目文件；仅在用户明确指定其他仓库时切换。
 3. 区分已确认决策、草案和建议；增量修改，保持既有约束及历史版本。
-4. 按任务类型执行提交策略：交互原型完成后按仓库规范自动提交；其他文档仅在用户明确要求同步时提交。
+4. 交互原型完成后检查并同步必要的 PRD、Design、Docs 和版本说明，按仓库规范自动提交；其他独立文档仅在用户明确要求同步时提交。
 5. 分别报告提交、构建、线上部署和真实访问验证状态；不可把任一步的成功代替下一步。
 
 ## 共同门禁
