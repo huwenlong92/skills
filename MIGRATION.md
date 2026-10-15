@@ -28,7 +28,7 @@
 3. `vab-admin`
 4. `nuxtjs`
 5. `rust-sdcore`
-6. `npm-package`
+6. `npmops`
 7. `swops`
 
 ## Reference 写作标准
@@ -55,10 +55,10 @@
 - 建立根 `README.md` 和仓库维护规则 `AGENTS.md`。
 - 为七个技术栈建立独立 `SKILL.md` 和分流表。
 - `sdkit` 与 `sdkitgo` 已分离：前者只约束 Go sdkit 框架自身的 `core/`、`pkg/`、facade、driver 和 runtime；后者只约束使用 sdkitgo 的业务项目。
-- Skill 已统一命名为 `sdkit`、`sdkitgo`、`vab-admin`、`nuxtjs`、`rust-sdcore`、`npm-package`、`swops`，目录名与 frontmatter `name` 一致。
+- Skill 已统一命名为 `sdkit`、`sdkitgo`、`vab-admin`、`nuxtjs`、`rust-sdcore`、`npmops`、`swops`，目录名与 frontmatter `name` 一致。
 - 七个 `SKILL.md` 使用中文说明；代码标识符、路径、命令和协议名保留英文。
 - 将旧规范复制为迁移素材，保留原来的主题拆分。
-- 删除 `npm-package/references/README.md`；其分流职责已由 `SKILL.md` 接管。
+- 删除 `npmops/references/README.md`；其分流职责已由 `SKILL.md` 接管。
 - 第一轮消除工作站绝对路径。
 - 明确 core/Vab/shared package 的源码位置必须从目标项目解析，不能写死目录。
 - `sdkitgo` 已完成第一轮精度审计：补齐每份 reference 的适用范围和完成标准，收敛 handler/projection、model/migration、config/provider 的重复权威规则，并消除无条件模糊措辞。
@@ -116,14 +116,14 @@
 - 已在 `.agents/skills/` 增加指向 `skills/vab-admin` 与 `skills/nuxtjs` 的项目级符号链接；它们只用于当前仓库测试，未安装到全局 agent 目录。
 - 第一轮迁移时原有六个 skill 均通过 `quick_validate.py`；新增 `sdkit` 以及本轮修改后的 `sdkitgo` 校验状态见“校验环境说明”。
 
+- `npmops` 已按包结构、发布流程、认证、Makefile 和公开页拆分；已去除重复认证教程并要求操作时核验平台规则。模板通过 11 项临时 fixture 验证，覆盖认证/检查失败、发布恢复、Token 文件保护、registry 一致性、prerelease 渠道及公开页白名单/dry-run。未执行真实 npm 发布。
+
 尚未完成：
 
 - `sdkit` 的 `core/` 与 `pkg/` 规则仍是讨论草稿，需要结合框架仓库的真实设计继续确认，不得视为最终稳定规范。
-- 对 `rust-sdcore`、`npm-package`、`swops` 的每一份 reference 做最终精度审计，消除无条件的“优先、建议、可以、按需、尽量、视情况、默认”等措辞。
-- 给上述三个 skill 中缺少验收条件的 references 补齐完成检查。
-- 合并上述三个 skill 中的重复规则，确保每条规则只有一个权威位置。
-- 检查 npm 发布规范中的外部时效信息，把稳定代码习惯和需要实时核验的 npm 平台规则分开。
-- 校验模板占位符和 shell 语法；frontmatter 与 Markdown 相对链接已通过检查。
+- 对 `rust-sdcore`、`swops` 的每一份 reference 做最终精度审计，消除无条件的“优先、建议、可以、按需、尽量、视情况、默认”等措辞。
+- 给上述两个 skill 中缺少验收条件的 references 补齐完成检查。
+- 合并上述两个 skill 中的重复规则，确保每条规则只有一个权威位置。
 
 ## 已解决的冲突
 
@@ -160,7 +160,7 @@
 ### 后续顺序
 
 1. 继续确认 `sdkit` 的 core/pkg 边界草稿。
-2. 按 `rust-sdcore` → `npm-package` → `swops` 的顺序继续审计 references。
+2. 按 `rust-sdcore` → `swops` 的顺序继续审计 references。
 3. 每完成一个 skill，运行：
 
    ```bash

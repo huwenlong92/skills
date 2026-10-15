@@ -3,6 +3,8 @@ SHELL := /bin/sh
 PNPM ?= pnpm
 NPM ?= npm
 NPM_CACHE ?= $(CURDIR)/.npm-cache
+NPM_REGISTRY ?= https://registry.npmjs.org/
+NPM_ACCESS ?= public
 TOKEN_NPMRC ?= $(CURDIR)/.npmrc.token
 ifneq ($(strip $(NPM_TOKEN)),)
 NPM_USERCONFIG ?= $(TOKEN_NPMRC)
@@ -10,11 +12,11 @@ else
 NPM_USERCONFIG ?=
 endif
 ifdef NPM_USERCONFIG
-NPM_RUN := npm_config_cache=$(NPM_CACHE) npm_config_userconfig=$(NPM_USERCONFIG) $(NPM)
+NPM_RUN := npm_config_cache="$(NPM_CACHE)" npm_config_userconfig="$(NPM_USERCONFIG)" $(NPM)
 else
-NPM_RUN := npm_config_cache=$(NPM_CACHE) $(NPM)
+NPM_RUN := npm_config_cache="$(NPM_CACHE)" $(NPM)
 endif
-NPM_LOGIN_RUN := npm_config_cache=$(NPM_CACHE) $(NPM)
+NPM_LOGIN_RUN := npm_config_cache="$(NPM_CACHE)" $(NPM)
 TAG ?= latest
 PREID ?= beta
 PRERELEASE_TAG ?= beta
@@ -25,7 +27,7 @@ PRERELEASE_TAG ?= beta
 	sync-github-public publish-readme \
 	login login-legacy whoami publish publish-beta publish-current publish-current-beta \
 	publish-dry-run publish-beta-dry-run \
-	prepare-npm-auth check-clean check-npm-auth version-patch version-minor version-major version-beta \
+	prepare-npm-auth check-clean check-npm-auth check-publish-channel version-patch version-minor version-major version-beta \
 	release release-patch release-minor release-major release-beta
 
 help:
@@ -47,7 +49,7 @@ help:
 	@printf "%s\n" ""
 	@printf "%s\n" "Publishing:"
 	@printf "  %-24s %s\n" "login" "Log in to npm."
-	@printf "  %-24s %s\n" "login-legacy" "Log in to npm with username/password prompts."
+	@printf "  %-24s %s\n" "login-legacy" "Use legacy auth only when supported by the CLI and registry."
 	@printf "  %-24s %s\n" "whoami" "Show the active npm account. Uses NPM_TOKEN when set."
 	@printf "  %-24s %s\n" "publish" "Use NPM_TOKEN when set, bump patch, then publish latest."
 	@printf "  %-24s %s\n" "publish-beta" "Require a clean tree, bump prerelease, then publish prerelease tag."
@@ -67,6 +69,8 @@ help:
 	@printf "  %-24s %s\n" "PREID=<id>" "Override prerelease id for release-beta. Default: beta."
 	@printf "  %-24s %s\n" "PRERELEASE_TAG=<tag>" "Override prerelease npm dist-tag. Default: beta."
 	@printf "  %-24s %s\n" "NPM_CACHE=<path>" "Override npm cache path. Default: .npm-cache."
+	@printf "  %-24s %s\n" "NPM_REGISTRY=<url>" "Use the confirmed registry for login, identity and publish."
+	@printf "  %-24s %s\n" "NPM_ACCESS=<access>" "Use the confirmed package access. Default: public."
 	@printf "  %-24s %s\n" "ALLOW_DIRTY=1" "Skip the clean worktree guard for versioned releases."
 
 install:
@@ -100,17 +104,30 @@ sync-github-public:
 publish-readme: sync-github-public
 
 login:
-	$(NPM_LOGIN_RUN) login
+	$(NPM_LOGIN_RUN) login --registry="$(NPM_REGISTRY)"
 
 login-legacy:
-	$(NPM_LOGIN_RUN) login --auth-type=legacy --registry=https://registry.npmjs.org/
+	$(NPM_LOGIN_RUN) login --auth-type=legacy --registry="$(NPM_REGISTRY)"
 
 whoami: prepare-npm-auth
-	$(NPM_RUN) whoami
+	$(NPM_RUN) whoami --registry="$(NPM_REGISTRY)"
 
 prepare-npm-auth:
 	@if [ -n "$$NPM_TOKEN" ]; then \
-		printf "%s\n" '//registry.npmjs.org/:_authToken=$${NPM_TOKEN}' > "$(TOKEN_NPMRC)"; \
+		if [ "$(NPM_USERCONFIG)" != "$(TOKEN_NPMRC)" ]; then \
+			test -r "$(NPM_USERCONFIG)" || { printf '%s\n' 'Configured npm userconfig is not readable.' >&2; exit 1; }; \
+		else \
+			case "$(NPM_REGISTRY)" in \
+				https://registry.npmjs.org|https://registry.npmjs.org/) ;; \
+				*) printf '%s\n' 'For another registry, supply an existing matching NPM_USERCONFIG.' >&2; exit 1 ;; \
+			esac; \
+			git check-ignore -q -- "$(TOKEN_NPMRC)" || { printf '%s\n' 'Ignore TOKEN_NPMRC before using token auth.' >&2; exit 1; }; \
+			if [ -e "$(TOKEN_NPMRC)" ] || [ -L "$(TOKEN_NPMRC)" ]; then \
+				test ! -L "$(TOKEN_NPMRC)" && printf '%s\n' '//registry.npmjs.org/:_authToken=$${NPM_TOKEN}' | cmp -s - "$(TOKEN_NPMRC)" || { printf '%s\n' 'Existing token config differs; refusing to overwrite it.' >&2; exit 1; }; \
+			else \
+				umask 077; printf '%s\n' '//registry.npmjs.org/:_authToken=$${NPM_TOKEN}' > "$(TOKEN_NPMRC)"; \
+			fi; \
+		fi; \
 	fi
 
 publish:
@@ -121,15 +138,19 @@ publish-beta:
 
 publish-current:
 	$(MAKE) check-npm-auth
+	$(MAKE) check-publish-channel
 	$(MAKE) check
-	$(NPM_RUN) publish --access public --tag $(TAG)
+	$(NPM_RUN) publish --registry="$(NPM_REGISTRY)" --access="$(NPM_ACCESS)" --tag="$(TAG)"
 	$(MAKE) clean
 
 publish-current-beta:
 	$(MAKE) publish-current TAG=$(PRERELEASE_TAG)
 
-publish-dry-run: prepare-npm-auth check
-	$(NPM_RUN) publish --access public --tag $(TAG) --dry-run
+publish-dry-run:
+	$(MAKE) prepare-npm-auth
+	$(MAKE) check-publish-channel
+	$(MAKE) check
+	$(NPM_RUN) publish --registry="$(NPM_REGISTRY)" --access="$(NPM_ACCESS)" --tag="$(TAG)" --dry-run
 
 publish-beta-dry-run:
 	$(MAKE) publish-dry-run TAG=$(PRERELEASE_TAG)
@@ -142,10 +163,13 @@ check-clean:
 	fi
 
 check-npm-auth: prepare-npm-auth
-	@if ! $(NPM_RUN) whoami >/dev/null 2>&1; then \
+	@if ! $(NPM_RUN) whoami --registry="$(NPM_REGISTRY)" >/dev/null 2>&1; then \
 		printf "%s\n" "npm auth is invalid. If using a token, export NPM_TOKEN and run 'make whoami'. Otherwise run 'make login' or 'make login-legacy'. If the version was already bumped, retry with 'make publish-current'."; \
 		exit 1; \
 	fi
+
+check-publish-channel:
+	@node -e 'const p = require("./package.json"); if (process.argv[1] === "latest" && p.version.includes("-")) { console.error("Prerelease versions must not publish to latest."); process.exit(1); }' "$(TAG)"
 
 version-patch:
 	$(NPM_RUN) version patch --no-git-tag-version

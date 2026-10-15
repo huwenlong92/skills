@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-REPO_URL="${GITHUB_PUBLIC_REPO_URL:-git@github.com:OWNER/PACKAGE.git}"
+REPO_URL="${GITHUB_PUBLIC_REPO_URL:-}"
 BRANCH="${GITHUB_PUBLIC_BRANCH:-main}"
 DRY_RUN="${DRY_RUN:-0}"
 TMP_DIR="$(mktemp -d)"
@@ -23,18 +23,46 @@ need() {
 
 need git
 
+if [ -z "$REPO_URL" ]; then
+  echo "GITHUB_PUBLIC_REPO_URL must name the confirmed public-page repository" >&2
+  exit 1
+fi
+if [ "$DRY_RUN" != "0" ] && [ "$DRY_RUN" != "1" ]; then
+  echo "DRY_RUN must be 0 or 1" >&2
+  exit 1
+fi
+git check-ref-format --branch "$BRANCH" >/dev/null
+
 if [ ! -f "$ROOT_DIR/README.public.md" ]; then
   echo "missing README.public.md" >&2
   exit 1
 fi
+
+if [ -L "$ROOT_DIR/README.public.md" ]; then
+  echo "README.public.md must not be a symlink" >&2
+  exit 1
+fi
+
+if [ -L "$ROOT_DIR/docs" ] || [ -L "$ROOT_DIR/docs/public" ]; then
+  echo "public image parent directories must not be symlinks" >&2
+  exit 1
+fi
+for images in "$ROOT_DIR/docs/public/images" "$ROOT_DIR/docs/assets"; do
+  if [ -L "$images" ] || { [ -d "$images" ] && [ -n "$(find "$images" -type l -print -quit)" ]; }; then
+    echo "public image sources must not contain symlinks" >&2
+    exit 1
+  fi
+done
 
 echo "Sync public README and demo images to ${REPO_URL}"
 git clone "$REPO_URL" "$TMP_DIR/repo"
 
 cd "$TMP_DIR/repo"
 
-if git rev-parse --verify "$BRANCH" >/dev/null 2>&1; then
+if git show-ref --verify --quiet "refs/heads/$BRANCH"; then
   git checkout "$BRANCH"
+elif git show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
+  git checkout -b "$BRANCH" --track "origin/$BRANCH"
 else
   git checkout -b "$BRANCH"
 fi
@@ -51,7 +79,13 @@ elif [ -d "$ROOT_DIR/docs/assets" ]; then
   cp -R "$ROOT_DIR/docs/assets/." "$TMP_DIR/repo/docs/images/"
 fi
 
-git add -A
+while IFS= read -r -d '' deleted; do
+  git add -- "$deleted"
+done < <(git diff --name-only --no-renames --diff-filter=D -z)
+git add -- README.md
+if [ -d docs/images ]; then
+  git add -- docs/images
+fi
 if git diff --cached --quiet; then
   echo "No public files to sync"
   exit 0
