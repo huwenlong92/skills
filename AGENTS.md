@@ -32,3 +32,7 @@
 - 修改模板时同时检查引用模板的 reference；模板不得包含真实仓库地址、token 或本机路径。
 - 完成后运行 skill 校验，检查 Markdown 相对链接，并搜索残留绝对路径和模糊措辞。
 - 不自动执行 `git add`、`git commit` 或 `git push`。
+
+## 跨项目协作规范
+
+仓库维护 [SDKit 项目协作规范](standards/project-collaboration.md)，用于跨技术栈项目的 `AGENTS.md` 和 `.sdkit/` 约定。该规范不改变独立 Skill 的职责或发布授权；对规范的修改必须遵守本仓库维护流程。
