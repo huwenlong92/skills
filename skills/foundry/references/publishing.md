@@ -40,3 +40,11 @@ description: GitHub 提交、构建、部署与真实预览地址核验
 ## 完成标准
 
 所有声称成功的环节必须有实际工具结果或平台证据；发布失败必须说明阻断步骤及后续核验对象。
+
+## 多会话并行交付与自动合并
+
+- 多个 ChatGPT 会话和本地 Codex 同时修改 product-docs 时，默认每任务使用独立分支与 PR；即使是普通文档，也不得因旧规则允许低风险直推而跳过并发检查。
+- 写入前重新读取目标仓库最新 standards/git-workflow.md；提交前比较远端 main 和目标文件版本。PROJECTS.md、AGENTS.md、site/index.html、Latest、Overview、CI 工作流属于共享资源。
+- 只有用户已授权自动合并、PR 非 Draft、所有适用的必需 CI 检查真实成功、无冲突、无待人工验收事项时才可自动 Squash Merge；不能把未配置 CI 或检查缺失当作通过。
+- 自动合并前重新检查 PR head SHA 和 main 状态；冲突、失败或版本漂移时停止，保留 PR，禁止强推或覆盖。GitHub 套餐限制导致保护规则不生效时必须明确告知。
+- 合并代码与部署生产站点严格分离；main 的更新不构成部署授权。任何自动发布关闭的声明都必须有 GitHub Actions 与托管平台配置核验证据。
