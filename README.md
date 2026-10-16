@@ -4,6 +4,10 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 
 每个技术栈或可复用协作流程都是独立 skill：入口只负责识别任务和分流，具体代码习惯放在该 skill 的 `references/` 中。
 
+## 跨项目协作规范
+
+所有采用 SDKit 协作约定的项目统一使用根目录 `AGENTS.md` 与 `.sdkit/` 项目状态目录。规范见 [项目协作规范](standards/project-collaboration.md)。这不是独立 Skill，也不替代各技术栈 Skill。
+
 ## Skills
 
 | Skill | 适用范围 |
