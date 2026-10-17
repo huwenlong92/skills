@@ -1,6 +1,6 @@
 ---
 name: vab-admin
-description: 为基于 Vab Shop Vite、Vue 3 和 Element Plus 的后台应用执行 SDKit Vab Admin 约定。创建、修改、评审或调试页面、组件、store、API 调用、路由、菜单、权限、样式、上传流程、业务选项和 UI 验证时使用。
+description: 仅用于明确指定旧名称 vab-admin 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdbase-vab-admin，不得与新 Skill 同时自动触发。
 ---
 
 # Vab Admin
