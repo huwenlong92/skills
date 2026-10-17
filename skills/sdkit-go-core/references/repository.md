@@ -1,11 +1,11 @@
 ---
-name: sdkit-repository
+name: sdkit-go-core-repository
 description: sdkit 当前兼容入口的权威源码定位、模板版本核验与写入边界
 ---
 
 # 权威源码与项目身份
 
-适用范围：使用 `sdkit` 开始项目开发、模板能力核对或跨仓库修改前必须读取。本文件属于旧名称兼容阶段，计划迁移名称为 `sdkit-go-core`，但当前安装和触发仍使用 `sdkit`。
+适用范围：使用 `sdkit-go-core` 开始项目开发、模板能力核对或跨仓库修改前必须读取。本文件属于旧名称兼容阶段，计划迁移名称为 `sdkit-go-core`，但当前安装和触发仍使用 `sdkit-go-core`。
 
 - 权威源码：`https://github.com/huwenlong92/sdkit`；访问时检查实际默认分支和当前 SHA，不把历史版本当成最新实现。
 - 定位边界：共享 Go 框架源码，只有修改框架时使用。
