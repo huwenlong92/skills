@@ -124,6 +124,25 @@ class ManagerTests(unittest.TestCase):
                 manager.install("demo", target, update=True)
         self.assertEqual((target / "demo/SKILL.md").read_bytes(), original)
 
+    def test_update_failed_restore_preserves_backup(self):
+        target = self.root / "agent"
+        target.mkdir()
+        manager.install("demo", target)
+        original = (target / "demo/SKILL.md").read_bytes()
+        original_rename = Path.rename
+
+        def fail_stage_and_restore(path, to):
+            if path.name.startswith(".sdkit-stage-") or path.name.startswith(".sdkit-backup-"):
+                raise OSError("injected rename failure")
+            return original_rename(path, to)
+
+        with patch.object(Path, "rename", fail_stage_and_restore):
+            with self.assertRaisesRegex(RuntimeError, "backup retained"):
+                manager.install("demo", target, update=True)
+        backups = list(target.glob(".sdkit-backup-*"))
+        self.assertEqual(len(backups), 1)
+        self.assertEqual((backups[0] / "SKILL.md").read_bytes(), original)
+
     def test_target_symlink_parent_rejected(self):
         real = self.root / "real"
         real.mkdir()
