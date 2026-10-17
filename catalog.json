@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "categories": {
+    "language": "通用语言规范",
+    "framework": "共享框架开发规范",
+    "template": "项目模板开发规范",
+    "operations": "工程与运维",
+    "product": "产品与知识管理",
+    "management": "Skill 生命周期管理"
+  },
+  "skills": [
+    {
+      "name": "sdkit",
+      "category": "framework",
+      "path": "skills/sdkit"
+    },
+    {
+      "name": "sdkitgo",
+      "category": "template",
+      "path": "skills/sdkitgo"
+    },
+    {
+      "name": "rust-sdcore",
+      "category": "framework",
+      "path": "skills/rust-sdcore"
+    },
+    {
+      "name": "vab-admin",
+      "category": "template",
+      "path": "skills/vab-admin"
+    },
+    {
+      "name": "nuxtjs",
+      "category": "template",
+      "path": "skills/nuxtjs"
+    },
+    {
+      "name": "dockerops",
+      "category": "operations",
+      "path": "skills/dockerops"
+    },
+    {
+      "name": "npmops",
+      "category": "operations",
+      "path": "skills/npmops"
+    },
+    {
+      "name": "sdenv",
+      "category": "operations",
+      "path": "skills/sdenv"
+    },
+    {
+      "name": "swops",
+      "category": "operations",
+      "path": "skills/swops"
+    },
+    {
+      "name": "foundry",
+      "category": "product",
+      "path": "skills/foundry"
+    },
+    {
+      "name": "wikiops",
+      "category": "product",
+      "path": "skills/wikiops"
+    },
+    {
+      "name": "sdkit-skills",
+      "category": "management",
+      "path": "skills/sdkit-skills"
+    }
+  ]
+}
