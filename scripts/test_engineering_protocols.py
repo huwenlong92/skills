@@ -54,6 +54,36 @@ class ProtocolTests(unittest.TestCase):
                 with self.subTest(doc=doc.name, link=dest):
                     self.assertTrue((doc.parent / dest).is_file())
 
+    def test_agent_entrypoints(self):
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("standards/skill-orchestration.md", agents)
+        self.assertIn("standards/development-execution.md", agents)
+
+    def test_collaboration_guardrail_is_reused(self):
+        for token in ["collaboration-awareness.md", "不得为感知主动触发 CI"]:
+            self.assertIn(token, self.orch)
+        self.assertIn("collaboration-awareness.md", self.execution)
+
+    def test_stage_gates_and_scope_change(self):
+        for token in ["阶段结束", "原始 Git 基线", "暂停受影响修改", "明确批准", "测试证据"]:
+            with self.subTest(token=token):
+                self.assertIn(token, self.execution)
+
+    def test_long_task_recovery(self):
+        for token in ["未提交修改必须保留", "第一个未验收阶段", "不得仅凭交接文档认定完成"]:
+            with self.subTest(token=token):
+                self.assertIn(token, self.execution)
+
+    def test_parallel_skill_migration_compatibility(self):
+        catalog = (ROOT / "catalog.json").read_text(encoding="utf-8")
+        self.assertIn('"skills"', catalog)
+        self.assertIn("候选的 gitops、dbops", self.orch)
+        self.assertIn("已验证的专用模板 Skill", self.orch)
+
+    def test_plan_change_does_not_imply_approval(self):
+        self.assertIn("不得伪称已批准", self.execution)
+        self.assertIn("用户当前明确的新指令", self.execution)
+
     def test_no_unapproved_execution(self):
         self.assertIn("不自动安装", self.orch)
         self.assertIn("不得为感知主动触发 CI", self.orch)
