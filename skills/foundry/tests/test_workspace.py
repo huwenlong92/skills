@@ -89,5 +89,52 @@ class WorkspaceTests(unittest.TestCase):
         result = self.run_cli("add", "personal", "example/docs", "--provider", "github")
         self.assertNotEqual(result.returncode, 0)
 
+
+    def test_default_config_read_without_user_file(self):
+        result = self.run_cli("list")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["source"], "skill-default")
+        self.assertEqual(data["primary_workspace"], "personal")
+
+    def test_primary_switch_and_path_update(self):
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git", "--provider", "github")
+        self.run_cli("add", "team", "git@gitlab.example.com:team/docs.git", "--provider", "gitlab")
+        self.assertEqual(self.run_cli("set-primary", "team").returncode, 0)
+        self.assertEqual(self.run_cli("set-path", "team", str(self.root / "team")).returncode, 0)
+        data = json.loads(self.config.read_text())
+        self.assertEqual(data["primary_workspace"], "team")
+        self.assertEqual(data["workspaces"]["team"]["repository"]["local_path"], str(self.root / "team"))
+        self.assertEqual(self.run_cli("remove", "team").returncode, 0)
+        self.assertIsNone(json.loads(self.config.read_text())["primary_workspace"])
+
+    def test_active_workspace_override_is_not_persisted(self):
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git", "--provider", "github")
+        self.run_cli("add", "team", "git@gitlab.example.com:team/docs.git", "--provider", "gitlab")
+        result = self.run_cli("resolve", "--active", "team")
+        self.assertEqual(json.loads(result.stdout)["workspace"], "team")
+        self.assertEqual(json.loads(self.config.read_text())["primary_workspace"], "personal")
+
+    def test_dirty_worktree_and_detached_head(self):
+        repo = self.repo()
+        subprocess.run(["git", "-C", str(repo), "-c", "user.email=test@example.com",
+                        "-c", "user.name=Test", "commit", "--allow-empty", "-qm", "initial"], check=True)
+        (repo / "note.txt").write_text("dirty")
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        result = self.run_cli("resolve")
+        self.assertTrue(json.loads(result.stdout)["dirty"])
+        subprocess.run(["git", "-C", str(repo), "checkout", "--detach", "-q"], check=True)
+        result = self.run_cli("resolve")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIsNone(json.loads(result.stdout)["branch"])
+
+    def test_invalid_primary_is_rejected(self):
+        self.config.write_text(json.dumps({"version": 1, "primary_workspace": "missing", "workspaces": {}}))
+        self.assertNotEqual(self.run_cli("list").returncode, 0)
+
 if __name__ == "__main__":
     unittest.main()
