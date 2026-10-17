@@ -4,8 +4,8 @@
 
 ## 目标与权限
 
-- 必须从用户提供的仓库 URL、明确会话绑定、环境变量 WIKIOPS_REPOSITORY 或配置文件定位仓库。配置文件按 XDG_CONFIG_HOME 下 wikiops/config.json 定位；未设置 XDG_CONFIG_HOME 时使用用户主目录的 .config/wikiops/config.json。字段 repository 为 owner/repo，site 为门户 URL；禁止在共享 skill 内保存个人绑定。多个来源冲突时先核实；没有唯一目标时必须询问，禁止猜测账号或扫描无关私有仓库。
-- 必须核对仓库私有性、默认分支和当前提交，再读取 AGENTS.md、主题注册表及命中规范。共享 skill 禁止保存真实私有仓库绑定、本机路径和授权邮箱。
+- 必须按 [Workspace 配置](workspace.md) 确定唯一目标，再按 [Repository Resolver](resolver.md) 选择本地 Git 或远端 Provider。旧版 `WIKIOPS_REPOSITORY` 和单仓库配置不得覆盖显式 Workspace 配置；迁移前需人工确认目标，禁止隐式合并。
+- 必须核对仓库私有性、默认分支和当前提交，再读取 AGENTS.md、主题注册表及命中规范。共享 Skill 仅允许专用 WikiOps 的公开默认仓库定位，禁止记录用户本机路径、私密仓库绑定或授权邮箱。
 - 正文仅允许写入仓库规范指定的知识目录；门户生成目录、工具安装目录与无关仓库禁止作为长期正文存储。
 - 已连接的 GitHub 工具支持写入时必须使用实际工具能力；仅有只读连接器不能通过提示词变为可写。允许使用经授权 CLI 的临时检出，不要求用户维护本地副本。
 
