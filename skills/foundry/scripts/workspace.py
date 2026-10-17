@@ -57,12 +57,12 @@ def read_defaults():
     """Parse the narrow Foundry defaults.yaml mapping using stdlib."""
     content = DEFAULTS_FILE.read_text(encoding="utf-8")
     def field(name):
-        match = re.search(r"^\\s*" + re.escape(name) + r":\\s*(.+?)\\s*$", content, re.M)
+        match = re.search(r"^\s*" + re.escape(name) + r":\s*(.+?)\s*$", content, re.M)
         if not match:
             raise ValueError("Missing defaults field: " + name)
         return match.group(1).strip().strip(chr(34)).strip(chr(39))
     primary = field("primary_workspace")
-    workspace_match = re.search(r"^  ([A-Za-z0-9_-]+):\\s*$", content, re.M)
+    workspace_match = re.search(r"^  ([A-Za-z0-9_-]+):\s*$", content, re.M)
     if not workspace_match or workspace_match.group(1) != primary:
         raise ValueError("Invalid defaults workspace")
     return validate({"version": int(field("version")), "primary_workspace": primary,
