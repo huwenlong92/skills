@@ -11,7 +11,7 @@ description: 多 Workspace 配置、身份隔离和环境选择
 
 - Skill 的 `config/defaults.yaml` 是专用发布者默认配置；公开定位不代表写入授权。
 - 用户配置优先于 Skill 默认配置。用户配置文件即使包含 `workspaces: {}`，也必须视为显式空配置，禁止回退到发布者仓库。
-- 本地 CLI 用户配置位于 `~/.config/wikiops/config.json`，属于用户私有环境，不得提交到 Skill 仓库。
+- 本地 CLI 用户配置位于 `~/.config/sdkit/skills/wikiops/config.json`，属于用户私有环境，不得提交到 Skill 仓库。
 - `primary_workspace` 为用户长期默认目标；`active_workspace` 仅是当前任务或会话选择，禁止因临时切换自动修改 Primary。
 - Workspace 的仓库使用 `provider`、标准 Git `url` 和可选 `local_path`；默认分支从目标远端发现。不得将仓库名、目录名或历史会话当成已验证身份。
 - Provider 可以为 `github`、`gitlab`、`gitee` 或 `git`；自建实例必须用完整 URL 识别主机。Provider 仅决定平台适配能力，不能代表已获授权。
@@ -30,6 +30,7 @@ description: 多 Workspace 配置、身份隔离和环境选择
 - 本地用户可运行 `python3 skills/wikiops/scripts/workspace.py init` 初始化独立 JSON 配置；也可手动创建符合协议的配置文件。
 - 初始化默认生成 JSON 对象，包含 `version: 1`、`primary_workspace: null`、`workspaces: {}`；已存在配置时禁止覆盖，除非用户明确要求重置。
 - 本地配置允许添加多个 Workspace 和各自本机路径；路径仅在实际有本地文件访问能力的环境生效。
+- 从旧配置路径迁移时，必须先校验旧 JSON，确认目标路径不存在，复制后核对内容与 `0600` 权限并实际运行 `resolve`；验证前保留旧文件。脚本禁止自动回退旧路径，禁止先运行默认 `init` 造成配置分散。
 - ChatGPT Web 无法读取本机配置；使用 Skill 内置默认配置或用户明确提供、且当前环境可访问的配置。不得假定跨会话私人配置会自动持久化。
 - 其他用户未完成绑定时，即使 Skill 有发布者默认仓库，也必须确认目标身份及写入授权，不得默认写入发布者仓库。
 
