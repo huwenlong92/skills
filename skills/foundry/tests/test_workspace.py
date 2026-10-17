@@ -191,5 +191,40 @@ class WorkspaceTests(unittest.TestCase):
         blocked_push = subprocess.run(["git", "-C", str(second), "push", "origin", "HEAD"], capture_output=True)
         self.assertNotEqual(blocked_push.returncode, 0)
 
+
+    def test_existing_config_json_remains_compatible(self):
+        repo = self.repo("git@github.com:example/docs.git")
+        self.config.write_text(json.dumps({"version": 1, "primary_workspace": "personal",
+            "workspaces": {"personal": {"repository": {"provider": "github",
+                "url": "git@github.com:example/docs.git", "local_path": str(repo)}}}}))
+        result = self.run_cli("resolve")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["mode"], "local")
+        self.assertEqual(data["config_source"], "user")
+
+    def test_sync_check_dirty_and_missing_upstream(self):
+        repo = self.repo()
+        (repo / "untracked.txt").write_text("pending")
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        result = self.run_cli("sync-check")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["sync_status"], "blocked-no-upstream")
+        self.assertFalse(json.loads(result.stdout)["can_push"])
+
+    def test_sync_check_never_pushes(self):
+        repo = self.repo()
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        before = subprocess.run(["git", "-C", str(repo), "status", "--porcelain"],
+                                capture_output=True, text=True, check=True).stdout
+        self.run_cli("sync-check")
+        after = subprocess.run(["git", "-C", str(repo), "status", "--porcelain"],
+                               capture_output=True, text=True, check=True).stdout
+        self.assertEqual(before, after)
+
 if __name__ == "__main__":
     unittest.main()
