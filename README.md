@@ -24,6 +24,22 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `wikiops` | 检索知识库并引用来源回答，聊天方法、排障与决策入库，旧知识维护、迁移和 VitePress / Cloudflare 门户维护，包含 DeepSeek 分享提取 |
 | `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收 |
 
+## 个人配置
+
+本仓库自有 Skill 的用户私有配置统一放在 `~/.config/sdkit/skills/`，按 Skill 名隔离：
+
+```text
+~/.config/sdkit/skills/
+  foundry/
+    config.json
+```
+
+新增或改造个人配置读取逻辑时，Skill 必须默认读取 `<skill-name>/config.json`；显式指定配置文件时使用指定路径。没有配置需求的 Skill 不创建配置文件。此目录只存个人配置，禁止存放 Skill 安装产物，也禁止将个人配置提交到源仓库或业务项目；第三方工具的配置保持其自身约定。当前已适配 foundry，其他既有 Skill 随各自改造迁移。
+
+Foundry 的完整安装、config.json 示例、Primary/Active、Local-first 和同步预检命令见 [Foundry 安装与配置指南](skills/foundry/README.md)。
+
+Foundry 配置迁移到新位置前必须校验原配置并确认目标不存在；迁移后必须核对内容、权限及 `scripts/workspace.py resolve` 的读取结果，验证前保留原配置。脚本不自动读取旧位置，已有用户必须先迁移再运行默认配置命令。
+
 ## 安装
 
 仓库遵循通用 Agent Skills 目录结构，不需要发布为 npm 包。下面使用 `pnpx`；未使用 pnpm 的环境可以把 `pnpx` 换成 `npx`。命令参数以 [skills CLI 官方说明](https://github.com/vercel-labs/skills#readme) 为依据。

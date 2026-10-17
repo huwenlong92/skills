@@ -7,6 +7,8 @@ description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、�
 
 本 Skill 内置发布者的 Primary Workspace 默认配置（可被用户初始化配置覆盖），默认 GitHub 仓库为 `huwenlong92/product-docs`（`main`），文档站为 `https://pm.sdkit.cn`，原型站为 `https://ui.sdkit.cn`。这些公开地址用于定位，不代表已经连接或获得写入权限。
 
+本地安装、个人配置及 Workspace 命令见 [安装与配置指南](README.md)；配置执行规则以 [Workspace 配置](references/workspace.md) 和 [Repository Resolver](references/resolver.md) 为准。
+
 本 Skill 约束产品协作的任务分流与交付门禁。实际项目目录、版本和发布约定必须在每次操作时读取目标产品仓库的最新 `PROJECTS.md` 和 `AGENTS.md`，禁止把某次读取结果当作永久规则。
 
 ## 任务分流
