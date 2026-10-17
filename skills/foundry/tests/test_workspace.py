@@ -147,13 +147,10 @@ class WorkspaceTests(unittest.TestCase):
         subprocess.run(["git", "-C", str(work), "commit", "--allow-empty", "-qm", "base"], check=True)
         subprocess.run(["git", "-C", str(work), "push", "-q", "-u", "origin", "HEAD"], check=True)
         self.run_cli("init")
-        self.run_cli("add", "personal", str(bare), "--provider", "git", "--path", str(work))
+        self.run_cli("add", "personal", "git@github.com:example/docs.git", "--provider", "github", "--path", str(work))
         # Local file remotes are deliberately not accepted as configured public Git URLs.
         # Use a GitHub-shaped remote identity while retaining the local upstream tracking ref.
         subprocess.run(["git", "-C", str(work), "remote", "set-url", "origin", "git@github.com:example/docs.git"], check=True)
-        config = json.loads(self.config.read_text())
-        config["workspaces"]["personal"]["repository"]["url"] = "git@github.com:example/docs.git"
-        self.config.write_text(json.dumps(config))
         result = self.run_cli("resolve")
         self.assertEqual(result.returncode, 0, result.stderr)
         data = json.loads(result.stdout)
