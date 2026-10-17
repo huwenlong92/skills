@@ -92,13 +92,24 @@ def create(name, category):
     if path.exists() or path.is_symlink() or any(s["name"] == name for s in data["skills"]):
         raise ValueError("skill already exists")
     path.mkdir()
+    original_catalog = (ROOT / "catalog.json").read_bytes()
     try:
         (path / "SKILL.md").write_text(
             f"---\nname: {name}\ndescription: 待补充该 Skill 的明确任务触发条件。\n---\n\n# {name}\n\n## 执行流程\n\n待补充。\n\n## 验收\n\n待补充。\n", encoding="utf-8")
         data["skills"].append({"name": name, "category": category, "path": f"skills/{name}"})
-        (ROOT / "catalog.json").write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        new_catalog = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+        fd, temp_path = tempfile.mkstemp(prefix=".catalog-", dir=ROOT)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(new_catalog)
+            os.replace(temp_path, ROOT / "catalog.json")
+        finally:
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
     except Exception:
         shutil.rmtree(path)
+        if (ROOT / "catalog.json").read_bytes() != original_catalog:
+            (ROOT / "catalog.json").write_bytes(original_catalog)
         raise
 
 
@@ -118,7 +129,7 @@ def install(name, target, update=False):
     src = source(name)
     check_skill(src, name)
     target = Path(target).expanduser().absolute()
-    if target.is_symlink() or not target.is_dir():
+    if any(p.is_symlink() for p in (target, *target.parents)) or not target.is_dir():
         raise ValueError("target parent must exist and not be a symlink")
     dest = target / name
     if src.resolve() == dest.resolve() or src.resolve().is_relative_to(dest.resolve()) or dest.resolve().is_relative_to(src.resolve()):
