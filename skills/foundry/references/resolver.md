@@ -17,7 +17,7 @@ description: 本地优先的 Git 仓库发现与 Provider 适配
 
 ## 本地同步边界
 
-- Resolver 是只读定位与状态查询工具，不能将本地缓存的 ahead/behind 当作远端实时状态。
+- Resolver 是只读定位与状态查询工具，不能将本地缓存的 ahead/behind 当作远端实时状态。执行 `python3 skills/foundry/scripts/workspace.py sync-check [workspace] --fetch` 会对已验证的本地仓库执行 `git fetch origin` 并输出同步状态，不会执行 Pull、Commit 或 Push；不带 `--fetch` 的状态仅来自本地缓存。
 - 本地 Git 双阶段同步按 [提交与发布验收](publishing.md) 执行：修改前 Fetch/安全 Fast-forward，Push 前再次 Fetch/核对上游；不自动执行 Rebase、Reset、Stash 或 Force Push。
 - 本地当前分支通常为 main，但必须尊重实际检出的分支，不自动创建任务分支；Web 默认独立分支与 PR/MR。
 
