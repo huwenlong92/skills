@@ -68,6 +68,21 @@
       "name": "sdkit-skills",
       "category": "management",
       "path": "skills/sdkit-skills"
+    },
+    {
+      "name": "sdbase-lite",
+      "category": "template",
+      "path": "skills/sdbase-lite"
+    },
+    {
+      "name": "sdbase-admin-lite",
+      "category": "template",
+      "path": "skills/sdbase-admin-lite"
+    },
+    {
+      "name": "sdbase-flutter-app",
+      "category": "template",
+      "path": "skills/sdbase-flutter-app"
     }
   ]
 }
