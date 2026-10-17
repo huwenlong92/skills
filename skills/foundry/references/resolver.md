@@ -15,6 +15,12 @@ description: 本地优先的 Git 仓库发现与 Provider 适配
 4. 本地存在匹配仓库但有未提交修改、分叉或身份冲突时，必须停止危险写入并报告；禁止悄悄改用远端绕过冲突。
 5. Provider 能力必须分别检测：读取、提交、推送、PR/MR、CI 和部署；无能力时不得假称已完成。
 
+## 本地同步边界
+
+- Resolver 是只读定位与状态查询工具，不能将本地缓存的 ahead/behind 当作远端实时状态。
+- 本地 Git 双阶段同步按 [提交与发布验收](publishing.md) 执行：修改前 Fetch/安全 Fast-forward，Push 前再次 Fetch/核对上游；不自动执行 Rebase、Reset、Stash 或 Force Push。
+- 本地当前分支通常为 main，但必须尊重实际检出的分支，不自动创建任务分支；Web 默认独立分支与 PR/MR。
+
 ## 本地协作
 
 - 默认尊重当前检出分支，通常为 `main`；禁止自动 checkout、reset、stash、clean 或覆盖未提交内容。
