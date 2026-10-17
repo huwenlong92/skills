@@ -11,7 +11,7 @@ description: 本地优先的 Git 仓库发现与 Provider 适配
 
 1. 按 [Workspace](workspace.md) 确定唯一仓库身份，优先检查当前工作区及其父目录。
 2. 若有 `local_path`，检查该路径是否为可访问的 Git 仓库；必须规范化 URL 并验证其 remote 与 Workspace 目标一致。禁止只按目录名匹配。
-3. 本地匹配成功时使用本地 Git；若无本地访问能力、目录不存在或没有匹配仓库，才使用已授权的 Provider API/Connector 或 Git CLI。
+3. 本地匹配成功时使用本地 Git；解析器返回工作分支、dirty、上游分支与可获得的 ahead/behind 计数（不自动 fetch，可能是缓存状态）；若无本地访问能力、目录不存在或没有匹配仓库，才使用已授权的 Provider API/Connector 或 Git CLI。
 4. 本地存在匹配仓库但有未提交修改、分叉或身份冲突时，必须停止危险写入并报告；禁止悄悄改用远端绕过冲突。
 5. Provider 能力必须分别检测：读取、提交、推送、PR/MR、CI 和部署；无能力时不得假称已完成。
 
@@ -30,4 +30,4 @@ description: 本地优先的 Git 仓库发现与 Provider 适配
 
 ## 完成标准
 
-必须说明实际选用 Local 或 Remote、仓库身份校验结果、分支与远端状态、变更及交付证据；未能运行的本地或 Provider 检查标为待验证。
+必须说明解析器只定位仓库，不执行 GitHub/GitLab API 操作或自动同步；必须说明实际选用 Local 或 Remote、仓库身份校验结果、分支与远端状态、变更及交付证据；未能运行的本地或 Provider 检查标为待验证。
