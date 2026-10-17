@@ -82,6 +82,12 @@ class WorkspaceTests(unittest.TestCase):
         self.config.write_text("{not-json")
         self.assertNotEqual(self.run_cli("list").returncode, 0)
 
+    def test_non_object_config_fails_without_traceback(self):
+        self.config.write_text("[]")
+        result = self.run_cli("list")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertNotIn("Traceback", result.stderr)
+
     def test_invalid_url(self):
         self.run_cli("init")
         result = self.run_cli("add", "personal", "example/docs", "--provider", "github")
