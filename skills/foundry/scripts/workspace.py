@@ -163,6 +163,9 @@ def main(argv=None):
     check = sub.add_parser("resolve")
     check.add_argument("name", nargs="?")
     check.add_argument("--active")
+    sync = sub.add_parser("sync-check")
+    sync.add_argument("name", nargs="?")
+    sync.add_argument("--fetch", action="store_true")
     args = parser.parse_args(argv)
     path = args.config.expanduser()
     if args.command == "init":
@@ -176,8 +179,32 @@ def main(argv=None):
     if args.command == "list":
         print(json.dumps({"source": source, **data}, ensure_ascii=False))
         return
-    if args.command == "resolve":
-        result = resolve(data, args.name or args.active, Path.cwd())
+    if args.command in ("resolve", "sync-check"):
+        name = args.name or (args.active if args.command == "resolve" else None)
+        result = resolve(data, name, Path.cwd())
+        if args.command == "sync-check":
+            if result["mode"] != "local":
+                raise ValueError("Sync check requires a verified local repository")
+            if args.fetch:
+                git(Path(result["path"]), "fetch", "origin")
+                result = resolve(data, name, Path.cwd())
+            behind, ahead = result.get("behind"), result.get("ahead")
+            if result["branch"] is None or behind is None or ahead is None:
+                status = "blocked-no-upstream"
+            elif result["dirty"]:
+                status = "blocked-dirty"
+            elif behind and ahead:
+                status = "blocked-diverged"
+            elif behind:
+                status = "fast-forward-required"
+            elif ahead:
+                status = "push-candidate"
+            else:
+                status = "up-to-date"
+            result["sync_status"] = status
+            result["can_fast_forward"] = status == "fast-forward-required"
+            result["can_push"] = status in ("push-candidate", "up-to-date")
+            result["fresh_remote_check"] = bool(args.fetch)
         result["config_source"] = source
         print(json.dumps(result, ensure_ascii=False))
         return
