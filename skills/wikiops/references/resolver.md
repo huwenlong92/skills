@@ -10,14 +10,14 @@ description: 本地优先的 Git 仓库发现与 Provider 适配
 ## 解析顺序
 
 1. 按 [Workspace](workspace.md) 确定唯一仓库身份，优先检查当前工作区及其父目录。
-2. 若有 `local_path`，检查该路径是否为可访问的 Git 仓库；必须规范化 URL 并验证其 remote 与 Workspace 目标一致。禁止只按目录名匹配。
+2. 若有 `local_path`，检查该路径是否为可访问的 Git 仓库；必须规范化 URL 并验证 `origin` 的 Fetch 与 Push URL 均与 Workspace 目标一致；Push URL 不一致或只有非 `origin` Remote 时停止本地解析，禁止静默降级。禁止只按目录名匹配。
 3. 本地匹配成功时使用本地 Git，返回分支、dirty、upstream 和可取得的 ahead/behind（未 fetch 时只是缓存状态）；若无本地访问能力、目录不存在或没有匹配仓库，才使用已授权的 Provider API/Connector 或 Git CLI。
 4. 本地存在匹配仓库但有未提交修改、分叉或身份冲突时，必须停止危险写入并报告；禁止悄悄改用远端绕过冲突。
 5. Provider 能力必须分别检测：读取、提交、推送、PR/MR、CI 和部署；无能力时不得假称已完成。
 
 ## 双阶段同步
 
-- Resolver 默认只读；`python3 skills/wikiops/scripts/workspace.py sync-check [workspace] --fetch` 在已验证本地仓库执行 `git fetch origin` 并报告状态，不执行 Pull、Commit 或 Push。无 `--fetch` 时只报告缓存状态。
+- Resolver 默认只读；`python3 skills/wikiops/scripts/workspace.py sync-check [workspace] --fetch` 仅在工作区干净、非 Detached HEAD 且已配置上游时于已验证本地仓库执行 `git fetch origin` 并报告状态，不执行 Pull、Commit 或 Push。无 `--fetch` 时只报告缓存状态。
 - 本地修改前与 Push 前分别检查远端状态；必须按 [仓库协作](repository.md) 的双阶段同步门禁执行。禁止自动 Rebase、Reset、Stash 或 Force Push。
 
 ## 本地协作
