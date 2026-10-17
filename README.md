@@ -33,6 +33,18 @@ python3 skills/sdkit-skills/scripts/manager.py update sdkitgo --target /path/to/
 
 `create` 仅创建待完善草稿，不自动提交；`install` 只安装到显式指定且已存在的父目录，拒绝覆盖；`update` 只更新由本工具安装、且哈希与安装记录完全一致的副本。上述本地安装工具不代替下文 `pnpx skills` 的跨 Agent 安装流程；任何安装均不意味着自动部署或远端发布。
 
+## SDBase 新增模板 Skill（迁移阶段）
+
+以下 Skill 已在迁移分支中登记，安装前必须确认模板身份；现有旧 Skill 名称和安装入口仍保持有效。正式迁移方案见 [八个开发 Skill 迁移规范](standards/sdkit-sdbase-skill-migration-v1.md)。
+
+| Skill | 类别 | 权威模板仓库 | 适用范围 |
+| --- | --- | --- | --- |
+| `sdbase-lite` | template | `huwenlong92/sdbase-lite` | SQLite 单 Web Go 工具 |
+| `sdbase-admin-lite` | template | `huwenlong92/sdbase-admin-lite` | Vue/Vite 轻量管理端 |
+| `sdbase-flutter-app` | template | `huwenlong92/sdbase-flutter-app` | Flutter Android/iOS |
+
+安装前通过 `python3 skills/sdkit-skills/scripts/manager.py validate --all` 校验完整目录。项目级或全局安装仍使用下文 `pnpx skills`，将 `--skill` 参数替换为实际 Skill 名称。未合并的 Draft PR 不属于 main 可安装版本。
+
 ## Skills
 
 | Skill | 适用范围 |
