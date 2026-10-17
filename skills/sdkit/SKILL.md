@@ -7,6 +7,10 @@ description: 开发、重构或评审 Go sdkit 框架仓库时使用，约束框
 
 本 skill 只处理 Go sdkit 框架仓库。普通业务项目必须使用 `sdkitgo`，只有任务明确修改 sdkit 框架源码时才使用本 skill。
 
+## 仓库定位（兼容迁移阶段）
+
+开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。当前 Skill 名称保持不变，新名称仅在完成安装切换后启用。
+
 ## 执行顺序
 
 1. 读取 [workflow.md](references/workflow.md)，确认任务范围和实际调用方。
