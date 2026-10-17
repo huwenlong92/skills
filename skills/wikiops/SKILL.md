@@ -5,13 +5,13 @@ description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用�
 
 # WikiOps 知识库协作
 
-GitHub 是知识库唯一事实源，站点是只读门户。允许保留常规本地工作副本，通过 Git 同步；云端 Agent 不依赖本机副本或 Obsidian。必须读取目标仓库当前规则，无本地副本时允许临时检出完成处理、校验与构建。
+目标 Workspace 的 Git 仓库是对应知识库的唯一事实源，站点是只读门户。允许保留常规本地工作副本，通过 Git 同步；云端 Agent 不依赖本机副本或 Obsidian。必须先读取 [Workspace 配置](references/workspace.md) 和 [Repository Resolver](references/resolver.md)，再读取目标仓库当前规则，无本地副本时允许临时检出完成处理、校验与构建。
 
 ## 任务分流
 
 | 任务 | 必须读取 |
 |---|---|
-| 定位知识库、跨会话恢复、云端读写与提交 | [仓库协作](references/repository.md) |
+| 定位知识库、跨会话恢复、云端读写与提交 | [Workspace 配置](references/workspace.md)、[Repository Resolver](references/resolver.md)、[仓库协作](references/repository.md) |
 | “查一下知识库”“我以前怎么做的”“根据 Wiki 回答”，搜索与综合回答 | [仓库协作](references/repository.md)、[知识检索与回答](references/answer.md) |
 | 更新主题索引 | [仓库协作](references/repository.md)、[知识写入](references/writing.md) |
 | “记录一下”“沉淀一下”“归档一下”，保存聊天中的方法、排障、决策或资料摘录 | [仓库协作](references/repository.md)、[知识写入](references/writing.md)、[聊天入库](references/capture.md) |
@@ -23,7 +23,7 @@ GitHub 是知识库唯一事实源，站点是只读门户。允许保留常规�
 
 ## 执行顺序
 
-1. 从用户指示或明确的会话绑定确定目标；读取最新根 AGENTS.md、主题注册表及命中的规范。
+1. 从明确的 Workspace 选择或 Primary 确定目标，使用 Resolver 验证仓库身份和本地/远端能力；读取最新根 AGENTS.md、主题注册表及命中的规范。
 2. 先搜索已有相关知识，区分用户确认、来源陈述、Agent 分析及未验证事项。
 3. 查询任务按已读证据回答并引用来源；只有要求写入或维护时，才更新仓库允许位置的内容、来源和索引，并检测并发修改。
 4. 查询任务交付答案、来源与未确认范围；写入任务按仓库规则验证并提交，分别报告写入、CI、部署和访问验收状态。
