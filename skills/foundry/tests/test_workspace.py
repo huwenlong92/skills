@@ -157,12 +157,14 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual((data["behind"], data["ahead"]), (0, 0))
         preflight = self.run_cli("sync-check")
         self.assertEqual(json.loads(preflight.stdout)["sync_status"], "up-to-date")
+        self.assertFalse(json.loads(preflight.stdout)["can_push"])
         subprocess.run(["git", "-C", str(work), "commit", "--allow-empty", "-qm", "local"], check=True)
         result = self.run_cli("resolve")
         data = json.loads(result.stdout)
         self.assertEqual((data["behind"], data["ahead"]), (0, 1))
         preflight = self.run_cli("sync-check")
         self.assertEqual(json.loads(preflight.stdout)["sync_status"], "push-candidate")
+        self.assertFalse(json.loads(preflight.stdout)["can_push"])
 
     def test_clean_fast_forward_and_divergence_are_git_guardrails(self):
         bare = self.root / "remote.git"
