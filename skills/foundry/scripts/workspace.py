@@ -8,7 +8,7 @@ import subprocess
 import sys
 from urllib.parse import urlparse
 
-DEFAULT_PATH = Path.home() / ".config" / "foundry" / "config.json"
+DEFAULT_PATH = Path.home() / ".config" / "sdkit" / "skills" / "foundry" / "config.json"
 
 def git(*args, cwd):
     result = subprocess.run(["git", "-C", str(cwd), *args], capture_output=True, text=True, check=False)

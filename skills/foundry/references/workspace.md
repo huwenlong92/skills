@@ -11,7 +11,7 @@ description: 多 Workspace 配置、身份隔离和环境选择
 
 - Skill 的 `config/defaults.yaml` 是专用发布者默认配置；公开定位不代表写入授权。
 - 用户配置优先于 Skill 默认配置。用户配置文件即使包含 `workspaces: {}`，也必须视为显式空配置，禁止回退到发布者仓库。
-- 本地 CLI 用户配置位于 `~/.config/foundry/config.json`，属于用户私有环境，不得提交到 Skill 仓库。
+- 本地 CLI 用户配置必须默认放在 `~/.config/sdkit/skills/foundry/config.json`；使用脚本 `--config <path>` 时必须读取指定文件。个人配置禁止放入 Skill 安装目录、Skill 源仓库或业务项目，也不得提交版本控制。
 - `primary_workspace` 为用户长期默认目标；`active_workspace` 仅是当前任务或会话选择，禁止因临时切换自动修改 Primary。
 - Workspace 的仓库使用 `provider`、标准 Git `url` 和可选 `local_path`；默认分支从目标远端发现。不得将仓库名、目录名或历史会话当成已验证身份。
 - Provider 可以为 `github`、`gitlab`、`gitee` 或 `git`；自建实例必须用完整 URL 识别主机。Provider 仅决定平台适配能力，不能代表已获授权。
@@ -30,9 +30,10 @@ description: 多 Workspace 配置、身份隔离和环境选择
 - 本地用户可运行 `python3 skills/foundry/scripts/workspace.py init` 初始化独立 JSON 配置；也可手动创建符合协议的配置文件。
 - 初始化默认生成 JSON 对象，包含 `version: 1`、`primary_workspace: null`、`workspaces: {}`；已存在配置时禁止覆盖，除非用户明确要求重置。
 - 本地配置允许添加多个 Workspace 和各自本机路径；路径仅在实际有本地文件访问能力的环境生效。
+- 从旧配置位置迁移时，必须先校验 JSON 配置并检查目标是否存在；目标存在时必须停止覆盖。复制后必须核对内容、设置文件权限为 `0600` 并运行 `resolve` 验证实际读取结果；仅当验证成功时允许删除原文件。脚本不自动回退旧位置，禁止在迁移前运行默认 `init` 造成配置分散。
 - ChatGPT Web 无法读取本机配置；使用 Skill 内置默认配置或用户明确提供、且当前环境可访问的配置。不得假定跨会话私人配置会自动持久化。
 - 其他用户未完成绑定时，即使 Skill 有发布者默认仓库，也必须确认目标身份及写入授权，不得默认写入发布者仓库。
 
 ## 完成标准
 
-能够报告目标 Workspace、仓库 URL、Provider、实际访问方式、Primary/Active 来源及授权状态；无法验证的配置或路径必须标记未验证。
+必须核对默认配置路径与脚本一致；迁移时必须确认内容保留、权限为 `0600` 且 `resolve` 使用目标配置。必须报告目标 Workspace、仓库 URL、Provider、实际访问方式、Primary/Active 来源及授权状态；无法验证的配置或路径必须标记未验证。
