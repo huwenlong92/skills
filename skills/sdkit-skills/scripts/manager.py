@@ -163,13 +163,19 @@ def install(name, target, update=False):
             stage.rename(dest)
         except Exception:
             if backup is not None:
-                backup.rename(dest)
+                try:
+                    backup.rename(dest)
+                except OSError as exc:
+                    # Recovery itself failed: never delete the only preserved copy.
+                    raise RuntimeError(f"restore failed; backup retained at {backup}") from exc
                 backup = None
             raise
     finally:
         if stage.exists():
             shutil.rmtree(stage)
-        if backup is not None and backup.exists():
+        # Delete backup only after a replacement is confirmed present.
+        # If restore failed and dest is absent, leave backup for manual recovery.
+        if backup is not None and backup.exists() and dest.exists():
             shutil.rmtree(backup)
 
 
