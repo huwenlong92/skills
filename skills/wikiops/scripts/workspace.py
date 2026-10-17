@@ -38,7 +38,7 @@ def load(path):
         data = json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, UnicodeError) as exc:
         raise ValueError("Invalid user configuration") from exc
-    if data.get("version") != 1 or not isinstance(data.get("workspaces"), dict):
+    if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("workspaces"), dict):
         raise ValueError("Unsupported configuration")
     return data
 
