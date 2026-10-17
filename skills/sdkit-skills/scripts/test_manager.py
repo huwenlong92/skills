@@ -93,6 +93,45 @@ class ManagerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             manager.install("demo", target, update=True)
 
+    def test_create_catalog_replace_failure_rolls_back(self):
+        with patch.object(manager.os, "replace", side_effect=OSError("replace failed")):
+            with self.assertRaises(OSError):
+                manager.create("new-demo", "language")
+        self.assertFalse((self.root / "skills/new-demo").exists())
+        self.assertEqual(manager.validate(all_skills=True), 1)
+
+    def test_update_rejects_malformed_record(self):
+        target = self.root / "agent"
+        target.mkdir()
+        manager.install("demo", target)
+        (target / "demo" / manager.RECORD).write_text("{broken")
+        with self.assertRaises(json.JSONDecodeError):
+            manager.install("demo", target, update=True)
+        self.assertTrue((target / "demo/SKILL.md").exists())
+
+    def test_update_rename_failure_restores_original(self):
+        target = self.root / "agent"
+        target.mkdir()
+        manager.install("demo", target)
+        original = (target / "demo/SKILL.md").read_bytes()
+        original_rename = Path.rename
+        def failing_rename(path, to):
+            if path.name.startswith(".sdkit-stage-"):
+                raise OSError("stage rename failed")
+            return original_rename(path, to)
+        with patch.object(Path, "rename", failing_rename):
+            with self.assertRaises(OSError):
+                manager.install("demo", target, update=True)
+        self.assertEqual((target / "demo/SKILL.md").read_bytes(), original)
+
+    def test_target_symlink_parent_rejected(self):
+        real = self.root / "real"
+        real.mkdir()
+        alias = self.root / "alias"
+        alias.symlink_to(real, target_is_directory=True)
+        with self.assertRaises(ValueError):
+            manager.install("demo", alias)
+
     def test_install_rejects_symlink(self):
         target = self.root / "agent"
         target.mkdir()
