@@ -7,6 +7,10 @@ description: 为固定采用 sdkitgo、Gin、GORM、PostgreSQL、runtime capabil
 
 仅当目标仓库采用 sdkitgo 约定，或用户明确要求使用这些约定时，才使用本 skill。本文中的路径均以目标项目根目录为基准。
 
+## 仓库定位（兼容迁移阶段）
+
+开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。当前 Skill 名称保持不变，新名称仅在完成安装切换后启用。
+
 ## 执行顺序
 
 1. 读取 [workflow.md](references/workflow.md)。
