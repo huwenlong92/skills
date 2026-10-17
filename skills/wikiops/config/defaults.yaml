@@ -1,0 +1,8 @@
+version: 1
+primary_workspace: personal
+workspaces:
+  personal:
+    repository:
+      provider: github
+      url: git@github.com:huwenlong92/wiki.git
+      local_path: null
