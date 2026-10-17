@@ -7,6 +7,10 @@ description: 为 Nuxt 4 和 Vue 3 门户应用执行 SDKit Nuxt.js 约定。创�
 
 本 skill 适用于 Nuxt 门户仓库。禁止把 Vue 后台的 table、drawer、`src/views` 或后台菜单约定应用到 Nuxt 门户。路径均以目标项目根目录为基准。
 
+## 仓库定位（兼容迁移阶段）
+
+开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。当前 Skill 名称保持不变，新名称仅在完成安装切换后启用。
+
 ## 必须执行的流程
 
 1. 读取 [workflow.md](references/workflow.md)。
