@@ -27,9 +27,9 @@ description: 多 Workspace 配置、身份隔离和环境选择
 
 ## 首次初始化与清空
 
-- 本地用户可运行 `python3 skills/wikiops/scripts/workspace.py init` 初始化独立 JSON 配置；也可手动创建符合协议的配置文件。
+- 本地用户可运行 `python3 skills/wikiops/scripts/workspace.py init` 初始化独立 JSON 配置；也可手动创建符合协议的配置文件。用户配置不存在时 CLI 只读解析 Skill 的 `config/defaults.yaml`；一旦用户配置存在（包括空 Workspace），禁止回退默认值。
 - 初始化默认生成 JSON 对象，包含 `version: 1`、`primary_workspace: null`、`workspaces: {}`；已存在配置时禁止覆盖，除非用户明确要求重置。
-- 本地配置允许添加多个 Workspace 和各自本机路径；路径仅在实际有本地文件访问能力的环境生效。
+- 本地配置允许添加多个 Workspace 和各自本机路径；路径仅在实际有本地文件访问能力的环境生效。CLI 支持 `add`、`list`、`set-primary`、`set-path`、`remove`、`resolve --active <workspace>`；Active 仅影响当前解析，不得写入 Primary。
 - 从旧配置路径迁移时，必须先校验旧 JSON，确认目标路径不存在，复制后核对内容与 `0600` 权限并实际运行 `resolve`；验证前保留旧文件。脚本禁止自动回退旧路径，禁止先运行默认 `init` 造成配置分散。
 - ChatGPT Web 无法读取本机配置；使用 Skill 内置默认配置或用户明确提供、且当前环境可访问的配置。不得假定跨会话私人配置会自动持久化。
 - 其他用户未完成绑定时，即使 Skill 有发布者默认仓库，也必须确认目标身份及写入授权，不得默认写入发布者仓库。
