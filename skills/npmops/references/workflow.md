@@ -7,7 +7,7 @@ description: npm 包打包与消费验证、首次和日常发布、prerelease�
 
 适用范围：pack、release、version、dist-tag 或 registry 发布任务。真实发布必须同时读取[认证](auth.md)；新增或修改发布入口必须同时读取[Makefile](makefile.md)。
 
-源码身份、双阶段 Git 同步与跨会话检查必须执行[仓库协作](repository.md)。同步状态检查不构成版本变更或发布授权。
+涉及源码身份或 Git 操作时，必须执行[仓库协作](repository.md)中与当前动作匹配的规则；本地打包不强制 Fetch 或查询 PR/MR。同步状态检查不构成版本变更或发布授权。
 
 ## 入口与前置条件
 
