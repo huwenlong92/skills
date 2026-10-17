@@ -118,18 +118,35 @@ def builder(root, base, lock_paths):
     }
 
 
-def repository(argument):
-    selected = argument or os.environ.get("DOCKEROPS_MIRROR_REPO")
-    if selected:
+def repository(argument, config_argument=None):
+    selected = argument if argument is not None else os.environ.get("DOCKEROPS_MIRROR_REPO")
+    if selected is not None:
+        if not selected.strip():
+            raise ValueError("mirror repository path must not be empty")
         return Path(selected).expanduser().resolve()
-    config_root = Path(os.environ.get("XDG_CONFIG_HOME", str(Path.home() / ".config"))).expanduser()
-    config = Path(os.environ.get("DOCKEROPS_CONFIG", str(config_root / "dockerops/config.json"))).expanduser()
+    config_value = config_argument if config_argument is not None else os.environ.get("DOCKEROPS_CONFIG")
+    if config_value is not None and not str(config_value).strip():
+        raise ValueError("configuration path must not be empty")
+    config = (Path(config_value).expanduser() if config_value is not None else
+              Path.home() / ".config" / "sdkit" / "skills" / "dockerops" / "config.json")
     if not config.is_file():
         raise ValueError("mirror repository not bound; use --repo, DOCKEROPS_MIRROR_REPO or machine config")
     data = json.loads(config.read_text())
-    if not isinstance(data, dict) or not isinstance(data.get("mirror_repo"), str) or not data["mirror_repo"].strip():
-        raise ValueError("machine config must contain a nonempty mirror_repo string")
-    value = Path(data["mirror_repo"]).expanduser()
+    if not isinstance(data, dict):
+        raise ValueError("machine config must be a JSON object")
+    if "repository" in data:
+        repo = data["repository"]
+        if not isinstance(repo, dict) or not isinstance(repo.get("url"), str) or not repo["url"].strip():
+            raise ValueError("machine config requires repository.url")
+        selected_path = repo.get("local_path")
+    else:
+        # Explicitly supplied old configurations remain readable during migration.
+        if config_value is None:
+            raise ValueError("Default config requires repository.url and repository.local_path; migrate legacy mirror_repo explicitly")
+        selected_path = data.get("mirror_repo")
+    if not isinstance(selected_path, str) or not selected_path.strip():
+        raise ValueError("machine config requires a nonempty local repository path")
+    value = Path(selected_path).expanduser()
     return (value if value.is_absolute() else config.parent / value).resolve()
 
 
@@ -173,10 +190,11 @@ def catalogue(root):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", help="mirror repository root (relative to cwd)")
+    parser.add_argument("--config", help="private JSON configuration (overrides DOCKEROPS_CONFIG)")
     parser.add_argument("--search", default="", help="case-insensitive substring filter")
     args = parser.parse_args()
     try:
-        root = repository(args.repo)
+        root = repository(args.repo, args.config)
         records, issues = catalogue(root)
         if args.search:
             query = args.search.casefold()

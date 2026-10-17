@@ -143,6 +143,69 @@ class CatalogueTests(unittest.TestCase):
         self.assertEqual(data["images"], [])
         self.assertTrue(data["issues"])
 
+    def test_shared_default_path_ignores_legacy_and_xdg(self):
+        config = self.root / ".config/sdkit/skills/dockerops/config.json"
+        config.parent.mkdir(parents=True)
+        config.write_text(json.dumps({"repository": {"url": "https://code.example.invalid/team/mirror.git", "local_path": str(self.root)}}))
+        legacy = self.root / ".config/dockerops/config.json"
+        legacy.parent.mkdir(parents=True)
+        legacy.write_text(json.dumps({"mirror_repo": str(self.base)}))
+        with patch.object(Path, "home", return_value=self.root), patch.dict(
+                os.environ, {"XDG_CONFIG_HOME": str(legacy.parent)}, clear=True):
+            self.assertEqual(catalog.repository(None), self.root)
+            config.write_text(json.dumps({"mirror_repo": str(self.root)}))
+            with self.assertRaises(ValueError):
+                catalog.repository(None)
+            self.assertEqual(catalog.repository(None, str(config)), self.root)
+            config.unlink()
+            with self.assertRaises(ValueError):
+                catalog.repository(None)
+        self.assertTrue(legacy.exists())
+
+    def test_explicit_config_overrides_environment_config(self):
+        config = self.root / "explicit.json"
+        config.write_text(json.dumps({"mirror_repo": "node/22-bookworm-slim"}))
+        with patch.dict(os.environ, {"DOCKEROPS_CONFIG": str(self.root / "missing.json")}, clear=True):
+            self.assertEqual(catalog.repository(None, str(config)), self.base)
+            self.assertEqual(catalog.repository(str(self.root), str(config)), self.root)
+
+    def test_invalid_explicit_config_never_falls_back(self):
+        with patch.dict(os.environ, {}, clear=True):
+            for content in ("{}", "[]", "{bad-json", '{"mirror_repo": ""}'):
+                config = self.root / "invalid.json"
+                config.write_text(content)
+                with self.subTest(content=content), self.assertRaises(ValueError):
+                    catalog.repository(None, str(config))
+            for repo, config in (("", None), (None, ""), (None, str(self.root / "missing.json"))):
+                with self.subTest(repo=repo, config=config), self.assertRaises(ValueError):
+                    catalog.repository(repo, config)
+
+    def test_declared_repository_binding_is_used_without_legacy_fallback(self):
+        config = self.root / 'binding.json'
+        config.write_text(json.dumps({'repository': {'url': 'https://code.example.invalid/team/mirror.git',
+            'local_path': '.'}, 'mirror_repo': str(self.base)}))
+        with patch.dict(os.environ, {}, clear=True):
+            self.assertEqual(catalog.repository(None, str(config)), self.root)
+            config.write_text(json.dumps({'repository': {}, 'mirror_repo': str(self.base)}))
+            with self.assertRaises(ValueError):
+                catalog.repository(None, str(config))
+
+    def test_cli_config_reads_without_mutating_files(self):
+        config = self.root / "private.json"
+        config.write_text(json.dumps({"mirror_repo": "."}))
+        before = {p: p.read_bytes() for p in self.root.rglob("*") if p.is_file()}
+        result = subprocess.run([sys.executable, str(SCRIPT), "--config", str(config)],
+                                capture_output=True, text=True, env={**os.environ, "DOCKEROPS_MIRROR_REPO": ""})
+        self.assertNotEqual(result.returncode, 0)
+        env = dict(os.environ)
+        env.pop("DOCKEROPS_MIRROR_REPO", None)
+        result = subprocess.run([sys.executable, str(SCRIPT), "--config", str(config)],
+                                capture_output=True, text=True, env=env)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["repository"], str(self.root))
+        self.assertFalse(json.loads(result.stdout)["remote_verified"])
+        self.assertEqual(before, {p: p.read_bytes() for p in self.root.rglob("*") if p.is_file()})
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

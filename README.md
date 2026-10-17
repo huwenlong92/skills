@@ -17,9 +17,9 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | `vab-admin` | 基于 Vue 3、Vab Shop Vite、Element Plus 的后台管理前端 |
 | `nuxtjs` | 基于 Nuxt 4、Vue 3、Element Plus 的门户前端 |
 | `rust-sdcore` | 基于 sdcore 的 Rust 工具型 Web 应用 |
-| `dockerops` | Dockerfile 镜像选择与接入、镜像双架构同步及共享 builder 发布 |
+| `dockerops` | 镜像选择与同步、共享 builder，以及统一 `.sdkit/docker/` 的项目文件生成、业务镜像构建发布与按授权运行更新 |
 | `sdenv` | 通过已安装的 sdenv 使用 Docker context 中的数据库与基础服务，动态解析配置并完成查询、结构检查、备份恢复和连接排查 |
-| `npmops` | 可发布 npm 包的结构、校验与发布流程 |
+| `npmops` | 统一包父目录下的新包创建/查找，源码身份检查，以及 npm 包结构、校验与发布流程 |
 | `swops` | Linux 软件安装方式、升级迁移与回滚、卸载保留数据、服务验证及运维文档 |
 | `wikiops` | 检索知识库并引用来源回答，聊天方法、排障与决策入库，旧知识维护、迁移和 VitePress / Cloudflare 门户维护，包含 DeepSeek 分享提取 |
 | `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收 |
@@ -30,11 +30,15 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 
 ```text
 ~/.config/sdkit/skills/
-  foundry/
-    config.json
+  foundry/config.json
+  wikiops/config.json
+  dockerops/config.json
+  npmops/config.json
 ```
 
-新增或改造个人配置读取逻辑时，Skill 必须默认读取 `<skill-name>/config.json`；显式指定配置文件时使用指定路径。没有配置需求的 Skill 不创建配置文件。此目录只存个人配置，禁止存放 Skill 安装产物，也禁止将个人配置提交到源仓库或业务项目；第三方工具的配置保持其自身约定。当前已适配 foundry，其他既有 Skill 随各自改造迁移。
+新增或改造个人配置读取逻辑时，Skill 必须默认读取 `<skill-name>/config.json`；显式指定配置文件时使用指定路径。没有配置需求的 Skill 不创建配置文件。此目录只存个人配置，禁止存放 Skill 安装产物，也禁止将个人配置提交到源仓库或业务项目；第三方工具的配置保持其自身约定。当前 foundry、wikiops、dockerops、npmops 已按此约定适配；其他既有 Skill 随各自改造迁移。
+
+DockerOps 的镜像库目录/远端绑定与迁移见 [配置与仓库协作](skills/dockerops/references/repository.md)；项目文件布局和 Webhook 约定见其 Skill 分流。npmOps 的 packages_root、创建/查找命令与源码绑定见 [仓库与发布协作](skills/npmops/references/repository.md)。个人配置和已安装 Skill 是两类目录，禁止将其相互覆盖。
 
 Foundry 的完整安装、config.json 示例、Primary/Active、Local-first 和同步预检命令见 [Foundry 安装与配置指南](skills/foundry/README.md)。
 

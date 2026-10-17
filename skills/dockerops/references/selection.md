@@ -13,12 +13,12 @@ description: 镜像库位置解析、动态清单查询、基础镜像与 builde
 
 1. 当前用户提供的路径或消费项目显式声明；相对路径以消费项目根目录为基准。
 2. 仅当上述入口没有声明时，使用 `DOCKEROPS_MIRROR_REPO`。
-3. 仅当前两项没有声明时，读取机器级配置：`DOCKEROPS_CONFIG` 指定的 JSON；未指定则为用户配置目录（`XDG_CONFIG_HOME` 或用户主目录下 `.config`）的 `dockerops/config.json`。
+3. 仅当前两项没有声明时，读取 `--config <path>` 指定的 JSON；未指定时读取 `DOCKEROPS_CONFIG`，两者均未指定时必须使用 `~/.config/sdkit/skills/dockerops/config.json`。显式配置路径相对当前工作目录解析；禁止自动回退旧路径或受 `XDG_CONFIG_HOME` 改变默认路径。
 
-机器级配置必须包含 `mirror_repo`，其值为实际镜像库根目录。相对值以该配置文件所在目录解析。该配置只允许放在用户配置目录或用户指定的私有位置；禁止放进共享 skill、镜像源码或业务镜像。示例内容采用相对路径，实际路径必须由用户提供或从明确项目声明解析：
+机器级配置必须用 `repository.local_path` 绑定实际镜像库根目录，用 `repository.url` 声明预期 Git 远端。相对路径以该配置文件所在目录解析；离线清单查询不等于 Git 身份核验。配置的允许位置、迁移、本地绑定与 Git 门禁必须遵守[配置与仓库协作](repository.md)；禁止在多个 reference 维护另一套配置路径或迁移步骤。
 
 ```json
-{"mirror_repo": "../../repos/image-mirror"}
+{"repository": {"local_path": "../../repos/image-mirror", "url": "https://code.example.invalid/team/image-mirror.git"}}
 ```
 
 没有绑定时必须询问镜像库位置，禁止遍历整个主目录、猜造远端或自动修改 Git remote。指定路径无效时必须报告错误，禁止退回其他来源掩盖配置错误。
@@ -31,6 +31,8 @@ python3 <skill-dir>/scripts/catalog.py --repo ../image-mirror
 python3 <skill-dir>/scripts/catalog.py --repo ../image-mirror --search node
 # 已有机器级绑定时允许省略 --repo。
 python3 <skill-dir>/scripts/catalog.py --search builder
+# 仅当需要覆盖默认配置文件时显式指定。
+python3 <skill-dir>/scripts/catalog.py --config <private-config.json> --search node
 ```
 
 输出 `recorded` 仅指本地记录完整且内部一致；`unrecorded` 表示没有成功发布锁文件；`inconsistent` 表示配置、平台或锁记录异常。`remote_verified` 始终为 `false`。查询过滤只缩小显示范围；必须检查顶层 `issues`，禁止把空结果视为全库没有异常。
@@ -79,7 +81,7 @@ CMD ["node", "dist/server.js"]
 ## 接入验证与完成标准
 
 - 必须检查 Dockerfile 所有外部引用及关联构建覆盖参数，匹配项目版本、系统、架构和凭据边界。
-- 仅当任务需要业务构建且用户没有明确自行打包时，执行项目规定的构建检查；业务 amd64 时只验收对应业务平台。禁止因本技能启动业务部署或完整跨架构构建。
+- 仅当任务需要业务构建且用户没有明确自行打包时，执行项目规定的构建检查；业务 amd64 时只验收对应业务平台。仅获镜像选择/接入授权时，禁止启动业务部署或完整跨架构构建；业务发布任务另按[业务构建发布](project-release.md)执行。
 - 完成：每个选中引用有匹配配置、真实发布记录和远端验证结果；Dockerfile 使用真实消费地址，保留项目目标架构与版本约束。
 - 受阻：必须指出未绑定、未发布或验证失败的具体依赖；允许保留明确标注的草稿，禁止把未发布地址写成可立即使用的交付。
 - 交付必须列出消费地址、是否新增镜像、执行过的验证，以及业务构建已执行还是未执行；人工检查各阶段的 ABI、运行用户与产物路径是否仍符合项目。
