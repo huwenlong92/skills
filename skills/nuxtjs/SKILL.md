@@ -1,6 +1,6 @@
 ---
 name: nuxtjs
-description: 为 Nuxt 4 和 Vue 3 门户应用执行 SDKit Nuxt.js 约定。创建、修改、评审或调试 layer、页面、module、组件、API 与 SSR 数据、Pinia 状态、route meta、runtime config、主题、资源、业务选项和验证时使用。
+description: 仅用于明确指定旧名称 nuxtjs 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdbase-nuxtjs-portal，不得与新 Skill 同时自动触发。
 ---
 
 # Nuxt.js
