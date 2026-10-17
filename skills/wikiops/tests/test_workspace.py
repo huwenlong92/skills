@@ -191,5 +191,33 @@ class WorkspaceTests(unittest.TestCase):
         blocked_push = subprocess.run(["git", "-C", str(second), "push", "origin", "HEAD"], capture_output=True)
         self.assertNotEqual(blocked_push.returncode, 0)
 
+
+    def test_push_remote_mismatch_rejected(self):
+        repo = self.repo()
+        subprocess.run(["git", "-C", str(repo), "remote", "set-url", "--push", "origin",
+                        "git@github.com:example/wrong.git"], check=True)
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        result = self.run_cli("resolve")
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_non_origin_remote_not_silently_used(self):
+        repo = self.repo()
+        subprocess.run(["git", "-C", str(repo), "remote", "rename", "origin", "upstream"], check=True)
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        self.assertNotEqual(self.run_cli("resolve").returncode, 0)
+
+    def test_sync_check_fetch_rejects_dirty_worktree(self):
+        repo = self.repo()
+        (repo / "pending.txt").write_text("pending")
+        self.run_cli("init")
+        self.run_cli("add", "personal", "git@github.com:example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        result = self.run_cli("sync-check", "--fetch")
+        self.assertNotEqual(result.returncode, 0)
+
 if __name__ == "__main__":
     unittest.main()
