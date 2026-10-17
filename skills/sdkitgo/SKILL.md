@@ -1,11 +1,15 @@
 ---
 name: sdkitgo
-description: 为固定采用 sdkitgo、Gin、GORM、PostgreSQL、runtime capability、worker、crontab 和 realtime 的 Go 服务应用项目约定。创建、修改、评审或调试 service lifecycle、auth、middleware、handler、router、app/http、model、查询、迁移、Excel、定时任务和实时事件时使用。
+description: 仅用于明确指定旧名称 sdkitgo 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdbase-go，不得与新 Skill 同时自动触发。
 ---
 
 # SDKit Go 后端
 
 仅当目标仓库采用 sdkitgo 约定，或用户明确要求使用这些约定时，才使用本 skill。本文中的路径均以目标项目根目录为基准。
+
+## 仓库定位（兼容迁移阶段）
+
+开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。当前 Skill 名称保持不变，新名称仅在完成安装切换后启用。
 
 ## 执行顺序
 
