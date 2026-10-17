@@ -8,6 +8,31 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 
 所有采用 SDKit 协作约定的项目统一使用根目录 `AGENTS.md` 与 `.sdkit/` 项目状态目录。规范见 [项目协作规范](standards/project-collaboration.md)。这不是独立 Skill，也不替代各技术栈 Skill。
 
+## Skill 分类与管理 V1
+
+仓库以 [Catalog](catalog.json) 记录 Skill 名称、分类和源码路径。分类包括：`language`（语言）、`framework`（共享框架）、`template`（项目模板）、`operations`（运维）、`product`（产品/知识）、`management`（Skill 管理）。新增 Skill 必须登记 Catalog，并与目录、frontmatter 一致。现有 Skill 名称暂不变更。
+
+| 分类 | 当前 Skill |
+|---|---|
+| 语言 language | 暂无，后续按需新增 |
+| 框架 framework | `sdkit`、`rust-sdcore` |
+| 模板 template | `sdkitgo`、`vab-admin`、`nuxtjs` |
+| 运维 operations | `dockerops`、`npmops`、`sdenv`、`swops` |
+| 产品 product | `foundry`、`wikiops` |
+| 管理 management | `sdkit-skills` |
+
+管理 Skill 入口：[sdkit-skills](skills/sdkit-skills/SKILL.md)。本地标准库 CLI：
+
+```bash
+python3 skills/sdkit-skills/scripts/manager.py list
+python3 skills/sdkit-skills/scripts/manager.py validate --all
+python3 skills/sdkit-skills/scripts/manager.py create example-skill --category language
+python3 skills/sdkit-skills/scripts/manager.py install sdkitgo --target /path/to/agent/skills
+python3 skills/sdkit-skills/scripts/manager.py update sdkitgo --target /path/to/agent/skills
+```
+
+`create` 仅创建待完善草稿，不自动提交；`install` 只安装到显式指定且已存在的父目录，拒绝覆盖；`update` 只更新由本工具安装、且哈希与安装记录完全一致的副本。上述本地安装工具不代替下文 `pnpx skills` 的跨 Agent 安装流程；任何安装均不意味着自动部署或远端发布。
+
 ## Skills
 
 | Skill | 适用范围 |
