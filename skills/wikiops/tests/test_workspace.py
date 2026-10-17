@@ -75,5 +75,28 @@ class WorkspaceTests(unittest.TestCase):
         result = self.run_cli("add", "personal", "example/docs", "--provider", "github")
         self.assertNotEqual(result.returncode, 0)
 
+
+    def test_dirty_local_repo_is_reported(self):
+        repo = self.repo()
+        (repo / "untracked.txt").write_text("pending")
+        self.run_cli("init")
+        self.run_cli("add", "personal", "https://github.com/example/docs.git",
+                     "--provider", "github", "--path", str(repo))
+        result = self.run_cli("resolve")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual(data["mode"], "local")
+        self.assertTrue(data["dirty"])
+
+    def test_multiple_workspace_selection(self):
+        self.run_cli("init")
+        self.assertEqual(self.run_cli("add", "first", "git@github.com:example/one.git",
+                                      "--provider", "github").returncode, 0)
+        self.assertEqual(self.run_cli("add", "second", "git@gitee.com:example/two.git",
+                                      "--provider", "gitee").returncode, 0)
+        data = json.loads(self.run_cli("resolve", "second").stdout)
+        self.assertEqual(data["workspace"], "second")
+        self.assertEqual(data["provider"], "gitee")
+
 if __name__ == "__main__":
     unittest.main()
