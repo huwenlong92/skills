@@ -1,5 +1,6 @@
 """WikiOps workspace resolver regression tests. Run: python -m unittest discover -s skills/foundry/tests -v"""
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -33,6 +34,17 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(data["workspaces"], {})
         self.assertIsNone(data["primary_workspace"])
         self.assertNotEqual(self.run_cli("resolve").returncode, 0)
+
+    def test_default_config_is_in_shared_personal_directory(self):
+        env = dict(os.environ, HOME=str(self.root))
+        command = [sys.executable, str(SCRIPT)]
+        result = subprocess.run(command + ["init"], env=env, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        config = self.root / ".config" / "sdkit" / "skills" / "wikiops" / "config.json"
+        self.assertIsNone(json.loads(config.read_text())["primary_workspace"])
+        self.assertEqual(config.stat().st_mode & 0o777, 0o600)
+        self.assertEqual(subprocess.run(command + ["list"], env=env, capture_output=True, text=True).returncode, 0)
+        self.assertFalse((self.root / ".config" / "wikiops").exists())
 
     def test_add_and_local_match(self):
         repo = self.repo()
