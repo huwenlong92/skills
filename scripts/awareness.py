@@ -2,14 +2,13 @@
 from __future__ import annotations
 
 import re
-from pathlib import PurePosixPath
 
 
 def dependencies(body: str) -> set[int]:
     """Read explicit PR dependencies, not instructions."""
     result = set()
     for line in (body or "").splitlines():
-        match = re.fullmatch(r"Collaboration-Depends-On:\\s*(#[0-9]+(?:\\s*,\\s*#[0-9]+)*)\\s*", line.strip(), re.I)
+        match = re.fullmatch(r"Collaboration-Depends-On:\s*(#[0-9]+(?:\s*,\s*#[0-9]+)*)\s*", line.strip(), re.I)
         if match:
             result.update(int(item.strip()[1:]) for item in match.group(1).split(","))
     return result
