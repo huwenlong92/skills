@@ -1,6 +1,6 @@
 ---
 name: sdkit
-description: 开发、重构或评审 Go sdkit 框架仓库时使用，约束框架能力归属以及 core、pkg、facade、driver 和 runtime 的边界。普通 sdkitgo 业务项目 CRUD 不使用本 skill。
+description: 仅用于明确指定旧名称 sdkit 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdkit-go-core，不得与新 Skill 同时自动触发。
 ---
 
 # sdkit
