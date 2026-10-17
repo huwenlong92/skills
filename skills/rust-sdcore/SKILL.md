@@ -1,6 +1,6 @@
 ---
 name: rust-sdcore
-description: 为依赖 sdcore 的 Rust 工具型 Web 应用执行 SDKit 约定。创建、修改、评审或调试共享 core 边界、领域能力包、Axum 路由与鉴权、命令执行、SSE/reporter、本地 Web、agent-node 和测试时使用；普通未采用 sdcore 的 Rust 项目不触发。
+description: 仅用于明确指定旧名称 rust-sdcore 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdkit-rust-core，不得与新 Skill 同时自动触发。
 ---
 
 # Rust sdcore
