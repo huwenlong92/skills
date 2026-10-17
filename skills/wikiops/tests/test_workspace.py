@@ -1,4 +1,4 @@
-"""WikiOps workspace resolver regression tests. Run: python -m unittest discover -s skills/foundry/tests -v"""
+"""WikiOps workspace resolver regression tests. Run: python -m unittest discover -s skills/wikiops/tests -v"""
 import json
 import os
 import subprocess
