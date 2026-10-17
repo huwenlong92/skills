@@ -203,7 +203,7 @@ def main(argv=None):
                 status = "up-to-date"
             result["sync_status"] = status
             result["can_fast_forward"] = status == "fast-forward-required"
-            result["can_push"] = status in ("push-candidate", "up-to-date")
+            result["can_push"] = bool(args.fetch) and status in ("push-candidate", "up-to-date")
             result["fresh_remote_check"] = bool(args.fetch)
         result["config_source"] = source
         print(json.dumps(result, ensure_ascii=False))
