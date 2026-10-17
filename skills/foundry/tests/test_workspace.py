@@ -45,7 +45,7 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(config.stat().st_mode & 0o777, 0o600)
         result = subprocess.run(command + ["list"], env=env, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(json.loads(result.stdout)["workspaces"], [])
+        self.assertEqual(json.loads(result.stdout)["workspaces"], {})
         self.assertFalse((self.root / ".config" / "foundry").exists())
 
     def test_add_and_local_match(self):
