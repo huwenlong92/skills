@@ -34,7 +34,10 @@ def canonical(url):
 def load(path):
     if not path.exists():
         raise ValueError("No user config; run init first")
-    data = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, UnicodeError) as exc:
+        raise ValueError("Invalid user configuration") from exc
     if data.get("version") != 1 or not isinstance(data.get("workspaces"), dict):
         raise ValueError("Unsupported configuration")
     return data
@@ -67,13 +70,16 @@ def main():
     data = load(path)
     if args.command == "add":
         canonical(args.url)
+        if not args.name.strip() or "/" in args.name or "\\" in args.name:
+            raise ValueError("Invalid workspace name")
         if args.name in data["workspaces"]:
             raise ValueError("Workspace already exists; no implicit overwrite")
         repo = {"provider": args.provider, "url": args.url, "local_path": str(args.path.expanduser().resolve()) if args.path else None}
         data["workspaces"][args.name] = {"repository": repo}
         if args.primary or data["primary_workspace"] is None:
             data["primary_workspace"] = args.name
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")\n        os.chmod(path, 0o600)
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        os.chmod(path, 0o600)
         print(f"Added workspace: {args.name}")
         return
     if args.command == "list":
@@ -87,6 +93,8 @@ def main():
     if repo.get("local_path"):
         candidates.append(Path(repo["local_path"]).expanduser())
     for candidate in candidates:
+        if not candidate.exists():
+            continue
         try:
             root = Path(git("rev-parse", "--show-toplevel", cwd=candidate))
             remotes = git("remote", "-v", cwd=root).splitlines()
