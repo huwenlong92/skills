@@ -25,7 +25,7 @@ def canonical(url):
         host, path = url.split("@", 1)[1].split(":", 1)
     else:
         raise ValueError("Repository URL must be a full SSH or HTTPS Git URL")
-    return (host or "").lower(), path.strip("/").removesuffix(".git").lower()
+    if not host or not path.strip("/") or parsed.scheme not in ("ssh", "https") if "://" in url else not host or not path.strip("/"):\n        raise ValueError("Invalid Git remote URL")\n    return host.lower(), path.strip("/").removesuffix(".git").lower()
 
 def load(path):
     if not path.exists():
@@ -69,7 +69,7 @@ def main():
         data["workspaces"][args.name] = {"repository": repo}
         if args.primary or data["primary_workspace"] is None:
             data["primary_workspace"] = args.name
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")\n        os.chmod(path, 0o600)
         print(f"Added workspace: {args.name}")
         return
     if args.command == "list":
@@ -86,7 +86,7 @@ def main():
         try:
             root = Path(git("rev-parse", "--show-toplevel", cwd=candidate))
             remotes = git("remote", "-v", cwd=root).splitlines()
-            urls = [line.split()[1] for line in remotes if len(line.split()) >= 2]
+            urls = [parts[1] for line in remotes if (parts := line.split()) and len(parts) >= 3 and parts[0] == "origin" and parts[2] == "(fetch)"]
             if any(canonical(u) == canonical(repo["url"]) for u in urls):
                 print(json.dumps({"workspace": name, "mode": "local", "path": str(root), "branch": git("branch", "--show-current", cwd=root), "dirty": bool(git("status", "--porcelain", cwd=root))}))
                 return
