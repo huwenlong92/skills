@@ -1,11 +1,11 @@
 ---
-name: nuxtjs-repository
+name: sdbase-nuxtjs-portal-repository
 description: nuxtjs 当前兼容入口的权威源码定位、模板版本核验与写入边界
 ---
 
 # 权威源码与项目身份
 
-适用范围：使用 `nuxtjs` 开始项目开发、模板能力核对或跨仓库修改前必须读取。本文件属于旧名称兼容阶段，计划迁移名称为 `sdbase-nuxtjs-portal`，但当前安装和触发仍使用 `nuxtjs`。
+适用范围：使用 `sdbase-nuxtjs-portal` 开始项目开发、模板能力核对或跨仓库修改前必须读取。本文件属于旧名称兼容阶段，计划迁移名称为 `sdbase-nuxtjs-portal`，但当前安装和触发仍使用 `sdbase-nuxtjs-portal`。
 
 - 权威源码：`https://github.com/huwenlong92/sdbase-nuxtjs-portal`；访问时检查实际默认分支和当前 SHA，不把历史版本当成最新实现。
 - 定位边界：Nuxt 门户模板；不得套用 Vab Admin 规则。
