@@ -13,7 +13,7 @@ class WorkspaceTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
-        self.root = Path(self.tmp.name)
+        self.root = Path(self.tmp.name).resolve()
         self.config = self.root / "config.json"
 
     def run_cli(self, *args, cwd=None):
@@ -45,7 +45,7 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(config.stat().st_mode & 0o777, 0o600)
         result = subprocess.run(command + ["list"], env=env, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(json.loads(result.stdout)["workspaces"], [])
+        self.assertEqual(json.loads(result.stdout)["workspaces"], {})
         self.assertFalse((self.root / ".config" / "wikiops").exists())
 
     def test_add_and_local_match(self):
@@ -157,12 +157,14 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual((data["behind"], data["ahead"]), (0, 0))
         preflight = self.run_cli("sync-check")
         self.assertEqual(json.loads(preflight.stdout)["sync_status"], "up-to-date")
+        self.assertFalse(json.loads(preflight.stdout)["can_push"])
         subprocess.run(["git", "-C", str(work), "commit", "--allow-empty", "-qm", "local"], check=True)
         result = self.run_cli("resolve")
         data = json.loads(result.stdout)
         self.assertEqual((data["behind"], data["ahead"]), (0, 1))
         preflight = self.run_cli("sync-check")
         self.assertEqual(json.loads(preflight.stdout)["sync_status"], "push-candidate")
+        self.assertFalse(json.loads(preflight.stdout)["can_push"])
 
     def test_clean_fast_forward_and_divergence_are_git_guardrails(self):
         bare = self.root / "remote.git"

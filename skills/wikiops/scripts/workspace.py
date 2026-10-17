@@ -81,14 +81,17 @@ def save(path, data):
     validate(data)
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(path.name + ".tmp")
+    created = False
     try:
         with tmp.open("x", encoding="utf-8") as handle:
+            created = True
             os.chmod(tmp, 0o600)
             json.dump(data, handle, ensure_ascii=False, indent=2)
             handle.write("\n")
         os.replace(tmp, path)
+        created = False
     finally:
-        if tmp.exists():
+        if created and tmp.exists():
             tmp.unlink()
 
 def git(cwd, *args):
@@ -112,20 +115,32 @@ def resolve(data, name, cwd):
             continue
         try:
             root = Path(git(candidate, "rev-parse", "--show-toplevel")).resolve()
-            remote = git(root, "remote", "get-url", "origin")
-            push_remote = git(root, "remote", "get-url", "--push", "origin")
-            if canonical(remote) != expected or canonical(push_remote) != expected:
-                if configured and candidate == configured:
-                    raise ValueError("Configured local repository identity mismatch")
-                continue
-            try:
-                branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD")
-            except ValueError:
-                branch = None
         except ValueError as exc:
             if configured and candidate == configured:
                 raise ValueError("Configured local repository invalid or mismatched") from exc
             continue
+        try:
+            remotes = git(root, "remote").splitlines()
+            fetch_urls = git(root, "remote", "get-url", "--all", "origin").splitlines() if "origin" in remotes else []
+            push_urls = git(root, "remote", "get-url", "--push", "--all", "origin").splitlines() if "origin" in remotes else []
+            identities = [canonical(url) for url in fetch_urls + push_urls]
+            if not fetch_urls or not push_urls or any(identity != expected for identity in identities):
+                # An unrelated cwd is normal; a matching repository with conflicting
+                # destinations must never be bypassed through remote fallback.
+                if (configured and candidate == configured) or expected in identities:
+                    raise ValueError("Local repository fetch/push identity mismatch")
+                if "origin" not in remotes:
+                    for remote in remotes:
+                        urls = git(root, "remote", "get-url", "--all", remote).splitlines()
+                        if any(canonical(url) == expected for url in urls):
+                            raise ValueError("Matching local repository requires origin")
+                continue
+        except ValueError as exc:
+            raise ValueError("Local repository identity cannot be verified") from exc
+        try:
+            branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD")
+        except ValueError:
+            branch = None
         dirty = bool(git(root, "status", "--porcelain"))
         result = {"workspace": name, "remote": "origin", "fetch_push_verified": True, "mode": "local", "path": str(root), "branch": branch, "dirty": dirty, "provider": repo["provider"], "url": repo["url"], "identity_verified": True}
         try:
@@ -206,7 +221,7 @@ def main(argv=None):
                 status = "up-to-date"
             result["sync_status"] = status
             result["can_fast_forward"] = status == "fast-forward-required"
-            result["can_push"] = status in ("push-candidate", "up-to-date")
+            result["can_push"] = bool(args.fetch) and status in ("push-candidate", "up-to-date")
             result["fresh_remote_check"] = bool(args.fetch)
         result["config_source"] = source
         print(json.dumps(result, ensure_ascii=False))
