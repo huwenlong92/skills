@@ -38,3 +38,7 @@
 ## 跨项目协作规范
 
 仓库维护 [SDKit 项目协作规范](standards/project-collaboration.md)，用于跨技术栈项目的 `AGENTS.md` 和 `.sdkit/` 约定。该规范不改变独立 Skill 的职责或发布授权；对规范的修改必须遵守本仓库维护流程。
+
+## 跨会话 PR 感知
+
+涉及并行仓库写入时，必须遵守 [按需 PR 感知与冲突处理](standards/collaboration-awareness.md)。只在任务开始、写入前及 Push/合并前检查相关远端状态；禁止为感知检查主动触发 CI。
