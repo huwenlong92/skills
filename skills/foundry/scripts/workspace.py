@@ -102,7 +102,11 @@ def main():
             if any(canonical(u) == canonical(repo["url"]) for u in urls):
                 print(json.dumps({"workspace": name, "mode": "local", "path": str(root), "branch": git("branch", "--show-current", cwd=root), "dirty": bool(git("status", "--porcelain", cwd=root))}))
                 return
-        except (ValueError, OSError):
+            if repo.get("local_path") and candidate == Path(repo["local_path"]).expanduser():
+                raise ValueError("Configured local repository remote does not match workspace")
+        except (ValueError, OSError) as exc:
+            if repo.get("local_path") and candidate == Path(repo["local_path"]).expanduser() and candidate.exists():
+                raise ValueError("Configured local repository invalid or mismatched") from exc
             continue
     print(json.dumps({"workspace": name, "mode": "remote", "provider": repo["provider"], "url": repo["url"], "authorized": False}))
 
