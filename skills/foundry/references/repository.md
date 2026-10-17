@@ -34,7 +34,7 @@ description: 产品仓库发现、项目路由与权威规范读取
 
 - 新会话的 `@slug` 或 `@slug/module` 必须以最新 `PROJECTS.md`、`profile.json`、`modules.json` 进行唯一匹配；不能将别名相似作为创建项目的依据。
 - 当 slug、别名、正式名称、已有目录或模块 ID 发生冲突时必须暂停写入，向用户说明冲突对象并询问新 slug、关联现有项目或取消；禁止自动追加编号、覆盖、合并和改动已有标识。
-- 定位项目时先读取最新 `projects/product-docs/docs/foundry-routing-and-import.md`，按其中流程处理新旧会话。
+- 定位项目时先读取目标仓库 `AGENTS.md` 指定的路由协议；发布者默认仓库使用 `projects/product-docs/docs/foundry-routing-and-import.md`。无法确定协议时停止写入。
 
 ## 路径边界
 
