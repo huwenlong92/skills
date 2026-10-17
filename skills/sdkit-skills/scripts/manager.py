@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Local, stdlib-only SDKit Skills catalog and safe lifecycle commands."""
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -9,16 +10,52 @@ import re
 import shutil
 import sys
 import tempfile
+from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[3]
 MANAGER = Path(__file__).resolve().parents[1]
 NAME = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*\Z")
-LINK = re.compile(r"\]\(([^)]+)\)")
+LINK = re.compile(r'\]\(\s*(?:<([^>]+)>|([^\s)]+))(?:\s+"[^"\n]*")?\s*\)')
 RECORD = ".sdkit-skill-install.json"
 
 
 def catalog():
+    reject_symlinks(ROOT / "catalog.json")
     return json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
+
+
+def reject_symlinks(path):
+    if any(p.is_symlink() for p in (path, *path.parents)):
+        raise ValueError(f"symlink not allowed: {path}")
+
+
+@contextmanager
+def mutation_lock(path):
+    """Serialize cooperating writers; never remove an existing lock."""
+    reject_symlinks(path)
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    try:
+        os.close(fd)
+        yield
+    finally:
+        path.unlink()
+
+
+def markdown_prose(content):
+    """Exclude fenced and inline code before checking documentation links."""
+    lines = []
+    fence = None
+    for line in content.splitlines(keepends=True):
+        marker = re.match(r"^ {0,3}(`{3,}|~{3,})(.*)$", line)
+        if fence:
+            if marker and marker[1][0] == fence[0] and len(marker[1]) >= len(fence) and not marker[2].strip():
+                fence = None
+            continue
+        if marker:
+            fence = marker[1]
+        elif not line.startswith(("    ", "\t")):
+            lines.append(line)
+    return re.sub(r"(`+)(?!`)(.+?)(?<!`)\1(?!`)", "", "".join(lines), flags=re.S)
 
 
 def valid_name(name):
@@ -32,11 +69,14 @@ def source(name):
 
 
 def check_skill(path, name):
+    reject_symlinks(path)
     if not path.is_dir() or path.is_symlink():
         raise ValueError(f"missing or linked skill: {name}")
     files = list(path.rglob("*"))
     if any(p.is_symlink() for p in files):
         raise ValueError(f"symlink in skill: {name}")
+    if any(not p.is_file() and not p.is_dir() for p in files):
+        raise ValueError(f"special file in skill: {name}")
     entry = path / "SKILL.md"
     if not entry.is_file():
         raise ValueError(f"missing SKILL.md: {name}")
@@ -50,11 +90,14 @@ def check_skill(path, name):
     if fields[0][6:].strip() != name or not fields[1][13:].strip():
         raise ValueError(f"frontmatter identity mismatch: {name}")
     for md in [p for p in files if p.is_file() and p.suffix == ".md"]:
-        content = md.read_text(encoding="utf-8")
-        for target in LINK.findall(content):
-            target = target.split("#", 1)[0].split("?", 1)[0]
-            if not target or re.match(r"^(https?://|mailto:|/)", target):
+        content = markdown_prose(md.read_text(encoding="utf-8"))
+        targets = [a or b for a, b in LINK.findall(content)]
+        targets += re.findall(r'^ {0,3}\[[^]\n]+\]:\s*<?([^\s>]+)>?', content, re.M)
+        for target in targets:
+            url = urlsplit(target)
+            if url.scheme or url.netloc or not url.path:
                 continue
+            target = unquote(url.path)
             resolved = (md.parent / target).resolve()
             # Source-repository documentation may link to shared root docs;
             # never accept paths outside the source repository.
@@ -86,15 +129,20 @@ def validate(all_skills=False, name=None):
 
 
 def create(name, category):
+    with mutation_lock(ROOT / ".sdkit-catalog.lock"):
+        return _create(name, category)
+
+
+def _create(name, category):
     valid_name(name)
     data = catalog()
     if category not in data["categories"]:
         raise ValueError("unknown category")
     path = source(name)
+    reject_symlinks(path)
     if path.exists() or path.is_symlink() or any(s["name"] == name for s in data["skills"]):
         raise ValueError("skill already exists")
     path.mkdir()
-    original_catalog = (ROOT / "catalog.json").read_bytes()
     try:
         (path / "SKILL.md").write_text(
             f"---\nname: {name}\ndescription: 待补充该 Skill 的明确任务触发条件。\n---\n\n# {name}\n\n## 执行流程\n\n待补充。\n\n## 验收\n\n待补充。\n", encoding="utf-8")
@@ -110,8 +158,6 @@ def create(name, category):
                 os.unlink(temp_path)
     except Exception:
         shutil.rmtree(path)
-        if (ROOT / "catalog.json").read_bytes() != original_catalog:
-            (ROOT / "catalog.json").write_bytes(original_catalog)
         raise
 
 
@@ -124,12 +170,28 @@ def manifest(path):
             rel = p.relative_to(path).as_posix()
             if rel != RECORD:
                 result[rel] = hashlib.sha256(p.read_bytes()).hexdigest()
+        elif p.is_dir():
+            result[p.relative_to(path).as_posix() + "/"] = ""
+        else:
+            raise ValueError("special file not allowed")
     return result
 
 
 def install(name, target, update=False):
+    valid_name(name)
+    target = Path(target).expanduser().absolute()
+    reject_symlinks(target)
+    if not target.is_dir():
+        raise ValueError("target parent must exist and not be a symlink")
+    with mutation_lock(target / f".sdkit-{name}.lock"):
+        return _install(name, target, update)
+
+
+def _install(name, target, update=False):
     src = source(name)
     check_skill(src, name)
+    if (src / RECORD).exists():
+        raise ValueError("source contains reserved install record")
     target = Path(target).expanduser().absolute()
     if any(p.is_symlink() for p in (target, *target.parents)) or not target.is_dir():
         raise ValueError("target parent must exist and not be a symlink")
@@ -144,23 +206,33 @@ def install(name, target, update=False):
         if not record.is_file() or record.is_symlink():
             raise ValueError("unmanaged destination")
         old = json.loads(record.read_text(encoding="utf-8"))
-        if old.get("name") != name or old.get("files") != manifest(dest):
+        if not isinstance(old, dict) or set(old) != {"name", "files"} or old.get("name") != name or old.get("files") != manifest(dest):
             raise ValueError("installed skill modified")
     elif update:
         raise ValueError("cannot update missing installation")
     stage = Path(tempfile.mkdtemp(prefix=".sdkit-stage-", dir=target))
     backup = None
+    replaced = False
     try:
         shutil.rmtree(stage)
         shutil.copytree(src, stage, symlinks=True)
         hashes = manifest(stage)
+        if hashes != manifest(src):
+            raise ValueError("source changed during copy")
         (stage / RECORD).write_text(json.dumps({"name": name, "files": hashes}, sort_keys=True) + "\n", encoding="utf-8")
+        # Copying may be slow: recheck user changes before moving the old tree.
+        reject_symlinks(dest)
         if old is not None:
+            if json.loads((dest / RECORD).read_text(encoding="utf-8")) != old or manifest(dest) != old["files"]:
+                raise ValueError("installed skill changed during update")
             backup = Path(tempfile.mkdtemp(prefix=".sdkit-backup-", dir=target))
             backup.rmdir()
             dest.rename(backup)
+        elif dest.exists():
+            raise ValueError("destination appeared during install")
         try:
             stage.rename(dest)
+            replaced = True
         except Exception:
             if backup is not None:
                 try:
@@ -173,9 +245,9 @@ def install(name, target, update=False):
     finally:
         if stage.exists():
             shutil.rmtree(stage)
-        # Delete backup only after a replacement is confirmed present.
-        # If restore failed and dest is absent, leave backup for manual recovery.
-        if backup is not None and backup.exists() and dest.exists():
+        # Only a successful replacement permits deleting the old backup.
+        # A failed restore retains it even if a competing destination exists.
+        if backup is not None and backup.exists() and replaced:
             shutil.rmtree(backup)
 
 
