@@ -113,7 +113,8 @@ def resolve(data, name, cwd):
         try:
             root = Path(git(candidate, "rev-parse", "--show-toplevel")).resolve()
             remote = git(root, "remote", "get-url", "origin")
-            if canonical(remote) != expected:
+            push_remote = git(root, "remote", "get-url", "--push", "origin")
+            if canonical(remote) != expected or canonical(push_remote) != expected:
                 if configured and candidate == configured:
                     raise ValueError("Configured local repository identity mismatch")
                 continue
@@ -126,7 +127,7 @@ def resolve(data, name, cwd):
                 raise ValueError("Configured local repository invalid or mismatched") from exc
             continue
         dirty = bool(git(root, "status", "--porcelain"))
-        result = {"workspace": name, "mode": "local", "path": str(root), "branch": branch, "dirty": dirty, "provider": repo["provider"], "url": repo["url"], "identity_verified": True}
+        result = {"workspace": name, "remote": "origin", "fetch_push_verified": True, "mode": "local", "path": str(root), "branch": branch, "dirty": dirty, "provider": repo["provider"], "url": repo["url"], "identity_verified": True}
         try:
             upstream = git(root, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}")
             counts = git(root, "rev-list", "--left-right", "--count", f"{upstream}...HEAD").split()
@@ -186,6 +187,8 @@ def main(argv=None):
             if result["mode"] != "local":
                 raise ValueError("Sync check requires a verified local repository")
             if args.fetch:
+                if result["dirty"] or result["branch"] is None or result.get("upstream") is None:
+                    raise ValueError("Cannot fetch with dirty, detached or missing upstream state")
                 git(Path(result["path"]), "fetch", "origin")
                 result = resolve(data, name, Path.cwd())
             behind, ahead = result.get("behind"), result.get("ahead")
