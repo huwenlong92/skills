@@ -1,6 +1,6 @@
 ---
 name: sdkitgo
-description: 为固定采用 sdkitgo、Gin、GORM、PostgreSQL、runtime capability、worker、crontab 和 realtime 的 Go 服务应用项目约定。创建、修改、评审或调试 service lifecycle、auth、middleware、handler、router、app/http、model、查询、迁移、Excel、定时任务和实时事件时使用。
+description: 仅用于明确指定旧名称 sdkitgo 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdbase-go，不得与新 Skill 同时自动触发。
 ---
 
 # SDKit Go 后端
