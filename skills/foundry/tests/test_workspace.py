@@ -136,5 +136,59 @@ class WorkspaceTests(unittest.TestCase):
         self.config.write_text(json.dumps({"version": 1, "primary_workspace": "missing", "workspaces": {}}))
         self.assertNotEqual(self.run_cli("list").returncode, 0)
 
+
+    def test_upstream_ahead_behind_without_network(self):
+        bare = self.root / "remote.git"
+        subprocess.run(["git", "init", "--bare", "-q", str(bare)], check=True)
+        work = self.root / "work"
+        subprocess.run(["git", "clone", "-q", str(bare), str(work)], check=True)
+        subprocess.run(["git", "-C", str(work), "config", "user.email", "test@example.com"], check=True)
+        subprocess.run(["git", "-C", str(work), "config", "user.name", "Test"], check=True)
+        subprocess.run(["git", "-C", str(work), "commit", "--allow-empty", "-qm", "base"], check=True)
+        subprocess.run(["git", "-C", str(work), "push", "-q", "-u", "origin", "HEAD"], check=True)
+        self.run_cli("init")
+        self.run_cli("add", "personal", str(bare), "--provider", "git", "--path", str(work))
+        # Local file remotes are deliberately not accepted as configured public Git URLs.
+        # Use a GitHub-shaped remote identity while retaining the local upstream tracking ref.
+        subprocess.run(["git", "-C", str(work), "remote", "set-url", "origin", "git@github.com:example/docs.git"], check=True)
+        config = json.loads(self.config.read_text())
+        config["workspaces"]["personal"]["repository"]["url"] = "git@github.com:example/docs.git"
+        self.config.write_text(json.dumps(config))
+        result = self.run_cli("resolve")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        data = json.loads(result.stdout)
+        self.assertEqual((data["behind"], data["ahead"]), (0, 0))
+        subprocess.run(["git", "-C", str(work), "commit", "--allow-empty", "-qm", "local"], check=True)
+        result = self.run_cli("resolve")
+        data = json.loads(result.stdout)
+        self.assertEqual((data["behind"], data["ahead"]), (0, 1))
+
+    def test_clean_fast_forward_and_divergence_are_git_guardrails(self):
+        bare = self.root / "remote.git"
+        subprocess.run(["git", "init", "--bare", "-q", str(bare)], check=True)
+        first = self.root / "first"
+        subprocess.run(["git", "clone", "-q", str(bare), str(first)], check=True)
+        for repo in (first,):
+            subprocess.run(["git", "-C", str(repo), "config", "user.email", "test@example.com"], check=True)
+            subprocess.run(["git", "-C", str(repo), "config", "user.name", "Test"], check=True)
+        subprocess.run(["git", "-C", str(first), "commit", "--allow-empty", "-qm", "base"], check=True)
+        subprocess.run(["git", "-C", str(first), "push", "-q", "-u", "origin", "HEAD"], check=True)
+        second = self.root / "second"
+        subprocess.run(["git", "clone", "-q", str(bare), str(second)], check=True)
+        subprocess.run(["git", "-C", str(second), "config", "user.email", "test@example.com"], check=True)
+        subprocess.run(["git", "-C", str(second), "config", "user.name", "Test"], check=True)
+        subprocess.run(["git", "-C", str(first), "commit", "--allow-empty", "-qm", "remote-update"], check=True)
+        subprocess.run(["git", "-C", str(first), "push", "-q", "origin", "HEAD"], check=True)
+        subprocess.run(["git", "-C", str(second), "fetch", "-q", "origin"], check=True)
+        subprocess.run(["git", "-C", str(second), "pull", "-q", "--ff-only"], check=True)
+        subprocess.run(["git", "-C", str(second), "commit", "--allow-empty", "-qm", "local-update"], check=True)
+        subprocess.run(["git", "-C", str(first), "commit", "--allow-empty", "-qm", "another-remote"], check=True)
+        subprocess.run(["git", "-C", str(first), "push", "-q", "origin", "HEAD"], check=True)
+        subprocess.run(["git", "-C", str(second), "fetch", "-q", "origin"], check=True)
+        blocked = subprocess.run(["git", "-C", str(second), "pull", "--ff-only"], capture_output=True)
+        self.assertNotEqual(blocked.returncode, 0)
+        blocked_push = subprocess.run(["git", "-C", str(second), "push", "origin", "HEAD"], capture_output=True)
+        self.assertNotEqual(blocked_push.returncode, 0)
+
 if __name__ == "__main__":
     unittest.main()
