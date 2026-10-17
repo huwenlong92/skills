@@ -1,0 +1,8 @@
+version: 1
+primary_workspace: personal
+workspaces:
+  personal:
+    repository:
+      provider: github
+      url: git@github.com:huwenlong92/product-docs.git
+      local_path: null

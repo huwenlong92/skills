@@ -5,7 +5,7 @@ description: Foundry 项目初始化、本地项目导入、增量同步及名�
 
 # 项目初始化与导入
 
-适用范围：用户要求 foundry init、foundry import、foundry sync，或在新会话中指定项目、模块及新项目名称。执行前必须读取 [仓库与项目路由](repository.md) 和目标仓库最新的 projects/product-docs/docs/foundry-routing-and-import.md。
+适用范围：用户要求 foundry init、foundry import、foundry sync，或在新会话中指定项目、模块及新项目名称。执行前必须读取 [Workspace 配置](workspace.md)、[仓库与项目路由](repository.md) 及目标仓库最新的项目路由协议。发布者默认仓库使用 `projects/product-docs/docs/foundry-routing-and-import.md`；其他 Workspace 必须从其 `AGENTS.md` 发现等效协议，缺失时停止写入并提示初始化，不得套用发布者路径。
 
 ## 项目路由
 
