@@ -24,7 +24,7 @@ description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、�
 
 - 本 Skill 的唯一标识为 `foundry`。发布者默认 Workspace 指向 `huwenlong92/product-docs`；用户可初始化独立配置并覆盖，项目身份必须包含 Workspace ID。
 - “使用 Foundry 继续 @oranzy/app”“foundry init”“foundry import”“foundry sync”属于自然语言调用约定；除非调用环境已提供命令注册，不得宣称是真实 shell/斜杠命令。
-- 每次初始化、导入或模块路由必须先读取最新仓库协议 `projects/product-docs/docs/foundry-routing-and-import.md`。项目 slug、别名、模块冲突必须停止写入并向用户询问如何处理，不得自动改名、覆盖或合并。
+- 每次初始化、导入或模块路由必须先读取目标 Workspace 的 `AGENTS.md` 指定的最新项目路由协议；发布者默认仓库的协议位于 `projects/product-docs/docs/foundry-routing-and-import.md`。项目 slug、别名、模块冲突必须停止写入并向用户询问如何处理，不得自动改名、覆盖或合并。
 
 ## 执行顺序
 
