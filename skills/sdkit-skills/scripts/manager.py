@@ -56,7 +56,9 @@ def check_skill(path, name):
             if not target or re.match(r"^(https?://|mailto:|/)", target):
                 continue
             resolved = (md.parent / target).resolve()
-            if not resolved.is_relative_to(path.resolve()) or not resolved.exists():
+            # Source-repository documentation may link to shared root docs;
+            # never accept paths outside the source repository.
+            if not resolved.is_relative_to(ROOT.resolve()) or not resolved.exists():
                 raise ValueError(f"broken link: {md.relative_to(path)} -> {target}")
     return True
 
