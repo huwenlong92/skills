@@ -25,7 +25,11 @@ def canonical(url):
         host, path = url.split("@", 1)[1].split(":", 1)
     else:
         raise ValueError("Repository URL must be a full SSH or HTTPS Git URL")
-    if not host or not path.strip("/"):\n        raise ValueError("Invalid Git remote URL")\n    if "://" in url and parsed.scheme not in ("ssh", "https"):\n        raise ValueError("Invalid Git remote URL")\n    return host.lower(), path.strip("/").removesuffix(".git").lower()
+    if not host or not path.strip("/"):
+        raise ValueError("Invalid Git remote URL")
+    if "://" in url and parsed.scheme not in ("ssh", "https"):
+        raise ValueError("Invalid Git remote URL")
+    return host.lower(), path.strip("/").removesuffix(".git").lower()
 
 def load(path):
     if not path.exists():
