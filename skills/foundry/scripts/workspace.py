@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PATH = Path.home() / ".config" / "sdkit" / "skills" / "foundry" / "config.json"
-DEFAULT_REPOSITORY = "git@github.com:huwenlong92/product-docs.git"
+DEFAULTS_FILE = ROOT / "config" / "defaults.yaml"
 
 def canonical(url):
     if not isinstance(url, str):
@@ -53,11 +53,25 @@ def validate(data):
             raise ValueError("Invalid local_path")
     return data
 
+def read_defaults():
+    """Parse the narrow Foundry defaults.yaml mapping using stdlib."""
+    content = DEFAULTS_FILE.read_text(encoding="utf-8")
+    def field(name):
+        match = re.search(r"^\\s*" + re.escape(name) + r":\\s*(.+?)\\s*$", content, re.M)
+        if not match:
+            raise ValueError("Missing defaults field: " + name)
+        return match.group(1).strip().strip(chr(34)).strip(chr(39))
+    primary = field("primary_workspace")
+    workspace_match = re.search(r"^  ([A-Za-z0-9_-]+):\\s*$", content, re.M)
+    if not workspace_match or workspace_match.group(1) != primary:
+        raise ValueError("Invalid defaults workspace")
+    return validate({"version": int(field("version")), "primary_workspace": primary,
+        "workspaces": {primary: {"repository": {"provider": field("provider"), "url": field("url"),
+        "local_path": None if field("local_path") == "null" else field("local_path")}}}})
+
 def load(path):
     if not path.exists():
-        return validate({"version": 1, "primary_workspace": "personal", "workspaces": {
-            "personal": {"repository": {"provider": "github", "url": DEFAULT_REPOSITORY, "local_path": None}}
-        }}), "skill-default"
+        return read_defaults(), "skill-default"
     try:
         return validate(json.loads(path.read_text(encoding="utf-8"))), "user"
     except (json.JSONDecodeError, UnicodeError) as exc:
@@ -103,7 +117,10 @@ def resolve(data, name, cwd):
                 if configured and candidate == configured:
                     raise ValueError("Configured local repository identity mismatch")
                 continue
-            branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD") if git(root, "symbolic-ref", "--quiet", "HEAD") else None
+            try:
+                branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD")
+            except ValueError:
+                branch = None
         except ValueError as exc:
             if configured and candidate == configured:
                 raise ValueError("Configured local repository invalid or mismatched") from exc
