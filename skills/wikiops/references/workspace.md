@@ -11,7 +11,7 @@ description: 多 Workspace 配置、身份隔离和环境选择
 
 - Skill 的 `config/defaults.yaml` 是专用发布者默认配置；公开定位不代表写入授权。
 - 用户配置优先于 Skill 默认配置。用户配置文件即使包含 `workspaces: {}`，也必须视为显式空配置，禁止回退到发布者仓库。
-- 本地 CLI 用户配置位于 `~/.config/sdkit/skills/wikiops/config.json`，属于用户私有环境，不得提交到 Skill 仓库。
+- 本地 CLI 用户配置必须默认放在 `~/.config/sdkit/skills/wikiops/config.json`；显式指定 `--config <path>` 时必须读取指定文件。个人配置禁止放入 Skill 安装目录、Skill 源仓库或业务项目，也不得提交版本控制。
 - `primary_workspace` 为用户长期默认目标；`active_workspace` 仅是当前任务或会话选择，禁止因临时切换自动修改 Primary。
 - Workspace 的仓库使用 `provider`、标准 Git `url` 和可选 `local_path`；默认分支从目标远端发现。不得将仓库名、目录名或历史会话当成已验证身份。
 - Provider 可以为 `github`、`gitlab`、`gitee` 或 `git`；自建实例必须用完整 URL 识别主机。Provider 仅决定平台适配能力，不能代表已获授权。
@@ -21,8 +21,8 @@ description: 多 Workspace 配置、身份隔离和环境选择
 
 1. 当前指令明确指定的 Workspace 优先。
 2. 已确认的当前知识库归属优先于 Primary；“整理到知识库”“我的知识库”这类明确默认目标的表述使用 Primary。
-3. 没有明确项目归属或目标时使用 Primary；无 Primary 时要求用户绑定。
-4. 多个 Workspace 命中同一项目且当前任务无法唯一判定时，必须询问，禁止写入。
+3. 没有明确知识库归属或目标时使用 Primary；无 Primary 时要求用户绑定。
+4. 多个 Workspace 命中同一知识主题且当前任务无法唯一判定时，必须询问，禁止写入。
 5. 跨 Workspace 复制、迁移和共享必须核对来源权限与目标授权，保留可追踪声明；不得隐式复制团队私有资料。
 
 ## 首次初始化与清空
@@ -36,4 +36,4 @@ description: 多 Workspace 配置、身份隔离和环境选择
 
 ## 完成标准
 
-能够报告目标 Workspace、仓库 URL、Provider、实际访问方式、Primary/Active 来源及授权状态；无法验证的配置或路径必须标记未验证。
+必须核对默认配置路径与脚本一致，迁移时确认内容保留、权限为 `0600` 且 `resolve` 使用目标配置。能够报告目标 Workspace、仓库 URL、Provider、实际访问方式、Primary/Active 来源及授权状态；无法验证的配置或路径必须标记未验证。
