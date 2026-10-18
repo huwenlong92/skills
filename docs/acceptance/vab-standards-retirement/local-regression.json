@@ -1,0 +1,160 @@
+{
+  "scope": "四个独立分支文件在隔离集成 Worktree 合并副本的本地回归，不是远端 PR 合并",
+  "base_main": "8b22285aa2abba995e88f49718800c167c7e2413",
+  "tests": [
+    {
+      "name": "bootstrap",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_project_skill_*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "result": "ts.test_two_updaters_lock) ... ok\ntest_unauthorized_and_stale_leave_bytes (test_project_skill_safety.SafetyTests.test_unauthorized_and_stale_leave_bytes) ... ok\n\n----------------------------------------------------------------------\nRan 35 tests in 0.229s\n\nOK\n"
+    },
+    {
+      "name": "protocol",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_engineering_protocols.py",
+        "-v"
+      ],
+      "exit": 0,
+      "result": "and_scope_change) ... ok\ntest_verification_requires_actual_evidence (test_engineering_protocols.ProtocolTests.test_verification_requires_actual_evidence) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.007s\n\nOK\n"
+    },
+    {
+      "name": "manager",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "skills/sdkit-skills/scripts",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "result": "tion.MigrationTests.test_readme_install_names_exist) ... ok\ntest_target_catalog_categories (test_migration.MigrationTests.test_target_catalog_categories) ... ok\n\n----------------------------------------------------------------------\nRan 44 tests in 0.996s\n\nOK\n"
+    },
+    {
+      "name": "dockerops",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "skills/dockerops/scripts",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit": 0,
+      "result": "s_not_accept_environment_names) ... ok\ntest_single_operations_and_runtime_files (test_check_layout.LayoutChecks.test_single_operations_and_runtime_files) ... ok\n\n----------------------------------------------------------------------\nRan 41 tests in 1.036s\n\nOK\n"
+    },
+    {
+      "name": "links-unit",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_markdown_links.py",
+        "-v"
+      ],
+      "exit": 0,
+      "result": "s.test_reference_link_and_explicit_anchor) ... ok\ntest_repository_escape_rejected (test_markdown_links.MarkdownLinksTests.test_repository_escape_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.005s\n\nOK\n"
+    },
+    {
+      "name": "validate",
+      "command": [
+        "python3",
+        "skills/sdkit-skills/scripts/manager.py",
+        "validate",
+        "--all"
+      ],
+      "exit": 0,
+      "result": "validated 20 skills\n"
+    },
+    {
+      "name": "markdown",
+      "command": [
+        "python3",
+        "scripts/check_markdown_links.py"
+      ],
+      "exit": 0,
+      "result": "Markdown: 275 files, 933 relative links, 2 anchors, 0 errors\n"
+    },
+    {
+      "name": "diff",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "result": ""
+    }
+  ],
+  "native_discovery": {
+    "independent_install_update": 20,
+    "native_discovery": [
+      {
+        "scope": "primary",
+        "expected_count": 15,
+        "found": [
+          "dockerops",
+          "foundry",
+          "npmops",
+          "sdbase-admin-lite",
+          "sdbase-flutter-app",
+          "sdbase-go",
+          "sdbase-lite",
+          "sdbase-nuxtjs-portal",
+          "sdbase-vab-admin",
+          "sdenv",
+          "sdkit-go-core",
+          "sdkit-rust-core",
+          "sdkit-skills",
+          "swops",
+          "wikiops"
+        ],
+        "errors": []
+      },
+      {
+        "scope": "legacy",
+        "expected_count": 5,
+        "found": [
+          "nuxtjs",
+          "rust-sdcore",
+          "sdkit",
+          "sdkitgo",
+          "vab-admin"
+        ],
+        "errors": []
+      }
+    ],
+    "model_calls": 0
+  },
+  "codex_cli": "0.163.0",
+  "implicit_model_routing": "BLOCKED：隔离 Home 的只读 Codex exec 路由探针 45 秒超时；未更改审批配置、复制认证或关闭沙箱；不声称模型选择通过",
+  "sensitive_scan": "仅提交脱敏记录；本轮修改未发现固定个人路径及常见凭据格式",
+  "readonly_baselines": "旧库 73 个非 Git 文件与 status、真实全局 AGENTS 字节与权限均未变化"
+}

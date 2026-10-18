@@ -32,6 +32,14 @@
 
 16 项真实行为最终通过；首轮 15/16 的正文重复读取缺陷修复后，7/13/16 功能重测通过，C13 另以逐轮核验的可写沙箱补测通过。20 Skill、44+24 单元测试和全仓 Markdown 最终复核以 [本次报告](../docs/testing/knowledge-v1/REPORT.md) 与 [结果](../docs/testing/knowledge-v1/results.json) 为准。仅测试虚构资料，无真实产品/Wiki 写入。本地验收 verified；提交前远端 Head/main 未变化，#19 Draft/Open、MERGEABLE/CLEAN。Commit/Push 最终结果以远端和本轮最终回复为准。
 
+## PR #16 专题 A 最终集成（2026-10-18）
+
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/vab-standards-retirement/final-integration.md)。普通集成提交 `4a8814fa8881114363b7ec432cb6988ebeaf49bc` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
 ## PR #17 专题 A 最终集成（2026-10-18）
 
 最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/go-standards-retirement/final-integration.md)。普通集成提交 `f6e5fb72b676366ac30b651026ae5a11e4fe6f4b` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
+## PR #16：#17 合并后的同步（2026-10-18）
+
+#17 已 Squash Merge，main `8c049239ef90a6b4215ba425cef439168cb43dd2`；本 PR 保留四个文件双方历史并普通合入。Python 118 项、21 Skill、链接/锚点与兼容校验通过，退出 0；见 [本轮报告](../docs/acceptance/vab-standards-retirement/post-pr17-integration.md)。最终 Merge Commit/Push/Draft/mergeable 以本轮最终查询为准。禁止本地 Ready 或 PR 合并，交由 Web 后续处理。
