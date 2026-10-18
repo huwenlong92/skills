@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SDKit Schema Project Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "project",
+    "database",
+    "migration",
+    "safety"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "sdkit.dev/schema/v1"
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dialect",
+        "layout"
+      ],
+      "properties": {
+        "dialect": {
+          "enum": [
+            "postgres",
+            "mysql",
+            "oracle",
+            "sqlite"
+          ]
+        },
+        "layout": {
+          "enum": [
+            "single",
+            "multi"
+          ]
+        },
+        "versionConstraint": {
+          "type": "string"
+        }
+      }
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "driver",
+        "directory"
+      ],
+      "properties": {
+        "driver": {
+          "enum": [
+            "sql",
+            "external",
+            "observe"
+          ]
+        },
+        "directory": {
+          "type": "string"
+        },
+        "baseline": {
+          "type": "string"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "defaultMode"
+      ],
+      "properties": {
+        "defaultMode": {
+          "const": "read-only"
+        }
+      }
+    }
+  }
+}
