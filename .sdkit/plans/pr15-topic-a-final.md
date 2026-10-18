@@ -12,6 +12,6 @@
 | C0 | 权威 main/Head、开放 PR、权限/保护、工作区/锁 | verified |
 | C1 | 普通 Merge main、语义审查及必要修复 | verified |
 | C2 | 相关单元测试、21 Skill、链接/锚点、兼容/证据/敏感扫描 | verified |
-| C3 | Push 前远端复核、普通 Commit/Push、Draft 与 mergeable | implemented；本地验收完成，最终交付以远端核验为准 |
+| C3 | Push 前远端复核、普通 Commit/Push、Draft 与 mergeable | verified；普通推送 `d99cc23a0903b5ae5ff94ad9580978deb050635f` 后 Draft/Open、MERGEABLE/CLEAN；交接提交的最终 Head 以最终查询为准 |
 
 命令、数量、退出码与未完成边界见 [最终报告](../../docs/acceptance/engineering-standards-retirement/final-integration.md)。恢复时核对真实 Git/远端，再从未验收阶段继续。完成标准：本地必需门禁通过且历史证据不变；远端 Draft/Open、main 是祖先，最终交付状态单独核验。技术可合并不等于授权合并。
