@@ -46,3 +46,13 @@ class IntentTests(unittest.TestCase):
         x=sample();x["environment"]="shared_dev"
         x["approval"]={"signature":"claimed"}
         self.assertFalse(mod.validate(x)["executionAuthorized"])
+
+    def test_duplicate_scope_rejected(self):
+        x=sample();x["target"]["scope"]=["public","public"]
+        with self.assertRaises(ValueError):mod.validate(x)
+    def test_empty_object_name_rejected(self):
+        x=sample();x["operations"][0]["objects"]=["public."]
+        with self.assertRaises(ValueError):mod.validate(x)
+    def test_unknown_operation_rejected(self):
+        x=sample();x["operations"][0]["type"]="not_a_real_operation"
+        with self.assertRaises(ValueError):mod.validate(x)
