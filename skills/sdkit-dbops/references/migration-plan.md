@@ -7,3 +7,7 @@
 ## 数据安全扩展（待集成门禁）
 
 Data Destruction Guard 与 Backup Decision 已有独立离线评估工具，但当前 plan_migrations.py 尚未消费其输出；任何计划的 candidate/requires_approval 都不得被解释为已通过数据安全或恢复保障门禁。未来集成前必须将操作清单哈希、受影响对象、备份证据身份、RPO/RTO 和恢复验证结果纳入 Plan Hash 与失效判断；缺少证据一律 Blocked。
+
+## DBOPS-05 离线安全门禁（已集成）
+
+计划现在绑定源 History/Schema 指纹、目标 History/Schema 指纹、Data Destruction Guard 与 Backup Decision 的离线证据指纹。缺失安全输入、声明式备份或未经外部认证的恢复证据一律导致 decision=blocked，executionAuthorized=false。离线输入不得自行将其提升为 Ready 或签发执行授权。--safety 仅读取本地 JSON；计划校验必须重新计算哈希，计划与目标证据变化必须重新生成。恢复报告由 recovery_report.py 生成调查需求，不执行回滚。
