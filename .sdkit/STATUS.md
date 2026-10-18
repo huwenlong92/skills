@@ -8,3 +8,7 @@
 - AGENTS、两份核心协议、既有真实行为报告/逐项证据整合前后逐字节未变；复用 [T01–T10 证据](../docs/testing/engineering-v1/2026-10-18-report.md)，不重复模型测试。静态选路无实质变化或未解决协议冲突。
 - 限制：Foundry 附属 README 保留既有源仓库根 README 导航，独立安装后该导航不可用；不是新的执行依赖，未改动已合并 Skill。本地发现不等同于自然语言自动选择已重新实测。
 - 本轮技术验收通过；保持 Draft/Open，最终交付 Head/mergeable 以实时 PR 核验为准。没有合并、Ready 切换、部署或主动触发 Actions；完成后等待最终合并授权。
+
+## PR #19 本地验收（2026-10-18）
+
+16 项真实行为最终通过；首轮 15/16 的正文重复读取缺陷修复后，7/13/16 功能重测通过，C13 另以逐轮核验的可写沙箱补测通过。20 Skill、44+24 单元测试和全仓 Markdown 最终复核以 [本次报告](../docs/testing/knowledge-v1/REPORT.md) 与 [结果](../docs/testing/knowledge-v1/results.json) 为准。仅测试虚构资料，无真实产品/Wiki 写入。本地验收 verified；提交前远端 Head/main 未变化，#19 Draft/Open、MERGEABLE/CLEAN。Commit/Push 最终结果以远端和本轮最终回复为准。
