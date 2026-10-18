@@ -13,3 +13,5 @@
 | pr16-topic-a-final | verified | docs/vab-standards-retirement-20261018 / PR #16 | [最终集成](plans/pr16-topic-a-final.md) |
 | pr17-topic-a-final | verified | docs/go-standards-retirement-20261018 / PR #17 | [最终集成](plans/pr17-topic-a-final.md) |
 | topic-a-authorized-squash | in_progress（#16/#15已合并，#14最终门禁） | feat/project-skill-bootstrap-v1 / PR #14 | [执行契约](plans/topic-a-authorized-squash.md) |
+
+| pr24-final-local | verified（本地协议） | feat/template-evolution-v1 / PR #24 | [计划](plans/pr24-final-local.md) |

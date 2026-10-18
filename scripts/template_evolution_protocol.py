@@ -62,19 +62,29 @@ def unique_owner(doc, filepath):
 CONTRACT_KEYS = ("task_id", "revision", "group", "members", "scope", "diff", "verification", "recovery_strategy")
 
 def digest(plan):
-    canonical = json.dumps({k: plan[k] for k in CONTRACT_KEYS}, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
+    canonical = json.dumps({k: v for k, v in plan.items() if k not in ("plan_digest", "authorization", "created_at", "updated_at")}, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     return "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
 
 def plan_valid(plan):
     require(isinstance(plan, dict) and plan.get("schema_version") == 1 and type(plan.get("revision")) is int and plan["revision"] > 0, "TE-4004", "plan invalid")
     members = plan.get("members")
     require(isinstance(members, list) and bool(members), "TE-4004", "members missing")
+    require(all(isinstance(m, dict) and isinstance(m.get("mount_id"), str) and m["mount_id"] for m in members), "TE-4004", "invalid member")
+    member_ids = [m["mount_id"] for m in members]
+    require(len(set(member_ids)) == len(member_ids), "TE-4004", "duplicate member")
     group = plan.get("group")
     require(isinstance(group, dict) and isinstance(group.get("required_mounts"), list) and set(group["required_mounts"]) <= {m.get("mount_id") for m in members}, "TE-4004", "group invalid")
+    required = group["required_mounts"]
+    require(bool(required) and len(set(required)) == len(required) and group.get("status") in ("pending", "in_progress", "partial", "verified", "blocked"), "TE-4004", "invalid required mounts or status")
+    if group["status"] == "verified":
+        require(all(m.get("phase") == "completed" and m.get("health") == "ready" and m.get("recovery") in ("not_required", "recovered") and m.get("verification_passed") is True for m in members if m["mount_id"] in required) and plan.get("verification", {}).get("cross_template_passed") is True, "TE-4004", "group verification missing")
     scope = plan.get("scope")
     require(isinstance(scope, dict) and isinstance(scope.get("allowed_paths"), list) and isinstance(scope.get("forbidden_paths"), list), "TE-4004", "scope invalid")
     for p in scope["allowed_paths"] + scope["forbidden_paths"]:
         path(p)
+    normalized = [path(p).casefold() for p in scope["allowed_paths"]]
+    require(len(set(normalized)) == len(normalized), "TE-1004", "duplicate or case-colliding scope")
+    require(all(k in plan for k in CONTRACT_KEYS), "TE-4004", "contract field missing")
     require(plan.get("plan_digest") == digest(plan), "TE-4004", "digest mismatch")
     return plan
 
@@ -92,20 +102,26 @@ def transition(state, target):
 def apply_gate(plan, doc, *, user_authorized=False, approved_digest=None, git_fresh=False, provider_ready=False, conflicts=False):
     plan_valid(plan)
     identity(doc)
-    require(user_authorized and approved_digest == plan["plan_digest"], "TE-4001", "authorization missing")
-    require(git_fresh, "TE-4002", "git baseline stale")
-    require(provider_ready, "TE-4005", "provider unavailable")
-    require(not conflicts, "TE-4003", "conflict")
+    require(user_authorized is True and approved_digest == plan["plan_digest"], "TE-4001", "authorization missing")
+    require(git_fresh is True, "TE-4002", "git baseline stale")
+    require(provider_ready is True, "TE-4005", "provider unavailable")
+    require(conflicts is False, "TE-4003", "conflict")
+    require(plan["group"]["status"] in ("pending", "in_progress", "partial"), "TE-5003", "group cannot apply")
     mounts = {m["mount_id"]: m for m in doc["templates"]}
     for member in plan["members"]:
+        require(member.get("phase") == "planned" and member.get("health") == "ready" and member.get("recovery") in ("not_required", "recovered"), "TE-5003", "member cannot apply")
         mount = mounts.get(member["mount_id"])
         require(mount is not None and mount["origin"]["status"] == "verified" and mount["tracking"] == "active", "TE-1001", "source unknown")
         for field in ("source_template_commit", "target_template_commit", "project_commit"):
             require(sha(member.get(field)), "TE-1002", "baseline missing")
+        baseline = mount.get("last_synced") or mount.get("adopted_baseline") or {"template_commit": mount["origin"]["commit"]}
+        require(isinstance(baseline, dict) and member["source_template_commit"] == baseline.get("template_commit"), "TE-1002", "source baseline mismatch")
+    member_ids = {m["mount_id"] for m in plan["members"]}
     for p in plan["scope"]["allowed_paths"]:
+        p = path(p)
         require(not any(c in p for c in "*?["), "TE-1004", "glob scope requires expanded file evidence")
-        require(not any(fnmatchcase(p, forbidden) for forbidden in plan["scope"]["forbidden_paths"]), "TE-3002", "forbidden path")
-        unique_owner(doc, p)
+        require(not any(fnmatchcase(p, path(forbidden)) for forbidden in plan["scope"]["forbidden_paths"]), "TE-3002", "forbidden path")
+        require(unique_owner(doc, p) in member_ids, "TE-1004", "owner outside plan members")
     require(plan["scope"].get("deletions_allowed") is False, "TE-3002", "deletions require separate approval")
     return True
 

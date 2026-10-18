@@ -67,3 +67,7 @@
 ## 专题 A 当前授权最终合并 / PR #14
 
 历史状态保留；本轮用户已授权按 #16→#15→#14 Ready 与 Squash Merge。当前 main `3c425efde5b913070dc41348630806070882c5c6` 普通同步到本 PR，Python 157 项及 21 Skill/链接/兼容/扫描通过；详见 [本轮报告](../docs/acceptance/bootstrap-standards-retirement/squash-final-integration.md)。合并事实与最终 SHA 必须以实时 GitHub 核验，不以本段代替。
+
+## PR #24 本地技术验收
+
+原有 28 与最终 47 项 Fixture 通过，9 个边界缺口已修复；全仓和 #20/#21 临时联合检查通过。[报告](../docs/testing/template-evolution-v1/final-local.md)。真实业务与 Agent 行为为 BLOCKED；最终 Push/Head/Draft 以 Provider 核验为准。

@@ -9,7 +9,7 @@ def fixture_identity():
     return {"schema_version":1,"project":{"repository":"example/app"},"templates":[{"mount_id":"web","template_id":"nuxt","repository":"example/nuxt","project_path":"apps/web","variant":"default","origin":{"status":"verified","commit":S,"evidence_refs":["commit:source"]},"tracking":"active","ownership":{"include":["src/**","package.json"],"exclude":["src/business/**"]}}]}
 
 def fixture_plan():
-    x={"schema_version":1,"task_id":"upgrade-01","revision":1,"group":{"required_mounts":["web"],"status":"pending"},"members":[{"mount_id":"web","source_template_commit":S,"target_template_commit":T,"project_commit":P}],"scope":{"allowed_paths":["apps/web/package.json"],"forbidden_paths":["apps/web/src/business/**"],"deletions_allowed":False},"diff":{"safe":[],"review":[],"blocked":[]},"verification":{"static":"pending","build":"pending"},"recovery_strategy":"isolated-worktree"}
+    x={"schema_version":1,"task_id":"upgrade-01","revision":1,"group":{"required_mounts":["web"],"status":"pending"},"members":[{"mount_id":"web","source_template_commit":S,"target_template_commit":T,"project_commit":P,"phase":"planned","health":"ready","recovery":"not_required"}],"scope":{"allowed_paths":["apps/web/package.json"],"forbidden_paths":["apps/web/src/business/**"],"deletions_allowed":False},"diff":{"safe":[],"review":[],"blocked":[]},"verification":{"static":"pending","build":"pending"},"recovery_strategy":"isolated-worktree"}
     x["plan_digest"]=digest(x)
     return x
 
@@ -91,6 +91,66 @@ class ProtocolFixtures(unittest.TestCase):
     def test_28_deletion_requires_separate_approval(self):
         p=fixture_plan();p["scope"]["deletions_allowed"]=True;p["plan_digest"]=digest(p)
         self.denied("TE-3002",lambda:self.apply(p=p))
+
+    def test_29_normalized_forbidden_path(self):
+        p=fixture_plan();p["scope"]["allowed_paths"]=["apps/web/./package.json"];p["scope"]["forbidden_paths"]=["apps/web/package.json"];p["plan_digest"]=digest(p)
+        self.denied("TE-3002",lambda:self.apply(p=p))
+    def test_30_owner_must_be_member(self):
+        i=fixture_identity();m=copy.deepcopy(i["templates"][0]);m["mount_id"]="api";m["project_path"]="apps/api";m["origin"]={"status":"unknown"};i["templates"].append(m)
+        p=fixture_plan();p["scope"]["allowed_paths"]=["apps/api/package.json"];p["plan_digest"]=digest(p)
+        self.denied("TE-1004",lambda:self.apply(p=p,i=i))
+    def test_31_source_commit_must_match(self):
+        p=fixture_plan();p["members"][0]["source_template_commit"]=T;p["plan_digest"]=digest(p)
+        self.denied("TE-1002",lambda:self.apply(p=p))
+    def test_32_toolchain_changes_digest(self):
+        p=fixture_plan();before=digest(p);p["toolchain"]={"node":"24.0.0"}
+        self.assertNotEqual(before,digest(p))
+    def test_33_duplicate_members_rejected(self):
+        p=fixture_plan();p["members"].append(copy.deepcopy(p["members"][0]));p["plan_digest"]=digest(p)
+        self.denied("TE-4004",lambda:plan_valid(p))
+    def test_34_empty_required_mounts_rejected(self):
+        p=fixture_plan();p["group"]["required_mounts"]=[];p["plan_digest"]=digest(p)
+        self.denied("TE-4004",lambda:plan_valid(p))
+    def test_35_truthy_authorization_rejected(self):
+        p=fixture_plan()
+        self.denied("TE-4001",lambda:apply_gate(p,fixture_identity(),approved_digest=p["plan_digest"],user_authorized="false",git_fresh=True,provider_ready=True))
+    def test_36_file_authorization_cannot_grant(self):
+        p=fixture_plan();p["authorization"]={"granted":True,"approved_digest":p["plan_digest"]}
+        self.denied("TE-4001",lambda:apply_gate(p,fixture_identity(),git_fresh=True,provider_ready=True))
+    def test_37_incomplete_group_not_verified(self):
+        p=fixture_plan();p["group"]["status"]="verified";p["plan_digest"]=digest(p)
+        self.denied("TE-4004",lambda:plan_valid(p))
+    def test_38_failed_recovery_blocks(self):
+        self.denied("TE-5003",lambda:transition({"phase":"applying","health":"failed","recovery":"partially_restored"},"verifying"))
+    def test_39_recovered_continues_one_phase(self):
+        self.assertEqual(transition({"phase":"applying","health":"ready","recovery":"recovered"},"verifying")["phase"],"verifying")
+    def test_40_case_collision_rejected(self):
+        p=fixture_plan();p["scope"]["allowed_paths"].append("apps/web/Package.json");p["plan_digest"]=digest(p)
+        self.denied("TE-1004",lambda:plan_valid(p))
+
+    def test_41_multi_template_disjoint_members(self):
+        i=fixture_identity();m=copy.deepcopy(i["templates"][0]);m["mount_id"]="api";m["project_path"]="apps/api";i["templates"].append(m)
+        p=fixture_plan();member=copy.deepcopy(p["members"][0]);member["mount_id"]="api";p["members"].append(member);p["group"]["required_mounts"].append("api");p["scope"]["allowed_paths"].append("apps/api/package.json");p["plan_digest"]=digest(p)
+        self.assertTrue(self.apply(p=p,i=i))
+    def test_42_old_approval_rejected_after_revision(self):
+        p=fixture_plan();old=p["plan_digest"];p["revision"]=2;p["plan_digest"]=digest(p)
+        self.denied("TE-4001",lambda:apply_gate(p,fixture_identity(),approved_digest=old,user_authorized=True,git_fresh=True,provider_ready=True))
+    def test_43_verified_group_requires_all_members(self):
+        p=fixture_plan();p["group"]["status"]="verified";p["members"][0].update(phase="completed",health="ready",recovery="recovered",verification_passed=True);p["verification"]["cross_template_passed"]=True;p["plan_digest"]=digest(p)
+        self.assertEqual(plan_valid(p)["group"]["status"],"verified")
+    def test_44_last_synced_baseline(self):
+        p=fixture_plan();i=fixture_identity();i["templates"][0]["last_synced"]={"template_commit":T};p["members"][0]["source_template_commit"]=T;p["plan_digest"]=digest(p)
+        self.assertTrue(self.apply(p=p,i=i))
+    def test_45_stale_git_rejected(self):
+        p=fixture_plan()
+        self.denied("TE-4002",lambda:apply_gate(p,fixture_identity(),approved_digest=p["plan_digest"],user_authorized=True,provider_ready=True))
+
+    def test_46_blocked_group_cannot_apply(self):
+        p=fixture_plan();p["group"]["status"]="blocked";p["plan_digest"]=digest(p)
+        self.denied("TE-5003",lambda:self.apply(p=p))
+    def test_47_interrupted_member_cannot_apply(self):
+        p=fixture_plan();p["members"][0].update(health="interrupted",recovery="required");p["plan_digest"]=digest(p)
+        self.denied("TE-5003",lambda:self.apply(p=p))
 
 if __name__=="__main__":
     unittest.main()
