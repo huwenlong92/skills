@@ -16,3 +16,16 @@ class HistoryTests(unittest.TestCase):
         with self.assertRaises(ValueError):mod.validate({"migrations":[],"attempts":[{"status":"failed"}]})
     def test_invalid_date(self):
         with self.assertRaises(ValueError):mod.validate({"migrations":[{"migrationId":"20261399T259999Z_a83f2c_bad","checksum":"a"*64,"status":"applied"}]})
+
+    def test_unknown_migration_field(self):
+        with self.assertRaisesRegex(ValueError, "unknown migration"):
+            mod.validate({"migrations": [{"migrationId": MID, "checksum": "a"*64, "status": "applied", "dsn": "invalid"}]})
+
+    def test_unknown_history_field(self):
+        with self.assertRaisesRegex(ValueError, "unknown history"):
+            mod.validate({"migrations": [], "extra": True})
+
+    def test_invalid_attempt(self):
+        with self.assertRaises(ValueError):
+            mod.validate({"migrations": [], "attempts": [{"status": "unknown"}]})
+
