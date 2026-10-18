@@ -3,9 +3,13 @@
 import argparse
 import hashlib
 import json
+import re
+from datetime import datetime
 from pathlib import Path
 
-SHA = __import__("re").compile(r"^[0-9a-f]{64}$")
+SHA = re.compile(r"^[0-9a-f]{64}$")
+COMMIT = re.compile(r"^[0-9a-f]{40}$")
+DIALECTS = {"postgres", "mysql", "oracle", "sqlite"}
 def canonical(obj):
     return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
 def digest(obj):
@@ -17,10 +21,14 @@ def history_map(doc):
     for m in doc["migrations"]:
         if not isinstance(m, dict) or not isinstance(m.get("migrationId"), str) or not isinstance(m.get("checksum"), str) or not SHA.fullmatch(m["checksum"]) or m.get("status") != "applied":
             raise ValueError("invalid migration record")
+        if set(m) != {"migrationId", "checksum", "status"}:
+            raise ValueError("invalid migration fields")
         if m["migrationId"] in out:
             raise ValueError("duplicate migration")
         out[m["migrationId"]] = m["checksum"]
-    if any(not isinstance(a, dict) or a.get("status") != "applied" for a in doc.get("attempts", [])):
+    if set(doc) - {"migrations", "attempts"} or not isinstance(doc.get("attempts", []), list):
+        raise ValueError("invalid history fields")
+    if any(not isinstance(a, dict) or set(a) != {"status"} or a.get("status") != "applied" for a in doc.get("attempts", [])):
         raise ValueError("unresolved attempt")
     return out
 def plan(source, target):
@@ -30,24 +38,33 @@ def plan(source, target):
         ident = obj["identity"]
         if not isinstance(ident, dict) or set(ident) != {"environmentId", "databaseId", "dialect", "databaseVersion", "scope"}:
             raise ValueError("invalid database identity")
-        if not isinstance(ident["scope"], list) or not ident["scope"] or any(not isinstance(x,str) or not x for x in ident["scope"]):
+        if ident["dialect"] not in DIALECTS or any(not isinstance(ident[k], str) or not ident[k] for k in ("environmentId", "databaseId", "databaseVersion")):
+            raise ValueError("invalid target identity")
+        if not isinstance(ident["scope"], list) or not ident["scope"] or len(set(ident["scope"])) != len(ident["scope"]) or any(not isinstance(x,str) or not x for x in ident["scope"]):
             raise ValueError("invalid scope")
         if not isinstance(obj["snapshotFingerprint"],str) or not SHA.fullmatch(obj["snapshotFingerprint"]):
             raise ValueError("invalid snapshot fingerprint")
         if not isinstance(obj["normalizerVersion"],str) or not obj["normalizerVersion"]:
             raise ValueError("invalid normalizer")
-        if not isinstance(obj["evidence"],dict) or not all(k in obj["evidence"] for k in ("sourceCommit","collector","capturedAt")):
+        if not isinstance(obj["evidence"],dict) or set(obj["evidence"]) != {"sourceCommit","collector","capturedAt"}:
             raise ValueError("missing provenance")
+        ev = obj["evidence"]
+        if not isinstance(ev["sourceCommit"], str) or not COMMIT.fullmatch(ev["sourceCommit"]) or not isinstance(ev["collector"], str) or not ev["collector"] or not isinstance(ev["capturedAt"], str):
+            raise ValueError("invalid provenance")
+        try:
+            datetime.fromisoformat(ev["capturedAt"].replace("Z", "+00:00"))
+        except ValueError as exc:
+            raise ValueError("invalid capturedAt") from exc
     a,b=history_map(source["history"]),history_map(target["history"])
-    if source["identity"]["dialect"] != target["identity"]["dialect"] or source["identity"]["scope"] != target["identity"]["scope"] or source["normalizerVersion"] != target["normalizerVersion"]:
+    if source["identity"]["dialect"] != target["identity"]["dialect"] or source["identity"]["databaseVersion"] != target["identity"]["databaseVersion"] or sorted(source["identity"]["scope"]) != sorted(target["identity"]["scope"]) or source["normalizerVersion"] != target["normalizerVersion"]:
         state="unknown"
     elif any(a[k]!=b[k] for k in a.keys()&b.keys()):
         state="checksum_mismatch"
     elif a==b:
         state="equal" if source["snapshotFingerprint"]==target["snapshotFingerprint"] else "schema_drift"
-    elif set(b).issubset(a):
+    elif list(b.items()) == list(a.items())[:len(b)]:
         state="local_ahead"
-    elif set(a).issubset(b):
+    elif list(a.items()) == list(b.items())[:len(a)]:
         state="remote_ahead"
     elif source["snapshotFingerprint"]==target["snapshotFingerprint"]:
         state="history_mismatch"
