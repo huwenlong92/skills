@@ -51,6 +51,16 @@ def validate(doc):
     gate = doc.get("safetyGate")
     if not isinstance(gate, dict) or gate.get("status") != "blocked" or gate.get("executionAuthorized") is not False or gate.get("evidenceVerified") is not False:
         raise ValueError("invalid nested safety flags")
+    optional_gate = {
+        "reason": lambda v: isinstance(v, str),
+        "dataRisk": lambda v: v in ("unknown", "destructive") if isinstance(v, str) else False,
+        "dataSafetyStatus": lambda v: v in ("unknown", "blocked") if isinstance(v, str) else False,
+        "backupStatus": lambda v: v in ("evidence_required", "not_required") if isinstance(v, str) else False,
+        "recommendedBackup": lambda v: v is None or isinstance(v, str),
+    }
+    for field, predicate in optional_gate.items():
+        if field in gate and not predicate(gate[field]):
+            raise ValueError("invalid safety gate field: " + field)
     if not isinstance(doc["steps"], list) or any(not isinstance(x, dict) or set(x) != {"migrationId", "checksum", "risk"} or not isinstance(x["migrationId"], str) or not module._load_sibling("validate_history").MID.fullmatch(x["migrationId"]) or not isinstance(x["checksum"], str) or not sha.fullmatch(x["checksum"]) or x["risk"] != "requires_review" for x in doc["steps"]):
         raise ValueError("invalid steps")
     for step in doc["steps"]:
