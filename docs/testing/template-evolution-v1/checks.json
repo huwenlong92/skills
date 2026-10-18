@@ -1,0 +1,59 @@
+[
+  {
+    "command": "python3 -B scripts/test_template_evolution.py -v",
+    "exit_code": 0,
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 47 tests in 0.002s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "python3 -B skills/sdkit-skills/scripts/manager.py validate --all",
+    "exit_code": 0,
+    "tail": [
+      "validated 22 skills"
+    ]
+  },
+  {
+    "command": "python3 -B scripts/check_markdown_links.py",
+    "exit_code": 0,
+    "tail": [
+      "Markdown: 326 files, 1109 relative links, 2 anchors, 0 errors"
+    ]
+  },
+  {
+    "command": "python3 -B -m unittest discover -s skills/sdkit-skills/scripts -p test_*.py -v",
+    "exit_code": 0,
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 44 tests in 1.187s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "python3 -B -m unittest discover -s scripts -p test_*.py -v",
+    "exit_code": 0,
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 119 tests in 0.338s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "git diff --check 226465e...HEAD",
+    "exit_code": 0,
+    "tail": []
+  },
+  {
+    "command": "git diff --check",
+    "exit_code": 0,
+    "tail": []
+  }
+]

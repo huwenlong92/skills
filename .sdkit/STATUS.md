@@ -75,3 +75,15 @@ main `226465e5f951cc1f1394a1c91e4c3f682f822b83` 普通合入；唯一 AGENTS 冲
 ## PR #20 真实 Agent 续验（2026-10-18）
 
 [本轮报告](../docs/testing/git-collaboration-v1/REPORT.md)与[逐项证据](../docs/testing/git-collaboration-v1/agent-results.json)：用户自行在隔离 home 官方登录成功，19 次真实模型调用完成；最终 15 PASS / 0 FAIL / 1 BLOCKED（A05 无真实 PR Provider）。B01/B02 受控真实行为通过；三次首轮 .git 权限阻塞与新夹具重测均保留。最新 main 8777b036311349fef7a99cdf094c36fd7011c15c 普通合入，无冲突；保留 #21 的 Catalog/DBOps，不改其他 PR。Ready 条件未满足，全局 Git 规则暂不退出。最终 Commit/Push/Head 以交付查询为准，保持 Draft，不合并/部署/主动 CI。
+
+## PR #24 本地技术验收
+
+原有 28 与最终 47 项 Fixture 通过，9 个边界缺口已修复；全仓和 #20/#21 临时联合检查通过。[报告](../docs/testing/template-evolution-v1/final-local.md)。真实业务与 Agent 行为为 BLOCKED；最终 Push/Head/Draft 以 Provider 核验为准。
+
+## PR #24 最终安全同步
+
+本轮 main `8777b036311349fef7a99cdf094c36fd7011c15c` 普通合入 #24；唯一 Catalog 冲突三方核对解决，23 Skill、47 Fixture、44 Manager/迁移、119 scripts、11 DBOPS 通过。#20 仅隔离组合验证，Orchestration 未提前合入。[报告](../docs/testing/template-evolution-v1/main-sync.md)。最终 Commit/Push/Draft/Head/Base/mergeable 以实际核验为准。
+
+## PR #20 · #24 合入 main 后的最终集成
+
+main 已前进到 957c5e49a53acc8343b09a4a875a430db57deac2；普通合入，三个共享状态文件冲突逐项保留双方内容，Orchestration 为新 main 加原有 Git 入口。19 次模型结果保留，最终 15 PASS/0 FAIL/1 BLOCKED（A05 Provider）；Git 门禁语义未改。最新静态/链接/Manager 与模板47场景回归见本轮报告，保持 Draft，不合并或部署。

@@ -1,0 +1,61 @@
+{
+  "kind": "temporary-composition-only",
+  "pr20_head": "dbf71b252cefe799625cb7b81bde95b2beb783ab",
+  "overlaid_files": [
+    "AGENTS.md",
+    "standards/git-collaboration.md",
+    "standards/skill-orchestration.md",
+    "standards/development-execution.md",
+    "standards/collaboration-awareness.md",
+    "skills/foundry/references/publishing.md",
+    "skills/wikiops/references/repository.md",
+    "scripts/test_git_collaboration.py",
+    "scripts/test_git_collaboration_cli.py"
+  ],
+  "checks": [
+    {
+      "command": "python3 -B scripts/test_git_collaboration.py -v",
+      "exit_code": 0,
+      "summary": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 9 tests in 0.001s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 -B scripts/test_git_collaboration_cli.py -v",
+      "exit_code": 0,
+      "summary": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 20 tests in 7.512s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 -B scripts/test_template_evolution.py -v",
+      "exit_code": 0,
+      "summary": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 47 tests in 0.002s",
+        "",
+        "OK"
+      ]
+    },
+    {
+      "command": "python3 -B -m unittest discover -s skills/sdkit-dbops/tests -v",
+      "exit_code": 0,
+      "summary": [
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 11 tests in 0.016s",
+        "",
+        "OK"
+      ]
+    }
+  ]
+}

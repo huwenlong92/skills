@@ -77,3 +77,15 @@ main `226465e5f951cc1f1394a1c91e4c3f682f822b83` 普通合入；唯一 AGENTS 冲
 ## PR #20 真实 Agent 续验（2026-10-18）
 
 [本轮报告](../docs/testing/git-collaboration-v1/REPORT.md)与[逐项证据](../docs/testing/git-collaboration-v1/agent-results.json)：用户自行在隔离 home 官方登录成功，19 次真实模型调用完成；最终 15 PASS / 0 FAIL / 1 BLOCKED（A05 无真实 PR Provider）。B01/B02 受控真实行为通过；三次首轮 .git 权限阻塞与新夹具重测均保留。最新 main 8777b036311349fef7a99cdf094c36fd7011c15c 普通合入，无冲突；保留 #21 的 Catalog/DBOps，不改其他 PR。Ready 条件未满足，全局 Git 规则暂不退出。最终 Commit/Push/Head 以交付查询为准，保持 Draft，不合并/部署/主动 CI。
+
+## PR #24 Template Evolution V1
+
+[验收报告](../docs/testing/template-evolution-v1/final-local.md)与[计划](plans/pr24-final-local.md)记录命令、数量、边界及恢复入口。保持 Draft，仅授权 #24 修复与普通 Push；未授权合并、部署或业务 Apply。#20 Orchestration 与 #21 Catalog 同路径 L2，联合测试仅在临时目录完成。
+
+## PR #24 最终同步恢复入口
+
+读取[本轮计划](plans/pr24-main-sync.md)与[同步报告](../docs/testing/template-evolution-v1/main-sync.md)，核对实际 Git 与 Provider。只允许 #24 普通合入 main、精确提交/普通 Push；保持 Draft/Open。原协议、测试、报告保留，真实业务/Agent 行为测试 BLOCKED；不得修改其他 Worktree 或提前合入 #20。
+
+## PR #20 · #24 合入 main 后的最终集成
+
+main 已前进到 957c5e49a53acc8343b09a4a875a430db57deac2；普通合入，三个共享状态文件冲突逐项保留双方内容，Orchestration 为新 main 加原有 Git 入口。19 次模型结果保留，最终 15 PASS/0 FAIL/1 BLOCKED（A05 Provider）；Git 门禁语义未改。最新静态/链接/Manager 与模板47场景回归见本轮报告，保持 Draft，不合并或部署。

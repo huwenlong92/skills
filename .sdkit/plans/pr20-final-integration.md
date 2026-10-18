@@ -34,3 +34,5 @@ Primary：sdkit-skills；命中管理流程、Foundry publishing、WikiOps repos
 A01–A16 使用独立虚构仓库，原始 JSONL/会话标识只留本地。脚本断言和模型自述均不能代替人工工具审查。A05 若缺真实 Provider 创建能力，必须 BLOCKED；不使用模拟 Provider 冒称 PR 已创建。后续阶段以新报告和逐项证据为准，禁止 Ready/Merge/部署/主动 CI。
 
 Revision 2 阶段记录：真实模型 19 次均退出 0 且完成；最终 15 PASS/0 FAIL/1 BLOCKED（A05 Provider）。A02/A03/A04 首轮环境阻塞保留，新夹具精确权限重测通过。main 前进到 8777b036311349fef7a99cdf094c36fd7011c15c，普通 Merge 无冲突；共享 Git 语义未改。真实行为阶段 implemented，A05 条件缺失，不得标整体 verified；Commit/Push 最终状态以交付读回为准。
+
+Revision 2 · 并发 main 第二次前进：#24 合入到 957c5e49a53acc8343b09a4a875a430db57deac2。先保存 #21/真实证据 Merge Commit 938d61662452044e3b421f2e4e072ce9d5331c04，再普通合入新 main。三份状态文件冲突审查 Base/Ours/Theirs 后保留双方；Orchestration 校验为新 main 原文加原 Git 入口。只重跑受影响静态/模板/Catalog 检查；Git 场景模型证据不因无关模板路由增量失效，不重复模型调用。

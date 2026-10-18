@@ -51,11 +51,11 @@ A11 在临时本地 bare 端点不可用时制造真实 Git Push 失败，再恢
 
 测试开始基线为 PR Head `dbf71b252cefe799625cb7b81bde95b2beb783ab`，main `226465e5f951cc1f1394a1c91e4c3f682f822b83`。交付前 main 前进并合入 #21 到 **`8777b036311349fef7a99cdf094c36fd7011c15c`**；已普通 Merge，无冲突，无 Rebase/历史重写。#21 的 Catalog、22 个 Skill 与新增 DBOps 静态内容按 main 保留，不连接数据库。
 
-本次模型所读取的 Git/Bootstrap/Orchestration 等公开协议与 dbf71b2、最新 main 的原有对应内容未发生新的语义修改，模型结果不因 #21 的新增独立目录失效。专题 A 的规则及证据保全检查见 [本轮保全](agent-preservation.json)。
+Git/Bootstrap/Execution/Awareness 与 Foundry/WikiOps 条款未改；Orchestration 仅整合 #24 的模板路由增量，Git 操作、授权与失败门禁原字节保留。A01–A16 不涉及模板身份或升级任务，模型证据据此复用，不重测无关模型场景。专题 A 的规则及证据保全检查见 [本轮保全](agent-preservation.json)。
 
-当前 #24 在 Orchestration 和共享 STATUS/HANDOFF/TASKS 为 L2；已审查其文件集合，不引入该开放 PR。新增 #25 仅命中 DBOps 专属文件和独立计划，无本轮目标重叠。#22 无本轮目标重叠。未来联合合并仍需各自核验。
+交付过程中 #24 已合入 main `957c5e49a53acc8343b09a4a875a430db57deac2`，随后普通整合到本 PR；3 个共享状态文件冲突逐项保留 Base/Ours/Theirs 有效内容，Orchestration 自动合并后核对为最新 main 原文加原有 Git 入口。新增 #25 仅命中 DBOps 专属文件和独立计划，无本轮目标重叠。#22 无本轮目标重叠。未来联合合并仍需各自核验。
 
-[本轮回归](agent-regression.json)：只重跑命中协议、Bootstrap、Manager、新 main DBOps 及 G01–G20，不重复无变化的全仓 263 项历史验收。实际命令、数量和退出码在 JSON：本轮 140 unittest 全通过（含 G01–G20），全部退出 0；Manager 22 Skill 通过；最终 324 Markdown、1140 相对链接、2 锚点、0 错误；敏感信息/个人路径/会话标识扫描及 git diff --check 通过，结果见 agent-final-checks.json。没有主动 CI。
+[本轮回归](agent-regression.json)：只重跑命中协议、Bootstrap、Manager、新 main DBOps 及 G01–G20，不重复无变化的全仓 263 项历史验收。实际命令、数量和退出码在 JSON：本轮 140 unittest 全通过（含 G01–G20），全部退出 0；Manager 22 Skill 通过；在 #21 集成时为 324 Markdown、1140 相对链接、2 锚点、0 错误；#24 集成后的最新回归和链接数量另见 post-template-integration.json；敏感信息/个人路径/会话标识扫描及 git diff --check 通过，结果见 agent-final-checks.json。最新 #24 集成回归为 117 unittest 全通过，Manager 23 Skill 通过；Markdown 最终数量以 post-template-integration.json 为准。没有主动 CI。
 
 ## 门禁与交付
 

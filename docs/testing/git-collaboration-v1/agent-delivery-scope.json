@@ -1,6 +1,6 @@
 {
   "baseline_pr": "dbf71b252cefe799625cb7b81bde95b2beb783ab",
-  "main": "8777b036311349fef7a99cdf094c36fd7011c15c",
+  "main": "957c5e49a53acc8343b09a4a875a430db57deac2",
   "task_files": [
     ".sdkit/DECISIONS.md",
     ".sdkit/HANDOFF.md",
@@ -34,11 +34,28 @@
     "docs/testing/git-collaboration-v1/cases/A15.json",
     "docs/testing/git-collaboration-v1/cases/A16.json",
     "docs/testing/git-collaboration-v1/isolation-results.json",
+    "docs/testing/git-collaboration-v1/post-template-integration.json",
     "docs/testing/git-collaboration-v1/run_agent.py"
   ],
   "main_integration_files_preserved": [
+    ".sdkit/HANDOFF.md",
+    ".sdkit/STATUS.md",
+    ".sdkit/TASKS.md",
     ".sdkit/plans/dbops-pr-a.md",
+    ".sdkit/plans/pr24-final-local.md",
+    ".sdkit/plans/pr24-main-sync.md",
     "catalog.json",
+    "docs/testing/template-evolution-v1/check_main_sync.py",
+    "docs/testing/template-evolution-v1/checks.json",
+    "docs/testing/template-evolution-v1/compatibility.json",
+    "docs/testing/template-evolution-v1/final-local.md",
+    "docs/testing/template-evolution-v1/main-sync-catalog.json",
+    "docs/testing/template-evolution-v1/main-sync-compatibility.json",
+    "docs/testing/template-evolution-v1/main-sync-results.json",
+    "docs/testing/template-evolution-v1/main-sync.md",
+    "docs/testing/template-evolution-v1/sensitive.json",
+    "scripts/template_evolution_protocol.py",
+    "scripts/test_template_evolution.py",
     "skills/sdkit-dbops/SKILL.md",
     "skills/sdkit-dbops/references/architecture.md",
     "skills/sdkit-dbops/references/migration-files.md",
@@ -48,7 +65,18 @@
     "skills/sdkit-dbops/schemas/project-config.schema.json",
     "skills/sdkit-dbops/scripts/check_migrations.py",
     "skills/sdkit-dbops/tests/test_config.py",
-    "skills/sdkit-dbops/tests/test_migrations.py"
+    "skills/sdkit-dbops/tests/test_migrations.py",
+    "skills/sdkit-templateops/README.md",
+    "skills/sdkit-templateops/SKILL.md",
+    "skills/sdkit-templateops/references/collaboration.md",
+    "skills/sdkit-templateops/references/dependencies.md",
+    "skills/sdkit-templateops/references/diff.md",
+    "skills/sdkit-templateops/references/identity.md",
+    "skills/sdkit-templateops/references/recovery.md",
+    "skills/sdkit-templateops/references/testing.md",
+    "skills/sdkit-templateops/references/toolchain.md",
+    "skills/sdkit-templateops/references/upgrade.md",
+    "standards/skill-orchestration.md"
   ],
   "final_pr_files_relative_main": [
     ".sdkit/DECISIONS.md",
@@ -88,6 +116,7 @@
     "docs/testing/git-collaboration-v1/initial-local-results.json",
     "docs/testing/git-collaboration-v1/isolation-results.json",
     "docs/testing/git-collaboration-v1/local-results.json",
+    "docs/testing/git-collaboration-v1/post-template-integration.json",
     "docs/testing/git-collaboration-v1/review.json",
     "docs/testing/git-collaboration-v1/run_agent.py",
     "docs/testing/git-collaboration-v1/run_local.py",
@@ -101,5 +130,9 @@
     "standards/git-collaboration.md",
     "standards/skill-orchestration.md"
   ],
-  "state": "15 PASS / 0 FAIL / 1 BLOCKED; keep Draft"
+  "state": "15 PASS / 0 FAIL / 1 BLOCKED; keep Draft",
+  "main_integrations": [
+    "8777b036311349fef7a99cdf094c36fd7011c15c",
+    "957c5e49a53acc8343b09a4a875a430db57deac2"
+  ]
 }

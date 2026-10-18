@@ -308,5 +308,7 @@
     "cases/A04-initial.json"
   ],
   "ready_technical_conditions": false,
-  "remaining_blocker": "A05 缺真实 PR Provider 创建能力；未用模拟成功替代。"
+  "remaining_blocker": "A05 缺真实 PR Provider 创建能力；未用模拟成功替代。",
+  "subsequent_main_integration": "957c5e49a53acc8343b09a4a875a430db57deac2",
+  "reuse_reason": "#24 增量仅影响模板路由，Git 授权/状态/失败门禁保留，A01–A16 无模板任务；无需重复模型。"
 }
