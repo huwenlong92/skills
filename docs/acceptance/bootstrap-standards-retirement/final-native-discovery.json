@@ -1,0 +1,41 @@
+{
+  "independent_install_update": 21,
+  "native_discovery": [
+    {
+      "scope": "primary",
+      "expected_count": 16,
+      "found": [
+        "dockerops",
+        "foundry",
+        "npmops",
+        "sdbase-admin-lite",
+        "sdbase-flutter-app",
+        "sdbase-go",
+        "sdbase-lite",
+        "sdbase-nuxtjs-portal",
+        "sdbase-vab-admin",
+        "sdenv",
+        "sdkit-go-core",
+        "sdkit-rust-core",
+        "sdkit-skills",
+        "sdkit-ui-design",
+        "swops",
+        "wikiops"
+      ],
+      "errors": []
+    },
+    {
+      "scope": "legacy",
+      "expected_count": 5,
+      "found": [
+        "nuxtjs",
+        "rust-sdcore",
+        "sdkit",
+        "sdkitgo",
+        "vab-admin"
+      ],
+      "errors": []
+    }
+  ],
+  "model_calls": 0
+}

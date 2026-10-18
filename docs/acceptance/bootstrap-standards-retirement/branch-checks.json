@@ -1,0 +1,48 @@
+[
+  {
+    "branch_workspace": "sdkit-pr14-review",
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "skills/sdkit-skills/scripts",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit": 0,
+    "result": "categories (test_migration.MigrationTests.test_target_catalog_categories) ... ok\n\n----------------------------------------------------------------------\nRan 44 tests in 0.905s\n\nOK\n"
+  },
+  {
+    "branch_workspace": "sdkit-pr14-review",
+    "command": [
+      "python3",
+      "skills/sdkit-skills/scripts/manager.py",
+      "validate",
+      "--all"
+    ],
+    "exit": 0,
+    "result": "validated 20 skills\n"
+  },
+  {
+    "branch_workspace": "sdkit-pr14-review",
+    "command": [
+      "python3",
+      "scripts/check_markdown_links.py"
+    ],
+    "exit": 0,
+    "result": "Markdown: 260 files, 909 relative links, 2 anchors, 0 errors\n"
+  },
+  {
+    "branch_workspace": "sdkit-pr14-review",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit": 0,
+    "result": ""
+  }
+]

@@ -52,3 +52,7 @@
 涉及 Skill 的自动选择、跨 Skill 协作或能力降级时，必须遵守 [Skill Orchestration V1](standards/skill-orchestration.md)。涉及多阶段、跨会话或高风险开发任务时，必须遵守 [Development Execution V1](standards/development-execution.md) 的计划基线、阶段验收与偏差门禁。两份协议不取代各 Skill 自身规则，不构成额外的提交、合并、数据库写入或部署授权。
 
 任务恢复入口：[当前状态](.sdkit/STATUS.md)、[任务与计划](.sdkit/TASKS.md)、[已确认决策](.sdkit/DECISIONS.md)、[验收交接](.sdkit/HANDOFF.md)。状态记录必须与实际 Git 和测试证据核对。
+
+## Project Skill Bootstrap
+
+使用 Skill 进入业务项目时，按 [Project Skill Bootstrap V1](standards/project-skill-bootstrap.md) 优先使用 Agent 原生发现和 Codex 全局入口；默认只读检查，不批量修改业务项目。项目级 AGENTS.md 仅在身份已核实、当前任务明确授权且必要时补齐。全局配置修改同样需要独立授权和可恢复备份。

@@ -1,0 +1,24 @@
+[
+  {
+    "pr": 16,
+    "main_before": "8c049239ef90a6b4215ba425cef439168cb43dd2",
+    "approved_head": "2fa66f6b8e7d31d8239b2a33072e388438e7cc54",
+    "squash_commit": "a874524db55edae7bd7d9613b74a1d03ac6ff8b4",
+    "merged": true,
+    "state": "closed",
+    "main_after": "a874524db55edae7bd7d9613b74a1d03ac6ff8b4",
+    "single_parent_is_previous_main": true,
+    "squash_tree_equals_approved_head": true
+  },
+  {
+    "pr": 15,
+    "main_before": "a874524db55edae7bd7d9613b74a1d03ac6ff8b4",
+    "approved_head": "bd86d1ffe1bbed83ee8e40c8b5c2ec3ca6bf7d0b",
+    "squash_commit": "3c425efde5b913070dc41348630806070882c5c6",
+    "merged": true,
+    "state": "closed",
+    "main_after": "3c425efde5b913070dc41348630806070882c5c6",
+    "single_parent_is_previous_main": true,
+    "squash_tree_equals_approved_head": true
+  }
+]
