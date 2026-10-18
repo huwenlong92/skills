@@ -1,0 +1,16 @@
+{
+  "main": "8777b036311349fef7a99cdf094c36fd7011c15c",
+  "main_files_outside_original_pr_scope_byte_identical": 460,
+  "unexpected_changes": [],
+  "source_unchanged_since_dbf71b2": {
+    "AGENTS.md": true,
+    "standards/git-collaboration.md": true,
+    "standards/project-skill-bootstrap.md": true,
+    "standards/skill-orchestration.md": true,
+    "standards/development-execution.md": true,
+    "standards/collaboration-awareness.md": true,
+    "skills/foundry/references/publishing.md": true,
+    "skills/wikiops/references/repository.md": true
+  },
+  "git_cli_test_source_unchanged": true
+}

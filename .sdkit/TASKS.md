@@ -14,6 +14,8 @@
 | pr17-topic-a-final | verified | docs/go-standards-retirement-20261018 / PR #17 | [最终集成](plans/pr17-topic-a-final.md) |
 | topic-a-authorized-squash | in_progress（#16/#15已合并，#14最终门禁） | feat/project-skill-bootstrap-v1 / PR #14 | [执行契约](plans/topic-a-authorized-squash.md) |
 
+| pr20-final-integration | verified（真实 Agent 16 PASS；保持 Draft） | feat/git-collaboration-v1-20261018 / PR #20 | [计划](plans/pr20-final-integration.md) |
+
 | pr24-final-local | verified（本地协议） | feat/template-evolution-v1 / PR #24 | [计划](plans/pr24-final-local.md) |
 
 | pr24-main-sync | verified（本地回归） | feat/template-evolution-v1 / PR #24 | [同步计划](plans/pr24-main-sync.md) |

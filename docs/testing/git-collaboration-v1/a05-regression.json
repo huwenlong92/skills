@@ -1,0 +1,105 @@
+{
+  "commands": [
+    {
+      "command": "python3 scripts/test_a05_provider.py -v",
+      "exit_code": 0,
+      "tests": 19,
+      "output": "test_api_secret_or_other_repo_is_denied (__main__.ProviderGate.test_api_secret_or_other_repo_is_denied) ... ok\ntest_api_write_is_denied (__main__.ProviderGate.test_api_write_is_denied) ... ok\ntest_authorized_draft_shape (__main__.ProviderGate.test_authorized_draft_shape) ... ok\ntest_credential_export_is_denied (__main__.ProviderGate.test_credential_export_is_denied) ... ok\ntest_denied_request_never_invokes_real_gh (__main__.ProviderGate.test_denied_request_never_invokes_real_gh) ... ok\ntest_duplicate_repository_is_denied (__main__.ProviderGate.test_duplicate_repository_is_denied) ... ok\ntest_embedded_client_is_valid_python (__main__.ProviderGate.test_embedded_client_is_valid_python) ... ok\ntest_host_body_file_is_not_read_by_broker (__main__.ProviderGate.test_host_body_file_is_not_read_by_broker) ... ok\ntest_invalid_argument_types_are_denied (__main__.ProviderGate.test_invalid_argument_types_are_denied) ... ok\ntest_merge_and_ready_are_denied (__main__.ProviderGate.test_merge_and_ready_are_denied) ... ok\ntest_missing_explicit_content_is_denied (__main__.ProviderGate.test_missing_explicit_content_is_denied) ... ok\ntest_non_draft_is_denied (__main__.ProviderGate.test_non_draft_is_denied) ... ok\ntest_other_base_is_denied (__main__.ProviderGate.test_other_base_is_denied) ... ok\ntest_other_commands_are_denied (__main__.ProviderGate.test_other_commands_are_denied) ... ok\ntest_other_head_is_denied (__main__.ProviderGate.test_other_head_is_denied) ... ok\ntest_other_repository_is_denied (__main__.ProviderGate.test_other_repository_is_denied) ... ok\ntest_pr_view_is_bound_to_repo (__main__.ProviderGate.test_pr_view_is_bound_to_repo) ... ok\ntest_read_only_ref_is_allowed (__main__.ProviderGate.test_read_only_ref_is_allowed) ... ok\ntest_second_create_is_denied (__main__.ProviderGate.test_second_create_is_denied) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 0.008s\n\nOK\n"
+    },
+    {
+      "command": "python3 scripts/test_git_collaboration.py -v",
+      "exit_code": 0,
+      "tests": 9,
+      "output": "test_bootstrap_coexists (__main__.GitCollaborationContract.test_bootstrap_coexists) ... ok\ntest_git_init_safety (__main__.GitCollaborationContract.test_git_init_safety) ... ok\ntest_integration_links (__main__.GitCollaborationContract.test_integration_links) ... ok\ntest_protocol_sections (__main__.GitCollaborationContract.test_protocol_sections) ... ok\ntest_reference_completion_remains_last (__main__.GitCollaborationContract.test_reference_completion_remains_last) ... ok\ntest_relative_links (__main__.GitCollaborationContract.test_relative_links) ... ok\ntest_remote_authorization (__main__.GitCollaborationContract.test_remote_authorization) ... ok\ntest_safety_invariants (__main__.GitCollaborationContract.test_safety_invariants) ... ok\ntest_standalone_skills (__main__.GitCollaborationContract.test_standalone_skills) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "command": "python3 scripts/test_engineering_protocols.py -v",
+      "exit_code": 0,
+      "tests": 17,
+      "output": "test_agent_entrypoints (__main__.ProtocolTests.test_agent_entrypoints) ... ok\ntest_capability_and_authorization_separated (__main__.ProtocolTests.test_capability_and_authorization_separated) ... ok\ntest_checkpoints (__main__.ProtocolTests.test_checkpoints) ... ok\ntest_collaboration_guardrail_is_reused (__main__.ProtocolTests.test_collaboration_guardrail_is_reused) ... ok\ntest_deviations (__main__.ProtocolTests.test_deviations) ... ok\ntest_local_relative_links (__main__.ProtocolTests.test_local_relative_links) ... ok\ntest_long_task_recovery (__main__.ProtocolTests.test_long_task_recovery) ... ok\ntest_negative_triggers (__main__.ProtocolTests.test_negative_triggers) ... ok\ntest_no_unapproved_execution (__main__.ProtocolTests.test_no_unapproved_execution) ... ok\ntest_parallel_skill_migration_compatibility (__main__.ProtocolTests.test_parallel_skill_migration_compatibility) ... ok\ntest_persistent_state_compatibility (__main__.ProtocolTests.test_persistent_state_compatibility) ... ok\ntest_plan_change_does_not_imply_approval (__main__.ProtocolTests.test_plan_change_does_not_imply_approval) ... ok\ntest_plan_is_persistent_and_immutable_baseline (__main__.ProtocolTests.test_plan_is_persistent_and_immutable_baseline) ... ok\ntest_protocols_exist (__main__.ProtocolTests.test_protocols_exist) ... ok\ntest_selection_contract (__main__.ProtocolTests.test_selection_contract) ... ok\ntest_stage_gates_and_scope_change (__main__.ProtocolTests.test_stage_gates_and_scope_change) ... ok\ntest_verification_requires_actual_evidence (__main__.ProtocolTests.test_verification_requires_actual_evidence) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.013s\n\nOK\n"
+    },
+    {
+      "command": "python3 scripts/test_git_collaboration_cli.py -v",
+      "exit_code": 0,
+      "tests": 20,
+      "output": "test_G01_main (__main__.GitCLI.test_G01_main) ... ok\ntest_G02_fast_forward (__main__.GitCLI.test_G02_fast_forward) ... ok\ntest_G03_ahead_push (__main__.GitCLI.test_G03_ahead_push) ... ok\ntest_G04_diverged (__main__.GitCLI.test_G04_diverged) ... ok\ntest_G05_dirty (__main__.GitCLI.test_G05_dirty) ... ok\ntest_G06_untracked (__main__.GitCLI.test_G06_untracked) ... ok\ntest_G07_upstream_missing (__main__.GitCLI.test_G07_upstream_missing) ... ok\ntest_G08_worktree (__main__.GitCLI.test_G08_worktree) ... ok\ntest_G09_parallel (__main__.GitCLI.test_G09_parallel) ... ok\ntest_G10_merge_recovery (__main__.GitCLI.test_G10_merge_recovery) ... ok\ntest_G11_rebase_recovery (__main__.GitCLI.test_G11_rebase_recovery) ... ok\ntest_G12_cherry_pick_recovery (__main__.GitCLI.test_G12_cherry_pick_recovery) ... ok\ntest_G13_rewritten_remote (__main__.GitCLI.test_G13_rewritten_remote) ... ok\ntest_G14_push_rejected (__main__.GitCLI.test_G14_push_rejected) ... ok\ntest_G15_transport_failure (__main__.GitCLI.test_G15_transport_failure) ... ok\ntest_G16_cleanup_gate (__main__.GitCLI.test_G16_cleanup_gate) ... ok\ntest_G17_existing_init (__main__.GitCLI.test_G17_existing_init) ... ok\ntest_G18_parent_nested (__main__.GitCLI.test_G18_parent_nested) ... ok\ntest_G19_unauthorized_remote (__main__.GitCLI.test_G19_unauthorized_remote) ... ok\ntest_G20_authorized_remote (__main__.GitCLI.test_G20_authorized_remote) ... ok\n\n----------------------------------------------------------------------\nRan 20 tests in 7.377s\n\nOK\n"
+    },
+    {
+      "command": "python3 skills/sdkit-skills/scripts/test_manager.py -v",
+      "exit_code": 0,
+      "tests": 37,
+      "output": "test_broken_link (__main__.ManagerTests.test_broken_link) ... ok\ntest_catalog_duplicate_stale_and_unknown_category (__main__.ManagerTests.test_catalog_duplicate_stale_and_unknown_category) ... ok\ntest_catalog_mismatch (__main__.ManagerTests.test_catalog_mismatch) ... ok\ntest_catalog_replace_failure_preserves_bytes (__main__.ManagerTests.test_catalog_replace_failure_preserves_bytes) ... ok\ntest_catalog_symlink_rejected (__main__.ManagerTests.test_catalog_symlink_rejected) ... ok\ntest_create (__main__.ManagerTests.test_create) ... ok\ntest_create_catalog_replace_failure_rolls_back (__main__.ManagerTests.test_create_catalog_replace_failure_rolls_back) ... ok\ntest_create_duplicate (__main__.ManagerTests.test_create_duplicate) ... ok\ntest_create_existing_lock_is_preserved (__main__.ManagerTests.test_create_existing_lock_is_preserved) ... ok\ntest_create_invalid_name (__main__.ManagerTests.test_create_invalid_name) ... ok\ntest_failed_restore_with_existing_destination_preserves_backup (__main__.ManagerTests.test_failed_restore_with_existing_destination_preserves_backup) ... ok\ntest_frontmatter_identity_and_extra_fields (__main__.ManagerTests.test_frontmatter_identity_and_extra_fields) ... ok\ntest_install_and_update (__main__.ManagerTests.test_install_and_update) ... ok\ntest_install_copy_failure_leaves_no_destination (__main__.ManagerTests.test_install_copy_failure_leaves_no_destination) ... ok\ntest_install_does_not_replace_directory_appearing_during_copy (__main__.ManagerTests.test_install_does_not_replace_directory_appearing_during_copy) ... ok\ntest_install_existing_lock_is_preserved (__main__.ManagerTests.test_install_existing_lock_is_preserved) ... ok\ntest_install_no_overwrite (__main__.ManagerTests.test_install_no_overwrite) ... ok\ntest_install_record_matches_source (__main__.ManagerTests.test_install_record_matches_source) ... ok\ntest_install_rejects_symlink (__main__.ManagerTests.test_install_rejects_symlink) ... ok\ntest_install_source_change_during_copy (__main__.ManagerTests.test_install_source_change_during_copy) ... ok\ntest_install_source_destination_overlap (__main__.ManagerTests.test_install_source_destination_overlap) ... ok\ntest_markdown_code_is_not_a_link (__main__.ManagerTests.test_markdown_code_is_not_a_link) ... ok\ntest_markdown_link_forms (__main__.ManagerTests.test_markdown_link_forms) ... ok\ntest_reserved_source_record_rejected (__main__.ManagerTests.test_reserved_source_record_rejected) ... ok\ntest_source_parent_symlink_rejected (__main__.ManagerTests.test_source_parent_symlink_rejected) ... ok\ntest_target_symlink_parent_rejected (__main__.ManagerTests.test_target_symlink_parent_rejected) ... ok\ntest_update_failed_restore_preserves_backup (__main__.ManagerTests.test_update_failed_restore_preserves_backup) ... ok\ntest_update_preserves_changes_during_copy (__main__.ManagerTests.test_update_preserves_changes_during_copy) ... ok\ntest_update_preserves_local_changes (__main__.ManagerTests.test_update_preserves_local_changes) ... ok\ntest_update_rejects_extra_empty_directory (__main__.ManagerTests.test_update_rejects_extra_empty_directory) ... ok\ntest_update_rejects_extra_file (__main__.ManagerTests.test_update_rejects_extra_file) ... ok\ntest_update_rejects_malformed_record (__main__.ManagerTests.test_update_rejects_malformed_record) ... ok\ntest_update_rejects_non_object_record (__main__.ManagerTests.test_update_rejects_non_object_record) ... ok\ntest_update_rejects_symlinked_record_and_installed_file (__main__.ManagerTests.test_update_rejects_symlinked_record_and_installed_file) ... ok\ntest_update_rename_failure_restores_original (__main__.ManagerTests.test_update_rename_failure_restores_original) ... ok\ntest_update_requires_record_and_existing_installation (__main__.ManagerTests.test_update_requires_record_and_existing_installation) ... ok\ntest_validate (__main__.ManagerTests.test_validate) ... ok\n\n----------------------------------------------------------------------\nRan 37 tests in 0.130s\n\nOK\n"
+    },
+    {
+      "command": "python3 -m unittest discover -s skills/sdkit-dbops/tests -v",
+      "exit_code": 0,
+      "tests": 44,
+      "output": "test_duplicate_scope (test_baseline.BaselineTests.test_duplicate_scope) ... ok\ntest_integer_checksum_rejected (test_baseline.BaselineTests.test_integer_checksum_rejected) ... ok\ntest_integer_fingerprint_rejected (test_baseline.BaselineTests.test_integer_fingerprint_rejected) ... ok\ntest_invalid_checksum (test_baseline.BaselineTests.test_invalid_checksum) ... ok\ntest_schema_contract (test_baseline.BaselineTests.test_schema_contract) ... ok\ntest_unknown_dialect (test_baseline.BaselineTests.test_unknown_dialect) ... ok\ntest_unknown_field (test_baseline.BaselineTests.test_unknown_field) ... ok\ntest_valid_descriptor_does_not_adopt (test_baseline.BaselineTests.test_valid_descriptor_does_not_adopt) ... ok\ntest_schemas_are_valid_json (test_config.ConfigTests.test_schemas_are_valid_json) ... ok\ntest_skill_entry (test_config.ConfigTests.test_skill_entry) ... ok\ntest_scope_unknown (test_drift.DriftTests.test_scope_unknown) ... ok\ntest_duplicate (test_history.HistoryTests.test_duplicate) ... ok\ntest_integer_checksum_rejected (test_history.HistoryTests.test_integer_checksum_rejected) ... ok\ntest_invalid_attempt (test_history.HistoryTests.test_invalid_attempt) ... ok\ntest_invalid_date (test_history.HistoryTests.test_invalid_date) ... ok\ntest_missing_attempt_status (test_history.HistoryTests.test_missing_attempt_status) ... ok\ntest_unknown_history_field (test_history.HistoryTests.test_unknown_history_field) ... ok\ntest_unknown_migration_field (test_history.HistoryTests.test_unknown_migration_field) ... ok\ntest_unrecognized_attempt_status (test_history.HistoryTests.test_unrecognized_attempt_status) ... ok\ntest_unresolved (test_history.HistoryTests.test_unresolved) ... ok\ntest_valid (test_history.HistoryTests.test_valid) ... ok\ntest_cross_dialect_collision (test_migrations.MigrationTests.test_cross_dialect_collision) ... ok\ntest_invalid_filename (test_migrations.MigrationTests.test_invalid_filename) ... ok\ntest_invalid_timestamp (test_migrations.MigrationTests.test_invalid_timestamp) ... ok\ntest_multi_dialect (test_migrations.MigrationTests.test_multi_dialect) ... ok\ntest_parent_symlink_rejected (test_migrations.MigrationTests.test_parent_symlink_rejected) ... ok\ntest_sibling_dialect_file_symlink_rejected (test_migrations.MigrationTests.test_sibling_dialect_file_symlink_rejected) ... ok\ntest_sibling_dialect_parent_symlink_rejected (test_migrations.MigrationTests.test_sibling_dialect_parent_symlink_rejected) ... ok\ntest_symlink_rejected (test_migrations.MigrationTests.test_symlink_rejected) ... ok\ntest_valid_file_and_hash (test_migrations.MigrationTests.test_valid_file_and_hash) ... ok\ntest_boolean_number_distinction (test_snapshot.SnapshotTests.test_boolean_number_distinction) ... ok\ntest_drift (test_snapshot.SnapshotTests.test_drift) ... ok\ntest_duplicate (test_snapshot.SnapshotTests.test_duplicate) ... ok\ntest_incomplete (test_snapshot.SnapshotTests.test_incomplete) ... ok\ntest_infinity_rejected (test_snapshot.SnapshotTests.test_infinity_rejected) ... ok\ntest_integer_float_distinction (test_snapshot.SnapshotTests.test_integer_float_distinction) ... ok\ntest_invalid_attributes (test_snapshot.SnapshotTests.test_invalid_attributes) ... ok\ntest_nan_rejected (test_snapshot.SnapshotTests.test_nan_rejected) ... ok\ntest_normalizer (test_snapshot.SnapshotTests.test_normalizer) ... ok\ntest_order_independent (test_snapshot.SnapshotTests.test_order_independent) ... ok\ntest_signed_zero_distinction (test_snapshot.SnapshotTests.test_signed_zero_distinction) ... ok\ntest_unknown_coverage_field (test_snapshot.SnapshotTests.test_unknown_coverage_field) ... ok\ntest_unknown_object_field (test_snapshot.SnapshotTests.test_unknown_object_field) ... ok\ntest_unknown_snapshot_field (test_snapshot.SnapshotTests.test_unknown_snapshot_field) ... ok\n\n----------------------------------------------------------------------\nRan 44 tests in 0.020s\n\nOK\n"
+    },
+    {
+      "command": "python3 skills/sdkit-skills/scripts/manager.py validate --all",
+      "exit_code": 0,
+      "tests": null,
+      "output": "validated 23 skills\n"
+    },
+    {
+      "command": "python3 scripts/check_markdown_links.py",
+      "exit_code": 0,
+      "tests": null,
+      "output": "Markdown: 346 files, 1178 relative links, 2 anchors, 0 errors\n"
+    }
+  ],
+  "initial_failures": [
+    {
+      "command": "python3 scripts/test_engineering_protocols.py -v",
+      "exit_code": 0,
+      "tests": 17,
+      "output": "test_agent_entrypoints (__main__.ProtocolTests.test_agent_entrypoints) ... ok\ntest_capability_and_authorization_separated (__main__.ProtocolTests.test_capability_and_authorization_separated) ... ok\ntest_checkpoints (__main__.ProtocolTests.test_checkpoints) ... ok\ntest_collaboration_guardrail_is_reused (__main__.ProtocolTests.test_collaboration_guardrail_is_reused) ... ok\ntest_deviations (__main__.ProtocolTests.test_deviations) ... ok\ntest_local_relative_links (__main__.ProtocolTests.test_local_relative_links) ... ok\ntest_long_task_recovery (__main__.ProtocolTests.test_long_task_recovery) ... ok\ntest_negative_triggers (__main__.ProtocolTests.test_negative_triggers) ... ok\ntest_no_unapproved_execution (__main__.ProtocolTests.test_no_unapproved_execution) ... ok\ntest_parallel_skill_migration_compatibility (__main__.ProtocolTests.test_parallel_skill_migration_compatibility) ... ok\ntest_persistent_state_compatibility (__main__.ProtocolTests.test_persistent_state_compatibility) ... ok\ntest_plan_change_does_not_imply_approval (__main__.ProtocolTests.test_plan_change_does_not_imply_approval) ... ok\ntest_plan_is_persistent_and_immutable_baseline (__main__.ProtocolTests.test_plan_is_persistent_and_immutable_baseline) ... ok\ntest_protocols_exist (__main__.ProtocolTests.test_protocols_exist) ... ok\ntest_selection_contract (__main__.ProtocolTests.test_selection_contract) ... ok\ntest_stage_gates_and_scope_change (__main__.ProtocolTests.test_stage_gates_and_scope_change) ... ok\ntest_verification_requires_actual_evidence (__main__.ProtocolTests.test_verification_requires_actual_evidence) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.013s\n\nOK\n"
+    },
+    {
+      "command": "python3 scripts/check_markdown_links.py",
+      "exit_code": 0,
+      "tests": null,
+      "output": "Markdown: 346 files, 1178 relative links, 2 anchors, 0 errors\n"
+    }
+  ],
+  "initial_failure_reason": "回归证据索引在首轮命令结束后才写入，导致三个文档到该新文件的链接尚不存在；非协议/模型失败。保留首次结果，在证据文件存在后重跑相关检查。",
+  "main": "6e2413637ec6b8b94395e9b61a9e32f966ffe441",
+  "main_merge_commit": "f356c0acea255ee91b3fd11794e4bf6ace9aabb3",
+  "main_files_outside_previous_pr_scope_byte_identical": 502,
+  "unexpected_main_changes": [],
+  "git_protocol_sources_unchanged": {
+    "standards/git-collaboration.md": true,
+    "standards/skill-orchestration.md": true,
+    "standards/project-skill-bootstrap.md": true,
+    "standards/development-execution.md": true,
+    "standards/collaboration-awareness.md": true,
+    "skills/foundry/references/publishing.md": true,
+    "skills/wikiops/references/repository.md": true,
+    "AGENTS.md": true
+  },
+  "unit_tests_passed": 146,
+  "failures": 0,
+  "security_scan": {
+    "files": "本轮新增/修改的证据、状态及脚本文件",
+    "credentials_private_paths_private_emails_session_ids": [],
+    "dangerous_commands": "仅拒绝列表与受控负向测试；未执行破坏性命令。",
+    "diff_check_exit_code": 0
+  },
+  "open_pr_awareness": {
+    "numbers": [
+      20,
+      22,
+      26
+    ],
+    "related_overlap": "#22 UI Skill、#26 DBOps 专属文件，无本轮目标重叠；未修改其他 PR 分支。"
+  },
+  "auth_preflight": {
+    "isolated_codex_login_status_exit_code": 0,
+    "status": "Logged in using ChatGPT",
+    "gh_auth_status_exit_code": 0,
+    "github_login": "huwenlong92",
+    "token_lines_filtered": true,
+    "credentials_read_or_copied": false
+  }
+}

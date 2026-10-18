@@ -1,0 +1,32 @@
+{
+  "main": "226465e5f951cc1f1394a1c91e4c3f682f822b83",
+  "original_pr_head": "d406eedfaf52f72dd1652dc566518f74c95aaf31",
+  "target_branch": "feat/git-collaboration-v1-20261018",
+  "changed_files": [
+    ".sdkit/DECISIONS.md",
+    ".sdkit/HANDOFF.md",
+    ".sdkit/STATUS.md",
+    ".sdkit/TASKS.md",
+    ".sdkit/plans/pr20-final-integration.md",
+    "AGENTS.md",
+    "docs/testing/git-collaboration-v1/REPORT.md",
+    "docs/testing/git-collaboration-v1/agent-results.json",
+    "docs/testing/git-collaboration-v1/cli-results.json",
+    "docs/testing/git-collaboration-v1/delivery-scope.json",
+    "docs/testing/git-collaboration-v1/initial-local-results.json",
+    "docs/testing/git-collaboration-v1/local-results.json",
+    "docs/testing/git-collaboration-v1/review.json",
+    "docs/testing/git-collaboration-v1/run_local.py",
+    "docs/testing/git-collaboration-v1/scan.json",
+    "scripts/test_git_collaboration.py",
+    "scripts/test_git_collaboration_cli.py",
+    "skills/foundry/references/publishing.md",
+    "skills/wikiops/references/repository.md",
+    "standards/collaboration-awareness.md",
+    "standards/development-execution.md",
+    "standards/git-collaboration.md",
+    "standards/skill-orchestration.md"
+  ],
+  "expected_draft": true,
+  "technical_acceptance": "BLOCKED_AGENT_AUTH"
+}

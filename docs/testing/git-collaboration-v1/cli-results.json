@@ -1,0 +1,4057 @@
+{
+  "kind": "real-git-cli-not-agent",
+  "tests": [
+    {
+      "id": "G01",
+      "test": "test_G01_main",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) db78a63] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "db78a632f300288b00a3d4cd153108f73595d803\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "branch",
+            "--show-current"
+          ],
+          "exit_code": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "task.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "single developer"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 492e116] single developer\n 1 file changed, 1 insertion(+)\n create mode 100644 task.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "492e116a9af48bfcd64206b71b6c3435d4427b78\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-list",
+            "--left-right",
+            "--count",
+            "HEAD...@{upstream}"
+          ],
+          "exit_code": 0,
+          "stdout": "1\t0\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G02",
+      "test": "test_G02_fast_forward",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) db78a63] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "db78a632f300288b00a3d4cd153108f73595d803\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "remote.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "peer update"
+          ],
+          "exit_code": 0,
+          "stdout": "[main bbd3631] peer update\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "bbd363182554de7828360c269fd4b68e0952d5ff\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   db78a63..bbd3631  main -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n   db78a63..bbd3631  main       -> origin/main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-list",
+            "--left-right",
+            "--count",
+            "HEAD...@{upstream}"
+          ],
+          "exit_code": 0,
+          "stdout": "0\t1\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            "HEAD",
+            "origin/main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "pull",
+            "--ff-only"
+          ],
+          "exit_code": 0,
+          "stdout": "Updating db78a63..bbd3631\nFast-forward\n remote.txt | 1 +\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "bbd363182554de7828360c269fd4b68e0952d5ff\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G03",
+      "test": "test_G03_ahead_push",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) db78a63] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "db78a632f300288b00a3d4cd153108f73595d803\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "task.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "authorized task"
+          ],
+          "exit_code": 0,
+          "stdout": "[main a1e38c3] authorized task\n 1 file changed, 1 insertion(+)\n create mode 100644 task.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "a1e38c3f030186adbf533db412e882ae915b25aa\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-list",
+            "--left-right",
+            "--count",
+            "HEAD...@{upstream}"
+          ],
+          "exit_code": 0,
+          "stdout": "1\t0\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "HEAD:main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   db78a63..a1e38c3  HEAD -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "ls-remote",
+            "origin",
+            "refs/heads/main"
+          ],
+          "exit_code": 0,
+          "stdout": "a1e38c3f030186adbf533db412e882ae915b25aa\trefs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G04",
+      "test": "test_G04_diverged",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) acaa7f0] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "acaa7f05d727e5b870117eb8802307d69ecb8584\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "local.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "local"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 54c8303] local\n 1 file changed, 1 insertion(+)\n create mode 100644 local.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "54c83039faee118583d7c1a794969d7f63dfb3e5\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "remote.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "peer update"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 35fee3d] peer update\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "35fee3dff1c61790f8eab30658f1bfa13992acc6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   acaa7f0..35fee3d  main -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n   acaa7f0..35fee3d  main       -> origin/main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-list",
+            "--left-right",
+            "--count",
+            "HEAD...@{upstream}"
+          ],
+          "exit_code": 0,
+          "stdout": "1\t1\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "54c83039faee118583d7c1a794969d7f63dfb3e5\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "pull",
+            "--ff-only"
+          ],
+          "exit_code": 128,
+          "stdout": "",
+          "stderr": "hint: Diverging branches can't be fast-forwarded, you need to either:\nhint:\nhint: \tgit merge --no-ff\nhint:\nhint: or:\nhint:\nhint: \tgit rebase\nhint:\nhint: Disable this message with \"git config set advice.diverging false\"\nfatal: Not possible to fast-forward, aborting.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "54c83039faee118583d7c1a794969d7f63dfb3e5\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G05",
+      "test": "test_G05_dirty",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) acaa7f0] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "acaa7f05d727e5b870117eb8802307d69ecb8584\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "peer update"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 13ac978] peer update\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "13ac978addea88168d7db068805c61f8523fc65d\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   acaa7f0..13ac978  main -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n   acaa7f0..13ac978  main       -> origin/main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": " M data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "pull",
+            "--ff-only"
+          ],
+          "exit_code": 1,
+          "stdout": "Updating acaa7f0..13ac978\n",
+          "stderr": "error: Your local changes to the following files would be overwritten by merge:\n\tdata.txt\nPlease commit your changes or stash them before you merge.\nAborting\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "stash",
+            "list"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G06",
+      "test": "test_G06_untracked",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) bee276f] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "bee276f30c4a0edbb363750cf678901ed7804e23\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "remote.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "peer update"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 81d9c43] peer update\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "81d9c4391210546e365003f02d181f15e1ca38ce\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   bee276f..81d9c43  main -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n   bee276f..81d9c43  main       -> origin/main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "pull",
+            "--ff-only"
+          ],
+          "exit_code": 1,
+          "stdout": "Updating bee276f..81d9c43\n",
+          "stderr": "error: The following untracked working tree files would be overwritten by merge:\n\tremote.txt\nPlease move or remove them before you merge.\nAborting\n"
+        }
+      ]
+    },
+    {
+      "id": "G07",
+      "test": "test_G07_upstream_missing",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) bee276f] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "bee276f30c4a0edbb363750cf678901ed7804e23\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "-c",
+            "no-upstream"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Switched to a new branch 'no-upstream'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "--abbrev-ref",
+            "@{upstream}"
+          ],
+          "exit_code": 128,
+          "stdout": "",
+          "stderr": "fatal: no upstream configured for branch 'no-upstream'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "config",
+            "--get-regexp",
+            "^branch.no-upstream"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G08",
+      "test": "test_G08_worktree",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 3789056] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3789056816a59bce0dd15ace7f4101aa6d443bf6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "worktree",
+            "list",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "worktree <fixture>/local\nHEAD 3789056816a59bce0dd15ace7f4101aa6d443bf6\nbranch refs/heads/main\n\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "worktree",
+            "add",
+            "-b",
+            "parallel",
+            "<fixture>/worktree"
+          ],
+          "exit_code": 0,
+          "stdout": "HEAD is now at 3789056 base\n",
+          "stderr": "Preparing worktree (new branch 'parallel')\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "worktree",
+            "add",
+            "<fixture>/collision",
+            "parallel"
+          ],
+          "exit_code": 128,
+          "stdout": "",
+          "stderr": "Preparing worktree (checking out 'parallel')\nfatal: 'parallel' is already used by worktree at '<fixture>/worktree'\n"
+        }
+      ]
+    },
+    {
+      "id": "G09",
+      "test": "test_G09_parallel",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 3789056] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3789056816a59bce0dd15ace7f4101aa6d443bf6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "local.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "local"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 450ad3f] local\n 1 file changed, 1 insertion(+)\n create mode 100644 local.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "450ad3f9103e249f96349e19bc202b24c7bdaec6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "remote.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "peer update"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 4e43ed1] peer update\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "4e43ed155013acf06066044462999178d6a07704\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   3789056..4e43ed1  main -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n   3789056..4e43ed1  main       -> origin/main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge",
+            "--no-ff",
+            "origin/main",
+            "-m",
+            "integrate peer"
+          ],
+          "exit_code": 0,
+          "stdout": "Merge made by the 'ort' strategy.\n remote.txt | 1 +\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G10",
+      "test": "test_G10_merge_recovery",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 3789056] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3789056816a59bce0dd15ace7f4101aa6d443bf6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3789056816a59bce0dd15ace7f4101aa6d443bf6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "-c",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Switched to a new branch 'topic'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "[topic 0328335] topic\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "0328335b5157515e9d3ddf0ce8e9b5e4a6dcbcec\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "Your branch is up to date with 'origin/main'.\n",
+          "stderr": "Switched to branch 'main'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 5fd8725] main\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "5fd87255966968c626be0a0df569c061a23b9b0f\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge",
+            "topic"
+          ],
+          "exit_code": 1,
+          "stdout": "Auto-merging data.txt\nCONFLICT (content): Merge conflict in data.txt\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "diff",
+            "--name-only",
+            "--diff-filter=U"
+          ],
+          "exit_code": 0,
+          "stdout": "data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":1:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "base\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":2:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":3:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "topic\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge",
+            "--continue"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 7ed15cc] Merge branch 'topic'\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            "3789056816a59bce0dd15ace7f4101aa6d443bf6",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G11",
+      "test": "test_G11_rebase_recovery",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 3c08009] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3c080090d92b8f2d8e7bf27b2709fec95e66abec\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3c080090d92b8f2d8e7bf27b2709fec95e66abec\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "-c",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Switched to a new branch 'topic'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "[topic 7140448] topic\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "71404480beeb075dbc8e687abb23acf451bc54e4\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "Your branch is up to date with 'origin/main'.\n",
+          "stderr": "Switched to branch 'main'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "[main a5fc38d] main\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "a5fc38d1c287e3cc6b6aaa7127319046c75b83fd\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Switched to branch 'topic'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rebase",
+            "main"
+          ],
+          "exit_code": 1,
+          "stdout": "Auto-merging data.txt\nCONFLICT (content): Merge conflict in data.txt\n",
+          "stderr": "Rebasing (1/1)\nerror: could not apply 7140448... topic\nhint: Resolve all conflicts manually, mark them as resolved with\nhint: \"git add/rm <conflicted_files>\", then run \"git rebase --continue\".\nhint: You can instead skip this commit: run \"git rebase --skip\".\nhint: To abort and get back to the state before \"git rebase\", run \"git rebase --abort\".\nhint: Disable this message with \"git config set advice.mergeConflict false\"\nCould not apply 7140448... # topic\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "diff",
+            "--name-only",
+            "--diff-filter=U"
+          ],
+          "exit_code": 0,
+          "stdout": "data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":1:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "base\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":2:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":3:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "topic\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rebase",
+            "--continue"
+          ],
+          "exit_code": 0,
+          "stdout": "[detached HEAD 84cf431] topic\n 1 file changed, 1 insertion(+)\n",
+          "stderr": "Successfully rebased and updated refs/heads/topic.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            "3c080090d92b8f2d8e7bf27b2709fec95e66abec",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G12",
+      "test": "test_G12_cherry_pick_recovery",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 3c08009] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3c080090d92b8f2d8e7bf27b2709fec95e66abec\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "3c080090d92b8f2d8e7bf27b2709fec95e66abec\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "-c",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Switched to a new branch 'topic'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "topic"
+          ],
+          "exit_code": 0,
+          "stdout": "[topic 7140448] topic\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "71404480beeb075dbc8e687abb23acf451bc54e4\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "switch",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "Your branch is up to date with 'origin/main'.\n",
+          "stderr": "Switched to branch 'main'\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "[main a5fc38d] main\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "a5fc38d1c287e3cc6b6aaa7127319046c75b83fd\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "cherry-pick",
+            "71404480beeb075dbc8e687abb23acf451bc54e4"
+          ],
+          "exit_code": 1,
+          "stdout": "Auto-merging data.txt\nCONFLICT (content): Merge conflict in data.txt\n",
+          "stderr": "error: could not apply 7140448... topic\nhint: After resolving the conflicts, mark them with\nhint: \"git add/rm <pathspec>\", then run\nhint: \"git cherry-pick --continue\".\nhint: You can instead skip this commit with \"git cherry-pick --skip\".\nhint: To abort and get back to the state before \"git cherry-pick\",\nhint: run \"git cherry-pick --abort\".\nhint: Disable this message with \"git config set advice.mergeConflict false\"\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "diff",
+            "--name-only",
+            "--diff-filter=U"
+          ],
+          "exit_code": 0,
+          "stdout": "data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":1:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "base\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":2:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "show",
+            ":3:data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "topic\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "cherry-pick",
+            "--continue"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 84cf431] topic\n Date: Sun Oct 18 19:23:39 2026 +0800\n 1 file changed, 1 insertion(+)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            "3c080090d92b8f2d8e7bf27b2709fec95e66abec",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G13",
+      "test": "test_G13_rewritten_remote",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) f28d0af] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "f28d0af00652821296d3149418c125dda5169a68\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "origin/main"
+          ],
+          "exit_code": 0,
+          "stdout": "f28d0af00652821296d3149418c125dda5169a68\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "switch",
+            "--orphan",
+            "replacement"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Switched to a new branch 'replacement'\n"
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "new.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "replacement fixture"
+          ],
+          "exit_code": 0,
+          "stdout": "[replacement (root-commit) dea7ee5] replacement fixture\n 1 file changed, 1 insertion(+)\n create mode 100644 new.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "dea7ee535105d6bcd04b9a0bb1f7a1c1f22e13ac\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "replacement"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      replacement -> replacement\n"
+        },
+        {
+          "cwd": "<fixture>/remote.git",
+          "argv": [
+            "git",
+            "update-ref",
+            "refs/heads/main",
+            "dea7ee535105d6bcd04b9a0bb1f7a1c1f22e13ac",
+            "f28d0af00652821296d3149418c125dda5169a68"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n + f28d0af...dea7ee5 main        -> origin/main  (forced update)\n * [new branch]      replacement -> origin/replacement\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            "f28d0af00652821296d3149418c125dda5169a68",
+            "origin/main"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "f28d0af00652821296d3149418c125dda5169a68\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G14",
+      "test": "test_G14_push_rejected",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) f28d0af] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "f28d0af00652821296d3149418c125dda5169a68\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "local.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "local"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 80a1157] local\n 1 file changed, 1 insertion(+)\n create mode 100644 local.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "80a1157157da70b60a9fddc2f5610da7018ab8da\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "remote.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "peer update"
+          ],
+          "exit_code": 0,
+          "stdout": "[main 52c772c] peer update\n 1 file changed, 1 insertion(+)\n create mode 100644 remote.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "52c772cddb32f448d802fac9a5a7e09b4c0346e6\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/peer",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n   f28d0af..52c772c  main -> main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "origin",
+            "main"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "To <fixture>/remote.git\n ! [rejected]        main -> main (fetch first)\nerror: failed to push some refs to '<fixture>/remote.git'\nhint: Updates were rejected because the remote contains work that you do not\nhint: have locally. This is usually caused by another repository pushing to\nhint: the same ref. If you want to integrate the remote changes, use\nhint: 'git pull' before pushing again.\nhint: See the 'Note about fast-forwards' in 'git push --help' for details.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "ls-remote",
+            "origin",
+            "refs/heads/main"
+          ],
+          "exit_code": 0,
+          "stdout": "52c772cddb32f448d802fac9a5a7e09b4c0346e6\trefs/heads/main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "origin"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "From <fixture>/remote\n   f28d0af..52c772c  main       -> origin/main\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-list",
+            "--left-right",
+            "--count",
+            "HEAD...@{upstream}"
+          ],
+          "exit_code": 0,
+          "stdout": "1\t1\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G15",
+      "test": "test_G15_transport_failure",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 2a8c2ad] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "fetch",
+            "git://localhost:1/fiction.git"
+          ],
+          "exit_code": 128,
+          "stdout": "",
+          "stderr": "fatal: unable to connect to localhost:\nlocalhost[0: ::1]: errno=Operation not permitted\nlocalhost[1: 127.0.0.1]: errno=Operation not permitted\n\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "ls-remote",
+            "origin",
+            "refs/heads/main"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\trefs/heads/main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G16",
+      "test": "test_G16_cleanup_gate",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 2a8c2ad] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "worktree",
+            "add",
+            "-b",
+            "cleanup",
+            "<fixture>/cleanup"
+          ],
+          "exit_code": 0,
+          "stdout": "HEAD is now at 2a8c2ad base\n",
+          "stderr": "Preparing worktree (new branch 'cleanup')\n"
+        },
+        {
+          "cwd": "<fixture>/cleanup",
+          "argv": [
+            "git",
+            "status",
+            "--porcelain"
+          ],
+          "exit_code": 0,
+          "stdout": "?? sentinel\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "worktree",
+            "remove",
+            "<fixture>/cleanup"
+          ],
+          "exit_code": 128,
+          "stdout": "",
+          "stderr": "fatal: '<fixture>/cleanup' contains modified or untracked files, use --force to delete it\n"
+        },
+        {
+          "cwd": "<fixture>/cleanup",
+          "argv": [
+            "git",
+            "rev-list",
+            "--count",
+            "main..HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "0\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "worktree",
+            "remove",
+            "<fixture>/cleanup"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G17",
+      "test": "test_G17_existing_init",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 2a8c2ad] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "--show-toplevel"
+          ],
+          "exit_code": 0,
+          "stdout": "<fixture>/local\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "2a8c2ad09f1cac4e480e5126760412eb11b74010\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G18",
+      "test": "test_G18_parent_nested",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 195723d] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "195723d6bd841b29a57b69e5bf80f23a8e93b1d2\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local/child",
+          "argv": [
+            "git",
+            "rev-parse",
+            "--show-toplevel"
+          ],
+          "exit_code": 0,
+          "stdout": "<fixture>/local\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local/child",
+          "argv": [
+            "git",
+            "rev-parse",
+            "--show-superproject-working-tree"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "ls-files",
+            "--stage",
+            "--",
+            "child"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G19",
+      "test": "test_G19_unauthorized_remote",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 195723d] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "195723d6bd841b29a57b69e5bf80f23a8e93b1d2\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "-v"
+          ],
+          "exit_code": 0,
+          "stdout": "origin\t<fixture>/remote.git (fetch)\norigin\t<fixture>/remote.git (push)\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "config",
+            "--show-origin",
+            "--get-regexp",
+            "^(remote|branch)\\."
+          ],
+          "exit_code": 0,
+          "stdout": "file:.git/config\tremote.origin.url <fixture>/remote.git\nfile:.git/config\tremote.origin.fetch +refs/heads/*:refs/remotes/origin/*\nfile:.git/config\tbranch.main.remote origin\nfile:.git/config\tbranch.main.merge refs/heads/main\n",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "id": "G20",
+      "test": "test_G20_authorized_remote",
+      "commands": [
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--bare",
+            "--initial-branch=main",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/remote.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "init",
+            "--initial-branch=main",
+            "<fixture>/local"
+          ],
+          "exit_code": 0,
+          "stdout": "Initialized empty Git repository in <fixture>/local/.git/\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "add",
+            "--",
+            "data.txt"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "commit",
+            "-m",
+            "base"
+          ],
+          "exit_code": 0,
+          "stdout": "[main (root-commit) 195723d] base\n 1 file changed, 1 insertion(+)\n create mode 100644 data.txt\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "HEAD"
+          ],
+          "exit_code": 0,
+          "stdout": "195723d6bd841b29a57b69e5bf80f23a8e93b1d2\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "origin",
+            "<fixture>/remote.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "push",
+            "-u",
+            "origin",
+            "main"
+          ],
+          "exit_code": 0,
+          "stdout": "branch 'main' set up to track 'origin/main'.\n",
+          "stderr": "To <fixture>/remote.git\n * [new branch]      main -> main\n"
+        },
+        {
+          "cwd": "<fixture>",
+          "argv": [
+            "git",
+            "clone",
+            "<fixture>/remote.git",
+            "<fixture>/peer"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": "Cloning into '<fixture>/peer'...\ndone.\n"
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "config",
+            "--show-origin",
+            "--get-regexp",
+            "^(remote|branch)\\."
+          ],
+          "exit_code": 0,
+          "stdout": "file:.git/config\tremote.origin.url <fixture>/remote.git\nfile:.git/config\tremote.origin.fetch +refs/heads/*:refs/remotes/origin/*\nfile:.git/config\tbranch.main.remote origin\nfile:.git/config\tbranch.main.merge refs/heads/main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "add",
+            "review",
+            "https://example.invalid/fixture/repository.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "get-url",
+            "review"
+          ],
+          "exit_code": 0,
+          "stdout": "https://example.invalid/fixture/repository.git\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "get-url",
+            "--push",
+            "review"
+          ],
+          "exit_code": 0,
+          "stdout": "https://example.invalid/fixture/repository.git\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "config",
+            "--get",
+            "remote.review.fetch"
+          ],
+          "exit_code": 0,
+          "stdout": "+refs/heads/*:refs/remotes/review/*\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "set-url",
+            "review",
+            "https://example.invalid/fixture/replacement.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "set-url",
+            "--push",
+            "review",
+            "ssh://git@example.invalid/fixture/replacement.git"
+          ],
+          "exit_code": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "get-url",
+            "review"
+          ],
+          "exit_code": 0,
+          "stdout": "https://example.invalid/fixture/replacement.git\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "remote",
+            "get-url",
+            "--push",
+            "review"
+          ],
+          "exit_code": 0,
+          "stdout": "ssh://git@example.invalid/fixture/replacement.git\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "rev-parse",
+            "--abbrev-ref",
+            "@{upstream}"
+          ],
+          "exit_code": 0,
+          "stdout": "origin/main\n",
+          "stderr": ""
+        },
+        {
+          "cwd": "<fixture>/local",
+          "argv": [
+            "git",
+            "config",
+            "--show-origin",
+            "--get-regexp",
+            "^(remote|branch)\\."
+          ],
+          "exit_code": 0,
+          "stdout": "file:.git/config\tremote.origin.url <fixture>/remote.git\nfile:.git/config\tremote.origin.fetch +refs/heads/*:refs/remotes/origin/*\nfile:.git/config\tbranch.main.remote origin\nfile:.git/config\tbranch.main.merge refs/heads/main\nfile:.git/config\tremote.review.url https://example.invalid/fixture/replacement.git\nfile:.git/config\tremote.review.fetch +refs/heads/*:refs/remotes/review/*\nfile:.git/config\tremote.review.pushurl ssh://git@example.invalid/fixture/replacement.git\n",
+          "stderr": ""
+        }
+      ]
+    }
+  ],
+  "run": 20,
+  "failures": 0,
+  "errors": 0
+}

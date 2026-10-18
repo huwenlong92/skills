@@ -60,3 +60,7 @@
 ## 完成标准
 
 长任务中每阶段可追溯目标、修改范围、命中规范、测试证据和偏差处理；中断恢复不覆盖未知修改；D2/D3 不未经批准扩大范围；完成报告区分代码、测试、Git、CI、部署的真实状态。实际 Agent 长任务试点通过前，不得宣称防漂移已验证。试点必须遵守 [行为验收步骤](engineering-protocol-acceptance.md)，分别保存静态检查与真实行为证据。
+
+## Git 操作检查点
+
+C0 开始本地修改时按 [Git Collaboration V1](git-collaboration.md) 执行必要 P1 Preflight；C2 Commit/Push/PR 前按操作风险执行 P2，Merge 与发布前 Git 事实核验执行 P3。远端状态前进或证据失效必须重新核验，UNKNOWN 不得视为通过。C3 分别记录 Git、测试、CI、合并与部署事实；不为检查主动触发高成本 CI。

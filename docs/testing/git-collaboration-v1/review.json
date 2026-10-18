@@ -1,0 +1,58 @@
+{
+  "main": "226465e5f951cc1f1394a1c91e4c3f682f822b83",
+  "pr_original": "d406eedfaf52f72dd1652dc566518f74c95aaf31",
+  "preservation": {
+    "main_files_byte_identical_outside_scope": 449,
+    "unexpected_changes": [],
+    "AGENTS_main_plus_exact_git_entry": true
+  },
+  "reference_review": {
+    "files": [
+      "skills/foundry/references/publishing.md",
+      "skills/wikiops/references/repository.md"
+    ],
+    "criteria": {
+      "1_scope": "PASS：首段定义适用范围",
+      "2_deterministic_rules": "PASS：新增条款均使用必须/不得/不能，保留已确认门禁",
+      "3_priority_fallback": "PASS：Foundry 本地优先的客观退回条件保留；WikiOps 无新增优先条款",
+      "4_portable_paths": "PASS：目标根相对路径与声明的配置位置，未加个人目录",
+      "5_allowed_forbidden_locations": "PASS：沿用目标目录/远端交付边界，不新增存储位置",
+      "6_write_gates": "PASS：前置授权、未知停止、并发检查与读回核验",
+      "7_completion_at_end": "PASS：兼容段前移，完成标准置于文件末尾",
+      "8_examples": "PASS：保留正向与反例；不涉及业务代码写法，代码示例要求不适用",
+      "9_single_authority": "PASS：共享状态机由 Git Collaboration 负责；独立安装保留必要安全规则，不因共享协议不可取得扩大授权"
+    }
+  },
+  "protocol_review": [
+    {
+      "axis": "Bootstrap 与两个 AGENTS 入口",
+      "result": "PASS",
+      "evidence": "main AGENTS 仅增加 Git 入口；Bootstrap、全局迁移工具/模板与证据原字节保留；不修改真实配置"
+    },
+    {
+      "axis": "Orchestration 职责",
+      "result": "PASS",
+      "evidence": "业务 Primary 不变，Git 操作 Primary/Guardrail 按子任务区分；非独立 Skill，能力与授权分离"
+    },
+    {
+      "axis": "Development Execution",
+      "result": "PASS",
+      "evidence": "C0/P1、C2/P2/P3、C3 分项交付；UNKNOWN 停止；模型未执行不得 verified"
+    },
+    {
+      "axis": "Collaboration Awareness",
+      "result": "PASS",
+      "evidence": "L0–L3 不重复定义，Push/Merge 再核验；禁主动 CI"
+    },
+    {
+      "axis": "Foundry 与 WikiOps",
+      "result": "PASS",
+      "evidence": "保留原双阶段同步、精确暂存、条件写入、独立授权与发布边界；缺少共享协议不跳过安全门禁"
+    },
+    {
+      "axis": "GAP-B01/B02",
+      "result": "STATIC_PASS_AGENT_BLOCKED",
+      "evidence": "协议明确初始化/嵌套保护、Remote 独立授权和读回；CLI 能力事实可复现；无真实 Agent 证据"
+    }
+  ]
+}
