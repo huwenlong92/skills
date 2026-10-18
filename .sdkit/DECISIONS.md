@@ -13,3 +13,5 @@
 2026-10-18（PR #19）：用户授权独立 Worktree 安全检查、静态与 16 项真实 Codex 虚构场景、范围内修复及必要的 Commit/普通 Push。保持 Draft；禁止合并、部署、主动触发 Actions，禁止修改 product-docs、Wiki 或其他 PR。模型材料仅公开协议/Skill 和虚构资料；真实私有正文不作为模型测试材料。
 
 2026-10-18（PR #18 最终集成）：用户授权普通 Merge 最新 main、逐项修复、完整本地验证、Commit/普通 Push；保留 #19 知识协议与 #18 UI 路由、全部历史证据，保持 #18 Draft，禁止合并 PR、部署、主动 CI、Reset Hard、Force Push 或覆盖其他 Worktree。路由语义不变时复用 U01–U12，仅语义变化才重测受影响模型场景。
+
+2026-10-18（专题 A / PR #17）：用户授权本 PR 独立 Worktree 集成、必要修复、Commit/普通 Push；保持 Draft，禁止合并、Ready、部署、主动 CI、真实全局配置/业务仓库/已安装 Skill 写入或旧规范库删除。路由语义不变时复用既有证据，不重写历史失败。
