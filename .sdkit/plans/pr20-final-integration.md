@@ -24,3 +24,13 @@ Primary：sdkit-skills；命中管理流程、Foundry publishing、WikiOps repos
 读取本计划、报告与四份状态文件，重新核对工作区、Merge 状态和远端。恢复模型测试必须具备隔离正常认证及文件/网络边界验证；只发送公开协议和虚构材料，禁止读取或复制用户认证内容。
 
 本地最终：263 unittest 全通过、21 Skill、G01–G20 CLI 20/20；初次 Foundry 路径差异通过规范化 TMPDIR 消除，失败历史保留。Reference 完成标准顺序调整属 D1。#24 新增 Orchestration L2 交集，审查后不引入，未来须联合重测。整体阶段保留 blocked（真实 Agent），不以静态和 CLI 冲抵。
+
+## Revision 2：真实 Agent 续验（2026-10-18）
+
+当前用户明确授权解决隔离登录、真实 A01–A16、必要测试修复与普通 Commit/Push。基线 dbf71b252cefe799625cb7b81bde95b2beb783ab；main 226465e5f951cc1f1394a1c91e4c3f682f822b83。用户自行完成独立 home 官方登录，状态命令退出 0，未读取/复制认证内容。用户授权在外网连接失败时执行 proxy auto。
+
+离线权限探针通过：夹具内读写与 Git Commit 允许；夹具外合成文件读写、真实用户配置可读性检查均拒绝；工具网络关闭。首次发现 CLI 自动注入四个系统 Skill，在隔离配置中逐项禁用后重新离线检查，模型输入无 SKILL.md 或用户目录。不修改真实配置。
+
+A01–A16 使用独立虚构仓库，原始 JSONL/会话标识只留本地。脚本断言和模型自述均不能代替人工工具审查。A05 若缺真实 Provider 创建能力，必须 BLOCKED；不使用模拟 Provider 冒称 PR 已创建。后续阶段以新报告和逐项证据为准，禁止 Ready/Merge/部署/主动 CI。
+
+Revision 2 阶段记录：真实模型 19 次均退出 0 且完成；最终 15 PASS/0 FAIL/1 BLOCKED（A05 Provider）。A02/A03/A04 首轮环境阻塞保留，新夹具精确权限重测通过。main 前进到 8777b036311349fef7a99cdf094c36fd7011c15c，普通 Merge 无冲突；共享 Git 语义未改。真实行为阶段 implemented，A05 条件缺失，不得标整体 verified；Commit/Push 最终状态以交付读回为准。

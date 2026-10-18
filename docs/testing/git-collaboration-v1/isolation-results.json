@@ -1,0 +1,67 @@
+{
+  "authentication": {
+    "command": "isolated codex login status",
+    "exit_code": 0,
+    "state": "Logged in using ChatGPT",
+    "user_completed_login": true,
+    "credential_contents_read_or_copied": false
+  },
+  "cli_version": "0.163.0",
+  "model_requested": "gpt-6.1-sol",
+  "immutable_server_model_revision": "NOT_EXPOSED",
+  "model_tools_profile": {
+    "root": "deny",
+    "minimal": "read",
+    "tmpdir": "deny",
+    "slash_tmp": "deny",
+    "workspace_root": "write",
+    "workspace_dot_git": "write",
+    "tool_network": false,
+    "approval": "on-request"
+  },
+  "offline_model_input": {
+    "host_skill_mentions": 0,
+    "user_directory_mentions": 0,
+    "mcp_servers": 0,
+    "apps_plugins_browser_computer_image_multiagent": "disabled"
+  },
+  "initial_probes": {
+    "inside_read_exit": 0,
+    "inside_write_exit": 0,
+    "inside_git_commit_exit": 0,
+    "outside_read_exit": 1,
+    "outside_write_exit": 1,
+    "network_exit": 6
+  },
+  "final_probes": [
+    {
+      "probe": "outside-read",
+      "exit_code": 1,
+      "result": "DENIED"
+    },
+    {
+      "probe": "outside-write",
+      "exit_code": 1,
+      "result": "DENIED"
+    },
+    {
+      "probe": "host-config-readable",
+      "exit_code": 1,
+      "result": "DENIED"
+    },
+    {
+      "probe": "tool-network",
+      "exit_code": 6,
+      "result": "DENIED"
+    }
+  ],
+  "runtime_write_confirmation": "A03-R1 actual model Commit succeeded inside fixture, unrelated staged change preserved",
+  "history": [
+    "Fresh home initially Not logged in; user completed official login",
+    "Automatic system Skill entries detected offline, disabled before first model call",
+    "Implicit .git protection blocked initial A02/A03/A04; added precise current-workspace .git write rule, re-probed external denial, retried in fresh fixtures",
+    "离线配置检查时曾短暂试验绝对 .git 路径规则，已移除；最终仅 current-workspace 相对规则。模型工具记录需逐项审查无跨夹具访问。"
+  ],
+  "proxy_auto_used": false,
+  "network_note": "Model service reachable; model tool network intentionally denied; no need for proxy auto."
+}

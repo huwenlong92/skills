@@ -73,3 +73,7 @@
 ## PR #20 专题 B 最终本地集成（2026-10-18）
 
 main `226465e5f951cc1f1394a1c91e4c3f682f822b83` 普通合入；唯一 AGENTS 冲突保留 Bootstrap/Git 双入口，449 个范围外 main 文件原字节保留。[报告](../docs/testing/git-collaboration-v1/REPORT.md)与[计划](plans/pr20-final-integration.md)：263 unittest、21 Skill、G01–G20 CLI 通过；真实 Agent 16 项因隔离认证缺失 BLOCKED，未启动模型、未复制认证。本轮不满足完整技术 Ready 或全局 Git 规则退出门禁；保持 Draft，不合并/部署/主动 CI。最终 Commit/Push/SHA/mergeable 以实时交付查询为准。新 #24 在 Orchestration 为 L2，已审查职责边界但未引入，未来联合集成须重测。
+
+## PR #20 真实 Agent 续验（2026-10-18）
+
+[本轮报告](../docs/testing/git-collaboration-v1/REPORT.md)与[逐项证据](../docs/testing/git-collaboration-v1/agent-results.json)：用户自行在隔离 home 官方登录成功，19 次真实模型调用完成；最终 15 PASS / 0 FAIL / 1 BLOCKED（A05 无真实 PR Provider）。B01/B02 受控真实行为通过；三次首轮 .git 权限阻塞与新夹具重测均保留。最新 main 8777b036311349fef7a99cdf094c36fd7011c15c 普通合入，无冲突；保留 #21 的 Catalog/DBOps，不改其他 PR。Ready 条件未满足，全局 Git 规则暂不退出。最终 Commit/Push/Head 以交付查询为准，保持 Draft，不合并/部署/主动 CI。

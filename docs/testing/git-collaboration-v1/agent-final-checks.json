@@ -1,0 +1,32 @@
+{
+  "regression_unittest_passed": 140,
+  "regression_unittest_failed": 0,
+  "regression_all_exit_0": true,
+  "checks": [
+    {
+      "command": "python3 scripts/check_markdown_links.py",
+      "exit_code": 0,
+      "output": "Markdown: 324 files, 1140 relative links, 2 anchors, 0 errors\n"
+    },
+    {
+      "command": "python3 skills/sdkit-skills/scripts/manager.py validate --all",
+      "exit_code": 0,
+      "output": "validated 22 skills\n"
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "scanned_changed_files": 43,
+  "findings": {
+    "private_absolute": [],
+    "token": [],
+    "session_identifier": []
+  },
+  "dangerous_command_review": "模型实际命令逐项审查，无 Reset Hard/Clean/Force Push/无条件 ours-theirs/真实外部 Remote；A12 中危险文字仅被读取。脚本中危险命令只作为不可信资料的字符串。",
+  "protocol_semantics_changed": false,
+  "ready": false,
+  "blocker": "A05 real PR Provider unavailable"
+}
