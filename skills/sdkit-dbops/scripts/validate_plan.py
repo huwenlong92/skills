@@ -3,6 +3,7 @@
 import argparse
 import json
 import re
+from datetime import datetime
 import importlib.util
 from pathlib import Path
 spec = importlib.util.spec_from_file_location("dbops_plan_for_validation", Path(__file__).with_name("plan_migrations.py"))
@@ -50,8 +51,15 @@ def validate(doc):
     gate = doc.get("safetyGate")
     if not isinstance(gate, dict) or gate.get("status") != "blocked" or gate.get("executionAuthorized") is not False or gate.get("evidenceVerified") is not False:
         raise ValueError("invalid nested safety flags")
-    if not isinstance(doc["steps"], list) or any(not isinstance(x, dict) or set(x) != {"migrationId", "checksum", "risk"} or not isinstance(x["migrationId"], str) or not isinstance(x["checksum"], str) or not sha.fullmatch(x["checksum"]) or x["risk"] != "requires_review" for x in doc["steps"]):
+    if not isinstance(doc["steps"], list) or any(not isinstance(x, dict) or set(x) != {"migrationId", "checksum", "risk"} or not isinstance(x["migrationId"], str) or not module._load_sibling("validate_history").MID.fullmatch(x["migrationId"]) or not isinstance(x["checksum"], str) or not sha.fullmatch(x["checksum"]) or x["risk"] != "requires_review" for x in doc["steps"]):
         raise ValueError("invalid steps")
+    for step in doc["steps"]:
+        try:
+            datetime.strptime(step["migrationId"][:16], "%Y%m%dT%H%M%SZ")
+        except ValueError as exc:
+            raise ValueError("invalid migration step date") from exc
+    if set(gate) - {"status", "reason", "dataRisk", "dataSafetyStatus", "backupStatus", "recommendedBackup", "evidenceVerified", "executionAuthorized"}:
+        raise ValueError("unknown safety gate fields")
     body={k:v for k,v in doc.items() if k!="planHash"}
     if doc["planHash"]!=digest(body):
         raise ValueError("plan hash mismatch")
