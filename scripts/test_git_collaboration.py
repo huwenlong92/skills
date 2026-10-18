@@ -19,6 +19,21 @@ class GitCollaborationContract(unittest.TestCase):
             with self.subTest(token=token):
                 self.assertIn(token, text)
 
+    def test_git_init_safety(self):
+        text = PROTOCOL.read_text(encoding="utf-8")
+        section = text.split("## Git 初始化与嵌套仓库保护", 1)[1].split("## Remote 独立授权", 1)[0]
+        for token in ("git init", "父级 Git Worktree", "子模块", "符号链接", "不得自动初始化", "不授权 Stage"):
+            with self.subTest(token=token):
+                self.assertIn(token, section)
+
+    def test_remote_authorization(self):
+        text = PROTOCOL.read_text(encoding="utf-8")
+        section = text.split("## Remote 独立授权", 1)[1].split("## 分支与 Worktree", 1)[0]
+        for token in ("git remote add", "git remote set-url", "git remote rename",
+                      "git remote remove", "明确", "fetch/push URL", "upstream", "读回验证"):
+            with self.subTest(token=token):
+                self.assertIn(token, section)
+
     def test_integration_links(self):
         for relative in (
             "AGENTS.md",
