@@ -1,0 +1,38 @@
+{
+  "design": {
+    "size": [
+      960,
+      640
+    ],
+    "rgb": [
+      33,
+      85,
+      205
+    ],
+    "bounds_inclusive": [
+      204,
+      100,
+      900,
+      180
+    ],
+    "sha256": "9a9346a495165433a5eeb165da15a0a4d47348a6b00c3fa07c37ac89cf42dec6"
+  },
+  "implementation": {
+    "size": [
+      960,
+      640
+    ],
+    "rgb": [
+      204,
+      75,
+      32
+    ],
+    "bounds_inclusive": [
+      252,
+      100,
+      900,
+      180
+    ],
+    "sha256": "de3ad16eb16810143c0d03330525a99835646dec49edd90fcb8525bfb77df278"
+  }
+}

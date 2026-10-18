@@ -25,7 +25,7 @@ description: Nuxt.js env、runtime config、API base、部署路径和项目固�
 
 ## API 与部署路径
 
-- 本地同域代理必须使用 `NUXT_PUBLIC_APP_API_BASE=/api` 和 `NUXT_APP_API_PROXY_TARGET=http://localhost:<port>`；目标项目已有其他变量名时沿用其名称但保持 public/private 边界。
+- 本地同域代理必须使用 `NUXT_PUBLIC_API_BASE=/api` 和 `NUXT_APP_API_PROXY_TARGET=http://localhost:<port>`；仅当已核验消费版本只读取旧构建期输入时才允许使用 `NUXT_PUBLIC_APP_API_BASE`。运行期名称以本文件下方实际 runtimeConfig 层级为准，禁止把旧兼容输入当成运行期覆盖名。
 - 生产同域代理必须保持浏览器 API base 为 `/api`，由网关或平台转发。
 - 只有部署明确使用独立 API 域名时才允许将完整域名放入 public API base，并必须验证 CORS 与 cookie 策略。
 - 二级目录必须由 Nuxt app base 和网关规则处理，业务代码禁止手工拼接。

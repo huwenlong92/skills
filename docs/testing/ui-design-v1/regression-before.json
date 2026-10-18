@@ -1,0 +1,17 @@
+{
+  "base_sha": "5983179b279dcc8c75b62c43bb19962c6580e316",
+  "command": "python3 scripts/test_ui_design.py（从原始 Git 对象导出的只读基线源码运行同一测试集）",
+  "exit_code": 1,
+  "tests_run": 8,
+  "failed_test_methods": [
+    "test_handoff_distinguishes_three_asset_origins",
+    "test_handoff_has_no_undeclared_engineering_dependency",
+    "test_handoff_records_ten_dimensions_and_unknowns",
+    "test_reference_quality_and_standalone_links"
+  ],
+  "failed_subtests": 15,
+  "passed_test_methods": 4,
+  "errors": 0,
+  "raw_local_log_sha256": "ed657bed9b3bb399b72aaa21355b5025f2d9ab9ecfd2bc934be813c2335499e5",
+  "limitations": "离线契约测试，不是模型失败；同一 8 项测试的 ROOT 指向隔离基线导出目录，未修改断言。"
+}

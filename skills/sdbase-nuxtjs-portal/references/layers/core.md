@@ -24,7 +24,7 @@ description: Nuxt.js layers/core 的 framework 能力门禁、目录边界和禁
 |---|---|
 | `layers/core/nuxt.config.ts` | core modules、alias、css、runtime config 和构建基础配置 |
 | `layers/core/layouts` | 跨项目 layout shell |
-| `layers/core/assets/styles` | framework token、theme、全局样式和 Element Plus 覆盖 |
+| `layers/core/assets/styles` | framework 基础 token、全局样式和 Element Plus 桥接；已采用独立配色 layer 时，配色归属见 [布局与主题](layouts.md) |
 | `layers/core/components` | 通过能力门禁的稳定组件 |
 | `layers/core/composables` | request、auth、theme、title 等 framework 组合能力 |
 | `layers/core/config` | routeRules 等 framework 配置 |

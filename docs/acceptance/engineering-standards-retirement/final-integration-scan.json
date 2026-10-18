@@ -1,0 +1,5 @@
+{
+  "files_checked": 47,
+  "findings": [],
+  "scope": "本 PR 相对最新 main 的全部文本变更，含新报告；不执行历史示例"
+}
