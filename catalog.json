@@ -113,6 +113,11 @@
       "name": "sdkit-ui-design",
       "category": "product",
       "path": "skills/sdkit-ui-design"
+    },
+    {
+      "name": "sdkit-templateops",
+      "category": "operations",
+      "path": "skills/sdkit-templateops"
     }
   ]
 }
