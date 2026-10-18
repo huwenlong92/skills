@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "enum": [
+        "equal",
+        "drift",
+        "unknown"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "leftFingerprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rightFingerprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "added": {
+      "type": "array"
+    },
+    "removed": {
+      "type": "array"
+    },
+    "changed": {
+      "type": "array"
+    }
+  }
+}
