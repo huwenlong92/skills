@@ -21,7 +21,7 @@ def validate(doc):
         raise ValueError("invalid scope")
     if not isinstance(doc["normalizerVersion"], str) or not doc["normalizerVersion"]:
         raise ValueError("invalid normalizer version")
-    if not SHA.fullmatch(str(doc["schemaFingerprint"])) or not SHA.fullmatch(str(doc["checksum"])):
+    if any(not isinstance(doc[k], str) or not SHA.fullmatch(doc[k]) for k in ("schemaFingerprint", "checksum")):
         raise ValueError("invalid checksum or fingerprint")
     return {"status": "valid", "baselineId": doc["baselineId"], "adopted": False}
 
