@@ -27,7 +27,7 @@
     },
     "sourceCommit": {
       "type": "string",
-      "pattern": "^[a-f0-9]{40}(?![\\\\s\\\\S])"
+      "pattern": "^[a-f0-9]{40}(?![\\s\\S])"
     },
     "target": {
       "type": "object",
@@ -82,11 +82,11 @@
       "properties": {
         "historyFingerprint": {
           "type": "string",
-          "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
         },
         "schemaFingerprint": {
           "type": "string",
-          "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
         },
         "normalizerVersion": {
           "type": "string",
@@ -122,11 +122,11 @@
         "properties": {
           "migrationId": {
             "type": "string",
-            "pattern": "^[0-9]{8}T[0-9]{6}Z_[a-f0-9]{6,16}_[a-z][a-z0-9_]*(?![\\\\s\\\\S])"
+            "pattern": "^[0-9]{8}T[0-9]{6}Z_[a-f0-9]{6,16}_[a-z][a-z0-9_]*(?![\\s\\S])"
           },
           "checksum": {
             "type": "string",
-            "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+            "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
           },
           "risk": {
             "const": "requires_review"
@@ -139,15 +139,15 @@
     },
     "planHash": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
     },
     "sourceHistoryFingerprint": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
     },
     "sourceSchemaFingerprint": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
     },
     "sourceIdentity": {
       "type": "object",
@@ -245,17 +245,17 @@
         },
         {
           "type": "string",
-          "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
         }
       ]
     },
     "sourceEvidenceFingerprint": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
     },
     "targetEvidenceFingerprint": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
     },
     "sourceNormalizerVersion": {
       "type": "string",
