@@ -8,7 +8,7 @@
       "design-reference.md": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n",
       "design-system.md": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "visual.md,responsive.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
@@ -28,7 +28,7 @@
       "design-reference.md": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n",
       "design-system.md": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "visual.md,interaction.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
@@ -48,7 +48,7 @@
       "design-reference.md": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n",
       "design-system.md": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "responsive.md,visual.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
@@ -68,7 +68,7 @@
       "design-reference.md": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n",
       "design-system.md": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "interaction.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
@@ -90,7 +90,7 @@
       "design.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1440\" height=\"900\"><rect width=\"1440\" height=\"900\" fill=\"white\"/><text x=\"24\" y=\"64\" font-size=\"24\">Northstar Tasks</text></svg>\n",
       "source-variants.json": "[\n  {\n    \"id\": \"U05-A\",\n    \"kind\": \"已有设计稿\",\n    \"resource\": \"design.svg\",\n    \"version\": \"fixture-v1\",\n    \"expected\": \"核验文件与来源，不编造 SHA/URL\"\n  },\n  {\n    \"id\": \"U05-B\",\n    \"kind\": \"仅有文字描述\",\n    \"resource\": \"design-reference.md\",\n    \"version\": \"text-v0.1\",\n    \"expected\": \"声明文本说明，尚无视觉稿\"\n  },\n  {\n    \"id\": \"U05-C\",\n    \"kind\": \"图片工具实际生成\",\n    \"resource\": null,\n    \"expected\": \"必须真实调用图片工具并核对产物；本轮未调用，不得伪造工具成功记录\",\n    \"status\": \"BLOCKED\"\n  }\n]\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "handoff.md,interaction.md,responsive.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
@@ -112,7 +112,7 @@
       "design.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1440\" height=\"900\"><rect width=\"1440\" height=\"900\" fill=\"white\"/><text x=\"24\" y=\"64\" font-size=\"24\">Northstar Tasks</text></svg>\n",
       "implementation.svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1440\" height=\"900\"><rect width=\"1440\" height=\"900\" fill=\"white\"/><text x=\"48\" y=\"64\" font-size=\"24\">Northstar Tasks</text></svg>\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "review.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
@@ -218,7 +218,7 @@
       "design-reference.md": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n",
       "design-system.md": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
     },
-    "primary": "ui-design",
+    "primary": "sdkit-ui-design",
     "references": "visual.md",
     "status": "BLOCKED",
     "reason": "AUTH_UNAVAILABLE",
