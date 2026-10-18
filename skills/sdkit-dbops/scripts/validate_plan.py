@@ -2,8 +2,12 @@
 """Offline plan integrity verification. Does not authorize execution."""
 import argparse
 import json
+import importlib.util
 from pathlib import Path
-from plan_migrations import digest
+spec = importlib.util.spec_from_file_location("dbops_plan_for_validation", Path(__file__).with_name("plan_migrations.py"))
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+digest = module.digest
 def validate(doc):
     if not isinstance(doc,dict) or not isinstance(doc.get("planHash"),str):
         raise ValueError("invalid plan")
