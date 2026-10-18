@@ -7,4 +7,6 @@
 - 已应用 Migration ID 唯一、SHA-256 不可变；失败、运行中和未知 Attempt 必须阻断同步。
 - Go AutoMigrate 不得伪装成版本化 SQL History。
 
+- 离线工具 `scripts/validate_baseline.py` 只校验描述符，不会采纳 Baseline，也不证明数据库结构真实一致。
+
 完成标准：离线证据可验证，缺失或冲突必须拒绝。
