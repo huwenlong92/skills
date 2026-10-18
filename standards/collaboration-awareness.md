@@ -37,3 +37,7 @@
 - PR 关闭、合并、Draft 切换或 head 变化后，下次检查使用新状态。
 - 网络失败、权限不足、分页不完整、文件重命名、远端前进均不会导致静默覆盖。
 - 仅执行只读 GitHub 查询时不会触发 Actions、提交或部署。
+
+## Git 操作协议边界
+
+本协议仅负责相关 PR 发现、依赖和 L0–L3 风险分级。工作区同步、Worktree、Stage/Commit/Push、PR/MR Merge 门禁及失败恢复遵守 [Git Collaboration V1](git-collaboration.md)；不得建立第二套冲突分级或把 mergeable 当成审批通过。
