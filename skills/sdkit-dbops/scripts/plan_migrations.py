@@ -56,6 +56,8 @@ def plan(source, target):
         except ValueError as exc:
             raise ValueError("invalid capturedAt") from exc
     a,b=history_map(source["history"]),history_map(target["history"])
+    if source["identity"]["environmentId"] == target["identity"]["environmentId"] and source["identity"]["databaseId"] == target["identity"]["databaseId"]:
+        raise ValueError("source and target must be distinct environments")
     if source["identity"]["dialect"] != target["identity"]["dialect"] or source["identity"]["databaseVersion"] != target["identity"]["databaseVersion"] or sorted(source["identity"]["scope"]) != sorted(target["identity"]["scope"]) or source["normalizerVersion"] != target["normalizerVersion"]:
         state="unknown"
     elif any(a[k]!=b[k] for k in a.keys()&b.keys()):
