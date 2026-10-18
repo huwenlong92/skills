@@ -57,7 +57,7 @@
     },
     "snapshotFingerprint": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "pattern": "^[a-f0-9]{64}(?![\\\\s\\\\S])"
     },
     "normalizerVersion": {
       "type": "string",
@@ -73,7 +73,7 @@
       "properties": {
         "sourceCommit": {
           "type": "string",
-          "pattern": "^[a-f0-9]{40}$"
+          "pattern": "^[a-f0-9]{40}(?![\\\\s\\\\S])"
         },
         "collector": {
           "type": "string",
