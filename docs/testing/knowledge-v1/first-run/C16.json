@@ -1,0 +1,66 @@
+{
+  "case": 16,
+  "model_requested": "gpt-6.1-sol",
+  "cli_version": "codex-cli 0.163.0",
+  "turns": [
+    {
+      "turn": 1,
+      "prompt": "仅只读核对 LumaNote 登录决策，可以给文档草稿；不得保存、创建项目或 PR，也不部署。",
+      "exit_code": 0,
+      "seconds": 19.95,
+      "completed": true,
+      "commands": [
+        {
+          "type": "command_execution",
+          "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g '*SKILL.md' -g 'skill-orchestration.md' -g 'knowledge-retrieval-capture.md' -g '*Luma*' -g '*luma*'\"",
+          "exit_code": 0,
+          "status": "completed",
+          "output_sha256": "767d7b393b733cc85eb83c8627940af913e2e7fd305d627bc4fd91522184fcee",
+          "output_bytes": 159
+        },
+        {
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'cat standards/skill-orchestration.md standards/knowledge-retrieval-capture.md; rg --files .agents products knowledge'",
+          "exit_code": 0,
+          "status": "completed",
+          "output_sha256": "4d8f5dc43667e0372769a4c5b30af0aefef620682b57d0343c6abbf6a77183b6",
+          "output_bytes": 14099
+        },
+        {
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'cat .agents/skills/foundry/SKILL.md .agents/skills/foundry/references/workspace.md .agents/skills/foundry/references/resolver.md products/AGENTS.md products/PROJECTS.md'",
+          "exit_code": 0,
+          "status": "completed",
+          "output_sha256": "784713a3d8458c1ef3797a36b8c16e6c10775d04a00a03b91b13075cef0a7101",
+          "output_bytes": 12256
+        },
+        {
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'cat .agents/skills/foundry/references/capture.md .agents/skills/foundry/references/repository.md .agents/skills/foundry/references/documents.md products/projects/luma-note/profile.json products/projects/luma-note/docs/decisions.md; git -C products remote -v; git -C products rev-parse HEAD; git -C products branch --show-current; git -C products --no-optional-locks status --short'",
+          "exit_code": 0,
+          "status": "completed",
+          "output_sha256": "8a2c3cc75ccdf3b643db434cfe997089871700f1976142fb7a5657524bace4be",
+          "output_bytes": 8322
+        }
+      ],
+      "responses": [
+        "我会只读核对夹具中的 LumaNote 登录决策，按需查阅相关规范和知识记录；如需补充文档，草稿仅放在回复中。",
+        "已按任务语义选用 Foundry，索引命中 LumaNote（别名“星笺”）。接下来核对登录决策原文和本地快照版本；远端最新状态不在本次核验范围内。",
+        "已只读核对：LumaNote（星笺）v0.2 产品方案的登录决策于 **2026-09-20 确认**：\n\n- 使用服务端 **Cookie Session**。\n- 不采用浏览器长期 bearer token。\n- 该记录仅证明产品决策，**不证明代码已实现或已上线**。\n\n来源：[登录决策原文](<fixture-root>/C16/products/projects/luma-note/docs/decisions.md)。本地 Active Workspace 为 `fixture-products`，remote 与指定地址一致；分支 `main`，快照 SHA 为 `32176540633775e4ba5eac30df7cc0a80e5299ff`，工作区干净。远端最新状态未核验。\n\n未修改或保存文件，未创建项目、PR，也未部署。"
+      ],
+      "raw_sha256": "790bbb32c3a9c933c4b14ba5bc4c96eae80e92a46fbc50b97b9e8bb26aaa0d48",
+      "errors": [],
+      "runtime": {
+        "model": "gpt-6.1-sol",
+        "sandbox": "read-only"
+      }
+    }
+  ],
+  "files_unchanged": true,
+  "repo_status": {
+    "products": "",
+    "knowledge": ""
+  },
+  "source_snapshot_sha256": "56f94bb1c5a457c9a2149bfeeff1eaa0b72a35dc8e530f8b993ebeea8c3cb091",
+  "sandbox": "read-only"
+}

@@ -1,6 +1,6 @@
 ---
 name: foundry
-description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、市场研究、产品设计规范管理、交互原型、项目初始化与导入、跨会话项目路由及发布验收；默认绑定 huwenlong92/product-docs，不负责正式业务代码开发。
+description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、市场研究、产品设计规范管理、交互原型、项目初始化与导入、跨会话项目路由、按需自动检索已有项目知识、识别对话中的产品文档候选及发布验收；默认绑定 huwenlong92/product-docs，不负责正式业务代码开发。
 ---
 
 # Foundry 产品研发协作（专用 Skill）
@@ -15,6 +15,7 @@ description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、�
 
 | 用户任务 | 必须读取 |
 |---|---|
+| 自动识别既有项目知识需求、按需检索、捕获项目文档候选与阶段摘要 | [知识检索与捕获](references/capture.md)、[仓库与项目路由](references/repository.md)、[文档协作](references/documents.md) |
 | 识别项目、继续已有项目或定位文档 | [Workspace 配置](references/workspace.md)、[Repository Resolver](references/resolver.md)、[仓库与项目路由](references/repository.md) |
 | 起草、修改、同步 PRD、研究、技术方案、技术文档、产品设计规范 | [仓库与项目路由](references/repository.md)、[文档协作](references/documents.md) |
 | 生成、修改、完善、继续交互原型 | [仓库与项目路由](references/repository.md)、[交互原型](references/prototypes.md)、[提交与验收](references/publishing.md) |

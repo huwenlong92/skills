@@ -1,0 +1,144 @@
+{
+  "date": "2026-10-18",
+  "baseline_head": "5f4734606f68402941e17b1bac01f0a239171152",
+  "main": "8b22285aa2abba995e88f49718800c167c7e2413",
+  "first_run": {
+    "executed": 16,
+    "passed": 15,
+    "failed": [
+      {
+        "case": 7,
+        "reason": "冲突解释正确，但在身份核验命令中无必要地重读三份有效全文，违反低请求量约束。"
+      }
+    ]
+  },
+  "models": {
+    "cli_requested": "gpt-6.1-sol",
+    "cli_version": "0.163.0",
+    "isolated_turn_context_observed": [
+      "gpt-6.1-sol"
+    ],
+    "immutable_server_revision": "未提供，不作推断",
+    "runtime_counts": {
+      "gpt-6.1-sol/read-only": 34,
+      "gpt-6.1-sol/workspace-write": 13
+    }
+  },
+  "private_repository_reads": 0,
+  "fixture_policy": "仅公开 Skill/协议和脚本生成的虚构资料；不调用真实 GitHub/Workspace 检索。",
+  "regression": {
+    "cases": [
+      7,
+      13,
+      16
+    ],
+    "passed": 3,
+    "sandbox": "C07/C16 与 C13 首轮为 workspace-write；原 C13 续接九轮实际回退 read-only，仅保留功能证据。",
+    "turns": 12
+  },
+  "final_behavior": {
+    "executed": 16,
+    "passed": 16,
+    "failed": 0,
+    "not_run": 0,
+    "scenario_model_turns": 47,
+    "connectivity_probes": 1,
+    "write_attempts": 0,
+    "all_fixture_files_unchanged": true,
+    "expected_failure": "首轮 C15 的目录不存在检查非零，用于验证受阻安全降级；47 个场景模型调用均退出 0 并有 turn.completed。"
+  },
+  "limitations": [
+    "仅验证带项目协议入口与两 Skill 原生目录的 Codex；不推断无全局入口、其他 Agent 或真实私有仓库权限。",
+    "少量场景枚举夹具目录，增强 C13 读取另一 Workspace 规则入口；大库成本与长期漂移未量化。",
+    "不同修复阶段源码由 source-snapshots.json 及每例 source_snapshot_sha256 区分；不把初次失败隐藏为最终通过。"
+  ],
+  "static": {
+    "manager_validate": {
+      "exit_code": 0,
+      "skills": 20
+    },
+    "manager_unittest": {
+      "exit_code": 0,
+      "passed": 44
+    },
+    "protocol_link_unittest": {
+      "exit_code": 0,
+      "passed": 24
+    },
+    "markdown": {
+      "exit_code": 0,
+      "documents": 261,
+      "relative_links": 945,
+      "anchors": 2,
+      "errors": 0
+    },
+    "diff_check_exit_code": 0,
+    "catalog_frontmatter_directories": {
+      "catalog": 20,
+      "frontmatter": 20,
+      "directories": 20
+    },
+    "sensitive_scan": {
+      "personal_absolute_paths": 0,
+      "private_key_headers": 0,
+      "github_token_patterns": 0,
+      "openai_key_patterns": 0,
+      "new_evidence_session_ids": 0
+    }
+  },
+  "remote_before_push": {
+    "main": "8b22285aa2abba995e88f49718800c167c7e2413",
+    "pr19_head": "5f4734606f68402941e17b1bac01f0a239171152",
+    "state": "OPEN",
+    "draft": true,
+    "mergeable": "MERGEABLE",
+    "merge_state": "CLEAN",
+    "pr14": "50ba0de9d26d1b471068607ec4a5e11ce6274b9e",
+    "pr18": "ad8914562ebf2b9228c43b35b4f8383414609234",
+    "pr18_previous": "5bb812edb747d1afc716c12f25a7a776cb66c8cd",
+    "pr18_recheck": "已读取新增 changed files 与共享文件 diff；产品路由源码未变，按新 Head 重新只读三路核验。"
+  },
+  "sandbox_resume_regression": {
+    "case": 13,
+    "passed": true,
+    "turns": 10,
+    "actual_sandbox_per_turn": [
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write",
+      "workspace-write"
+    ],
+    "commands_per_turn": [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "evidence": "sandbox-regression/C13.json",
+    "all_runtime_metadata_verified": true
+  },
+  "compatibility": {
+    "pr14": "L2：AGENTS.md 同路径，独立插入可自动合并，职责兼容。",
+    "pr18": "L2：Foundry description 和 .sdkit/{STATUS,HANDOFF,TASKS,DECISIONS}.md 的只读三路比较存在文本冲突；skill-orchestration.md 可自动合并。没有将 #18 内容合入 #19。",
+    "pr18_merge_file_results": {
+      ".sdkit/STATUS.md": "conflict",
+      ".sdkit/HANDOFF.md": "conflict",
+      ".sdkit/TASKS.md": "conflict",
+      ".sdkit/DECISIONS.md": "conflict",
+      "skills/foundry/SKILL.md": "conflict",
+      "standards/skill-orchestration.md": "clean"
+    }
+  }
+}
