@@ -12,7 +12,7 @@ description: Nuxt.js public、业务 assets、自定义 SVG、core assets 和远
 - 需要稳定 URL 原样访问的 favicon、logo 或公开文件必须放在 `public`，引用路径以 `/` 开头并验证 base URL。
 - 只由前端代码使用且需要 Vite/Nuxt 处理的业务图片和局部样式资源必须放在 `src/assets`。
 - 业务自定义 SVG 必须放在 `src/icon`；插画类 SVG 放在 `src/icon/illustration`。
-- 字体、框架全局样式、theme、token 和 Element Plus 覆盖必须放在 `layers/core/assets`。
+- 字体、基础 token 与 Element Plus 桥接必须放在 `layers/core/assets`；实际模板已独立配色 layer 时，可切换配色必须放在 `layers/themes`，禁止复制两套配色状态。
 - 业务图片、产品品牌插画和营销图禁止进入 core assets；框架 token 禁止进入业务 assets。
 
 ## 命名与复用

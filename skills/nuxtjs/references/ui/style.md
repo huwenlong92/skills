@@ -10,7 +10,7 @@ description: Nuxt.js 局部样式、framework theme、业务主题、layout 和�
 ## 样式边界
 
 - 只服务当前 Vue 组件的样式必须使用 scoped。
-- 跨项目设计 token、framework theme、全局样式入口和 Element Plus 覆盖必须放在 `layers/core/assets/styles`。
+- 跨项目基础 token、全局样式入口和 Element Plus 桥接必须放在 `layers/core/assets/styles`；已采用独立配色 layer 的版本，其配色按 [布局与主题](../layers/layouts.md) 放在 `layers/themes`。
 - 只属于当前产品品牌的主题必须放在 `src/assets/styles/themes/<theme-name>`，禁止把品牌值写回 core。
 - 页面禁止直接覆盖 Element Plus 全局样式；确认需要全项目统一时才允许修改集中覆盖文件。
 - 已有 CSS variable 或 token 能表达的值必须复用；只有组件特有的栅格、媒体比例、图标尺寸和装饰几何值才允许局部写值。
@@ -19,7 +19,7 @@ description: Nuxt.js 局部样式、framework theme、业务主题、layout 和�
 
 - 被多个路由共享的 header、footer、sidebar、background 和主内容容器必须由 Nuxt layout 承担。
 - 当前产品需要覆盖 core layout 时放在 `src/layouts`；单页面内容区块禁止新增 layout。
-- 页面 layout、theme、pageClass 和 wrapClass 必须通过 `definePageMeta` 使用已有能力；只有现有 layout API 无法表达两个以上页面的共同外壳时才允许新增 layout。
+- 页面 layout、pageClass 和 wrapClass 必须通过 `definePageMeta` 使用已有能力；theme 历史标记只允许按实际消费者保留，禁止覆盖用户全局配色偏好；只有现有 layout API 无法表达两个以上页面的共同外壳时才允许新增 layout。
 - 普通组件承载可复用内容区块、表单控件或独立业务单元，不能代替 layout，也不能隐藏整个页面；页面组合规则见 [page.md](../code/page.md)。
 
 ## 业务主题

@@ -30,6 +30,14 @@ description: Nuxt.js env、runtime config、API base、部署路径和项目固�
 - 只有部署明确使用独立 API 域名时才允许将完整域名放入 public API base，并必须验证 CORS 与 cookie 策略。
 - 二级目录必须由 Nuxt app base 和网关规则处理，业务代码禁止手工拼接。
 
+## 构建期、运行期与路径
+
+- 当前模板 `runtimeConfig.public.apiBase` 的运行期覆盖名必须是 `NUXT_PUBLIC_API_BASE`；`NUXT_PUBLIC_APP_API_BASE` 仅在现有配置显式读取时作为构建期兼容输入。禁止认为任意 process.env 默认值都会在构建后被同名变量覆盖。已有其他键时必须按实际层级解析，不机械改名。
+- 普通 Node 启动不自动读取 `.env.production`；必须通过进程或 Compose 注入，构建需选择 dotenv 时必须显式声明。禁止把启动变量未生效当作浏览器缓存问题。
+- `NUXT_PUBLIC_APP_NAME` 必须统一品牌与标题，禁止另设语义重复变量；主题、layout、template 必须保持不同配置语义，其 Cookie 优先级与开关遵守 [布局](../layers/layouts.md)。
+- 二级目录的 app baseURL 必须以 `/` 开始和结束；必须分别验证页面、API 网关与 buildAssetsDir 资源路径。站点相对 Logo 必须仅补齐一次 baseURL，完整 URL 不重复拼接，favicon 与 Logo 分别验收。
+- 自定义资源路径和根节点禁止移除 Nuxt hydration 数据。配置文件必须按 auth、net、setting 各自职责维护，禁止混入业务页面数据。
+
 ## 修改门禁
 
 - 修改 `.env*`、runtime config 或 `nuxt.config.ts` 后必须重启开发服务。
