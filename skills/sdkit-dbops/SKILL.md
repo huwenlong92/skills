@@ -13,6 +13,9 @@ description: 跨语言数据库 SQL Migration 静态校验、Schema Baseline、�
 3. 任何数据库环境、连接、执行或恢复话题必须读取 [安全门禁](references/safety.md)。
 4. V1 工具 `scripts/check_migrations.py` 仅对本地文件进行静态检查，不连接数据库，不提供 apply/down/rollback。
 
+5. 离线 Baseline 与 History 读取 [基线与历史](references/baseline-history.md)。
+6. Snapshot 与 Drift 读取 [快照规范](references/schema-snapshot.md) 和 [差异规则](references/drift.md)；方言能力读取对应 providers reference。
+
 ## 禁止
 - 禁止在环境不明时试连；禁止 AI 直接或间接操作正式数据库。
 - 禁止把现有 Go AutoMigrate 当成已执行的版本化 SQL Migration。
