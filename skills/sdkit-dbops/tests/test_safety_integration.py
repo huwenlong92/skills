@@ -10,6 +10,7 @@ def load(name):
     return module
 plan = load("plan_migrations")
 recovery = load("recovery_report")
+validate_plan = load("validate_plan")
 
 def sample(environment):
     return {"identity": {"environmentId": environment, "databaseId": "db", "dialect": "postgres",
@@ -66,3 +67,24 @@ class SafetyIntegrationTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             recovery.report({"operationId": "op1", "targetIdentity": {"databaseId": "db"},
                 "lastKnownStep": None, "failureState": "succeeded", "observations": []})
+
+    def test_plan_integrity_rejects_tampering(self):
+        p = plan.plan(sample("local"), sample("remote"), safety())
+        self.assertEqual(validate_plan.validate(p)["status"], "valid")
+        p["safetyGate"]["status"] = "approved"
+        with self.assertRaises(ValueError):
+            validate_plan.validate(p)
+
+    def test_rehashed_approval_still_rejected(self):
+        p = plan.plan(sample("local"), sample("remote"), safety())
+        p["decision"] = "candidate"
+        p["planHash"] = plan.digest({k: v for k, v in p.items() if k != "planHash"})
+        with self.assertRaises(ValueError):
+            validate_plan.validate(p)
+
+    def test_backup_rpo_change_invalidates_hash(self):
+        x = safety()
+        a = plan.plan(sample("local"), sample("remote"), x)
+        x["backupRequest"]["rpoSeconds"] = 10
+        b = plan.plan(sample("local"), sample("remote"), x)
+        self.assertNotEqual(a["planHash"], b["planHash"])
