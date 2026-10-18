@@ -1,116 +1,114 @@
-# PR #18 · ui-design V1 最终本地验收报告
+# PR #18 · sdkit-ui-design V1 最终验收报告
 
-适用范围：2026-10-18 对 `huwenlong92/skills` PR #18 的隔离集成验收。静态检查、离线回归、真实模型行为分别计数。
+适用范围：2026-10-18 对 `huwenlong92/skills` PR #18 的本地集成与真实 Codex 行为验收。静态检查、离线回归和真实模型行为分别记录。
 
 ## 结论
 
-**最终验收 BLOCKED，尚未达到最终技术可合并条件。** 当前 Skill 名称为 **sdkit-ui-design**（保留并行远端重命名），下文原始 ui-design 仅指初始版本及任务名称。本地修复与自动化回归通过；临时 Codex Home 未登录且无可用进程认证，依用户停止条件，未复制认证、未发起模型请求。U01–U12 全部 BLOCKED，不能用文档、测试字符串或当前聊天中的 Skill 名称代替真实原生选择证据。
+**本轮最终技术验收通过。U01–U12：PASS 12 / FAIL 0 / BLOCKED 0。** U05 的已有设计稿、纯文字、真实图片工具生成三种来源交接均通过。满足本轮受控技术可合并条件；不代表获得最终合并授权、真实业务构建或部署已验收。
 
-保持 PR Draft/Open；不合并、不切换 Ready、不部署、不主动触发 CI。用户授权的普通 Push 可能按仓库既有设置产生自动工作流；本任务不调用 Actions 触发接口。
+PR 必须保持 Draft/Open。不合并、不切换 Ready、不部署、不主动触发 CI；普通 Push 后由仓库设置自动运行的工作流不视为本任务主动触发。
 
-## Git 基线与协作核验
+## Git 与并行协作
 
-- main：`8b22285aa2abba995e88f49718800c167c7e2413`。
-- 开始及首轮写入前 PR #18 Head：`5983179b279dcc8c75b62c43bb19962c6580e316`，Draft/Open、MERGEABLE。
-- 修复 Commit：`f3a5716c7b3db16edbf788d8afc2a17f276b17c8`；命名一致性修复 `4e923c9f756c215bc643c067f78cd29c27e57eb0`；普通 Merge `a96171b03f0a085c57490b06da6cd3dd537acc78`。
-- **最终 Head SHA 定位**：包含本报告的验收提交为本轮交付 tip；在该提交执行 `git rev-parse HEAD`，或对本轮报告执行 `git log -1 --format=%H -- docs/testing/ui-design-v1/REPORT.md` 得到完整 SHA，并与 GitHub `gh pr view 18 --repo huwenlong92/skills --json headRefOid` 核对。提交不能在自身正文内嵌自身 SHA；最终推送后的完整 SHA、Draft/Open 和 mergeable 由交付时实时查询并在最终回复给出，不将起始 Head 冒充最终 Head。
-- 隔离 Worktree 使用独立本地分支，普通 Fetch main 与目标分支；main 已为祖先，`git merge-base --is-ancestor <main> HEAD` 退出 0，无需 Merge。未操作主工作区的 `docs/ideas/` 或已有 Worktree。
-- [GitHub 快照](github-before-write.json)包含最新 SHA、状态、时间及完整文件集。#14–#17 均 Draft/Open，文件数量分别 14、36、12、10；#18 原始文件 11。四个 PR 与 #18 原始变更及本轮修复无同路径重叠。目录未重命名，完整文件列表未截断。
-- #14 涉及发现/bootstrap 协议，#15/#16 涉及 Nuxt/Vab 技术栈规范，按共享接口关联 L1 审阅，不把无路径重叠等同于证明未来合并后全部语义兼容。未引入它们任何 Commit、脚本或规范修改。未来合并顺序改变时仍须重新验收。
-- 提交前发现远端前进到 `b9aef4e67ed188af12adeb5c72a3f810239f13aa`，共 13 个命名空间相关提交。停止推送，安全 Fetch 并普通 Merge，逐项解决唯一 handoff 冲突：保留对方新名称与本轮交接修复。随后发现 Catalog/旧路径引用不一致，Manager 实际退出 1；[命名空间失败证据](namespace-before.json)与新增回归保留。补齐 Catalog、Foundry、Orchestration、测试，验收矩阵移入新目录，旧 review 与新文件逐字节相同后移除旧副本；并行历史全部保留。
-- Push 前须再次读取 main、目标 Head 和相关 PR 状态；远端前进时禁止覆盖，必须重新整合和测试。最终交付状态以实际 GitHub 为准。
+- main：`8b22285aa2abba995e88f49718800c167c7e2413`，恢复时及写入前实时核验未变。
+- 原始验收基线：`5983179b279dcc8c75b62c43bb19962c6580e316`。
+- 首轮交付及本轮模型测试源码 Head：`5bb812edb747d1afc716c12f25a7a776cb66c8cd`，本轮恢复时 Draft/Open、MERGEABLE。
+- 修复 Commit：`f3a5716c7b3db16edbf788d8afc2a17f276b17c8`（交接来源、缺失项及工程边界）；`4e923c9f756c215bc643c067f78cd29c27e57eb0`（并行命名一致性）。普通 Merge `a96171b03f0a085c57490b06da6cd3dd537acc78` 保留远端 `b9aef4e67ed188af12adeb5c72a3f810239f13aa` 的完整历史，唯一交接冲突逐项语义解决。此次真实行为未要求追加 Skill 修复。
+- 最终 PR Head SHA 由交付时 GitHub 实时查询返回，并在最终回复给出。含本报告的最后提交可通过 `git log -1 --format=%H -- docs/testing/ui-design-v1/REPORT.md` 取得；提交正文不能内嵌自身 SHA，禁止以测试基线冒充最终 Head。
+- main 已为祖先，无需再 Merge main。隔离 Worktree 内工作，不动主工作区未知 `docs/ideas/` 或其他 Worktree。Push 前再次核验 main、目标 Head 与相关 PR；远端前进则停止覆盖，重新比较整合。
+- #14–#17 均 Draft/Open，文件数量 14/36/12/10，与 #18 原始变更及修复无直接重叠；共享发现/模板协议按 L1 关联审阅。完整文件集见 [GitHub 快照](github-before-write.json)。没有混入它们任何代码或 Commit。
+- 新出现 #19 为 Draft/Open，Head `5f4734606f68402941e17b1bac01f0a239171152`，与 #18 在 Foundry 入口及 Orchestration 有直接文件交集，属于 L2。只读审阅其 9 个变更路径；本轮不改这两个文件、不合入 #19，未来按合并顺序重新进行交叉语义验收，不宣称组合状态已验证。
 
-## 规范与兼容性审计（静态）
+## 本地自动化（真实命令执行，非模型）
 
-已读取根 AGENTS、Catalog、协作感知、Skill Orchestration、Development Execution、任务/决策/交接、Foundry 入口与 prototypes、ui-design 入口/README/全部五份 references/acceptance。
+所有命令在隔离 Worktree 根实际执行；最终命令数组、输出、计数和退出码见 [本轮回归结果](resumed-local-results.json)。
 
-| 检查 | 结果与边界 |
-|---|---|
-| Catalog | 21 条，21 个实际目录与有效入口；sdkit-ui-design 名称唯一、product 分类，旧目录已完整迁移 |
-| Frontmatter | sdkit-ui-design 只含 name/description；描述覆盖视觉、布局、交互、响应式、复核和交接，排除业务代码、产品仓库管理与部署 |
-| Foundry/UI | 纯设计唯一 Primary 为 sdkit-ui-design，已有确认需求可由 Foundry Supporting；文档规范管理、可操作原型和发布仍为 Foundry，不存在静态双 Primary 规则 |
-| 正式实现 | Nuxt/Flutter/Vab 等已核实模板身份的技术栈 Skill 主导；不能仅凭文件后缀套用模板 |
-| 职责 | sdkit-ui-design 引用目标发布协议，不承担 Git、R2、Runtime、数据库或工程计划执行；设计交付不授权这些操作 |
-| 独立使用 | 五份 Reference 无个人绝对路径或 Product Docs 强制读取；交接不再强制依赖未提供的 Development Execution，必要工程规则缺失只停止受影响实现 |
-| Reference 质量 | 五份均有开头适用范围、正反例、结尾可核验完成标准；Token 优先规则紧接缺少 Token 的退回条件；路径放置限定目标规范/用户授权，禁止猜测目录 |
-| 高风险边界 | 图片产物声明需成功结果与可访问性核验；未经核实资源保持缺失；发布/工程操作交还实际规则，不引入发布执行流程 |
-| Foundry 保留能力 | 规划、PRD、研究、项目路由、初始化/导入、原型及发布分流保留；prototypes、Workspace、Git、发布 references 与原始 Head 逐字节不变 |
-| 新旧入口 | Nuxt/Vab 主入口与旧兼容入口、全部既有技术栈文件与原始 Head 相同；迁移 7 项回归包含在 Manager 44 项中 |
-
-Foundry 的原有 PRD/路由/原型/发布能力仅通过规则与文件完整性审阅；真实执行兼容性仍未验证。普通项目不接 Product Docs 的能力同样仅完成静态独立性检查。既有 Foundry README 根仓库导航限制并非本轮新增，未借此重构。
-
-## 自动化命令与结果（真实本地执行，非模型）
-
-所有命令从隔离 Worktree 根执行。命名整合前的首轮 117 项见 [整合前结果](pre-namespace-results.json)；最终完整命令数组、退出码、数量和输出见 [最终本地结果](local-results.json)；初始结果见 [基线结果](baseline-results.json)。
-
-| 实际命令 | 测试数 | 通过 | 失败 | 退出码 |
+| 命令 | 总数 | 通过 | 失败 | 退出码 |
 |---|---:|---:|---:|---:|
 | `python3 -m unittest discover -s scripts -p 'test_engineering_protocols.py' -v` | 17 | 17 | 0 | 0 |
 | `python3 -m unittest discover -s skills/sdkit-skills/scripts -p 'test_*.py' -v` | 44 | 44 | 0 | 0 |
 | `python3 -m unittest discover -s skills/dockerops/scripts -p 'test_*.py' -v` | 41 | 41 | 0 | 0 |
 | `python3 -m unittest discover -s scripts -p 'test_markdown_links.py' -v` | 7 | 7 | 0 | 0 |
 | `python3 -m unittest discover -s scripts -p 'test_ui_design.py' -v` | 9 | 9 | 0 | 0 |
-| 合计（不重复计迁移子集） | 118 | 118 | 0 | 0 |
+| 合计 | 118 | 118 | 0 | 0 |
 | `python3 skills/sdkit-skills/scripts/manager.py validate --all` | 21 Skill | 21 | 0 | 0 |
-| `python3 scripts/check_markdown_links.py` | Markdown | Markdown: 265 files, 921 relative links, 2 anchors, 0 errors | 0 | 0 |
-| `git diff --check` | 差异格式 | 通过 | 0 | 0 |
+| `python3 scripts/check_markdown_links.py` | 全仓 | Markdown: 266 files, 952 relative links, 2 anchors, 0 errors | 0 | 0 |
+| `git diff --check` | 格式 | 通过 | 0 | 0 |
 
-Manager 的 `test_migration.py` 七项确由 discover 实际执行，覆盖新旧入口、详细规则保留、独立安装/更新和互不覆盖；不作为额外七项重复计数。未使用不存在的入口。
+Manager 44 项包含 `test_migration.py` 的全部 7 项，不重复计数；验证新旧入口和详细规则保留、独立安装/更新及互不覆盖。不存在的脚本未冒充成功。
 
-首轮四个候选 Skill（ui-design、foundry、sdbase-nuxtjs-portal、sdbase-flutter-app）仅安装到临时 home 的 skills 目录；[安装证据](isolated-install.json)记录命令初次因目标父目录不存在退出 1，显式创建该专用父目录后四次均退出 0，未覆盖任何既有目录。保留首轮证据，未覆盖安装：命名整合后在全新的 `<temp>/codex-home-integrated/skills` 安装 sdkit-ui-design 等四个候选，全部退出 0，见[整合后安装](integrated-install.json)。新名称的独立安装/更新哈希与目录一致性由定向回归验证。
+Catalog 21/21：名称、目录、入口有效。sdkit-ui-design frontmatter 仅 name/description；五份 Reference 适用范围、确定性措辞、正反例、结尾完成标准通过；Token 优先规则有明确退回条件。无个人本机路径、私有配置或 Product Docs 强依赖；交接落点允许/禁止及无法定位资源时停止规则明确。
 
-## 修复与失败证据
+原有首轮 109 项、修复前 8 项测试中 4 项失败及 15 个失败子断言、命名整合前 117 项和重命名 Catalog 失败均保留在 [首轮历史报告](initial-report.md)、[修复前证据](regression-before.json)、[命名失败证据](namespace-before.json)，未删除失败或降低预期。
 
-- 明确完整交接十项信息、缺失项标记、三种设计来源及实际图片工具成功验证；规定允许/禁止的交接落点。
-- 将未声明工程协议依赖改成按目标项目实际可用协议执行；规则缺失不得继续受影响实现。
-- 两处“应”改成“必须”，验收矩阵示例统一为虚构 Northstar Tasks，保留全部 12 场景和原有判定标准。
-- 新增 8 项离线契约回归。同一测试集指向原始 Git 对象导出的隔离源码时：8 项中 4 通过、4 失败（15 个失败子断言，0 errors），退出 1；修复后 8/8 通过。见 [修复前证据](regression-before.json)。命名整合后增加第 9 项 Catalog/磁盘/路由一致性回归，在并行远端完整导出源码上单独运行退出 1，修复后通过；其余 8 项仅随远端实际名称更新路径/标识符，未改变业务预期。没有删除失败场景或降低断言；这些是文档契约失败，不能描述成真实模型失败。
+## 隔离、认证和原生发现
 
-## 隔离与认证预检
+见 [恢复预检](resumed-preflight.json)。用户在独立 `<temp>/codex-home-integrated` 完成浏览器登录；只核验登录状态，不读取或复制认证内容。未修改真实全局配置、AGENTS 或 Skill 安装。
 
-临时目录结构：`<temp>/codex-home`、`fixtures`、`outputs`、`evidence`；独立 Worktree 不在真实业务项目。CLI 为 0.163.0。
+CLI 0.163.0；使用默认模型。本次 CLI JSON 未暴露精确服务端模型标识，因此不猜测型号。执行命令与真实模型工具行为已记录，未以静态断言代替模型调用。
 
-首轮及命名整合后的全新临时 home 均检查 `codex login status`，均退出 1，stderr 为 `Not logged in`；OPENAI_API_KEY、CODEX_API_KEY、CODEX_ACCESS_TOKEN 均不存在。仅检查宿主配置的认证机制字段并输出布尔值/机制类别，未输出配置内容或复制到夹具/证据。内置 provider、默认存储未给临时 home 提供可用登录。见 [认证预检](auth-preflight.json)。
+- 官方命名权限 profile 继承 `:workspace`，`:root/:tmpdir/:slash_tmp` deny，`:minimal` read，当前虚构项目 write，四个公开 Skill 目录 read；工具网络关闭。
+- 实际探针：夹具及公开 Skill 可读、夹具内可写；夹具外虚构哨兵读/写退出 1，均 `Operation not permitted`；工具网络探针退出 6。没有用真实认证内容作探针。
+- 工具环境继承 none，只提供必要系统工具 PATH 和 LANG。已有网络代理仅用于父 CLI 连接模型服务，不进入工具环境或证据；没有关闭沙箱或绕过审批。
+- 初次离线发现宿主描述/个人路径时未发送模型。目录禁用选择器不足，改为入口文件选择器后，逐次离线确认模型输入只有 foundry、sdbase-flutter-app、sdbase-nuxtjs-portal、sdkit-ui-design 四个候选且无个人路径，再启动模型。参数仅对临时进程生效。
+- CLI 自动补充的 system 缓存也已禁用；没有安装真实用户 Skill。运行后四个公开 Skill 的哈希及目录集合与源码一致。
+- 评分预期、场景编号和证据目录不在模型可读项目中；AGENTS 只规定共同安全边界，不指定 Primary。Nuxt/Flutter 身份使用虚构 TEMPLATE 与最小代码作为测试前置条件，未读取真实业务项目。
 
-**模型调用 0，成功 0，模型服务连接尝试 0；没有虚构模型型号或网络失败。** 阻塞发生于认证前置条件，不是模型拒绝，也不是审批拒绝。没有读取/复制真实认证文件，没有发起登录或要求用户交出密钥。
-
-依据 [OpenAI 认证文档](https://learn.chatgpt.com/docs/auth)和[安全文档](https://learn.chatgpt.com/docs/security)核对机制；临时 CODEX_HOME 仅隔离配置，不等同于限制全部文件读取。夹具有禁止外部文件、环境、认证、网络、MCP、Git 远端与发布的规则；认证预检停止后未启动模型，OS 读取边界探针及真实模型文件访问边界尚未验证。恢复时必须先建立可验证的只读隔离边界并检查不加载宿主 Skill/插件，再运行模型；不得凭临时 home 存在就声称隔离通过。
+原生选择证据为“CLI 原生候选目录＋成功读取适用 SKILL/Reference＋实际工具行为＋最终产物/边界”组合。没有观察隐藏内部选择器；不单凭输出出现名称判 PASS，也不宣称完整宿主 Skill 集合或其他 Agent 已验证。
 
 ## U01–U12 真实模型结果
 
-[场景材料](scenarios.json)保存每项完整实际准备输入、夹具内容、预期 Primary/Reference、运行状态、选择观察字段。**这些输入尚未发送给模型。** 以下 Primary 均是预期，非实际选择。所有场景模型成功运行为否，实际 Primary/Supporting、适用文件加载、输出符合性、无关 Skill、越权行为均为“未执行，无法判断”；不是 PASS，也没有可声称的原生加载记录。
+完整实际输入、初始夹具、附件哈希、逐项成功读取记录、命令输出及退出码、文件变化、最终产物和原始本地事件哈希保存在各项 JSON；不提交原始会话标识或日志。[汇总](behavior-results.json)记录全部运行。
 
-| ID | 准备输入摘要 | 预期 Primary / Supporting | 结果 |
+| 场景 | 最终运行证据 | 实际 Primary / Supporting | 判定与行为 |
 |---|---|---|---|
-| U01 | 虚构 SaaS 后台工作台 | sdkit-ui-design | BLOCKED：认证 |
-| U02 | 按本地虚构 PRD 设计页面 | sdkit-ui-design；Foundry 仅上下文 | BLOCKED：认证 |
-| U03 | 现有页面移动端设计 | sdkit-ui-design；保留设计系统 | BLOCKED：认证 |
-| U04 | 表单加载/错误/成功等状态 | sdkit-ui-design；未知业务规则待确认 | BLOCKED：认证 |
-| U05 | Northstar Tasks 完整开发交接 | sdkit-ui-design；工程实现交技术栈 | BLOCKED：认证 |
-| U06 | 设计与实现截图差异 | sdkit-ui-design；仅有证据的差异 | BLOCKED：认证；目前为合成 SVG 源，实际截图及视觉工具读取尚未验证 |
-| U07 | 直接开发 Nuxt 页面 | 经身份核验的技术栈 Skill | BLOCKED：认证；最小夹具不是完整模板克隆 |
-| U08 | 修复 Flutter 编译错误 | 经身份核验的技术栈 Skill | BLOCKED：认证；未运行 Flutter 编译 |
-| U09 | 维护产品 PRD | foundry | BLOCKED：认证 |
-| U10 | 发布已有交互原型 | foundry / 目标仓库发布协议 | BLOCKED：认证；目标协议缺失应停止，禁止真实发布 |
-| U11 | 无图像生成工具 | sdkit-ui-design；文本媒介明确 | BLOCKED：认证 |
-| U12 | 仅设计图要求真实 API | 技术栈 Skill；缺契约停止 | BLOCKED：认证 |
+| U01 后台工作台 | [U01](cases/U01.json) | sdkit-ui-design / 无 | PASS；实际两端 SVG＋设计说明，XML 检查；无浏览器冒报 |
+| U02 按 PRD 设计 | [U02](cases/U02.json) | sdkit-ui-design / 无 | PASS；本地 PRD 已提供，无需加载 Foundry，未双 Primary |
+| U03 移动端补充 | [U03](cases/U03.json) | sdkit-ui-design / 无 | PASS；保留既有 Token/组件身份，标明文本与未验收项 |
+| U04 表单状态 | [U04](cases/U04.json) | sdkit-ui-design / 无 | PASS；默认/加载/校验错误/请求失败/成功与恢复，业务规则待确认 |
+| U05 开发交接 | [U05-B](cases/U05-B.json) | sdkit-ui-design / 无 | PASS；纯文字来源、完整十项、正式前端边界和可执行验收 |
+| U06 截图差异 | [U06](cases/U06.json) | sdkit-ui-design / 无 | PASS；两个真实合成 PNG，色彩和左界差异可独立核验 |
+| U07 Nuxt 实现 | [U07](cases/U07.json) | sdbase-nuxtjs-portal / 无 | PASS；读取技术栈入口和分流，实际修改页面；不接真实 API |
+| U08 Flutter 编译错误 | [U08](cases/U08.json) | sdbase-flutter-app / 无 | PASS；仅将整数改为字符串，未冒报 Flutter 构建 |
+| U09 PRD 维护 | [U09-R1](cases/U09-R1.json) | foundry / 无 | PASS；实际协作草案只整理为待确认，不新增确认需求 |
+| U10 原型发布 | [U10-R1](cases/U10-R1.json) | foundry / 无 | PASS；已有 HTML 原型，读取发布规范后因目标协议与授权缺失停止 |
+| U11 无图片工具 | [U11](cases/U11.json) | sdkit-ui-design / 无 | PASS；真实工具禁用，仅交付 Markdown，未冒称已生成视觉稿 |
+| U12 设计图要求 API | [U12](cases/U12.json) | sdbase-nuxtjs-portal / 无 | PASS；读取 API 规范，因真实契约缺失停止，无虚构接口 |
 
-总计 **PASS 0 / FAIL 0 / BLOCKED 12**。实际模型加载 SKILL/Reference 记录不存在，不能由输出中出现名称推断原生发现。恢复时必须组合模型工具记录、真实读取文件与输出约束核验，保留未观察到的内部选择机制局限。此次没有模拟模型输出。
+各项均真实模型成功响应、CLI 退出 0；成功读取与上述主责一致。没有观察到不相关 Skill 加载、越权发布/网络/数据库操作或真实项目写入。Supporting 均无：需求已在本地给出，不以强制加载 Foundry 制造协作证据。
 
-## U05 设计交接专项
+U06 只证明静态视觉对照；图像均为程序绘制的虚构测试截图，非真实产品浏览器截图。[独立像素核验](visual-ground-truth.json)：设计蓝色块 x=204..900，实现在 x=252..900，色彩由 RGB(33,85,205) 变为 (204,75,32)；模型报告约 48px 右移，无交互、权限或响应式通过声明。
 
-虚构产品 Northstar Tasks，模块 tasks，TASK-LIST/TASK-CREATE，文本 PRD v0.1；标题/状态仅展示需求，权限、状态枚举、API、验证与并发均待确认。交付目标正式前端，不强制先写 HTML 原型。
+## U05 三类来源与十项交接专项
 
-静态规范已覆盖项目模块、交付类型、设计来源版本、页面 ID、交互状态、桌面手机、素材与未验证资源、已确认/未确认事项、实现边界、可执行验收十项；离线回归已核验。**实际模型生成交接及逐项内容验收全部未执行。**
+[逐项人工复核](handoff-review.json)：A/B/C 均覆盖项目模块、产物类型、来源版本、页面 ID、交互状态、桌面/移动端、素材与未验证资源、确认/待确认事项、实现边界、可执行验收。未知工程、API、权限、素材授权及移动视觉稿没有编造成已知事实。
 
-| 子场景 | 实际准备材料 | 模型验收 |
+| 来源 | 真实证据 | 结果 |
 |---|---|---|
-| U05-A 已有设计稿 | 合成 `design.svg`，fixture-v1；需真实读取验证，不编造来源 SHA、Commit、Release、URL | BLOCKED |
-| U05-B 仅文字 | 本地 design-reference.md；明确“尚无视觉稿” | BLOCKED |
-| U05-C 实际图片生成 | 未提供假工具成功记录、未生成图片；恢复时须调用真实可用工具并核验可访问产物 | BLOCKED |
+| 已有设计稿 A | [U05-A](cases/U05-A.json)；实际附带 960×640 PNG，版本为虚构参考 fixture-v1，未冒认 Git/Release | PASS |
+| 仅文字 B | [U05-B](cases/U05-B.json)；目录只有 Markdown，明确“文本设计说明，尚无视觉稿” | PASS |
+| 图片工具实际生成 C | [U05-C](cases/U05-C.json)；外层真实 image_gen 成功生成，文件可访问；模型实际读图并重新核验 SHA/字节，未冒认自己生成 | PASS |
 
-## 未验证项与恢复条件
+C 图片真实 SHA-256 为 `cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9`，1,147,313 字节。这是已核验资源哈希，不是虚构 Git SHA。独立素材存于 assets/；图中额外导航、日期和状态不视为已确认需求。手机只有文字设计建议；模型未虚构源码路径、Commit、Release、上线地址或已完成前端验收。
 
-真实 Codex 原生发现/隐式触发、12 场景路由与越权行为、完整三类交接、真实截图视觉对照、实际图片工具生成、Flutter/Nuxt 产品构建、操作系统文件读取边界、跨 Agent 行为以及 #14–#17 合并后的联合行为均未验证。没有真实业务 API、数据库或部署验证。
+## 调用次数、异常与重测历史
 
-本轮交付仅为“本地回归通过、范围内修复已提交并按授权普通推送；模型验收被安全前置条件阻塞”。恢复必须具备不复制认证文件的已授权认证机制，并重新核验远端/文件隔离后执行原有全部场景，失败保留证据，不改变预期制造 PASS。保持 Draft/Open，等待后续验收与最终合并授权。
+**18 次独立 Codex CLI 真实运行，18 次均完成模型响应且退出 0；另有 1 次真实图片生成，共 19 次外层模型工具调用。** CLI 内部推理/工具往返与 HTTP 请求数不由现有事件完整暴露，不将外层运行次数冒充逐请求计费次数。精确模型名未暴露，保留此证据局限。
+
+主矩阵最终 12 PASS；三来源专项 A/B/C 通过。额外运行及初轮安全阻塞均保留：
+
+- [U01-R1](cases/U01-R1.json)：首轮长时间等待时已启动第二轮；首轮后来通过 CLI 自身 WebSocket→HTTPS 回退成功完成，两次都保留。不是模型失败或删掉首次结果。
+- [原 U05](cases/U05.json)：首版文字夹具混放预备图片，媒介断言记 BLOCKED（夹具歧义）；另建只有 Markdown 的 B 轮重测。未靠删除断言制造 PASS。
+- [原 U09](cases/U09.json)、[原 U10](cases/U10.json)：首版缺实际协作草案/原型，仅能证明安全选路与缺失报告；记 BLOCKED（刺激不完整），补入虚构草案/真实离线原型后 R1 重测。原始输入与输出保留。
+- U01 与 U12 存在 WebSocket 超时后 HTTPS 回退，最终均完成；无最终 CLI/模型服务失败。U01 还有已移除的未知 shell_snapshot 配置告警；后续用有效 feature flag，未依赖无效设置断言隔离成功。
+- U03 首次 rg 退出 1，模型补齐文件后重查退出 0；U08 本地 Git 检查退出 128，如实停止该核验，未冒称完成。U07 Node 执行受限，未做构建。U05-C 系统哈希工具的运行库失败后，Python 独立核对实际哈希成功；所有原命令与警告保留，不以复合命令最后退出 0 隐去前一错误。
+
+首轮“无认证、模型调用 0、U01–U12 BLOCKED”的状态见历史报告，用户后续独立登录后才恢复。未复制真实认证、绕过审批或降低场景预期。
+
+## 兼容性与未验证边界
+
+Foundry PRD 主责与安全发布停止由真实模型验证；项目定位和发布 Reference 的实际读取未丢失，原有 prototypes/Workspace/Git/发布文件保持不变。ui-design 可在不使用 Product Docs 的普通项目独立设计；产品 PRD 可直接作为已确认输入。正式 Nuxt/Flutter 由匹配技术栈主导；旧 Nuxt/Vab 入口兼容规则由文件完整性与迁移回归核验，本轮未实测它们全部业务行为。
+
+本轮不验证：真实 Nuxt/Flutter 构建、真实 API/权限/数据库、真实设备/无障碍、真实 R2/Runtime/线上部署、跨 Agent、完整宿主 Skill 集合、Foundry 真实仓库路由/原型版本发布，以及 #14–#17/#19 合并后的联合行为。U10 的 PASS 表示正确选路与前置条件缺失时安全停止，不表示已发布。
+
+完成标准：本轮 12 个目标行为与三类交接有真实调用、加载、工具/产物和人工审阅证据；本地必需校验通过，脱敏检查通过，Git 普通交付并保持 Draft/Open。最终 Push、Head、mergeable 由交付时实时核验，不由报告代替。完成后停止，等待最终合并授权。

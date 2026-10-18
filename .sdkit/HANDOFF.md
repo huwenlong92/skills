@@ -1,12 +1,13 @@
 # 验收交接
 
-最后核验：2026-10-18。当前任务为 PR #18 ui-design V1 最终本地验收。
+最后核验：2026-10-18。当前任务为 PR #18 sdkit-ui-design V1 最终本地与真实模型验收。
 
-- [计划](plans/pr18-final-acceptance.md)、[报告](../docs/testing/ui-design-v1/REPORT.md)和[测试结果](../docs/testing/ui-design-v1/local-results.json)为恢复入口；先核验实际 Git/远端与证据。
-- 本地 118 项 unittest、21 Skill 与 Markdown 链接/锚点检查通过；范围内修复已单独提交，验收证据另行提交并普通 Push。
-- 整体 BLOCKED：独立 Codex Home 无认证。模型调用 0，U01–U12 均未执行；不得将准备输入或离线契约测试认作模型行为通过。
-- 恢复需不复制真实认证文件的已授权认证机制，以及实际只读文件边界、宿主 Skill/插件隔离预检；随后执行全部真实场景、三类交接并保存实际 Skill 加载证据。
-- 保持 Draft/Open；不合并、不切换 Ready、不部署、不主动触发 CI。最终完整 SHA、Push 和 mergeable 以实时核验为准。
-- 不动其他 Worktree、未知文件、真实业务与全局配置；#14–#17 未混入，未来合并前重新核验冲突与语义兼容。
+- [计划](plans/pr18-final-acceptance.md)、[最终报告](../docs/testing/ui-design-v1/REPORT.md)、[本轮回归](../docs/testing/ui-design-v1/resumed-local-results.json)和[行为证据](../docs/testing/ui-design-v1/behavior-results.json)为恢复入口；先核对实际 Git/远端。
+- U01–U12 最终 12 PASS，三类来源交接通过。18 次真实 CLI 运行全部退出 0，加真实图片生成 1 次；18 份脱敏逐项证据保留加载、命令、产物与夹具修正历史。
+- 本地 118 unittest、21 Skill 与 Markdown 链接/锚点检查通过；精确数量和退出码见本轮报告。静态证据与真实模型证据严格分开。
+- 用户仅在隔离 home 自行完成登录；未读取/复制认证内容。实际受限文件与工具断网探针通过，四候选原生发现逐次审查，无真实全局配置/Skill/业务修改。
+- 达到本轮受控技术可合并条件；保持 Draft/Open，不合并、不切换 Ready、不部署、不主动触发 CI。最终 Head、Push 与 mergeable 由实时交付查询确认。
+- #14–#17 未混入；#19 在 Foundry/Orchestration 有 L2 交集，未来合并须重新核验。完整宿主发现、跨 Agent、真实产品构建/API/部署均未验证。
+- 完成后停止，等待最终合并授权。不动其他 Worktree、未知文件或真实业务。
 
-历史 #13 的计划、报告与证据保留，不覆盖其原始基线。
+历史 #13 及首轮 #18 无认证 BLOCKED 报告仍保留，不覆盖原始基线或失败历史。
