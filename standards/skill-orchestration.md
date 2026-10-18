@@ -39,7 +39,7 @@
 | 查询开发数据库 | sdenv 或已验证连接入口 | Schema 比对时数据库协作规范 | 不执行 DDL |
 | Git 同步 | 项目 Git 协作规范 | 相关 PR 感知 | 不丢弃本地改动 |
 | 老项目模板演进 | 已验证技术栈 Skill | 模板差异与 Git 协作 | 不整体覆盖业务代码 |
-| UI 设计稿与交接 | ui-design | 已确认 PRD 由 foundry 提供；不开发业务代码 | 不执行 Git 发布或原型 Runtime 操作 |
+| UI 设计稿与交接 | sdkit-ui-design | 已确认 PRD 由 foundry 提供；不开发业务代码 | 不执行 Git 发布或原型 Runtime 操作 |
 | 产品文档 | foundry | 必要时 Git 协作 | 不开发正式业务代码 |
 | Wiki | wikiops | 必要时 Git 协作 | 不覆盖 PRD 事实源 |
 | Skill 维护 | sdkit-skills | Git 协作 | 不接管业务开发 |
@@ -48,8 +48,8 @@
 
 ## UI 设计路由
 
-- 纯视觉稿、页面布局、交互状态和设计交接任务以 `ui-design` 为 Primary；Foundry 仅提供产品上下文。正式代码实现仍以实际技术栈 Skill 为 Primary，ui-design 只提供已确认设计约束。
-- 原型版本管理、源码迁移和发布仍由 Foundry 及目标仓库处理，不因新增 ui-design 自动授权提交或部署。
+- 纯视觉稿、页面布局、交互状态和设计交接任务以 `sdkit-ui-design` 为 Primary；Foundry 仅提供产品上下文。正式代码实现仍以实际技术栈 Skill 为 Primary，sdkit-ui-design 只提供已确认设计约束。
+- 原型版本管理、源码迁移和发布仍由 Foundry 及目标仓库处理，不因新增 sdkit-ui-design 自动授权提交或部署。
 
 ## 能力、授权与降级
 
