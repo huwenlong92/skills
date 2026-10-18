@@ -1,0 +1,12 @@
+{
+  "command": "CODEX_HOME=<temp>/codex-home codex login status",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "Not logged in",
+  "api_key_present": false,
+  "codex_api_key_present": false,
+  "access_token_present": false,
+  "credentials_copied": false,
+  "model_invocations": 0,
+  "file_access_boundary": "BLOCKED: authentication preflight stopped execution; no model file-access boundary has been exercised"
+}

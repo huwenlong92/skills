@@ -1,11 +1,12 @@
 # 验收交接
 
-最后核验：2026-10-18。当前任务为 PR #13 最终集成验收。
+最后核验：2026-10-18。当前任务为 PR #18 ui-design V1 最终本地验收。
 
-- [计划](plans/pr13-final-integration.md)和[完整报告](../docs/testing/engineering-v1/2026-10-18-integration-report.md)：普通 Merge main，无冲突，20 Skill 校验、独立安装/更新和本地原生发现通过；109 个 unittest、路径/锚点检查通过。
-- 两份核心协议与既有真实行为证据未变，复用 [T01–T10](../docs/testing/engineering-v1/2026-10-18-report.md)，本轮未调用模型。
-- 既有 Foundry README 源仓库导航限制已记录；没有修改已合并 Skill 或真实业务仓库。
-- 保持 Draft/Open；最终 Head、main 祖先关系、Push 与 mergeable 仍必须核对实际 Git/PR，文档不能代替实时事实。
-- 本轮完成后停止，等待最终合并授权；禁止自动合并、部署、Ready 切换、触发 CI 或进入其他模块开发。
+- [计划](plans/pr18-final-acceptance.md)、[报告](../docs/testing/ui-design-v1/REPORT.md)和[测试结果](../docs/testing/ui-design-v1/local-results.json)为恢复入口；先核验实际 Git/远端与证据。
+- 本地 117 项 unittest、21 Skill 与 Markdown 链接/锚点检查通过；范围内修复已单独提交，验收证据另行提交并普通 Push。
+- 整体 BLOCKED：独立 Codex Home 无认证。模型调用 0，U01–U12 均未执行；不得将准备输入或离线契约测试认作模型行为通过。
+- 恢复需不复制真实认证文件的已授权认证机制，以及实际只读文件边界、宿主 Skill/插件隔离预检；随后执行全部真实场景、三类交接并保存实际 Skill 加载证据。
+- 保持 Draft/Open；不合并、不切换 Ready、不部署、不主动触发 CI。最终完整 SHA、Push 和 mergeable 以实时核验为准。
+- 不动其他 Worktree、未知文件、真实业务与全局配置；#14–#17 未混入，未来合并前重新核验冲突与语义兼容。
 
-历史计划与原始基线保留，不覆盖其他 Worktree 或未知修改。
+历史 #13 的计划、报告与证据保留，不覆盖其原始基线。
