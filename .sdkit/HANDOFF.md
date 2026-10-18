@@ -33,3 +33,43 @@
 ## PR #19 本地验收交接（2026-10-18）
 
 [计划](plans/pr19-local-acceptance.md)、[报告](../docs/testing/knowledge-v1/REPORT.md)与[逐项结果](../docs/testing/knowledge-v1/results.json)。16 项最终通过，首轮失败保留；实际模型 gpt-6.1-sol，CLI 0.163.0。#14 AGENTS 可并存；#18 Foundry description 与四份共享交接文件存在未来集成文本冲突，未引入其他 PR 内容。保持 Draft，不合并/部署/主动触发 CI；不修改产品或知识仓库。最终静态复测 20 Skill、68 unittest、945 相对链接/2 锚点均通过；提交前已核对远端未前进。本文是 Commit/Push 前本地验收快照；最终交付结果以本轮最终回复与远端 Head 为准，不重复模型测试或进入其他 PR。
+
+## PR #14 专题 A 最终集成（2026-10-18）
+
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 157 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/bootstrap-standards-retirement/final-integration.md)。普通集成提交 `3045df85163d90bb0977ced0504e0338ebe55f74` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
+## PR #15 专题 A 最终集成（2026-10-18）
+
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/engineering-standards-retirement/final-integration.md)。普通集成提交 `d99cc23a0903b5ae5ff94ad9580978deb050635f` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
+## PR #16 专题 A 最终集成（2026-10-18）
+
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/vab-standards-retirement/final-integration.md)。普通集成提交 `4a8814fa8881114363b7ec432cb6988ebeaf49bc` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
+## PR #17 专题 A 最终集成（2026-10-18）
+
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/go-standards-retirement/final-integration.md)。普通集成提交 `f6e5fb72b676366ac30b651026ae5a11e4fe6f4b` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
+## PR #14：#17 合并后的同步（2026-10-18）
+
+#17 已 Squash Merge，main `8c049239ef90a6b4215ba425cef439168cb43dd2`；本 PR 保留四个文件双方历史并普通合入。Python 157 项、21 Skill、链接/锚点与兼容校验通过，退出 0；见 [本轮报告](../docs/acceptance/bootstrap-standards-retirement/post-pr17-integration.md)。最终 Merge Commit/Push/Draft/mergeable 以本轮最终查询为准。禁止本地 Ready 或 PR 合并，交由 Web 后续处理。
+
+## PR #15：#17 合并后的同步（2026-10-18）
+
+#17 已 Squash Merge，main `8c049239ef90a6b4215ba425cef439168cb43dd2`；本 PR 保留四个文件双方历史并普通合入。Python 118 项、21 Skill、链接/锚点与兼容校验通过，退出 0；见 [本轮报告](../docs/acceptance/engineering-standards-retirement/post-pr17-integration.md)。最终 Merge Commit/Push/Draft/mergeable 以本轮最终查询为准。禁止本地 Ready 或 PR 合并，交由 Web 后续处理。
+
+## PR #16：#17 合并后的同步（2026-10-18）
+
+#17 已 Squash Merge，main `8c049239ef90a6b4215ba425cef439168cb43dd2`；本 PR 保留四个文件双方历史并普通合入。Python 118 项、21 Skill、链接/锚点与兼容校验通过，退出 0；见 [本轮报告](../docs/acceptance/vab-standards-retirement/post-pr17-integration.md)。最终 Merge Commit/Push/Draft/mergeable 以本轮最终查询为准。禁止本地 Ready 或 PR 合并，交由 Web 后续处理。
+
+## 专题 A 当前授权最终合并 / PR #15
+
+历史状态保留；本轮用户已授权按 #16→#15→#14 Ready 与 Squash Merge。当前 main `a874524db55edae7bd7d9613b74a1d03ac6ff8b4` 普通同步到本 PR，Python 118 项及 21 Skill/链接/兼容/扫描通过；详见 [本轮报告](../docs/acceptance/engineering-standards-retirement/squash-final-integration.md)。合并事实与最终 SHA 必须以实时 GitHub 核验，不以本段代替。
+
+## 专题 A 当前授权最终合并 / PR #14
+
+历史状态保留；本轮用户已授权按 #16→#15→#14 Ready 与 Squash Merge。当前 main `3c425efde5b913070dc41348630806070882c5c6` 普通同步到本 PR，Python 157 项及 21 Skill/链接/兼容/扫描通过；详见 [本轮报告](../docs/acceptance/bootstrap-standards-retirement/squash-final-integration.md)。合并事实与最终 SHA 必须以实时 GitHub 核验，不以本段代替。
+
+## PR #20 专题 B 最终本地集成（2026-10-18）
+
+main `226465e5f951cc1f1394a1c91e4c3f682f822b83` 普通合入；唯一 AGENTS 冲突保留 Bootstrap/Git 双入口，449 个范围外 main 文件原字节保留。[报告](../docs/testing/git-collaboration-v1/REPORT.md)与[计划](plans/pr20-final-integration.md)：263 unittest、21 Skill、G01–G20 CLI 通过；真实 Agent 16 项因隔离认证缺失 BLOCKED，未启动模型、未复制认证。本轮不满足完整技术 Ready 或全局 Git 规则退出门禁；保持 Draft，不合并/部署/主动 CI。最终 Commit/Push/SHA/mergeable 以实时交付查询为准。新 #24 在 Orchestration 为 L2，已审查职责边界但未引入，未来联合集成须重测。

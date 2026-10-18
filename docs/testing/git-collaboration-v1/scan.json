@@ -1,0 +1,71 @@
+{
+  "scope": "PR 相对 main 修改及本任务新文件",
+  "files_scanned": 22,
+  "findings": {
+    "private_absolute": [],
+    "token": [],
+    "vague": [
+      {
+        "path": "AGENTS.md",
+        "line": 21
+      }
+    ]
+  },
+  "vague_review": "唯一命中 AGENTS 既有规则禁止模糊措辞，本次未引入模糊要求。",
+  "dangerous_text_mentions": [
+    {
+      "path": "docs/testing/git-collaboration-v1/REPORT.md",
+      "line": 100
+    },
+    {
+      "path": "docs/testing/git-collaboration-v1/cli-results.json",
+      "line": 2800
+    },
+    {
+      "path": "docs/testing/git-collaboration-v1/cli-results.json",
+      "line": 3377
+    },
+    {
+      "path": "docs/testing/git-collaboration-v1/scan.json",
+      "line": 61
+    },
+    {
+      "path": "scripts/test_git_collaboration.py",
+      "line": 18
+    },
+    {
+      "path": "scripts/test_git_collaboration_cli.py",
+      "line": 180
+    },
+    {
+      "path": "skills/wikiops/references/repository.md",
+      "line": 14
+    },
+    {
+      "path": "standards/collaboration-awareness.md",
+      "line": 17
+    },
+    {
+      "path": "standards/development-execution.md",
+      "line": 46
+    },
+    {
+      "path": "standards/git-collaboration.md",
+      "line": 53
+    },
+    {
+      "path": "standards/git-collaboration.md",
+      "line": 55
+    },
+    {
+      "path": "standards/git-collaboration.md",
+      "line": 69
+    },
+    {
+      "path": "standards/git-collaboration.md",
+      "line": 82
+    }
+  ],
+  "danger_review": "逐项审查：文档/静态断言为禁止规则，报告与 JSON 为已审查的 CLI 证据；update-ref 仅 G13 新建 bare 故障注入，Rebase 仅 G11 未发布虚构 topic；真实 PR 无 Reset/Clean/Force Push/历史改写。",
+  "tokens_or_private_paths": 0
+}

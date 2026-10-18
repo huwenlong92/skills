@@ -44,3 +44,5 @@ description: Vab Admin Vue 与 TypeScript 基础写法、import、store 和局�
 - 必须检查 import alias 均能指出允许条件，且没有为缩短名称或标记分层而新增别名。
 - 必须检查单页面状态未进入 store，跨页面缓存没有散落在页面或选择组件中。
 - 必须对修改文件运行项目 ESLint，并确认没有新增未使用 import、隐式 any 或规则禁用注释。
+
+涉及 resize、scroll、监听器或重复订阅时，必须读取[性能规范](../performance.md)。

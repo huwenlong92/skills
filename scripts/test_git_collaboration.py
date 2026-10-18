@@ -54,6 +54,20 @@ class GitCollaborationContract(unittest.TestCase):
                 self.assertIn("独立安装", content)
                 self.assertIn("不得", content)
 
+    def test_bootstrap_coexists(self):
+        text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertEqual(text.count("## Git Collaboration\n"), 1)
+        self.assertEqual(text.count("## Project Skill Bootstrap\n"), 1)
+        self.assertIn("不构成额外写入或部署授权", text)
+        self.assertIn("全局配置修改同样需要独立授权和可恢复备份", text)
+
+    def test_reference_completion_remains_last(self):
+        for relative in ("skills/foundry/references/publishing.md",
+                         "skills/wikiops/references/repository.md"):
+            with self.subTest(path=relative):
+                text = (ROOT / relative).read_text(encoding="utf-8")
+                self.assertEqual(text.rsplit("\n## ", 1)[1].splitlines()[0], "完成标准")
+
     def test_relative_links(self):
         import re
         for path in (PROTOCOL, ROOT / "standards/skill-orchestration.md",

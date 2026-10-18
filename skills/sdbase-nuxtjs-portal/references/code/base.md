@@ -34,6 +34,10 @@ description: Nuxt.js Vue 与 TypeScript 基础写法、import、局部状态和 
 - 新增 store 的门禁、命名、缓存和清理规则以 [state.md](../store/state.md) 为唯一权威。
 - 只服务当前页面的状态禁止进入 store。
 
+## 类型声明落点
+
+框架补充声明必须在 `layers/core/types/`，业务共享类型必须在 `src/types/`，私有类型必须就近定义。目录必须被实际 TypeScript 配置覆盖；没有业务类型时禁止创建空目录。迁移后必须核对引用并运行 typecheck。
+
 ## 验收
 
 - 必须对修改文件运行项目 format、ESLint 和 typecheck 中已配置的对应命令。

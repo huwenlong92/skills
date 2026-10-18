@@ -1,0 +1,128 @@
+[
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts",
+      "-p",
+      "test_engineering_protocols.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 17,
+    "output": "test_agent_entrypoints (test_engineering_protocols.ProtocolTests.test_agent_entrypoints) ... ok\ntest_capability_and_authorization_separated (test_engineering_protocols.ProtocolTests.test_capability_and_authorization_separated) ... ok\ntest_checkpoints (test_engineering_protocols.ProtocolTests.test_checkpoints) ... ok\ntest_collaboration_guardrail_is_reused (test_engineering_protocols.ProtocolTests.test_collaboration_guardrail_is_reused) ... ok\ntest_deviations (test_engineering_protocols.ProtocolTests.test_deviations) ... ok\ntest_local_relative_links (test_engineering_protocols.ProtocolTests.test_local_relative_links) ... ok\ntest_long_task_recovery (test_engineering_protocols.ProtocolTests.test_long_task_recovery) ... ok\ntest_negative_triggers (test_engineering_protocols.ProtocolTests.test_negative_triggers) ... ok\ntest_no_unapproved_execution (test_engineering_protocols.ProtocolTests.test_no_unapproved_execution) ... ok\ntest_parallel_skill_migration_compatibility (test_engineering_protocols.ProtocolTests.test_parallel_skill_migration_compatibility) ... ok\ntest_persistent_state_compatibility (test_engineering_protocols.ProtocolTests.test_persistent_state_compatibility) ... ok\ntest_plan_change_does_not_imply_approval (test_engineering_protocols.ProtocolTests.test_plan_change_does_not_imply_approval) ... ok\ntest_plan_is_persistent_and_immutable_baseline (test_engineering_protocols.ProtocolTests.test_plan_is_persistent_and_immutable_baseline) ... ok\ntest_protocols_exist (test_engineering_protocols.ProtocolTests.test_protocols_exist) ... ok\ntest_selection_contract (test_engineering_protocols.ProtocolTests.test_selection_contract) ... ok\ntest_stage_gates_and_scope_change (test_engineering_protocols.ProtocolTests.test_stage_gates_and_scope_change) ... ok\ntest_verification_requires_actual_evidence (test_engineering_protocols.ProtocolTests.test_verification_requires_actual_evidence) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.008s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "skills/sdkit-skills/scripts",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 44,
+    "output": "test_broken_link (test_manager.ManagerTests.test_broken_link) ... ok\ntest_catalog_duplicate_stale_and_unknown_category (test_manager.ManagerTests.test_catalog_duplicate_stale_and_unknown_category) ... ok\ntest_catalog_mismatch (test_manager.ManagerTests.test_catalog_mismatch) ... ok\ntest_catalog_replace_failure_preserves_bytes (test_manager.ManagerTests.test_catalog_replace_failure_preserves_bytes) ... ok\ntest_catalog_symlink_rejected (test_manager.ManagerTests.test_catalog_symlink_rejected) ... ok\ntest_create (test_manager.ManagerTests.test_create) ... ok\ntest_create_catalog_replace_failure_rolls_back (test_manager.ManagerTests.test_create_catalog_replace_failure_rolls_back) ... ok\ntest_create_duplicate (test_manager.ManagerTests.test_create_duplicate) ... ok\ntest_create_existing_lock_is_preserved (test_manager.ManagerTests.test_create_existing_lock_is_preserved) ... ok\ntest_create_invalid_name (test_manager.ManagerTests.test_create_invalid_name) ... ok\ntest_failed_restore_with_existing_destination_preserves_backup (test_manager.ManagerTests.test_failed_restore_with_existing_destination_preserves_backup) ... ok\ntest_frontmatter_identity_and_extra_fields (test_manager.ManagerTests.test_frontmatter_identity_and_extra_fields) ... ok\ntest_install_and_update (test_manager.ManagerTests.test_install_and_update) ... ok\ntest_install_copy_failure_leaves_no_destination (test_manager.ManagerTests.test_install_copy_failure_leaves_no_destination) ... ok\ntest_install_does_not_replace_directory_appearing_during_copy (test_manager.ManagerTests.test_install_does_not_replace_directory_appearing_during_copy) ... ok\ntest_install_existing_lock_is_preserved (test_manager.ManagerTests.test_install_existing_lock_is_preserved) ... ok\ntest_install_no_overwrite (test_manager.ManagerTests.test_install_no_overwrite) ... ok\ntest_install_record_matches_source (test_manager.ManagerTests.test_install_record_matches_source) ... ok\ntest_install_rejects_symlink (test_manager.ManagerTests.test_install_rejects_symlink) ... ok\ntest_install_source_change_during_copy (test_manager.ManagerTests.test_install_source_change_during_copy) ... ok\ntest_install_source_destination_overlap (test_manager.ManagerTests.test_install_source_destination_overlap) ... ok\ntest_markdown_code_is_not_a_link (test_manager.ManagerTests.test_markdown_code_is_not_a_link) ... ok\ntest_markdown_link_forms (test_manager.ManagerTests.test_markdown_link_forms) ... ok\ntest_reserved_source_record_rejected (test_manager.ManagerTests.test_reserved_source_record_rejected) ... ok\ntest_source_parent_symlink_rejected (test_manager.ManagerTests.test_source_parent_symlink_rejected) ... ok\ntest_target_symlink_parent_rejected (test_manager.ManagerTests.test_target_symlink_parent_rejected) ... ok\ntest_update_failed_restore_preserves_backup (test_manager.ManagerTests.test_update_failed_restore_preserves_backup) ... ok\ntest_update_preserves_changes_during_copy (test_manager.ManagerTests.test_update_preserves_changes_during_copy) ... ok\ntest_update_preserves_local_changes (test_manager.ManagerTests.test_update_preserves_local_changes) ... ok\ntest_update_rejects_extra_empty_directory (test_manager.ManagerTests.test_update_rejects_extra_empty_directory) ... ok\ntest_update_rejects_extra_file (test_manager.ManagerTests.test_update_rejects_extra_file) ... ok\ntest_update_rejects_malformed_record (test_manager.ManagerTests.test_update_rejects_malformed_record) ... ok\ntest_update_rejects_non_object_record (test_manager.ManagerTests.test_update_rejects_non_object_record) ... ok\ntest_update_rejects_symlinked_record_and_installed_file (test_manager.ManagerTests.test_update_rejects_symlinked_record_and_installed_file) ... ok\ntest_update_rename_failure_restores_original (test_manager.ManagerTests.test_update_rename_failure_restores_original) ... ok\ntest_update_requires_record_and_existing_installation (test_manager.ManagerTests.test_update_requires_record_and_existing_installation) ... ok\ntest_validate (test_manager.ManagerTests.test_validate) ... ok\ntest_all_repository_markdown_relative_paths (test_migration.MigrationTests.test_all_repository_markdown_relative_paths) ... ok\ntest_each_target_installs_and_updates_independently (test_migration.MigrationTests.test_each_target_installs_and_updates_independently) ... ok\ntest_legacy_and_primary_never_overwrite_each_other (test_migration.MigrationTests.test_legacy_and_primary_never_overwrite_each_other) ... ok\ntest_legacy_detailed_rules_preserved (test_migration.MigrationTests.test_legacy_detailed_rules_preserved) ... ok\ntest_primary_packages_are_self_contained (test_migration.MigrationTests.test_primary_packages_are_self_contained) ... ok\ntest_readme_install_names_exist (test_migration.MigrationTests.test_readme_install_names_exist) ... ok\ntest_target_catalog_categories (test_migration.MigrationTests.test_target_catalog_categories) ... ok\n\n----------------------------------------------------------------------\nRan 44 tests in 0.863s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "skills/dockerops/scripts",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 41,
+    "output": "test_all_remote_urls_are_checked (test_binding.BindingTests.test_all_remote_urls_are_checked) ... ok\ntest_default_config_path_is_skill_specific (test_binding.BindingTests.test_default_config_path_is_skill_specific) ... ok\ntest_dirty_and_detached_are_reported_without_mutation (test_binding.BindingTests.test_dirty_and_detached_are_reported_without_mutation) ... ok\ntest_invalid_config_is_rejected (test_binding.BindingTests.test_invalid_config_is_rejected) ... ok\ntest_missing_directory_or_config_never_falls_back (test_binding.BindingTests.test_missing_directory_or_config_never_falls_back) ... ok\ntest_non_origin_is_not_used (test_binding.BindingTests.test_non_origin_is_not_used) ... ok\ntest_push_mismatch_fails (test_binding.BindingTests.test_push_mismatch_fails) ... ok\ntest_relative_binding_and_read_only_cli (test_binding.BindingTests.test_relative_binding_and_read_only_cli) ... ok\ntest_url_identity_preserves_port_and_generic_path_case (test_binding.BindingTests.test_url_identity_preserves_port_and_generic_path_case) ... ok\ntest_binding_order_and_config_relative_path (test_catalog.CatalogueTests.test_binding_order_and_config_relative_path) ... ok\ntest_builder_discovery_includes_unpublished_recipe (test_catalog.CatalogueTests.test_builder_discovery_includes_unpublished_recipe) ... ok\ntest_child_mismatch_and_missing_digest_are_detected (test_catalog.CatalogueTests.test_child_mismatch_and_missing_digest_are_detected) ... ok\ntest_cli_config_reads_without_mutating_files (test_catalog.CatalogueTests.test_cli_config_reads_without_mutating_files) ... ok\ntest_config_and_pin_drift_are_detected (test_catalog.CatalogueTests.test_config_and_pin_drift_are_detected) ... ok\ntest_declared_repository_binding_is_used_without_legacy_fallback (test_catalog.CatalogueTests.test_declared_repository_binding_is_used_without_legacy_fallback) ... ok\ntest_duplicate_manifest_entry_and_target_are_detected (test_catalog.CatalogueTests.test_duplicate_manifest_entry_and_target_are_detected) ... ok\ntest_empty_lock_is_inconsistent (test_catalog.CatalogueTests.test_empty_lock_is_inconsistent) ... ok\ntest_explicit_config_overrides_environment_config (test_catalog.CatalogueTests.test_explicit_config_overrides_environment_config) ... ok\ntest_filter_does_not_hide_global_errors (test_catalog.CatalogueTests.test_filter_does_not_hide_global_errors) ... ok\ntest_invalid_explicit_config_never_falls_back (test_catalog.CatalogueTests.test_invalid_explicit_config_never_falls_back) ... ok\ntest_missing_lock_is_unrecorded (test_catalog.CatalogueTests.test_missing_lock_is_unrecorded) ... ok\ntest_shared_default_path_ignores_legacy_and_xdg (test_catalog.CatalogueTests.test_shared_default_path_ignores_legacy_and_xdg) ... ok\ntest_shell_config_is_never_executed (test_catalog.CatalogueTests.test_shell_config_is_never_executed) ... ok\ntest_single_arch_is_rejected (test_catalog.CatalogueTests.test_single_arch_is_rejected) ... ok\ntest_traversal_and_external_symlink_are_rejected (test_catalog.CatalogueTests.test_traversal_and_external_symlink_are_rejected) ... ok\ntest_valid_record_is_read_only_and_not_remote_proof (test_catalog.CatalogueTests.test_valid_record_is_read_only_and_not_remote_proof) ... ok\ntest_artifact_does_not_require_fake_runtime_files (test_check_layout.LayoutChecks.test_artifact_does_not_require_fake_runtime_files) ... ok\ntest_broken_compose_link_detected (test_check_layout.LayoutChecks.test_broken_compose_link_detected) ... ok\ntest_custom_environment_names (test_check_layout.LayoutChecks.test_custom_environment_names) ... ok\ntest_duplicate_make_dockerfile_path_detected (test_check_layout.LayoutChecks.test_duplicate_make_dockerfile_path_detected) ... ok\ntest_helpers_allowed_and_broken_helper_reference_detected (test_check_layout.LayoutChecks.test_helpers_allowed_and_broken_helper_reference_detected) ... ok\ntest_legacy_compose_alias_is_not_canonical (test_check_layout.LayoutChecks.test_legacy_compose_alias_is_not_canonical) ... ok\ntest_make_literal_correct_path_passes (test_check_layout.LayoutChecks.test_make_literal_correct_path_passes) ... ok\ntest_multi_rejects_business_operation_at_root (test_check_layout.LayoutChecks.test_multi_rejects_business_operation_at_root) ... ok\ntest_multi_requires_each_environment_operation (test_check_layout.LayoutChecks.test_multi_requires_each_environment_operation) ... ok\ntest_multi_requires_explicit_environments (test_check_layout.LayoutChecks.test_multi_requires_explicit_environments) ... ok\ntest_multi_root_rejects_old_generic_scripts (test_check_layout.LayoutChecks.test_multi_root_rejects_old_generic_scripts) ... ok\ntest_root_makefile_required (test_check_layout.LayoutChecks.test_root_makefile_required) ... ok\ntest_shared_scripts_name_cannot_be_environment (test_check_layout.LayoutChecks.test_shared_scripts_name_cannot_be_environment) ... ok\ntest_single_does_not_accept_environment_names (test_check_layout.LayoutChecks.test_single_does_not_accept_environment_names) ... ok\ntest_single_operations_and_runtime_files (test_check_layout.LayoutChecks.test_single_operations_and_runtime_files) ... ok\n\n----------------------------------------------------------------------\nRan 41 tests in 0.952s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts",
+      "-p",
+      "test_markdown_links.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 7,
+    "output": "test_duplicate_and_same_page_headings (test_markdown_links.MarkdownLinksTests.test_duplicate_and_same_page_headings) ... ok\ntest_encoded_path_and_chinese_heading (test_markdown_links.MarkdownLinksTests.test_encoded_path_and_chinese_heading) ... ok\ntest_examples_are_not_links_or_headings (test_markdown_links.MarkdownLinksTests.test_examples_are_not_links_or_headings) ... ok\ntest_existing_file_missing_anchor (test_markdown_links.MarkdownLinksTests.test_existing_file_missing_anchor) ... ok\ntest_missing_file (test_markdown_links.MarkdownLinksTests.test_missing_file) ... ok\ntest_reference_link_and_explicit_anchor (test_markdown_links.MarkdownLinksTests.test_reference_link_and_explicit_anchor) ... ok\ntest_repository_escape_rejected (test_markdown_links.MarkdownLinksTests.test_repository_escape_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.005s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts",
+      "-p",
+      "test_ui_design.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 9,
+    "output": "test_acceptance_matrix_retains_all_scenarios (test_ui_design.UIDesignTests.test_acceptance_matrix_retains_all_scenarios) ... ok\ntest_catalog_and_frontmatter_identity (test_ui_design.UIDesignTests.test_catalog_and_frontmatter_identity) ... ok\ntest_handoff_distinguishes_three_asset_origins (test_ui_design.UIDesignTests.test_handoff_distinguishes_three_asset_origins) ... ok\ntest_handoff_has_no_undeclared_engineering_dependency (test_ui_design.UIDesignTests.test_handoff_has_no_undeclared_engineering_dependency) ... ok\ntest_handoff_records_ten_dimensions_and_unknowns (test_ui_design.UIDesignTests.test_handoff_records_ten_dimensions_and_unknowns) ... ok\ntest_isolated_install_and_update (test_ui_design.UIDesignTests.test_isolated_install_and_update) ... ok\ntest_namespace_is_consistent_across_catalog_disk_and_routes (test_ui_design.UIDesignTests.test_namespace_is_consistent_across_catalog_disk_and_routes) ... ok\ntest_reference_quality_and_standalone_links (test_ui_design.UIDesignTests.test_reference_quality_and_standalone_links) ... ok\ntest_unique_primary_and_implementation_boundaries (test_ui_design.UIDesignTests.test_unique_primary_and_implementation_boundaries) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.023s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts",
+      "-p",
+      "test_project_skill_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "tests": 39,
+    "output": "test_digest (test_project_skill_global.GlobalBootstrapTests.test_digest) ... ok\ntest_empty (test_project_skill_global.GlobalBootstrapTests.test_empty) ... ok\ntest_existing_block_preserves_tail (test_project_skill_global.GlobalBootstrapTests.test_existing_block_preserves_tail) ... ok\ntest_existing_user_blocks_preserved (test_project_skill_global.GlobalBootstrapTests.test_existing_user_blocks_preserved) ... ok\ntest_idempotent (test_project_skill_global.GlobalBootstrapTests.test_idempotent) ... ok\ntest_invalid_encoding (test_project_skill_global.GlobalBootstrapTests.test_invalid_encoding) ... ok\ntest_invalid_existing_user_markers_block (test_project_skill_global.GlobalBootstrapTests.test_invalid_existing_user_markers_block) ... ok\ntest_legacy_sources_are_report_only (test_project_skill_global.GlobalBootstrapTests.test_legacy_sources_are_report_only) ... ok\ntest_preserves_custom (test_project_skill_global.GlobalBootstrapTests.test_preserves_custom) ... ok\ntest_rejects_bad_markers (test_project_skill_global.GlobalBootstrapTests.test_rejects_bad_markers) ... ok\ntest_replaces_managed_only (test_project_skill_global.GlobalBootstrapTests.test_replaces_managed_only) ... ok\ntest_all_old_new_project_mappings (test_project_skill_safety.SafetyTests.test_all_old_new_project_mappings) ... ok\ntest_all_seven_user_blocks_and_unique_managed_block (test_project_skill_safety.SafetyTests.test_all_seven_user_blocks_and_unique_managed_block) ... ok\ntest_ancestor_symlink_rejected (test_project_skill_safety.SafetyTests.test_ancestor_symlink_rejected) ... ok\ntest_backup_restore_and_permissions (test_project_skill_safety.SafetyTests.test_backup_restore_and_permissions) ... ok\ntest_custom_codex_home_dry_run_does_not_write (test_project_skill_safety.SafetyTests.test_custom_codex_home_dry_run_does_not_write) ... ok\ntest_directory_and_hardlink_rejected (test_project_skill_safety.SafetyTests.test_directory_and_hardlink_rejected) ... ok\ntest_external_content_change (test_project_skill_safety.SafetyTests.test_external_content_change) ... ok\ntest_external_create_missing_target (test_project_skill_safety.SafetyTests.test_external_create_missing_target) ... ok\ntest_external_delete (test_project_skill_safety.SafetyTests.test_external_delete) ... ok\ntest_external_inode_replacement_same_bytes (test_project_skill_safety.SafetyTests.test_external_inode_replacement_same_bytes) ... ok\ntest_external_mode_change (test_project_skill_safety.SafetyTests.test_external_mode_change) ... ok\ntest_failure_after_replace_keeps_recovery_and_blocks_retry (test_project_skill_safety.SafetyTests.test_failure_after_replace_keeps_recovery_and_blocks_retry) ... ok\ntest_fifo_lock_is_rejected_without_waiting (test_project_skill_safety.SafetyTests.test_fifo_lock_is_rejected_without_waiting) ... ok\ntest_fifo_target_is_rejected_without_waiting (test_project_skill_safety.SafetyTests.test_fifo_target_is_rejected_without_waiting) ... ok\ntest_idempotent_no_extra_backups (test_project_skill_safety.SafetyTests.test_idempotent_no_extra_backups) ... ok\ntest_interruption_retains_journal_and_original (test_project_skill_safety.SafetyTests.test_interruption_retains_journal_and_original) ... ok\ntest_legacy_word_boundaries (test_project_skill_safety.SafetyTests.test_legacy_word_boundaries) ... ok\ntest_managed_legacy_is_replaceable_unmanaged_tail_exact (test_project_skill_safety.SafetyTests.test_managed_legacy_is_replaceable_unmanaged_tail_exact) ... ok\ntest_new_file_private (test_project_skill_safety.SafetyTests.test_new_file_private) ... ok\ntest_noop_still_requires_authorization (test_project_skill_safety.SafetyTests.test_noop_still_requires_authorization) ... ok\ntest_project_cli_apply_and_noop_authorization (test_project_skill_safety.SafetyTests.test_project_cli_apply_and_noop_authorization) ... ok\ntest_restore_requires_current_hash_and_authorization (test_project_skill_safety.SafetyTests.test_restore_requires_current_hash_and_authorization) ... ok\ntest_reversed_markers (test_project_skill_safety.SafetyTests.test_reversed_markers) ... ok\ntest_symlink_and_hardlink_lock_are_rejected (test_project_skill_safety.SafetyTests.test_symlink_and_hardlink_lock_are_rejected) ... ok\ntest_symlink_substitution_during_transaction (test_project_skill_safety.SafetyTests.test_symlink_substitution_during_transaction) ... ok\ntest_target_symlink_rejected (test_project_skill_safety.SafetyTests.test_target_symlink_rejected) ... ok\ntest_two_updaters_lock (test_project_skill_safety.SafetyTests.test_two_updaters_lock) ... ok\ntest_unauthorized_and_stale_leave_bytes (test_project_skill_safety.SafetyTests.test_unauthorized_and_stale_leave_bytes) ... ok\n\n----------------------------------------------------------------------\nRan 39 tests in 0.266s\n\nOK\n"
+  },
+  {
+    "command": [
+      "python3",
+      "skills/sdkit-skills/scripts/manager.py",
+      "validate",
+      "--all"
+    ],
+    "exit_code": 0,
+    "tests": null,
+    "output": "validated 21 skills\n"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/check_markdown_links.py"
+    ],
+    "exit_code": 0,
+    "tests": null,
+    "output": "Markdown: 282 files, 1020 relative links, 2 anchors, 0 errors\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "tests": null,
+    "output": ""
+  }
+]

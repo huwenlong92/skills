@@ -1,0 +1,13 @@
+{
+  "historical_evidence_files": 5,
+  "historical_evidence_changed": [],
+  "reference_compatibility": {
+    "new": "sdbase-nuxtjs-portal",
+    "old": "nuxtjs",
+    "identical_shared_references": 21,
+    "expected_identity_difference": [
+      "repository.md"
+    ]
+  },
+  "routing_changed_against_main": []
+}

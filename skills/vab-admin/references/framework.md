@@ -60,6 +60,14 @@ description: Vab Admin 项目代码、Vab framework、项目级扩展和共享�
 - 只有当前依赖存在已确认的功能缺口、安全问题或兼容阻塞时才允许升级；升级前必须说明原因、影响范围和与原始框架源码的差异。
 - 不为了单个页面效果引入新的 UI 框架或全局视觉体系。
 
+## Node ESM 构建配置
+
+- 修改 Vite 配置及递归构建导入时，必须使用完整相对文件入口：目录写明 index.ts，TS 文件写明 .ts；禁止只依赖打包加载器补路径。
+- Node 版本支持时必须采用 import.meta.dirname；旧版本不支持时必须使用项目已验证的 import.meta.url 转换，禁止依赖注入的 __dirname 或静默升级 Node。
+- 需要 native loader 的项目必须先确认实际 Vite 版本支持，逐个验证配置入口，并运行 typecheck 和常规 build；不支持时必须报告阻塞，禁止隐藏 warning 冒充成功。
+
+正向形态：`import { createVitePlugin } from './library/build/index.ts'`。反例：目录 import 只能在打包 loader 下运行，却声称已经通过 Node 原生 ESM 验证。
+
 ## 验收
 
 - 必须列出修改属于业务页面、项目扩展、Vab framework 或共享组件包中的哪一层。
