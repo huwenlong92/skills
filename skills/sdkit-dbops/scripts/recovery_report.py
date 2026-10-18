@@ -33,7 +33,9 @@ def main():
     p.add_argument("evidence")
     args = p.parse_args()
     try:
-        evidence = json.loads(Path(args.evidence).read_text(encoding="utf-8"))
+        def reject_constant(value):
+            raise ValueError("invalid JSON constant: " + value)
+        evidence = json.loads(Path(args.evidence).read_text(encoding="utf-8"), parse_constant=reject_constant)
         print(json.dumps(report(evidence), ensure_ascii=False, sort_keys=True, allow_nan=False))
         return 0
     except (ValueError, TypeError, OSError) as exc:
