@@ -13,7 +13,7 @@ DANGEROUS = {"drop", "truncate", "delete", "overwrite", "reset", "rebuild"}
 def validate(value):
     if not isinstance(value, dict) or set(value) != {"environment", "target", "operations", "planHash", "approval", "backup"}:
         raise ValueError("invalid intent fields")
-    if value["environment"] not in ENVIRONMENTS:
+    if not isinstance(value["environment"], str) or value["environment"] not in ENVIRONMENTS:
         raise ValueError("unknown environment")
     target = value["target"]
     if not isinstance(target, dict) or set(target) != {"instanceId", "databaseId", "scope"}:
@@ -30,10 +30,12 @@ def validate(value):
     for op in ops:
         if not isinstance(op, dict) or set(op) != {"type", "risk", "objects"}:
             raise ValueError("invalid operation")
-        if not isinstance(op["type"], str) or not op["type"] or op["risk"] not in RISKS:
+        if not isinstance(op["type"], str) or not op["type"] or not isinstance(op["risk"], str) or op["risk"] not in RISKS:
             raise ValueError("invalid operation classification")
         if not isinstance(op["objects"], list) or not op["objects"] or any(not isinstance(x, str) or not x for x in op["objects"]):
             raise ValueError("invalid affected objects")
+        if any("." not in obj or obj.split(".", 1)[0] not in target["scope"] for obj in op["objects"]):
+            raise ValueError("operation object outside declared scope")
     for key in ("approval", "backup"):
         if not isinstance(value[key], dict):
             raise ValueError("invalid evidence")
@@ -42,7 +44,7 @@ def validate(value):
         reasons.append("production execution remains prohibited by current skill rules")
     if any(op["type"].lower() in DANGEROUS or op["risk"] in {"destructive", "unknown"} for op in ops):
         reasons.append("destructive or unknown operation requires independent high-risk approval")
-    if any("system_data" in x or "system" == x.split(".")[0] for op in ops for x in op["objects"]):
+    if any(x.split(".", 1)[0] in {"system", "system_data"} for op in ops for x in op["objects"]):
         reasons.append("protected infrastructure object")
     return {"status": "blocked", "executionAuthorized": False, "reasons": reasons}
 
