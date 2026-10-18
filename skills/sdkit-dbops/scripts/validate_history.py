@@ -16,7 +16,7 @@ def validate(doc):
         raise ValueError("unknown history fields")
     seen = set()
     for m in doc["migrations"]:
-        if not isinstance(m, dict) or not MID.fullmatch(str(m.get("migrationId", ""))) or not SHA.fullmatch(str(m.get("checksum", ""))):
+        if not isinstance(m, dict) or not MID.fullmatch(str(m.get("migrationId", ""))) or not isinstance(m.get("checksum"), str) or not SHA.fullmatch(m["checksum"]):
             raise ValueError("invalid migration")
         try:
             datetime.strptime(m["migrationId"][:16], "%Y%m%dT%H%M%SZ")
