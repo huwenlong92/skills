@@ -15,7 +15,7 @@ class PlanTests(unittest.TestCase):
         self.assertFalse(p["executionAuthorized"])
         self.assertEqual(p["planHash"],m.digest({k:v for k,v in p.items() if k!="planHash"}))
     def test_local_ahead(self):
-        x=sample([{"migrationId":"a","checksum":"b"*64,"status":"applied"}])
+        x=sample([{"migrationId":"20261018T053000Z_a83f2c_add_avatar","checksum":"b"*64,"status":"applied"}])
         self.assertEqual(m.plan(x,dict(sample(),identity=dict(sample()["identity"],environmentId="remote-dev")))["state"],"local_ahead")
     def test_checksum_conflict(self):
         x=sample([{"migrationId":"a","checksum":"b"*64,"status":"applied"}])
