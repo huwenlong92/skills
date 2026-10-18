@@ -1,0 +1,18 @@
+{
+  "verified_main": "77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a",
+  "verified_merge_commit": "4a8814fa8881114363b7ec432cb6988ebeaf49bc",
+  "remote": {
+    "number": 16,
+    "head": "4a8814fa8881114363b7ec432cb6988ebeaf49bc",
+    "base": "77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a",
+    "branch": "docs/vab-standards-retirement-20261018",
+    "draft": true,
+    "state": "open",
+    "mergeable": true,
+    "mergeable_state": "clean"
+  },
+  "main_protected": false,
+  "head_branch_protected": false,
+  "applicable_main_rules": [],
+  "scope": "普通 Push 后已核验的集成提交；随后仅补记交接，最终 Head 以最终远端查询为准"
+}

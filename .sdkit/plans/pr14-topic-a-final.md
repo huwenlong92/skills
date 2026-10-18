@@ -21,3 +21,7 @@
 保留 revision 1 原始基线。用户授权从 `cb167d335c158bf24af7a6324c7b69735d3de956` 普通合入 main `8c049239ef90a6b4215ba425cef439168cb43dd2`，仅处理本 PR 集成冲突及必要修复/回归/Commit/普通 Push。命中规范与原计划相同；范围增加本轮报告与结果，不引入其他未合并 PR。禁止 Ready/合并/部署/主动 CI、真实配置或安装、业务与旧规范库写入；D2/D3 停止受影响操作。
 
 C0 已核验：目标与其他 Head、main、权限及干净 Worktree；C1 verified：四个独立历史追加冲突逐段联合。C2 verified：本 PR 回归和证据保留均通过，命令退出 0。C3 待验证：普通提交/推送与远端状态。恢复入口为 [本轮报告](../../docs/acceptance/bootstrap-standards-retirement/post-pr17-integration.md)；以实际 Git 和测试证据为准。
+
+## revision 3：已授权最终合并
+
+本轮原 Head `1fda05f60e42a4af9a4af298ea81fecae94f7a73`，main `3c425efde5b913070dc41348630806070882c5c6`；用户已授权严格 #16→#15→#14 Ready、sha 锁定的 Squash Merge 与逐个合并后验证。范围仅同步历史冲突/必要修复与回归记录；不引入其他未合并 PR，不改真实配置/安装/旧库/业务或保护规则，不部署/主动 CI。C0 权限、Head、main、工作区已核验；C1 冲突逐段联合；C2/C3 以本轮测试与实时 GitHub 为准，任一步失败立即停止后续合并。见 [最终合并报告](../../docs/acceptance/bootstrap-standards-retirement/squash-final-integration.md)。
