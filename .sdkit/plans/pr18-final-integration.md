@@ -14,7 +14,7 @@
 | C0 | 核验 main、#18、#19、开放 PR 与相关文件；新隔离 Worktree | verified |
 | C1 | 手工合并 5 个冲突文件，复核自动合并 Orchestration；保留双方知识与 UI 职责和证据 | verified |
 | C2 | 工程协议、Manager、ui-design、Markdown、21 Skill 及相关既有本地回归；证据完整性与三类路由审查 | verified；195 unittest、21 Skill，命令退出 0，证据差异 0 |
-| C3 | 远端前进检查、普通 Commit/Push、main 祖先关系、Draft/Open、GitHub mergeable | 待验证 |
+| C3 | 远端前进检查、普通 Commit/Push、main 祖先关系、Draft/Open、GitHub mergeable | verified；`566d727e4a94c099b64efbdddf091028a308c91e` 普通 Push，Draft/Open、MERGEABLE/CLEAN |
 
 执行命令、退出码与逐项冲突决议见 [集成报告](../../docs/testing/ui-design-v1/final-integration.md)。恢复必须先核对实际 Git，再从未验收阶段继续；禁止以历史快照代替当前证据。
 

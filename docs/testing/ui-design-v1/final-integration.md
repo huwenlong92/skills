@@ -29,7 +29,7 @@
 
 最终本地 unittest **195/195**：工程协议 17、Manager/迁移 44、ui-design 9、Markdown 工具 7、DockerOps 41、Foundry 18、WikiOps Workspace/安全 26、WikiOps 提取 13、npmops 20；21 Skill 全通过。全部最终命令退出 0。临时目录使用规范化 TMPDIR；不修改任何测试断言。
 
-[证据完整性](final-integration-preservation.json)逐字节核对 #18 的既有测试资料与 UI Skill 共 59 文件，以及 main 的既有测试资料、知识协议、WikiOps、Foundry capture 与 AGENTS 共 60 文件，差异均为 0；重叠文件分别验证。历史真实行为及失败证据完整保留。GitHub Draft、Head 和 mergeable 以普通 Push 后实时查询为准；报告不是合并或部署授权。
+[证据完整性](final-integration-preservation.json)逐字节核对 #18 的既有测试资料与 UI Skill 共 59 文件，以及 main 的既有测试资料、知识协议、WikiOps、Foundry capture 与 AGENTS 共 60 文件，差异均为 0；重叠文件分别验证。历史真实行为及失败证据完整保留。普通 Merge Commit `566d727e4a94c099b64efbdddf091028a308c91e` 已 Push；双亲为原 #18 Head 与最新 main，两个祖先检查均退出 0。GitHub 已返回同一 Head、base 为最新 main、Draft/Open、MERGEABLE/CLEAN。随后仅补记本轮交接，最终 Head 以最后远端核验和最终回复为准；报告不是合并或部署授权。
 
 ## 完成标准
 
