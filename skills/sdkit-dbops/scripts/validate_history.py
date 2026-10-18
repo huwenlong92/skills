@@ -28,7 +28,7 @@ def validate(doc):
             raise ValueError("unresolved or duplicate migration")
         seen.add(m["migrationId"])
     attempts = doc.get("attempts", [])
-    if not isinstance(attempts, list) or any(not isinstance(a, dict) or a.get("status") in ("running", "failed", "unknown") for a in attempts):
+    if not isinstance(attempts, list) or any(not isinstance(a, dict) or a.get("status") != "applied" for a in attempts):
         raise ValueError("unresolved attempts")
     if any(set(a) - {"status"} for a in attempts):
         raise ValueError("unknown attempt fields")
