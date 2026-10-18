@@ -10,7 +10,7 @@ KINDS = {"table", "column", "index", "constraint", "sequence", "view"}
 DIALECTS = {"postgres", "mysql", "oracle", "sqlite"}
 
 def canonical(value):
-    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False)
 
 def normalize(doc):
     if not isinstance(doc, dict) or any(k not in doc for k in (*KEYS, "objects")):
@@ -27,6 +27,8 @@ def normalize(doc):
     cov = doc["coverage"]
     if not isinstance(cov, dict) or cov.get("complete") is not True or not isinstance(cov.get("kinds"), list) or not cov["kinds"]:
         raise ValueError("incomplete coverage")
+    if set(cov) != {"complete", "kinds"}:
+        raise ValueError("unknown coverage fields")
     if not set(cov["kinds"]).issubset(KINDS) or len(cov["kinds"]) != len(set(cov["kinds"])):
         raise ValueError("invalid coverage")
     seen = set()
@@ -45,6 +47,10 @@ def normalize(doc):
             raise ValueError("duplicate object")
         seen.add(ident)
         objects.append(obj)
+    try:
+        canonical(objects)
+    except (ValueError, TypeError) as exc:
+        raise ValueError("non-finite or invalid object attributes") from exc
     result = {k: doc[k] for k in KEYS}
     result["scope"] = sorted(scope)
     result["coverage"] = {"complete": True, "kinds": sorted(cov["kinds"])}
@@ -63,7 +69,7 @@ def compare(left, right):
         l = {(o["kind"], o["schema"], o["name"]): o for o in a["objects"]}
         r = {(o["kind"], o["schema"], o["name"]): o for o in b["objects"]}
         added, removed = sorted(r.keys()-l.keys()), sorted(l.keys()-r.keys())
-        changed = sorted(k for k in l.keys() & r.keys() if l[k] != r[k])
+        changed = sorted(k for k in l.keys() & r.keys() if canonical(l[k]) != canonical(r[k]))
         return {"status": "drift" if added or removed or changed else "equal",
                 "leftFingerprint": fingerprint(left), "rightFingerprint": fingerprint(right),
                 "added": [list(x) for x in added], "removed": [list(x) for x in removed], "changed": [list(x) for x in changed]}
