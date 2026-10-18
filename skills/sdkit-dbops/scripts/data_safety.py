@@ -11,7 +11,7 @@ def assess(operations):
     if not isinstance(operations, list):
         raise ValueError("operations must be an array")
     if not operations:
-        return {"status": "unknown", "risk": "unknown", "reasons": ["no operation evidence"]}
+        return {"status": "unknown", "risk": "unknown", "reasons": ["no operation evidence"], "executionAuthorized": False}
     reasons = []
     for op in operations:
         if not isinstance(op, dict) or set(op) != {"kind", "text"} or not all(isinstance(op[k], str) and op[k] for k in ("kind", "text")):
