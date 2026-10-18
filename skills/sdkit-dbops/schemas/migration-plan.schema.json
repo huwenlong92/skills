@@ -122,7 +122,7 @@
         "properties": {
           "migrationId": {
             "type": "string",
-            "minLength": 1
+            "pattern": "^[0-9]{8}T[0-9]{6}Z_[a-f0-9]{6,16}_[a-z][a-z0-9_]*(?![\\\\s\\\\S])"
           },
           "checksum": {
             "type": "string",
@@ -207,8 +207,36 @@
         },
         "evidenceVerified": {
           "const": false
+        },
+        "reason": {
+          "type": "string"
+        },
+        "dataRisk": {
+          "enum": [
+            "unknown",
+            "destructive"
+          ]
+        },
+        "dataSafetyStatus": {
+          "enum": [
+            "unknown",
+            "blocked"
+          ]
+        },
+        "backupStatus": {
+          "enum": [
+            "evidence_required",
+            "not_required"
+          ]
+        },
+        "recommendedBackup": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "safetyEvidenceFingerprint": {
       "anyOf": [
