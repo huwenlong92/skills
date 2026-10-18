@@ -139,3 +139,19 @@ class SafetyIntegrationTests(unittest.TestCase):
         p["planHash"] = plan.digest({k: v for k, v in p.items() if k != "planHash"})
         with self.assertRaises(ValueError):
             validate_plan.validate(p)
+
+    def test_safety_gate_optional_fields_reject_invalid_types(self):
+        invalid = [
+            ("reason", 3),
+            ("dataRisk", "safe"),
+            ("dataSafetyStatus", "ready"),
+            ("backupStatus", "verified"),
+            ("recommendedBackup", []),
+        ]
+        for field, value in invalid:
+            with self.subTest(field=field):
+                p = plan.plan(sample("local"), sample("remote"), safety())
+                p["safetyGate"][field] = value
+                p["planHash"] = plan.digest({k: v for k, v in p.items() if k != "planHash"})
+                with self.assertRaises(ValueError):
+                    validate_plan.validate(p)
