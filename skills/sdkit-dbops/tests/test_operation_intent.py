@@ -18,7 +18,7 @@ class IntentTests(unittest.TestCase):
         x=sample();x["operations"]=[{"type":"truncate","risk":"destructive","objects":["public.users"]}]
         self.assertTrue(any("high-risk" in v for v in mod.validate(x)["reasons"]))
     def test_protected_schema(self):
-        x=sample();x["operations"][0]["objects"]=["system_data.accounts"]
+        x=sample();x["target"]["scope"]=["system_data"];x["operations"][0]["objects"]=["system_data.accounts"]
         self.assertIn("protected infrastructure object",mod.validate(x)["reasons"])
     def test_unknown_environment(self):
         x=sample();x["environment"]="mystery"
