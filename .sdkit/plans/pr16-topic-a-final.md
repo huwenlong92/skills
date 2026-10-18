@@ -15,3 +15,9 @@
 | C3 | Push 前远端复核、普通 Commit/Push、Draft 与 mergeable | verified；普通推送 `4a8814fa8881114363b7ec432cb6988ebeaf49bc` 后 Draft/Open、MERGEABLE/CLEAN；交接提交的最终 Head 以最终查询为准 |
 
 命令、数量、退出码与未完成边界见 [最终报告](../../docs/acceptance/vab-standards-retirement/final-integration.md)。恢复时核对真实 Git/远端，再从未验收阶段继续。完成标准：本地必需门禁通过且历史证据不变；远端 Draft/Open、main 是祖先，最终交付状态单独核验。技术可合并不等于授权合并。
+
+## revision 2：#17 合并后同步
+
+保留 revision 1 原始基线。用户授权从 `947dd7011a9dd32a488fbee6721953fdd69c21ff` 普通合入 main `8c049239ef90a6b4215ba425cef439168cb43dd2`，仅处理本 PR 集成冲突及必要修复/回归/Commit/普通 Push。命中规范与原计划相同；范围增加本轮报告与结果，不引入其他未合并 PR。禁止 Ready/合并/部署/主动 CI、真实配置或安装、业务与旧规范库写入；D2/D3 停止受影响操作。
+
+C0 已核验：目标与其他 Head、main、权限及干净 Worktree；C1 verified：四个独立历史追加冲突逐段联合。C2 verified：本 PR 回归和证据保留均通过，命令退出 0。C3 待验证：普通提交/推送与远端状态。恢复入口为 [本轮报告](../../docs/acceptance/vab-standards-retirement/post-pr17-integration.md)；以实际 Git 和测试证据为准。

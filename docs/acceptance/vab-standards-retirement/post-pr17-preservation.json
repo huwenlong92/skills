@@ -1,0 +1,24 @@
+{
+  "main": "8c049239ef90a6b4215ba425cef439168cb43dd2",
+  "initial_head": "947dd7011a9dd32a488fbee6721953fdd69c21ff",
+  "historical_evidence": [
+    {
+      "source": "947dd7011a9dd32a488fbee6721953fdd69c21ff",
+      "evidence_files": 88,
+      "changed": []
+    },
+    {
+      "source": "8c049239ef90a6b4215ba425cef439168cb43dd2",
+      "evidence_files": 88,
+      "changed": []
+    }
+  ],
+  "compatibility": {
+    "identical_shared_references": 15,
+    "expected_identity_difference": [
+      "repository.md"
+    ]
+  },
+  "routing_semantic_change": false,
+  "unmerged_pr20_included": false
+}
