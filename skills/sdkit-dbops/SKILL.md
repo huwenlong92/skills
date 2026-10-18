@@ -18,6 +18,8 @@ description: 跨语言数据库 SQL Migration 静态校验、Schema Baseline、�
 
 7. 离线计划和证据检查读取 [History Evidence](references/history-evidence.md)、[Migration Plan](references/migration-plan.md)、[同步状态](references/synchronization.md)、[授权](references/approval.md) 与 [恢复](references/recovery.md)。
 
+8. 数据破坏风险与备份建议读取 [Data Destruction Guard](references/data-destruction-guard.md) 和 [Risk-Based Backup](references/risk-based-backup.md)。所有离线建议均不构成备份已验证或 SQL 执行授权。
+
 ## 禁止
 - 禁止在环境不明时试连；禁止 AI 直接或间接操作正式数据库。
 - 禁止把现有 Go AutoMigrate 当成已执行的版本化 SQL Migration。
