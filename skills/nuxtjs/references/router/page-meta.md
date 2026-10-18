@@ -16,19 +16,24 @@ description: Nuxt.js 文件路由、definePageMeta、菜单、鉴权、routeRule
 
 ## definePageMeta
 
-- 页面自己的 layout、theme、auth、menu 和 active menu 必须写在 `definePageMeta`。
+- 页面自身 layout、auth 及实际启用的 menu/active menu 必须写在 `definePageMeta`；theme 仅作为实际消费者仍使用的历史标记，禁止覆盖用户全局配色。
 - 公开页面必须显式设置 `publicAccess: true`；登录后页面必须显式设置 `requiresAuth: true`。
-- 页面有菜单入口时必须定义稳定短 `menu.key`、scope 和 order；子菜单必须通过 `menu.parent` 指向父 key。
+- 只有实际启用 meta 菜单生成时，菜单入口才必须定义稳定短 key、scope、order 及 parent；固定导航不强制逐页 menu，禁止因保留类型就宣称菜单生成已经实现。
 - 详情、预览和编辑页必须通过 `activeMenu` 高亮所属菜单。
-- 用户中心页面使用项目已有 user layout、theme 和 group meta；只有现有字段无法表达确认需求时才允许扩展 meta 类型。
+- 用户中心页面使用项目已有 user layout 和实际消费的 group meta；只有现有字段无法表达确认需求时才允许扩展 meta 类型。
 - 页面禁止重复实现登录跳转、角色或权限守卫。
 
 ## routeRules
 
 - `definePageMeta` 只负责页面布局、菜单与访问控制，`routeRules` 只负责 SSR/CSR、prerender 和缓存策略，禁止混用。
 - 只有内容在构建时稳定、无需用户身份且更新策略允许重新发布时，公开页才允许 prerender。
-- 读取用户身份、私有数据或浏览器专属 API 的页面必须使用 SSR 或 CSR 中符合数据安全边界的模式；用户中心默认使用 CSR，除非已实现安全的服务端 session 读取。
+- 页面必须按真实首屏与数据安全选择 SSR/CSR，不因用户中心、登录等名称恢复旧 CSR 白名单。需要浏览器专属 API 时必须隔离客户端代码；私有响应禁止共享缓存，渲染策略不能替代后端鉴权。
 - routeRules 必须写在根 `nuxt.config.ts` 或 `layers/core/config/route-rules.ts` 的既有权威位置，禁止分散维护。
+
+## 默认规则合并
+
+- 必须检查 `defineAppRouteRules` 实现：当前 core 仅默认 redirect CSR，只有配置代理目标时才增加 `/api/**`；业务覆盖同路径对象是替换，不是深合并。消费版本不同必须以其代码为准。
+- routeRules 必须按 URL 而非源文件路径匹配，禁止放入 runtimeConfig.public。动态 prerender 必须有可枚举路由，isr 必须核验平台支持，禁止承诺跨平台一致能力。
 
 ## Router Options
 

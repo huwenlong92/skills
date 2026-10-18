@@ -22,6 +22,11 @@ description: 开发基于 huwenlong92/sdbase-nuxtjs-portal 模板的 Nuxt 4 门�
 
 | 修改内容 | 读取 |
 |---|---|
+| 国际化、翻译表单、locale SSR | [code/i18n.md](references/code/i18n.md) |
+| 页面 SEO、canonical、robots/sitemap | [code/seo.md](references/code/seo.md) |
+| SSE/WebSocket 与连接生命周期 | [realtime.md](references/realtime.md) |
+| 生产首屏、SSR、资源与预取性能 | [performance.md](references/performance.md) |
+| 外壳模板、布局选择和切换保护 | [layers/layouts.md](references/layers/layouts.md) |
 | 新增、移动文件或目录，判断目录职责 | [structure/directories.md](references/structure/directories.md) |
 | `layers/core`、框架 capability、layout、全局 composable/plugin | [layers/core.md](references/layers/core.md) |
 | Vue/TypeScript 基础、命名、composable、本地状态 | [code/base.md](references/code/base.md) |

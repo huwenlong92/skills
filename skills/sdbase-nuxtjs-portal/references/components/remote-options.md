@@ -5,14 +5,14 @@ description: Nuxt.js 远端注册表 options 的语义组件、Pinia 缓存、pe
 
 # 远端 options 组件规范
 
-本文适用于后台可维护注册表的 options API、展示组件、select/radio/checkbox 组件、`src/store/modules` 缓存和 SSR hydrate。数据是否属于远端注册表必须先按 [business-options.md](business-options.md) 判定；组件放置必须同时读取 [placement.md](placement.md)。
+本文适用于后台可维护注册表的 options API、展示组件、select/radio/checkbox 组件、`src/stores` 缓存和 SSR hydrate。数据是否属于远端注册表必须先按 [business-options.md](business-options.md) 判定；组件放置必须同时读取 [placement.md](placement.md)。
 
 ## 完整调用链
 
 ```text
 versioned API
   -> src/api/<domain>/<resource>.ts
-  -> src/store/modules/<domain>.ts
+  -> src/stores/<domain>.ts
   -> <resource>/index.vue、select.vue、radio.vue 或 checkbox.vue
   -> 页面只消费语义组件
 ```
@@ -27,7 +27,7 @@ versioned API
 
 - 组件目录使用资源的短单数语义；位置由 [placement.md](placement.md) 的真实调用范围决定。
 - 展示入口为 `index.vue`，选择输入为 `select.vue`；只有存在真实调用方时才增加 `radio.vue` 或 `checkbox.vue`。
-- store 必须按业务域命名，例如 `src/store/modules/catalog.ts`；禁止为每个 select 创建单独的 options store。
+- store 必须按业务域命名，例如 `src/stores/catalog.ts`；禁止为每个 select 创建单独的 options store。
 - store state 使用资源复数名，action 使用 `fetchItemTypes`、`refreshItemTypes`，label resolver 使用 `itemTypeLabel`。
 
 ## Store 基础协议

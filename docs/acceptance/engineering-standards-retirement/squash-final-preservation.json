@@ -1,0 +1,42 @@
+{
+  "initial_head": "32f9d9a9ac16221b8c760dbc77c0dc93c819d350",
+  "main_before": "a874524db55edae7bd7d9613b74a1d03ac6ff8b4",
+  "conflicts": {
+    ".sdkit/DECISIONS.md": 1,
+    ".sdkit/HANDOFF.md": 2,
+    ".sdkit/STATUS.md": 2,
+    ".sdkit/TASKS.md": 1
+  },
+  "both_parent_history_lines_preserved": true,
+  "historical_docs": [
+    {
+      "source": "32f9d9a9ac16221b8c760dbc77c0dc93c819d350",
+      "files": 104,
+      "changed": []
+    },
+    {
+      "source": "a874524db55edae7bd7d9613b74a1d03ac6ff8b4",
+      "files": 100,
+      "changed": []
+    }
+  ],
+  "reference_compatibility": [
+    {
+      "new": "sdbase-go",
+      "old": "sdkitgo",
+      "shared_identical": 35
+    },
+    {
+      "new": "sdbase-vab-admin",
+      "old": "vab-admin",
+      "shared_identical": 15
+    },
+    {
+      "new": "sdbase-nuxtjs-portal",
+      "old": "nuxtjs",
+      "shared_identical": 21
+    }
+  ],
+  "audit_sha256": "314f6bed66360cc67291a28fb8f33c3cd9f5a9e7b7cdf86c2117df270b344ad6",
+  "routing_semantic_change": false
+}

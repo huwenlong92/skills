@@ -38,9 +38,19 @@ description: Nuxt.js 请求 wrapper、API 文件与函数、返回类型和 SSR 
 - 非关键初始化项失败时必须返回明确空态或本地安全缺省值，禁止使整个 SSR 页面返回 500；鉴权或页面主数据失败不得用缺省值掩盖。
 - 表单选择器使用的可维护注册表不自动归入 SSR 初始化；其版本化 API、缓存、SSR hydrate 和刷新以 [remote-options.md](../components/remote-options.md) 为准。
 
+## SSR 异步上下文
+
+- 统一 request 必须在异步签名或 await 前捕获当前 Nuxt app、store 和 request event；响应回调必须复用它们，Set-Cookie 必须写回该 event，认证跳转必须使用捕获 app 的 runWithContext。禁止在 await 后重新取得请求上下文或跨 SSR 请求共享实例。
+- 已接入同源内部请求的版本，只有同源相对目标允许传递发起请求 context，禁止传给外部 upstream 或浏览器。未实现该能力时必须报告差距，禁止宣称已支持。
+- 平台 Binding 只允许在 server adapter 注入最小接口；开发 Node/线程/CLI 依赖禁止进入 Worker/浏览器产物。缺少配置与实际读取失败必须分别报错，禁止回退虚构业务数据。此规则不表示模板已接入任何平台 Binding。
+
+正向形态：发起请求前捕获 `const event = useRequestEvent()`，异步响应只将 Set-Cookie 写回同一 event。反例：异步回调再次 useRequestEvent 或将 context 附加到外部 URL。
+
 ## 验收
 
 - 必须检查页面和组件没有新建请求实例或重复解析 envelope。
 - 必须检查 API 文件归属单一业务域，函数名、参数和返回类型明确。
 - SSR 数据必须说明首屏必要性和跨页面调用范围，并验证私有地址与凭据未进入客户端 bundle。
 - 必须检查 hydrated 数据没有客户端重复请求，交互请求没有被错误塞入 SSR bootstrap。
+
+SSR 请求改动必须验证并发身份/Cookie 隔离、异步鉴权跳转、API、去除 payload script 后的 HTML 与 hydration；已使用 Binding 的项目必须另行核验真实连接、缓存与授权撤销时限，API 成功不能代替 SSR 成功。
