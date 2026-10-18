@@ -2,6 +2,7 @@
 """Offline, fail-closed migration planning; no database connections."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import re
 from datetime import datetime
@@ -10,6 +11,12 @@ from pathlib import Path
 SHA = re.compile(r"^[0-9a-f]{64}$")
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
 DIALECTS = {"postgres", "mysql", "oracle", "sqlite"}
+def _load_sibling(name):
+    spec = importlib.util.spec_from_file_location("dbops_" + name, Path(__file__).with_name(name + ".py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
 def canonical(obj):
     return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
 def digest(obj):
@@ -31,7 +38,25 @@ def history_map(doc):
     if any(not isinstance(a, dict) or set(a) != {"status"} or a.get("status") != "applied" for a in doc.get("attempts", [])):
         raise ValueError("unresolved attempt")
     return out
-def plan(source, target):
+def safety_gate(safety):
+    """Untrusted offline evidence never authorizes writes or proves recovery."""
+    if not isinstance(safety, dict) or set(safety) != {"operations", "backupRequest", "evidence"}:
+        return {"status": "blocked", "reason": "missing or invalid safety evidence",
+                "dataRisk": "unknown", "backupStatus": "evidence_required",
+                "evidenceVerified": False, "executionAuthorized": False}
+    risk = _load_sibling("data_safety").assess(safety["operations"])
+    backup = _load_sibling("backup_decision").decide(safety["backupRequest"])
+    evidence = safety["evidence"]
+    if not isinstance(evidence, dict) or set(evidence) != {"recoveryEvidenceId", "capturedAt", "source"}:
+        raise ValueError("invalid recovery evidence identity")
+    if not all(isinstance(v, str) and v for v in evidence.values()):
+        raise ValueError("empty recovery evidence identity")
+    return {"status": "blocked", "reason": "offline evidence cannot prove recovery or authorize execution",
+            "dataRisk": risk["risk"], "dataSafetyStatus": risk["status"],
+            "backupStatus": backup["status"], "recommendedBackup": backup["recommendedStrategy"],
+            "evidenceVerified": False, "executionAuthorized": False}
+
+def plan(source, target, safety=None):
     for obj in (source, target):
         if not isinstance(obj, dict) or set(obj) != {"identity", "history", "snapshotFingerprint", "normalizerVersion", "evidence"}:
             raise ValueError("missing or unexpected evidence fields")
@@ -73,17 +98,22 @@ def plan(source, target):
     else:
         state="diverged"
     decision="requires_approval" if state=="local_ahead" else ("candidate" if state=="equal" else "blocked")
-    semantic={"apiVersion":"sdkit.dev/migration-plan/v1","sourceCommit":source["evidence"]["sourceCommit"],"target":target["identity"],"preconditions":{"historyFingerprint":digest(target["history"]),"schemaFingerprint":target["snapshotFingerprint"],"normalizerVersion":target["normalizerVersion"]},"state":state,"decision":decision,"steps":[{"migrationId":k,"checksum":a[k],"risk":"requires_review"} for k in sorted(a.keys()-b.keys())] if state=="local_ahead" else [],"executionAuthorized":False}
+    gate = safety_gate(safety)
+    safety_hash = digest(safety) if safety is not None else None
+    decision = "blocked"  # Offline plans never satisfy the execution safety gate.
+    semantic={"apiVersion":"sdkit.dev/migration-plan/v1","sourceCommit":source["evidence"]["sourceCommit"],"target":target["identity"],"preconditions":{"historyFingerprint":digest(target["history"]),"schemaFingerprint":target["snapshotFingerprint"],"normalizerVersion":target["normalizerVersion"]},"state":state,"decision":decision,"safetyGate":gate,"safetyEvidenceFingerprint":safety_hash,"steps":[{"migrationId":k,"checksum":a[k],"risk":"requires_review"} for k in sorted(a.keys()-b.keys())] if state=="local_ahead" else [],"executionAuthorized":False}
     return {**semantic,"planHash":digest(semantic)}
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("source")
     p.add_argument("target")
+    p.add_argument("--safety", help="local offline safety evidence JSON")
     args=p.parse_args()
     try:
         a=json.loads(Path(args.source).read_text(encoding="utf-8"))
         b=json.loads(Path(args.target).read_text(encoding="utf-8"))
-        print(canonical(plan(a,b)))
+        safety = json.loads(Path(args.safety).read_text(encoding="utf-8")) if args.safety else None
+        print(canonical(plan(a,b,safety)))
         return 0
     except (ValueError,TypeError,OSError) as exc:
         print(canonical({"status":"blocked","reason":str(exc)}))
