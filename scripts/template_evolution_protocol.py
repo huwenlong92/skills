@@ -103,8 +103,10 @@ def apply_gate(plan, doc, *, user_authorized=False, approved_digest=None, git_fr
         for field in ("source_template_commit", "target_template_commit", "project_commit"):
             require(sha(member.get(field)), "TE-1002", "baseline missing")
     for p in plan["scope"]["allowed_paths"]:
-        if "*" not in p:
-            unique_owner(doc, p)
+        require(not any(c in p for c in "*?["), "TE-1004", "glob scope requires expanded file evidence")
+        require(not any(fnmatchcase(p, forbidden) for forbidden in plan["scope"]["forbidden_paths"]), "TE-3002", "forbidden path")
+        unique_owner(doc, p)
+    require(plan["scope"].get("deletions_allowed") is False, "TE-3002", "deletions require separate approval")
     return True
 
 def exact_toolchain(required, actual):
