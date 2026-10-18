@@ -18,8 +18,8 @@ class PlanTests(unittest.TestCase):
         x=sample([{"migrationId":"20261018T053000Z_a83f2c_add_avatar","checksum":"b"*64,"status":"applied"}])
         self.assertEqual(m.plan(x,dict(sample(),identity=dict(sample()["identity"],environmentId="remote-dev")))["state"],"local_ahead")
     def test_checksum_conflict(self):
-        x=sample([{"migrationId":"a","checksum":"b"*64,"status":"applied"}])
-        y=sample([{"migrationId":"a","checksum":"c"*64,"status":"applied"}])
+        x=sample([{"migrationId":"20261018T053000Z_a83f2c_add_avatar","checksum":"b"*64,"status":"applied"}])
+        y=sample([{"migrationId":"20261018T053000Z_a83f2c_add_avatar","checksum":"c"*64,"status":"applied"}])
         self.assertEqual(m.plan(x,dict(y,identity=dict(y["identity"],environmentId="remote-dev")))["state"],"checksum_mismatch")
     def test_failed_attempt_blocked(self):
         x=sample();x["history"]["attempts"]=[{"status":"failed"}]
