@@ -11,7 +11,7 @@ digest = module.digest
 def validate(doc):
     if not isinstance(doc,dict) or not isinstance(doc.get("planHash"),str):
         raise ValueError("invalid plan")
-    expected={"apiVersion","sourceCommit","sourceHistoryFingerprint","sourceSchemaFingerprint","sourceIdentity","target","preconditions","state","decision","safetyGate","safetyEvidenceFingerprint","steps","executionAuthorized","planHash"}
+    expected={"apiVersion","sourceCommit","sourceEvidenceFingerprint","targetEvidenceFingerprint","sourceHistoryFingerprint","sourceSchemaFingerprint","sourceIdentity","target","preconditions","state","decision","safetyGate","safetyEvidenceFingerprint","steps","executionAuthorized","planHash"}
     if set(doc) != expected or doc.get("apiVersion") != "sdkit.dev/migration-plan/v1":
         raise ValueError("invalid plan structure")
     if doc.get("decision") not in ("candidate", "requires_approval", "blocked") or not isinstance(doc.get("steps"), list):
