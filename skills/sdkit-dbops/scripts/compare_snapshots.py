@@ -15,6 +15,8 @@ def canonical(value):
 def normalize(doc):
     if not isinstance(doc, dict) or any(k not in doc for k in (*KEYS, "objects")):
         raise ValueError("missing snapshot fields")
+    if set(doc) != set((*KEYS, "objects")):
+        raise ValueError("unknown snapshot fields")
     if doc["dialect"] not in DIALECTS or not isinstance(doc["objects"], list):
         raise ValueError("invalid dialect or objects")
     if not all(isinstance(doc[k], str) and doc[k] for k in ("databaseVersion", "normalizerVersion")):
@@ -32,6 +34,10 @@ def normalize(doc):
     for obj in doc["objects"]:
         if not isinstance(obj, dict) or not all(isinstance(obj.get(k), str) for k in ("kind", "schema", "name")):
             raise ValueError("invalid object")
+        if set(obj) - {"kind", "schema", "name", "attributes"}:
+            raise ValueError("unknown object fields")
+        if "attributes" in obj and (not isinstance(obj["attributes"], dict) or not all(isinstance(k, str) for k in obj["attributes"])):
+            raise ValueError("invalid attributes")
         if not obj["name"] or obj["kind"] not in cov["kinds"] or obj["schema"] not in scope:
             raise ValueError("object outside coverage")
         ident = (obj["kind"], obj["schema"], obj["name"])
