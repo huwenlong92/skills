@@ -11,7 +11,12 @@
     "decision",
     "steps",
     "executionAuthorized",
-    "planHash"
+    "planHash",
+    "sourceHistoryFingerprint",
+    "sourceSchemaFingerprint",
+    "sourceIdentity",
+    "safetyGate",
+    "safetyEvidenceFingerprint"
   ],
   "properties": {
     "apiVersion": {
@@ -40,11 +45,7 @@
       ]
     },
     "decision": {
-      "enum": [
-        "candidate",
-        "requires_approval",
-        "blocked"
-      ]
+      "const": "blocked"
     },
     "steps": {
       "type": "array"
@@ -55,6 +56,47 @@
     "planHash": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
+    },
+    "sourceHistoryFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sourceSchemaFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sourceIdentity": {
+      "type": "object"
+    },
+    "safetyGate": {
+      "type": "object",
+      "required": [
+        "status",
+        "executionAuthorized",
+        "evidenceVerified"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "executionAuthorized": {
+          "const": false
+        },
+        "evidenceVerified": {
+          "const": false
+        }
+      }
+    },
+    "safetyEvidenceFingerprint": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      ]
     }
   }
 }
