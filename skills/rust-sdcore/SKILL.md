@@ -1,6 +1,6 @@
 ---
 name: rust-sdcore
-description: 为依赖 sdcore 的 Rust 工具型 Web 应用执行 SDKit 约定。创建、修改、评审或调试共享 core 边界、领域能力包、Axum 路由与鉴权、命令执行、SSE/reporter、本地 Web、agent-node 和测试时使用；普通未采用 sdcore 的 Rust 项目不触发。
+description: 仅用于明确指定旧名称 rust-sdcore 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdkit-rust-core，不得与新 Skill 同时自动触发。
 ---
 
 # Rust sdcore
@@ -18,7 +18,7 @@ description: 为依赖 sdcore 的 Rust 工具型 Web 应用执行 SDKit 约定�
 
 ## 执行顺序
 
-1. 读取目标项目规则与 Cargo.toml/Cargo.lock，解析 workspace、path/git dependency、features、实际 sdcore 源码与版本；禁止假定工作站路径或将不同 revision 的源码当作当前依赖。
+1. 先读取 [源码定位](references/repository.md)，再读取目标项目规则与 Cargo.toml/Cargo.lock，解析 workspace、path/git dependency、features、实际 sdcore 源码与版本；禁止假定工作站路径或将不同 revision 的源码当作当前依赖。
 2. 按任务分流读取 references，先判定通用机制和业务语义，再修改权威归属处。实际 API、模块与依赖版本必须从当前源码解析，示例不是永久兼容承诺。
 3. 在已授权范围实施修改；公共能力缺口必须在 sdcore 修复，业务项目通过已有依赖消费，禁止复制局部 core 来绕过边界。
 4. 按测试 reference 完成匹配验证；共享底座变化必须验证实际消费方，分别报告源码、依赖接入、编译/测试与本地链路结果。

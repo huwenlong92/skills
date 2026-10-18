@@ -10,13 +10,13 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 
 ## Skill 分类与管理 V1
 
-仓库以 [Catalog](catalog.json) 记录 Skill 名称、分类和源码路径。分类包括：`language`（语言）、`framework`（共享框架）、`template`（项目模板）、`operations`（运维）、`product`（产品/知识）、`management`（Skill 管理）。新增 Skill 必须登记 Catalog，并与目录、frontmatter 一致。现有 Skill 名称暂不变更。
+仓库以 [Catalog](catalog.json) 记录 Skill 名称、分类和源码路径。分类包括：`language`（语言）、`framework`（共享框架）、`template`（项目模板）、`operations`（运维）、`product`（产品/知识）、`management`（Skill 管理）。新增 Skill 必须登记 Catalog，并与目录、frontmatter 一致。八个开发 Skill 使用下列主入口；五个旧名称保留为历史兼容入口。
 
 | 分类 | 当前 Skill |
 |---|---|
 | 语言 language | 暂无，后续按需新增 |
-| 框架 framework | `sdkit`、`rust-sdcore` |
-| 模板 template | `sdkitgo`、`vab-admin`、`nuxtjs` |
+| 框架 framework | `sdkit-go-core`、`sdkit-rust-core`（兼容：`sdkit`、`rust-sdcore`） |
+| 模板 template | `sdbase-go`、`sdbase-lite`、`sdbase-vab-admin`、`sdbase-admin-lite`、`sdbase-nuxtjs-portal`、`sdbase-flutter-app`（兼容：`sdkitgo`、`vab-admin`、`nuxtjs`） |
 | 运维 operations | `dockerops`、`npmops`、`sdenv`、`swops` |
 | 产品 product | `foundry`、`wikiops` |
 | 管理 management | `sdkit-skills` |
@@ -27,21 +27,51 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 python3 skills/sdkit-skills/scripts/manager.py list
 python3 skills/sdkit-skills/scripts/manager.py validate --all
 python3 skills/sdkit-skills/scripts/manager.py create example-skill --category language
-python3 skills/sdkit-skills/scripts/manager.py install sdkitgo --target /path/to/agent/skills
-python3 skills/sdkit-skills/scripts/manager.py update sdkitgo --target /path/to/agent/skills
+python3 skills/sdkit-skills/scripts/manager.py install sdbase-go --target /path/to/agent/skills
+python3 skills/sdkit-skills/scripts/manager.py update sdbase-go --target /path/to/agent/skills
 ```
 
 `create` 仅创建待完善草稿，不自动提交；`install` 只安装到显式指定且已存在的父目录，拒绝覆盖；`update` 只更新由本工具安装、且哈希与安装记录完全一致的副本。上述本地安装工具不代替下文 `pnpx skills` 的跨 Agent 安装流程；任何安装均不意味着自动部署或远端发布。
+
+## SDBase 新增模板 Skill（迁移阶段）
+
+以下 Skill 已在迁移分支中登记，安装前必须确认模板身份；现有旧 Skill 名称和安装入口仍保持有效。正式迁移方案见 [八个开发 Skill 迁移规范](standards/sdkit-sdbase-skill-migration-v1.md)。
+
+| Skill | 类别 | 权威模板仓库 | 适用范围 |
+| --- | --- | --- | --- |
+| `sdbase-lite` | template | `huwenlong92/sdbase-lite` | SQLite 单 Web Go 工具 |
+| `sdbase-admin-lite` | template | `huwenlong92/sdbase-admin-lite` | Vue/Vite 轻量管理端 |
+| `sdbase-flutter-app` | template | `huwenlong92/sdbase-flutter-app` | Flutter Android/iOS |
+
+安装前通过 `python3 skills/sdkit-skills/scripts/manager.py validate --all` 校验完整目录。项目级或全局安装仍使用下文 `pnpx skills`，将 `--skill` 参数替换为实际 Skill 名称。未合并的 Draft PR 不属于 main 可安装版本。
+
+## 新旧名称过渡（PR #12）
+
+本次迁移的新名称主入口与旧名称兼容入口同时登记。旧入口仅用于明确指定的历史安装与迁移任务，**新项目自动选择新名称**；不要在同一 Agent 安装范围同时安装同职责的新旧 Skill。正式切换前核对当前安装版本与项目 AGENTS.md 引用，旧目录清理另行授权。
+
+| 新名称（主入口） | 旧名称（兼容） | 分类 |
+| --- | --- | --- |
+| `sdkit-go-core` | `sdkit` | framework |
+| `sdkit-rust-core` | `rust-sdcore` | framework |
+| `sdbase-go` | `sdkitgo` | template |
+| `sdbase-vab-admin` | `vab-admin` | template |
+| `sdbase-nuxtjs-portal` | `nuxtjs` | template |
+
+新 Skill 安装使用现有 `pnpx skills add huwenlong92/skills --skill <new-name> -a codex`；本 Draft 分支尚未合并，GitHub main 安装不能取得新入口。验收未合并版本时必须从已核验 PR Head 的本地 Worktree 安装（见“本地未发布版本”），禁止把 main 当作包含新入口。具体项目的开发命令仍以模板 README 与已锁定版本为准。
 
 ## Skills
 
 | Skill | 适用范围 |
 |---|---|
-| `sdkit` | Go sdkit 框架自身的 `core`、`pkg`、facade、driver 与 runtime |
-| `sdkitgo` | 使用 sdkitgo、Gin、GORM、PostgreSQL 的 Go 后端 |
-| `vab-admin` | 基于 Vue 3、Vab Shop Vite、Element Plus 的后台管理前端 |
-| `nuxtjs` | 基于 Nuxt 4、Vue 3、Element Plus 的门户前端 |
-| `rust-sdcore` | 基于 sdcore 的 Rust 工具型 Web 应用 |
+| `sdkit-go-core` | Go sdkit 框架自身的 `core`、`pkg`、facade、driver 与 runtime |
+| `sdkit-rust-core` | 维护或消费 Rust sdcore，以实际 Cargo 依赖定位源码 |
+| `sdbase-go` | SDBase 完整 Go 模板：sdkitgo、Gin、GORM、PostgreSQL |
+| `sdbase-lite` | SQLite、Cookie Session、单 Web Go 工具 |
+| `sdbase-vab-admin` | SDBase Vab 完整后台：Vue 3、Element Plus |
+| `sdbase-admin-lite` | 静态导航、Cookie Session 的轻量 Vue 管理端 |
+| `sdbase-nuxtjs-portal` | SDBase Nuxt 4、Vue 3 门户 |
+| `sdbase-flutter-app` | SDBase Flutter Android/iOS 应用；SDK 扩展以实际接入为准 |
+| 五个旧名称 | 仅用于明确指定的历史安装、兼容检查和迁移，映射见上表 |
 | `dockerops` | 镜像选择与同步、共享 builder，以及统一 `.sdkit/docker/` 的项目文件生成、业务镜像构建发布与按授权运行更新 |
 | `sdenv` | 通过已安装的 sdenv 使用 Docker context 中的数据库与基础服务，动态解析配置并完成查询、结构检查、备份恢复和连接排查 |
 | `npmops` | 统一包父目录下的新包创建/查找，源码身份检查，以及 npm 包结构、校验与发布流程 |
@@ -75,7 +105,7 @@ Foundry 配置迁移到新位置前必须校验原配置并确认目标不存在
 
 ### 先选来源和 skill
 
-GitHub 安装只能取得已经推送的内容；本地尚未发布的修改必须从本地目录安装。业务后端选择 `sdkitgo`，后台选择 `vab-admin`，Nuxt 门户选择 `nuxtjs`；`sdkit` 只用于框架仓库本身，不要求业务后端同时安装。
+GitHub 安装只能取得已经推送的内容；本地尚未发布的修改必须从本地目录安装。完整业务后端选择 `sdbase-go`，Vab 后台选择 `sdbase-vab-admin`，Nuxt 门户选择 `sdbase-nuxtjs-portal`；轻量 Go、轻量后台和 Flutter 分别选择 `sdbase-lite`、`sdbase-admin-lite`、`sdbase-flutter-app`。`sdkit-go-core` 只用于框架源码，Rust sdcore 使用 `sdkit-rust-core`。
 
 ```bash
 # 查看可安装的 skills
@@ -97,13 +127,13 @@ pnpx skills add huwenlong92/skills --skill foundry -a codex -g
 
 ```bash
 # Go 后端根目录
-pnpx skills add huwenlong92/skills --skill sdkitgo -a codex
+pnpx skills add huwenlong92/skills --skill sdbase-go -a codex
 
 # Vab 管理端根目录
-pnpx skills add huwenlong92/skills --skill vab-admin -a codex
+pnpx skills add huwenlong92/skills --skill sdbase-vab-admin -a codex
 
 # Nuxt 门户根目录
-pnpx skills add huwenlong92/skills --skill nuxtjs -a codex
+pnpx skills add huwenlong92/skills --skill sdbase-nuxtjs-portal -a codex
 ```
 
 Codex 的项目级位置为 `.agents/skills/<skill-name>/`。同一工作区包含后端、admin 和 portal 时，必须分别进入对应子目录安装；从工作区父目录启动的会话不能据此假定已经发现所有子项目技能，必须检查当前会话的技能列表。
@@ -114,13 +144,13 @@ Codex 的项目级位置为 `.agents/skills/<skill-name>/`。同一工作区包�
 
 ```bash
 # 全局安装一个 skill
-pnpx skills add huwenlong92/skills --skill sdkitgo -a codex -g
+pnpx skills add huwenlong92/skills --skill sdbase-go -a codex -g
 
-# 全局安装本仓库全部 skills
-pnpx skills add huwenlong92/skills --skill '*' -a codex -g
+# 按职责选择；完整后端与轻量后端分别安装，禁止通配安装新旧兼容入口
+pnpx skills add huwenlong92/skills --skill sdbase-lite -a codex -g
 ```
 
-禁止仅为方便而同时维护项目级和全局的同名不同版本；安装前先检查已有入口。全部安装不意味着每项任务都应读取全部 skills。
+禁止仅为方便而同时维护项目级和全局的同名不同版本；安装前先检查已有入口。禁止使用 `--skill '*'` 同时安装同职责的新旧入口；必须显式选择所需名称。
 
 ### 非 Codex 或多个 agent
 
@@ -128,29 +158,29 @@ pnpx skills add huwenlong92/skills --skill '*' -a codex -g
 
 ```bash
 # Claude Code：项目级；全局时在末尾加 -g
-pnpx skills add huwenlong92/skills --skill sdkitgo -a claude-code
+pnpx skills add huwenlong92/skills --skill sdbase-go -a claude-code
 
 # Kimi Code CLI：项目级；全局时在末尾加 -g
-pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli
+pnpx skills add huwenlong92/skills --skill sdbase-go -a kimi-code-cli
 
 # OpenCode
-pnpx skills add huwenlong92/skills --skill sdkitgo -a opencode
+pnpx skills add huwenlong92/skills --skill sdbase-go -a opencode
 
 # Gemini CLI
-pnpx skills add huwenlong92/skills --skill sdkitgo -a gemini-cli
+pnpx skills add huwenlong92/skills --skill sdbase-go -a gemini-cli
 
 # GitHub Copilot
-pnpx skills add huwenlong92/skills --skill sdkitgo -a github-copilot
+pnpx skills add huwenlong92/skills --skill sdbase-go -a github-copilot
 
 # Qwen Code
-pnpx skills add huwenlong92/skills --skill sdkitgo -a qwen-code
+pnpx skills add huwenlong92/skills --skill sdbase-go -a qwen-code
 
 # 同一个项目同时供多个 agent 使用
-pnpx skills add huwenlong92/skills --skill sdkitgo \
+pnpx skills add huwenlong92/skills --skill sdbase-go \
   -a codex -a claude-code -a kimi-code-cli
 ```
 
-上面的单工具命令均为项目级，末尾加 `-g` 即为该工具的全局安装。`--skill` 选择技能，`-a` 选择安装目标，二者无绑定关系；例如 Gemini CLI 同样可以安装 `sdkitgo`、`vab-admin` 或 `nuxtjs`。
+上面的单工具命令均为项目级，末尾加 `-g` 即为该工具的全局安装。`--skill` 选择技能，`-a` 选择安装目标，二者无绑定关系；例如 Gemini CLI 同样可以安装 `sdbase-go`、`sdbase-vab-admin` 或 `sdbase-nuxtjs-portal`。
 
 常见 coding CLI 与编辑器 agent 的目录如下，按 [skills CLI 支持表](https://github.com/vercel-labs/skills#supported-agents) 核对；这里区分的是安装目标，不代表本仓库已逐个运行这些工具做行为测试。
 
@@ -173,7 +203,7 @@ pnpx skills add huwenlong92/skills --skill sdkitgo \
 其他工具可以使用不带 `-a` 的交互安装，在 CLI 提供的目标列表中选择：
 
 ```bash
-pnpx skills add huwenlong92/skills --skill sdkitgo
+pnpx skills add huwenlong92/skills --skill sdbase-go
 ```
 
 列表没有目标工具时，先核对该工具官方文档的 Agent Skills 支持与搜索路径。支持标准目录加载时，允许把完整 `<skill-name>/`（含 `references/`）放进其明确支持的目录；不支持时必须说明不兼容，禁止只改目录名、只复制 `SKILL.md` 或假称安装成功。
@@ -188,13 +218,13 @@ CLI 的 symlink 模式是让 agent 入口引用安装后的 canonical copy，不
 
 ```bash
 # DSH 项目级：在实际项目根目录执行
-pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli
+pnpx skills add huwenlong92/skills --skill sdbase-go -a kimi-code-cli
 
 # DSH 全局：写入 ~/.agents/skills
-pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli -g
+pnpx skills add huwenlong92/skills --skill sdbase-go -a kimi-code-cli -g
 ```
 
-前端分别将 `sdkitgo` 换成 `vab-admin` 或 `nuxtjs`。已有 Codex 项目级 `.agents/skills` 副本时，DSH 可以直接复用，禁止再复制一套；Codex 全局安装目标与此不同，不能据此假定 DSH 会发现 `~/.codex/skills`。
+前端分别将 `sdbase-go` 换成 `sdbase-vab-admin` 或 `sdbase-nuxtjs-portal`。已有 Codex 项目级 `.agents/skills` 副本时，DSH 可以直接复用，禁止再复制一套；Codex 全局安装目标与此不同，不能据此假定 DSH 会发现 `~/.codex/skills`。
 
 如果使用的 DSH profile 修改或关闭了 filesystem skill provider，必须以该 profile 的配置为准；安装后在对应 DSH 项目会话中核对技能列表。不要直接使用未经 CLI 支持表确认的 `-a dsh`。
 
@@ -205,7 +235,7 @@ pnpx skills add huwenlong92/skills --skill sdkitgo -a kimi-code-cli -g
 在目标项目根目录执行，把来源换成本地技能仓库路径。以下假设源仓库位于目标项目的同级目录；不满足时替换为实际路径：
 
 ```bash
-pnpx skills add ../sdkit-skills --skill sdkitgo -a codex
+pnpx skills add ../sdkit-skills --skill sdbase-go -a codex
 ```
 
 `--skill`、`-a` 和 `-g` 的用法与 GitHub 来源相同。本地安装后修改源文件，不代表已安装副本自动更新；必须重新从本地来源安装，并核对覆盖预览。已经手工复制到 `.agents/skills` 的版本没有 CLI 安装记录，不能假定 `skills update` 会替它同步；迁入 CLI 管理前必须先备份并核对旧副本，禁止直接覆盖项目自有修改。
@@ -218,8 +248,8 @@ pnpx skills add ../sdkit-skills --skill sdkitgo -a codex
 # 查看已安装技能（输出可能同时包含项目级和全局，必须核对 scope）
 pnpx skills list -a codex
 
-# 只更新当前项目的 sdkitgo
-pnpx skills update sdkitgo -p
+# 只更新当前项目的 sdbase-go
+pnpx skills update sdbase-go -p
 
 # 更新当前项目全部已记录的技能
 pnpx skills update -p

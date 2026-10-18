@@ -68,6 +68,46 @@
       "name": "sdkit-skills",
       "category": "management",
       "path": "skills/sdkit-skills"
+    },
+    {
+      "name": "sdbase-lite",
+      "category": "template",
+      "path": "skills/sdbase-lite"
+    },
+    {
+      "name": "sdbase-admin-lite",
+      "category": "template",
+      "path": "skills/sdbase-admin-lite"
+    },
+    {
+      "name": "sdbase-flutter-app",
+      "category": "template",
+      "path": "skills/sdbase-flutter-app"
+    },
+    {
+      "name": "sdkit-go-core",
+      "category": "framework",
+      "path": "skills/sdkit-go-core"
+    },
+    {
+      "name": "sdbase-go",
+      "category": "template",
+      "path": "skills/sdbase-go"
+    },
+    {
+      "name": "sdkit-rust-core",
+      "category": "framework",
+      "path": "skills/sdkit-rust-core"
+    },
+    {
+      "name": "sdbase-vab-admin",
+      "category": "template",
+      "path": "skills/sdbase-vab-admin"
+    },
+    {
+      "name": "sdbase-nuxtjs-portal",
+      "category": "template",
+      "path": "skills/sdbase-nuxtjs-portal"
     }
   ]
 }

@@ -1,11 +1,15 @@
 ---
 name: nuxtjs
-description: 为 Nuxt 4 和 Vue 3 门户应用执行 SDKit Nuxt.js 约定。创建、修改、评审或调试 layer、页面、module、组件、API 与 SSR 数据、Pinia 状态、route meta、runtime config、主题、资源、业务选项和验证时使用。
+description: 仅用于明确指定旧名称 nuxtjs 的历史安装、兼容检查或迁移任务；新项目开发默认使用 sdbase-nuxtjs-portal，不得与新 Skill 同时自动触发。
 ---
 
 # Nuxt.js
 
 本 skill 适用于 Nuxt 门户仓库。禁止把 Vue 后台的 table、drawer、`src/views` 或后台菜单约定应用到 Nuxt 门户。路径均以目标项目根目录为基准。
+
+## 仓库定位（兼容迁移阶段）
+
+开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。本 Skill 仅供明确指定旧名称的兼容任务；正常开发主入口为 `sdbase-nuxtjs-portal`。安装切换前必须检查已有副本，禁止覆盖用户修改。
 
 ## 必须执行的流程
 
