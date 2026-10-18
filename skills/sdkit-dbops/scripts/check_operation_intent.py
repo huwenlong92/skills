@@ -8,8 +8,9 @@ from pathlib import Path
 SHA = re.compile(r"^[a-f0-9]{64}\Z")
 RISKS = {"read_only", "additive", "structural", "destructive", "unknown"}
 ENVIRONMENTS = {"local", "shared_dev", "staging", "production"}
-DANGEROUS = {"drop", "truncate", "delete", "overwrite", "reset", "rebuild"}
-OPERATIONS = {"select", "inspect", "create", "alter", "add_column", "create_index", "drop", "truncate", "delete", "update", "insert", "merge", "overwrite", "reset", "rebuild", "migrate", "seed", "backfill", "restore", "bootstrap"}
+DANGEROUS = {"drop", "truncate", "delete", "overwrite", "reset", "rebuild", "drop schema cascade", "delete from", "seed_reset", "orm_drop_recreate"}
+UNKNOWN_OPERATIONS = {"dynamic_sql", "unknown_sql"}
+OPERATIONS = {"select", "inspect", "create", "alter", "add_column", "create_index", "drop", "truncate", "delete", "update", "insert", "merge", "overwrite", "reset", "rebuild", "migrate", "seed", "backfill", "restore", "bootstrap", "drop schema cascade", "delete from", "seed_reset", "orm_drop_recreate", "dynamic_sql", "unknown_sql"}
 
 def validate(value):
     if not isinstance(value, dict) or set(value) != {"environment", "target", "operations", "planHash", "approval", "backup"}:
@@ -43,7 +44,7 @@ def validate(value):
     reasons = ["offline evidence cannot authorize execution"]
     if value["environment"] == "production":
         reasons.append("production execution remains prohibited by current skill rules")
-    if any(op["type"].lower() in DANGEROUS or op["risk"] in {"destructive", "unknown"} for op in ops):
+    if any(op["type"].lower() in DANGEROUS or op["type"].lower() in UNKNOWN_OPERATIONS or op["risk"] in {"destructive", "unknown"} for op in ops):
         reasons.append("destructive or unknown operation requires independent high-risk approval")
     if any(x.split(".", 1)[0] in {"system", "system_data"} for op in ops for x in op["objects"]):
         reasons.append("protected infrastructure object")
