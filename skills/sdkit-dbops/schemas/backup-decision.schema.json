@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "backupRequired",
+    "recommendedStrategy",
+    "status",
+    "executionAuthorized",
+    "evidenceVerifiedByTool",
+    "eligibleClaimedOptions"
+  ],
+  "properties": {
+    "backupRequired": {
+      "type": "boolean"
+    },
+    "recommendedStrategy": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "enum": [
+            "existing-pitr",
+            "verified-snapshot",
+            "targeted-backup",
+            "full-backup",
+            "none-for-read-only"
+          ]
+        }
+      ]
+    },
+    "status": {
+      "enum": [
+        "not_required",
+        "evidence_required"
+      ]
+    },
+    "executionAuthorized": {
+      "const": false
+    },
+    "evidenceVerifiedByTool": {
+      "const": false
+    },
+    "eligibleClaimedOptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

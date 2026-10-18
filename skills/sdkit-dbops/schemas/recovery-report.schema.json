@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "reason",
+    "executionAuthorized",
+    "operationId",
+    "targetIdentity",
+    "lastKnownStep",
+    "failureState",
+    "recoveryRequirements"
+  ],
+  "properties": {
+    "status": {
+      "const": "investigation_required"
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executionAuthorized": {
+      "const": false
+    },
+    "operationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targetIdentity": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "lastKnownStep": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "failureState": {
+      "enum": [
+        "failed",
+        "interrupted",
+        "unknown",
+        "partially_committed"
+      ]
+    },
+    "recoveryRequirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "sourceCommit",
+    "target",
+    "preconditions",
+    "state",
+    "decision",
+    "steps",
+    "executionAuthorized",
+    "planHash",
+    "sourceHistoryFingerprint",
+    "sourceSchemaFingerprint",
+    "sourceIdentity",
+    "safetyGate",
+    "safetyEvidenceFingerprint",
+    "sourceEvidenceFingerprint",
+    "targetEvidenceFingerprint",
+    "sourceNormalizerVersion"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "sdkit.dev/migration-plan/v1"
+    },
+    "sourceCommit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}(?![\\s\\S])"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environmentId",
+        "databaseId",
+        "dialect",
+        "databaseVersion",
+        "scope"
+      ],
+      "properties": {
+        "environmentId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "databaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dialect": {
+          "enum": [
+            "postgres",
+            "mysql",
+            "oracle",
+            "sqlite"
+          ]
+        },
+        "databaseVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "preconditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "historyFingerprint",
+        "schemaFingerprint",
+        "normalizerVersion"
+      ],
+      "properties": {
+        "historyFingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "schemaFingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "normalizerVersion": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "state": {
+      "enum": [
+        "equal",
+        "local_ahead",
+        "remote_ahead",
+        "diverged",
+        "schema_drift",
+        "history_mismatch",
+        "checksum_mismatch",
+        "unknown"
+      ]
+    },
+    "decision": {
+      "const": "blocked"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "migrationId",
+          "checksum",
+          "risk"
+        ],
+        "properties": {
+          "migrationId": {
+            "type": "string",
+            "pattern": "^[0-9]{8}T[0-9]{6}Z_[a-f0-9]{6,16}_[a-z][a-z0-9_]*(?![\\s\\S])"
+          },
+          "checksum": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+          },
+          "risk": {
+            "const": "requires_review"
+          }
+        }
+      }
+    },
+    "executionAuthorized": {
+      "const": false
+    },
+    "planHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+    },
+    "sourceHistoryFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+    },
+    "sourceSchemaFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+    },
+    "sourceIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "environmentId",
+        "databaseId",
+        "dialect",
+        "databaseVersion",
+        "scope"
+      ],
+      "properties": {
+        "environmentId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "databaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dialect": {
+          "enum": [
+            "postgres",
+            "mysql",
+            "oracle",
+            "sqlite"
+          ]
+        },
+        "databaseVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "safetyGate": {
+      "type": "object",
+      "required": [
+        "status",
+        "executionAuthorized",
+        "evidenceVerified"
+      ],
+      "properties": {
+        "status": {
+          "const": "blocked"
+        },
+        "executionAuthorized": {
+          "const": false
+        },
+        "evidenceVerified": {
+          "const": false
+        },
+        "reason": {
+          "type": "string"
+        },
+        "dataRisk": {
+          "enum": [
+            "unknown",
+            "destructive"
+          ]
+        },
+        "dataSafetyStatus": {
+          "enum": [
+            "unknown",
+            "blocked"
+          ]
+        },
+        "backupStatus": {
+          "enum": [
+            "evidence_required",
+            "not_required"
+          ]
+        },
+        "recommendedBackup": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "safetyEvidenceFingerprint": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      ]
+    },
+    "sourceEvidenceFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+    },
+    "targetEvidenceFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+    },
+    "sourceNormalizerVersion": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
