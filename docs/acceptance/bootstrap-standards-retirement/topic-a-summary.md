@@ -11,6 +11,8 @@
 
 四个 PR 均在各自新 Worktree 普通 Merge 同一 main，无文本冲突，不混入其他未合并 PR。所有自动化命令退出 0；合计 511 Python + 36 Node = 547 个测试（跨分支重复执行按实际次数计）；21 Skill 包含 16 主入口和 5 旧兼容入口。最终 main、Head、Merge Commit、Draft、mergeable 与分支保护以实时交付查询和各 PR 最终回复为准。合并任一 PR 后其他 PR 的实时 main 已改变，后续合并前仍须重查，不能把本轮结果当永久保证。
 
+普通 Merge / 修复提交已核验：#17 `f6e5fb72b676366ac30b651026ae5a11e4fe6f4b`；#16 `4a8814fa8881114363b7ec432cb6988ebeaf49bc`；#15 `d99cc23a0903b5ae5ff94ad9580978deb050635f`；#14 `3045df85163d90bb0977ced0504e0338ebe55f74`。四者 Push 后均已返回 Draft/Open、MERGEABLE/CLEAN。#17/#16/#15 随后的纯交接 Head 分别为 `60a1bd3b52755f5105c2d3651dcf0580c15453f7`、`947dd7011a9dd32a488fbee6721953fdd69c21ff`、`99bfb4d8e82f6b37bd1aa18587d02f3fce3d2a0c`；#14 包含本总览的最终 Head 由最终回复与实时查询返回。
+
 ## 规则覆盖与未完成条件
 
 - #15 的原始 409 组记录、原覆盖统计、来源指纹、audit.json 和 R027–R044 增量结论保留。原覆盖计数不是合并后完成率，不重新计算或篡改原审计。
