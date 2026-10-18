@@ -16,6 +16,8 @@ description: 跨语言数据库 SQL Migration 静态校验、Schema Baseline、�
 5. 离线 Baseline 与 History 读取 [基线与历史](references/baseline-history.md)。
 6. Snapshot 与 Drift 读取 [快照规范](references/schema-snapshot.md) 和 [差异规则](references/drift.md)；方言能力读取对应 providers reference。
 
+7. 离线计划和证据检查读取 [History Evidence](references/history-evidence.md)、[Migration Plan](references/migration-plan.md)、[同步状态](references/synchronization.md)、[授权](references/approval.md) 与 [恢复](references/recovery.md)。
+
 ## 禁止
 - 禁止在环境不明时试连；禁止 AI 直接或间接操作正式数据库。
 - 禁止把现有 Go AutoMigrate 当成已执行的版本化 SQL Migration。
