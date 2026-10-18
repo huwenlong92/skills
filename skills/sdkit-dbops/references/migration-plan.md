@@ -4,9 +4,9 @@
 
 完成标准：相同语义哈希稳定，篡改与证据不完整阻断执行准备。
 
-## 数据安全扩展（待集成门禁）
+## 数据安全扩展（离线门禁已集成）
 
-Data Destruction Guard 与 Backup Decision 已接入 plan_migrations.py 的离线阻断决策，但不提供可信备份证明或执行授权；任何计划的 candidate/requires_approval 都不得被解释为已通过数据安全或恢复保障门禁。未来集成前必须将操作清单哈希、受影响对象、备份证据身份、RPO/RTO 和恢复验证结果纳入 Plan Hash 与失效判断；缺少证据一律 Blocked。
+Data Destruction Guard 与 Backup Decision 已接入 plan_migrations.py 的离线阻断决策，但不提供可信备份证明或执行授权；任何计划的 candidate/requires_approval 都不得被解释为已通过数据安全或恢复保障门禁。当前 Plan Hash 已绑定提供的离线操作清单、备份请求、RPO/RTO 与恢复证据声明的内容指纹，输入变化需重新生成计划；但受影响对象的真实范围、备份实际可恢复性及证据时效尚不能由离线工具独立验证，缺少可信证据时保持 Blocked。
 
 ## DBOPS-05 离线安全门禁（已集成）
 
