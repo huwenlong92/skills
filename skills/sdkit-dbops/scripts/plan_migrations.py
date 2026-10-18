@@ -97,7 +97,6 @@ def plan(source, target, safety=None):
         state="history_mismatch"
     else:
         state="diverged"
-    decision="requires_approval" if state=="local_ahead" else ("candidate" if state=="equal" else "blocked")
     gate = safety_gate(safety)
     safety_hash = digest(safety) if safety is not None else None
     decision = "blocked"  # Offline plans never satisfy the execution safety gate.
