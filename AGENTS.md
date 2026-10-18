@@ -52,3 +52,7 @@
 涉及 Skill 的自动选择、跨 Skill 协作或能力降级时，必须遵守 [Skill Orchestration V1](standards/skill-orchestration.md)。涉及多阶段、跨会话或高风险开发任务时，必须遵守 [Development Execution V1](standards/development-execution.md) 的计划基线、阶段验收与偏差门禁。两份协议不取代各 Skill 自身规则，不构成额外的提交、合并、数据库写入或部署授权。
 
 任务恢复入口：[当前状态](.sdkit/STATUS.md)、[任务与计划](.sdkit/TASKS.md)、[已确认决策](.sdkit/DECISIONS.md)、[验收交接](.sdkit/HANDOFF.md)。状态记录必须与实际 Git 和测试证据核对。
+
+## Git Collaboration
+
+涉及 Git 同步、Worktree、Commit、Push、PR/MR、Merge 或失败恢复时，必须遵守 [Git Collaboration V1](standards/git-collaboration.md) 的按需 Preflight、独立授权与安全降级门禁。该协议不构成额外写入或部署授权；独立安装的 Skill 必须保留自身必要安全规则。
