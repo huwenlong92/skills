@@ -56,3 +56,7 @@
 ## Git Collaboration
 
 涉及 Git 同步、Worktree、Commit、Push、PR/MR、Merge 或失败恢复时，必须遵守 [Git Collaboration V1](standards/git-collaboration.md) 的按需 Preflight、独立授权与安全降级门禁。该协议不构成额外写入或部署授权；独立安装的 Skill 必须保留自身必要安全规则。
+
+## Project Skill Bootstrap
+
+使用 Skill 进入业务项目时，按 [Project Skill Bootstrap V1](standards/project-skill-bootstrap.md) 优先使用 Agent 原生发现和 Codex 全局入口；默认只读检查，不批量修改业务项目。项目级 AGENTS.md 仅在身份已核实、当前任务明确授权且必要时补齐。全局配置修改同样需要独立授权和可恢复备份。
