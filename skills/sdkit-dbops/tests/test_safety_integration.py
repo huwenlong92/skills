@@ -88,3 +88,10 @@ class SafetyIntegrationTests(unittest.TestCase):
         x["backupRequest"]["rpoSeconds"] = 10
         b = plan.plan(sample("local"), sample("remote"), x)
         self.assertNotEqual(a["planHash"], b["planHash"])
+
+    def test_target_provenance_change_invalidates_hash(self):
+        target = sample("remote")
+        first = plan.plan(sample("local"), target, safety())
+        target["evidence"]["capturedAt"] = "2026-10-18T01:00:00Z"
+        second = plan.plan(sample("local"), target, safety())
+        self.assertNotEqual(first["planHash"], second["planHash"])
