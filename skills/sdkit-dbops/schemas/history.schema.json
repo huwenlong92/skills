@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "migrations"
+  ],
+  "properties": {
+    "migrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "migrationId",
+          "checksum",
+          "status"
+        ],
+        "properties": {
+          "migrationId": {
+            "type": "string",
+            "pattern": "^[0-9]{8}T[0-9]{6}Z_[a-f0-9]{6,16}_[a-z][a-z0-9_]*$"
+          },
+          "checksum": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "status": {
+            "const": "applied"
+          }
+        }
+      }
+    },
+    "attempts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "enum": [
+              "applied",
+              "failed",
+              "running",
+              "unknown"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

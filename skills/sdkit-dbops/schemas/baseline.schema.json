@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "baselineId",
+    "dialect",
+    "scope",
+    "schemaFingerprint",
+    "normalizerVersion",
+    "checksum"
+  ],
+  "properties": {
+    "baselineId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dialect": {
+      "enum": [
+        "postgres",
+        "mysql",
+        "oracle",
+        "sqlite"
+      ]
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "schemaFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "normalizerVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checksum": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}
