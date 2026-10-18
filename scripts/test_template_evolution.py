@@ -1,7 +1,7 @@
 """Executable, offline FC2 fixtures. No Git or application writes."""
 import copy
 import unittest
-from template_evolution_protocol import ProtocolError, identity, owns, unique_owner, digest, plan_valid, transition, apply_gate, path
+from template_evolution_protocol import ProtocolError, identity, owns, unique_owner, digest, plan_valid, transition, apply_gate, path, exact_toolchain, lock_consistent, classify_change
 
 S, T, P = "a"*40, "b"*40, "c"*40
 
@@ -27,20 +27,19 @@ class ProtocolFixtures(unittest.TestCase):
         i=fixture_identity();i["templates"][0]["origin"]={"status":"unknown","commit":None}
         self.denied("TE-1001",lambda:self.apply(i=i))
     def test_03_node_version_source(self):
-        self.assertNotEqual("22.0.0","24.20.0") # placeholder: environment parsing requires runtime adapter
+        self.denied("TE-2001",lambda:exact_toolchain("24.20.0","22.0.0"))
     def test_04_go_toolchain_source(self):
-        self.assertNotEqual("go1.24.0","go1.25.10") # placeholder
+        self.denied("TE-2001",lambda:exact_toolchain("go1.25.10","go1.24.0"))
     def test_05_rust_toolchain_source(self):
-        self.assertNotEqual("1.95.0","1.96.0") # placeholder
+        self.denied("TE-2001",lambda:exact_toolchain("1.96.0","1.95.0"))
     def test_06_python_lock_source(self):
-        self.assertNotEqual("sha256:old","sha256:new") # placeholder
+        self.denied("TE-2002",lambda:lock_consistent("sha256:old","sha256:new"))
     def test_07_template_added(self):
-        self.assertTrue(owns(fixture_identity()["templates"][0],"apps/web/src/new.vue"))
+        self.assertEqual(classify_change(None,"new",None),"safe_candidate")
     def test_08_business_file_excluded(self):
-        self.assertFalse(owns(fixture_identity()["templates"][0],"apps/web/src/business/page.vue"))
+        self.assertEqual(classify_change("old",None,"custom"),"blocked")
     def test_09_both_modified_review_record(self):
-        p=fixture_plan();p["diff"]["review"].append("apps/web/src/core.ts")
-        self.assertEqual(len(p["diff"]["review"]),1) # diff analyzer not implemented
+        self.assertEqual(classify_change("base","target","business"),"review")
     def test_10_dependency_scope_changes_digest(self):
         p=fixture_plan();p["scope"]["allowed_paths"].append("apps/web/pnpm-lock.yaml")
         self.denied("TE-4004",lambda:plan_valid(p))
