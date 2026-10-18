@@ -36,4 +36,4 @@
 
 ## PR #17 专题 A 最终集成（2026-10-18）
 
-最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/go-standards-retirement/final-integration.md)。保持 Draft/Open，最终 Push/Head/mergeable 必须查询 GitHub；本记录不授权合并、部署或真实配置清理。
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/go-standards-retirement/final-integration.md)。普通集成提交 `f6e5fb72b676366ac30b651026ae5a11e4fe6f4b` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
