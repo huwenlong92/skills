@@ -38,6 +38,10 @@
 
 最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/engineering-standards-retirement/final-integration.md)。普通集成提交 `d99cc23a0903b5ae5ff94ad9580978deb050635f` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
 
+## PR #16 专题 A 最终集成（2026-10-18）
+
+最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/vab-standards-retirement/final-integration.md)。普通集成提交 `4a8814fa8881114363b7ec432cb6988ebeaf49bc` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
+
 ## PR #17 专题 A 最终集成（2026-10-18）
 
 最新 main `77e0664fcbb0943f9bd4aa8cad96ab0d14fa4c3a` 普通合入；本地 118 unittest、21 Skill、链接/锚点与兼容性通过。范围、源码证据与限制见 [最终报告](../docs/acceptance/go-standards-retirement/final-integration.md)。普通集成提交 `f6e5fb72b676366ac30b651026ae5a11e4fe6f4b` 已 Push 并核验 Draft/Open、MERGEABLE/CLEAN。后续交接提交的最终 Head 由最终查询确认；本记录不授权合并、部署或真实配置清理。
@@ -45,3 +49,11 @@
 ## PR #15：#17 合并后的同步（2026-10-18）
 
 #17 已 Squash Merge，main `8c049239ef90a6b4215ba425cef439168cb43dd2`；本 PR 保留四个文件双方历史并普通合入。Python 118 项、21 Skill、链接/锚点与兼容校验通过，退出 0；见 [本轮报告](../docs/acceptance/engineering-standards-retirement/post-pr17-integration.md)。最终 Merge Commit/Push/Draft/mergeable 以本轮最终查询为准。禁止本地 Ready 或 PR 合并，交由 Web 后续处理。
+
+## PR #16：#17 合并后的同步（2026-10-18）
+
+#17 已 Squash Merge，main `8c049239ef90a6b4215ba425cef439168cb43dd2`；本 PR 保留四个文件双方历史并普通合入。Python 118 项、21 Skill、链接/锚点与兼容校验通过，退出 0；见 [本轮报告](../docs/acceptance/vab-standards-retirement/post-pr17-integration.md)。最终 Merge Commit/Push/Draft/mergeable 以本轮最终查询为准。禁止本地 Ready 或 PR 合并，交由 Web 后续处理。
+
+## 专题 A 当前授权最终合并 / PR #15
+
+历史状态保留；本轮用户已授权按 #16→#15→#14 Ready 与 Squash Merge。当前 main `a874524db55edae7bd7d9613b74a1d03ac6ff8b4` 普通同步到本 PR，Python 118 项及 21 Skill/链接/兼容/扫描通过；详见 [本轮报告](../docs/acceptance/engineering-standards-retirement/squash-final-integration.md)。合并事实与最终 SHA 必须以实时 GitHub 核验，不以本段代替。
