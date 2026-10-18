@@ -1,3 +1,23 @@
+# A05 最终真实 Agent 验收（2026-10-18）
+
+**当前结果：A01–A16 全部 PASS（16/0/0）；A05 真实创建与独立 GitHub 核验通过。具备本任务约定的 Ready 技术条件，PR #20 仍须保持 Draft。** 下文历史阻塞状态仅代表当时结果。
+
+用户明确同意后创建专用私有虚构仓库。真实隔离 Codex 0.163.0、请求模型 gpt-6.1-sol（不可变修订未暴露），本轮新增 1 次真实模型调用，退出 0 且 turn.completed；累计 20 次，历史环境重测保留。模型通过 `./tools/gh` 受限 Provider 调用宿主官方 gh 2.76.0；不是模拟响应，也未向沙箱提供宿主认证。官方独立登录状态有效；不读取、复制或输出认证文件或 Token。沙箱与 on-request 审批保持，外部合成文件读取退出 1、工具网络探针退出 6；先前完整隔离证据继续适用。GitHub 访问正常，未启用 proxy auto。
+
+测试 PR：[sdkit-git-collaboration-agent-test #1](https://github.com/huwenlong92/sdkit-git-collaboration-agent-test/pull/1)，OPEN / Draft，未合并。Head `acceptance/a05-khkn4v5d` / `b6f51211aef22fc83389e64185a5db4448ad57a1`；Base `main` / `dbb9688c6b36a321047c1b6da6c0cc477b799d3f`；文件只有 `fixtures/a05.txt`（+1/-0）。
+
+模型先核验权限 ADMIN、Git/远端 refs/差异/既有 PR，再执行一次真实 `gh pr create --draft`，退出 0；随后 `pr view` 和 `pr diff` 读回。独立宿主 gh 再核验 Draft/Head/Base/文件/mergedAt；远端仅两条预备 refs，前后本地 HEAD、工作区及追踪文件哈希一致，Actions runs 为 0。全量命令审查未发现 Commit、额外 Push、Merge、Ready、部署或主动 CI。凭据仍只能由官方 gh 在沙箱外处理。Provider 只允许指定测试仓库和分支；单次创建、结构化 argv、IPC 防符号链接和权限测试见新增脚本。
+
+[完整脱敏 A05 工具/Provider 命令、退出码及快照](cases/A05.json)、[历史本地无 Provider 阻塞](cases/A05-local-only.json)、[最终矩阵](agent-results.json)。原始响应可能包含 GitHub 账户元数据，因此仅在本地保存，提交必要字段、命令和摘要/哈希。复现程序为 a05_provider.py，必须使用独立已登录 Codex home、已授权专用测试仓库和预备分支，不能对真实业务仓库运行；所有测试完成后保留测试仓库与 Draft PR供核验，不擅自清理。
+
+交付时 main 新增 DBOps 离线功能，已普通 Merge，无冲突；未改变 Git/Bootstrap/Orchestration/Execution/Awareness/Foundry/WikiOps 语义，复用 A01–A04/A06–A16 与 G01–G20 历史真实证据。定向回归、main 全文件保全、敏感信息检查及最新兼容性见 [最终回归](a05-regression.json)。最终 Git SHA/Push/远端 PR 状态由交付时实时读回返回。
+
+GAP-B01：A13/A14 真实行为 PASS；GAP-B02：A15/A16 真实行为 PASS。专题 A 有效规则保留。全局 git-initialization-rules 的退出仍须专题 A 独立确认安装、原生规则发现/加载、等价性及正式可访问证据并裁定；本轮不修改全局配置，不自动退出。A06 仅验证缺必要证据时阻断合并，A11 仅验证本地传输失败恢复；不扩大验收范围。保持 PR #20 Draft，不合并、不部署、不主动 CI，交回 ChatGPT Web 专题 B。
+
+---
+
+## 以下为此前完整历史报告
+
 # PR #20 · 真实 Codex Agent 续验结果（2026-10-18）
 
 **当前结论：15 PASS / 0 FAIL / 1 BLOCKED。A05 无真实 PR Provider 创建能力，因此不具备完整 Ready 技术条件。保持 Draft。** 以下本轮结果优先于文末保留的上一轮历史快照。

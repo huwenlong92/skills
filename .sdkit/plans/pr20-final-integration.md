@@ -36,3 +36,7 @@ A01–A16 使用独立虚构仓库，原始 JSONL/会话标识只留本地。脚
 Revision 2 阶段记录：真实模型 19 次均退出 0 且完成；最终 15 PASS/0 FAIL/1 BLOCKED（A05 Provider）。A02/A03/A04 首轮环境阻塞保留，新夹具精确权限重测通过。main 前进到 8777b036311349fef7a99cdf094c36fd7011c15c，普通 Merge 无冲突；共享 Git 语义未改。真实行为阶段 implemented，A05 条件缺失，不得标整体 verified；Commit/Push 最终状态以交付读回为准。
 
 Revision 2 · 并发 main 第二次前进：#24 合入到 957c5e49a53acc8343b09a4a875a430db57deac2。先保存 #21/真实证据 Merge Commit 938d61662452044e3b421f2e4e072ce9d5331c04，再普通合入新 main。三份状态文件冲突审查 Base/Ours/Theirs 后保留双方；Orchestration 校验为新 main 原文加原 Git 入口。只重跑受影响静态/模板/Catalog 检查；Git 场景模型证据不因无关模板路由增量失效，不重复模型调用。
+
+## Revision 3：A05 真实 Provider 最终验收
+
+用户明确同意专用私有测试仓库创建，并授权证据/脚本普通 Commit/Push。A05 一次真实隔离调用，实际官方 gh 创建 Draft PR #1 并独立读回，通过；16/0/0。完整命令与前后状态见 cases/A05.json，旧 Provider BLOCKED 原证据保留。main 新增 DBOps 离线功能已普通 Merge，无冲突；共享 Git 语义未变，不重复无关模型调用。完成定向回归/保全/安全扫描与 Push 读回后，本任务可报告受控 Ready 技术条件；仍禁止实际 Ready/合并/部署/主动 CI。专题 A 全局规则退出单独裁定。

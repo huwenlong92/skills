@@ -1,5 +1,9 @@
 # 验收交接
 
+## PR #20 A05 最新验收
+
+A01–A16 最终 16 PASS / 0 FAIL / 0 BLOCKED。A05 已真实创建专用测试 Draft PR 并核验；[本轮报告](../docs/testing/git-collaboration-v1/REPORT.md)与[最终回归](../docs/testing/git-collaboration-v1/a05-regression.json)为恢复入口。main DBOps 增量普通整合，Git 语义未改。具备本任务受控 Ready 技术条件，实际 PR #20 继续 Draft；最终 SHA/Push/mergeable 依远端交付读回。禁止合并/Ready/部署/主动 CI；全局规则退出由专题 A 独立裁定。此前 BLOCKED 属历史快照。
+
 最后核验：2026-10-18，PR #18 最终集成本地验收通过。main `f1df67a6ff070fd4991a16e6135bf3902ee3e0da`，集成前 Head `ad8914562ebf2b9228c43b35b4f8383414609234`。#19 已合并；以下历史快照中的未合入、未来冲突和旧 main 仅指当时状态。
 
 恢复入口：[集成计划](plans/pr18-final-integration.md)。[集成报告](../docs/testing/ui-design-v1/final-integration.md)：5 个文本冲突已逐项解决，Orchestration 联合审查通过；195 unittest、21 Skill 与全仓相对链接/锚点检查通过。双方证据逐字节保留，路由语义不变，复用 U01–U12/#19 既有模型证据，本轮模型调用 0。普通 Merge Commit `566d727e4a94c099b64efbdddf091028a308c91e` 已 Push；GitHub 核验 main 未变、#18 Draft/Open、MERGEABLE/CLEAN。后续交接记录提交不改路由或测试源码，最终 Head 由最终远端核验返回。保持 Draft，不合并、不部署、不主动 CI。

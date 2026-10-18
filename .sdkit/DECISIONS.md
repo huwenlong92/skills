@@ -29,3 +29,5 @@
 2026-10-18（专题 B / PR #20）：用户明确授权独立分支普通 Merge main、必要修复和验收、Commit/普通 Push；保持 Draft，禁止 PR Merge/Ready/部署/主动 CI。新隔离 Codex home 无认证，按本次停止条件将真实 Agent 验收记为 BLOCKED；不复制认证，不把 CLI 夹具当真实模型行为。
 
 2026-10-18（PR #20 真实 Agent 续验）：用户自行完成独立 home 官方登录后继续原授权。模型只接收公开协议/虚构夹具；工具保持严格隔离和 on-request 审批，真实用户配置/认证不读取或复制。A05 无真实 Provider 则 BLOCKED，禁止用模拟成功冲抵；B01/B02 受控行为通过不自动授权移除全局规则。执行前发现 main 前进，按既有普通 Merge 授权保留新 main 并定向回归，仍禁止 Ready/PR Merge/部署/主动 CI。
+
+2026-10-18（PR #20 A05 最终）：用户明确同意创建专用私有测试仓库。仅通过受限 Provider 调用官方 gh 创建指定 Draft PR并读回，凭据不进入模型沙箱；测试仓库与 PR 保留供核验。A01–A16 最终16 PASS，允许报告受控 Ready 技术条件，仍禁止切 Ready、PR Merge、部署、主动 CI；全局 Git 规则退出由专题 A 单独裁定。
