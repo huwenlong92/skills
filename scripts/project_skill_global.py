@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import stat
 import tempfile
+import re
 
 START = "<!-- sdkit-global-bootstrap:start -->"
 END = "<!-- sdkit-global-bootstrap:end -->"
@@ -24,8 +25,25 @@ BLOCK = """<!-- sdkit-global-bootstrap:start -->
 def digest(b):
     return hashlib.sha256(b).hexdigest()
 
+KNOWN_BLOCKS = ("no-superpowers", "wiki-knowledge-vault", "git-initialization-rules", "database-operation-rules", "local-web-development-rules", "engineering-standards-rules", "gitnexus-index-only")
+
+def audit(raw):
+    s = raw.decode("utf-8")
+    findings = []
+    for name in KNOWN_BLOCKS:
+        begin, end = f"<!-- BEGIN: {name} -->", f"<!-- END: {name} -->"
+        if s.count(begin) != s.count(end) or s.count(begin) > 1:
+            findings.append({"type": "invalid-user-marker", "name": name})
+    if re.search(r"(?<![\\w-])(?:sdkitgo|nuxtjs|rust-sdcore|vab-admin)(?![\\w-])", s):
+        findings.append({"type": "legacy-skill-reference", "action": "review-only"})
+    if "engineering-standards" in s:
+        findings.append({"type": "legacy-standards-source", "action": "preserve-and-review"})
+    return findings
+
 def plan(raw):
     s = raw.decode("utf-8")
+    if any(item["type"] == "invalid-user-marker" for item in audit(raw)):
+        raise ValueError("malformed existing user marker")
     if s.count(START) != s.count(END) or s.count(START) > 1:
         raise ValueError("invalid managed markers")
     if START in s:
@@ -53,8 +71,9 @@ def main():
         new = plan(raw)
     except (UnicodeError, ValueError) as e:
         p.error(str(e))
+    findings = audit(raw)
     if not a.apply:
-        print(json.dumps({"status": "dry-run", "changed": raw != new, "before_sha256": digest(raw), "after_sha256": digest(new)}))
+        print(json.dumps({"status": "dry-run", "changed": raw != new, "before_sha256": digest(raw), "after_sha256": digest(new), "findings": findings}))
         return
     if not a.authorized or not a.expected_sha256 or a.expected_sha256 != digest(raw):
         p.error("apply requires authorization and matching dry-run SHA")
@@ -84,7 +103,7 @@ def main():
     finally:
         if tmp.exists():
             tmp.unlink()
-    print(json.dumps({"status": "updated", "sha256": digest(new), "backup": str(backup) if backup else None}))
+    print(json.dumps({"status": "updated", "sha256": digest(new), "backup": str(backup) if backup else None, "findings": findings}))
 
 if __name__ == "__main__":
     main()
