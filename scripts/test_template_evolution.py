@@ -82,5 +82,15 @@ class ProtocolFixtures(unittest.TestCase):
     def test_25_valid_gate_only_not_apply(self):
         self.assertTrue(self.apply())
 
+    def test_26_wildcard_scope_fail_closed(self):
+        p=fixture_plan();p["scope"]["allowed_paths"]=["apps/web/src/**"];p["plan_digest"]=digest(p)
+        self.denied("TE-1004",lambda:self.apply(p=p))
+    def test_27_forbidden_scope_rejected(self):
+        p=fixture_plan();p["scope"]["forbidden_paths"]=["apps/web/package.json"];p["plan_digest"]=digest(p)
+        self.denied("TE-3002",lambda:self.apply(p=p))
+    def test_28_deletion_requires_separate_approval(self):
+        p=fixture_plan();p["scope"]["deletions_allowed"]=True;p["plan_digest"]=digest(p)
+        self.denied("TE-3002",lambda:self.apply(p=p))
+
 if __name__=="__main__":
     unittest.main()
