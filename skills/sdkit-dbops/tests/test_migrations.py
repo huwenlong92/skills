@@ -72,5 +72,29 @@ class MigrationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "symlink"):
                 module.inspect(root, "postgres", "single")
 
+    def test_sibling_dialect_parent_symlink_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            selected = root / "database/postgres/migrations"
+            selected.mkdir(parents=True)
+            external = root / "external"
+            (external / "migrations").mkdir(parents=True)
+            (root / "database/mysql").symlink_to(external, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                module.inspect(root, "postgres", "multi")
+
+    def test_sibling_dialect_file_symlink_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            selected = root / "database/postgres/migrations"
+            sibling = root / "database/mysql/migrations"
+            selected.mkdir(parents=True)
+            sibling.mkdir(parents=True)
+            external = root / "external.sql"
+            external.write_text("SELECT 1")
+            (sibling / "20261018T053001Z_b83f2c_other.sql").symlink_to(external)
+            with self.assertRaisesRegex(ValueError, "symlink"):
+                module.inspect(root, "postgres", "multi")
+
 if __name__ == "__main__":
     unittest.main()
