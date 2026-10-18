@@ -214,6 +214,66 @@ class SafetyTests(unittest.TestCase):
                 io.restore(self.root, out['backup'], authorized, expected)
             self.assertEqual(self.target.read_bytes(), before)
 
+    def test_fifo_target_is_rejected_without_waiting(self):
+        self.target.unlink()
+        os.mkfifo(self.target)
+        with self.assertRaisesRegex(ValueError, 'single-link regular file'):
+            io.read(self.root)
+        self.assertTrue(stat.S_ISFIFO(self.target.lstat().st_mode))
+
+    def test_symlink_and_hardlink_lock_are_rejected(self):
+        lock = self.root / '.sdkit-agents.lock'
+        other = self.root / 'other-lock'
+        other.write_bytes(b'External lock data')
+        for kind in ('symlink', 'hardlink'):
+            with self.subTest(kind=kind):
+                if kind == 'symlink':
+                    lock.symlink_to(other)
+                    expected = OSError
+                else:
+                    os.link(other, lock)
+                    expected = ValueError
+                before = self.target.read_bytes()
+                with self.assertRaises(expected):
+                    self.update()
+                self.assertEqual(self.target.read_bytes(), before)
+                self.assertEqual(other.read_bytes(), b'External lock data')
+                lock.unlink()
+
+    def test_fifo_lock_is_rejected_without_waiting(self):
+        os.mkfifo(self.root / '.sdkit-agents.lock')
+        before = self.target.read_bytes()
+        with self.assertRaisesRegex(ValueError, 'unsafe lock file'):
+            self.update()
+        self.assertEqual(self.target.read_bytes(), before)
+
+    def test_failure_after_replace_keeps_recovery_and_blocks_retry(self):
+        from unittest.mock import patch
+        original = self.target.read_bytes()
+        real_sync = io._sync
+        calls = 0
+        def fail_second_sync(root):
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise OSError('simulated durability failure after replace')
+            return real_sync(root)
+        with patch.object(io, '_sync', side_effect=fail_second_sync):
+            with self.assertRaisesRegex(OSError, 'after replace'):
+                self.update()
+        self.assertNotEqual(self.target.read_bytes(), original)
+        pending = self.root / '.sdkit-agents-pending.json'
+        journal = json.loads(pending.read_text())
+        self.assertEqual(Path(journal['backup']).read_bytes(), original)
+        self.assertEqual(io.digest(self.target.read_bytes()), journal['after_sha256'])
+        with self.assertRaisesRegex(ValueError, 'pending'):
+            self.update()
+        # Explicit fixture-only review: retain journal before an authorized restore.
+        pending.rename(self.root / 'reviewed-journal.json')
+        io.restore(self.root, journal['backup'], True, io.digest(self.target.read_bytes()))
+        self.assertEqual(self.target.read_bytes(), original)
+        self.assertEqual(stat.S_IMODE(self.target.stat().st_mode), 0o640)
+
     def test_legacy_word_boundaries(self):
         for name in p.MAPPINGS:
             self.assertTrue(g.audit(name.encode()))

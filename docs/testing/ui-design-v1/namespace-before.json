@@ -1,0 +1,14 @@
+{
+  "remote_baseline": "b9aef4e67ed188af12adeb5c72a3f810239f13aa",
+  "merge_commit": "a96171b03f0a085c57490b06da6cd3dd537acc78",
+  "manager_command": "python3 skills/sdkit-skills/scripts/manager.py validate --all",
+  "manager_exit_code": 1,
+  "manager_output": "error: catalog mismatch: missing=['sdkit-ui-design'] stale=[]",
+  "regression": "UIDesignTests.test_namespace_is_consistent_across_catalog_disk_and_routes",
+  "tests": 1,
+  "passed": 0,
+  "failed": 1,
+  "exit_code": 1,
+  "output": "test_namespace_is_consistent_across_catalog_disk_and_routes (test_ui_design.UIDesignTests.test_namespace_is_consistent_across_catalog_disk_and_routes) ... FAIL\n\n======================================================================\nFAIL: test_namespace_is_consistent_across_catalog_disk_and_routes (test_ui_design.UIDesignTests.test_namespace_is_consistent_across_catalog_disk_and_routes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<worktree>/scripts/test_ui_design.py\", line 28, in test_namespace_is_consistent_across_catalog_disk_and_routes\n    self.assertEqual(names, disk)\nAssertionError: Items in the second set but not the first:\n'sdkit-ui-design'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n",
+  "resolution": "保留远端新命名并同步 Catalog/Foundry/Orchestration/测试；迁移验收矩阵，移除逐字节相同的旧 review 副本；未降低断言。"
+}

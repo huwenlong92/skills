@@ -1,0 +1,41 @@
+{
+  "case": 4,
+  "model_requested": "gpt-6.1-sol",
+  "cli_version": "codex-cli 0.163.0",
+  "turns": [
+    {
+      "turn": 1,
+      "prompt": "Vue computed 和 watch 的概念区别是什么？简单解释即可，不讨论版本特性。",
+      "exit_code": 0,
+      "seconds": 11.32,
+      "completed": true,
+      "commands": [
+        {
+          "type": "command_execution",
+          "command": "/bin/zsh -lc 'cat standards/skill-orchestration.md standards/knowledge-retrieval-capture.md'",
+          "exit_code": 0,
+          "status": "completed",
+          "output_sha256": "35db870c711200d1bb76ca7f10ce9674781cbbde95873f4073b84d55a25ca226",
+          "output_bytes": 12341
+        }
+      ],
+      "responses": [
+        "我先查看夹具内的知识检索规则，再给你一个简短解释。",
+        "- **computed（计算属性）**：根据已有数据计算出一个新值。例如，根据单价和数量计算总价。它会缓存结果，依赖变化时才重新计算，适合派生数据。\n- **watch（侦听器）**：监听数据变化，然后执行操作。例如，搜索词变化后请求接口，或设置变化后保存到本地，适合处理副作用。\n\n简单记：**需要一个计算结果，用 computed；需要在变化后做一件事，用 watch。**"
+      ],
+      "raw_sha256": "3204822ac8c74c0c55c5be58db0406bce298ab5bec56b3fb621381ba63e8d76f",
+      "errors": [],
+      "runtime": {
+        "model": "gpt-6.1-sol",
+        "sandbox": "read-only"
+      }
+    }
+  ],
+  "files_unchanged": true,
+  "repo_status": {
+    "products": "",
+    "knowledge": ""
+  },
+  "source_snapshot_sha256": "79d4da41b5e19ed378ae19f80f83e5e9aad4c3af590846f86d8dc25aa51ca5c4",
+  "sandbox": "read-only"
+}

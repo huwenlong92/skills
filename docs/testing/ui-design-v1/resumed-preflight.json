@@ -1,0 +1,68 @@
+{
+  "cli_version": "0.163.0",
+  "auth": "Logged in using ChatGPT（用户在独立临时 home 完成浏览器登录）",
+  "credential_contents_read_or_copied_by_harness": false,
+  "public_skill_integrity_after_runs": {
+    "sdkit-ui-design": true,
+    "foundry": true,
+    "sdbase-nuxtjs-portal": true,
+    "sdbase-flutter-app": true
+  },
+  "permission_profile": {
+    "extends": ":workspace",
+    "filesystem": {
+      ":root": "deny",
+      ":minimal": "read",
+      ":tmpdir": "deny",
+      ":slash_tmp": "deny",
+      ":workspace_roots": "write",
+      "<temp>/codex-home-integrated/skills": "read"
+    },
+    "tool_network_enabled": false
+  },
+  "boundary_probe": {
+    "inside_read_exit": 0,
+    "public_skill_read_exit": 0,
+    "outside_synthetic_read_exit": 1,
+    "outside_synthetic_write_exit": 1,
+    "inside_write_exit": 0,
+    "network_curl_exit": 6,
+    "outside_file_error": "Operation not permitted"
+  },
+  "native_candidates": [
+    "foundry",
+    "sdbase-flutter-app",
+    "sdbase-nuxtjs-portal",
+    "sdkit-ui-design"
+  ],
+  "all_run_prompts_checked": 18,
+  "host_paths_in_sent_inputs": false,
+  "expected_results_in_readable_projects": false,
+  "environment": {
+    "parent_cli": "仅运行所需 PATH/CODEX_HOME/TMPDIR/LANG/TERM 与现有传输代理；不输出代理内容",
+    "model_tools": "inherit=none；只设置系统工具 PATH 与 LANG；不得读取认证或私有配置"
+  },
+  "discovery_resolution": "skills.config 禁用选择器须命中 SKILL.md 文件（并兼容目录/解析后路径），仅本次进程参数；离线反复核验后才发起真实模型请求",
+  "preflight_failures_retained": [
+    "外层环境嵌套 sandbox_apply 退出 71；经正常外层工具审批运行 CLI 自身受限 sandbox 后通过",
+    "仅目录选择器未隔离宿主目录，离线发现个人路径，未发送模型",
+    "附加外层 Seatbelt 与 CLI 内层 helper 无法嵌套，离线失败；未使用此方式执行模型"
+  ],
+  "launch_template": "codex --no-daemon <temporary permission/skill/env config overrides> <feature flags> exec --ignore-user-config --ignore-rules --ephemeral --skip-git-repo-check --json -C <fictional-project> -o <local-answer> [--image <fictional-images>] -",
+  "features": {
+    "skip_host_skill_discovery": true,
+    "apps": false,
+    "plugins": false,
+    "multi_agent": false,
+    "image_generation": false,
+    "browser_use": false,
+    "computer_use": false,
+    "shell_snapshot": false
+  },
+  "notes": [
+    "内部 CLI 自动补充 system Skill 缓存也在本次进程禁用，活跃候选仅四个",
+    "不改变真实全局配置、真实 Skill 安装或认证；没有关闭 CLI 沙箱或绕过审批",
+    "临时配置默认模型，JSON 未暴露模型标识；不推测精确型号",
+    "图片生成由外层真实 image_gen 工具执行一次，CLI 未被宣称拥有或使用图片生成工具"
+  ]
+}
