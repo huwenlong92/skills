@@ -123,8 +123,8 @@ def classify_change(base, target, project):
     """Conservative content-level three-way classification for a single file."""
     if target == base:
         return "unchanged"
-    if project != base and target != project:
-        return "review"
     if target is None and project != base:
         return "blocked"
+    if project != base and target != project:
+        return "review"
     return "safe_candidate"
