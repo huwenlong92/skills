@@ -1,0 +1,82 @@
+[
+  {
+    "command": "python3 -B scripts/test_template_evolution.py -v",
+    "exit_code": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 47 tests in 0.003s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "python3 -B skills/sdkit-skills/scripts/manager.py validate --all",
+    "exit_code": 0,
+    "summary": [
+      "validated 23 skills"
+    ]
+  },
+  {
+    "command": "python3 -B scripts/check_markdown_links.py",
+    "exit_code": 0,
+    "summary": [
+      "Markdown: 334 files, 1122 relative links, 2 anchors, 0 errors"
+    ]
+  },
+  {
+    "command": "python3 -B -m unittest discover -s skills/sdkit-skills/scripts -p test_*.py -v",
+    "exit_code": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 44 tests in 0.970s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "python3 -B -m unittest discover -s scripts -p test_*.py -v",
+    "exit_code": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 119 tests in 0.310s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "python3 -B -m unittest discover -s skills/sdkit-dbops/tests -v",
+    "exit_code": 0,
+    "summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 11 tests in 0.014s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "command": "git diff --check",
+    "exit_code": 0,
+    "summary": []
+  },
+  {
+    "command": "git diff --check origin/main...HEAD",
+    "exit_code": 0,
+    "summary": []
+  },
+  {
+    "command": "git diff --cached --check",
+    "exit_code": 0,
+    "summary": []
+  },
+  {
+    "command": "python3 -B docs/testing/template-evolution-v1/check_main_sync.py",
+    "exit_code": 0,
+    "summary": [
+      "{\"catalog_skills\": 23, \"main_entries_preserved\": 22, \"preserved_files\": 17, \"scanned_files\": 27, \"errors\": []}"
+    ]
+  }
+]
