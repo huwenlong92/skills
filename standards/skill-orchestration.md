@@ -82,3 +82,9 @@ Discover → Resolve → Preflight → Execute → Verify → Handoff。
 ## 完成标准
 
 同一任务能够确定主责任与命中规范；无关 Skill 不加载；写入遵守授权；工具缺失时安全降级；结果可核验。人工验收至少覆盖跨 Agent 隐式触发与误触发场景。
+
+## Git Collaboration V1 路由
+
+- Git 同步、提交、PR/MR 与冲突恢复以已验证的项目 Git 协作规则作为操作 Primary；普通业务开发仍以技术栈或产品 Skill 为 Primary，Git Collaboration 仅提供命中操作的 Guardrail。
+- Git 操作必须按 [Git Collaboration V1](git-collaboration.md) 的 P0–P3 风险层级执行；只读讨论不强制 Fetch 或扫描所有 PR。
+- 本协议不把 Git Collaboration 声称为已安装的独立 Skill；缺失本地 Git 时可按实际 Provider 能力安全降级，不能声称完成本地同步。
