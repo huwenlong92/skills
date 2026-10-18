@@ -5,9 +5,9 @@ description: 维护 huwenlong92/sdkit Go 共享框架源码的 core、pkg、runt
 
 # sdkit
 
-本 skill 只处理 Go sdkit 框架仓库。普通业务项目必须使用 `sdkitgo`，只有任务明确修改 sdkit 框架源码时才使用本 skill。
+本 skill 只处理 Go sdkit 框架仓库。完整 Go 模板业务项目必须使用 `sdbase-go`；采用 SDBase Lite 的 SQLite 单 Web 项目必须使用 `sdbase-lite`。只有任务明确修改 sdkit 框架源码时才使用本 skill。
 
-## 仓库定位（兼容迁移阶段）
+## 仓库定位
 
 开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。本 Skill 是新名称主入口，旧名称仅供明确指定的兼容任务使用。
 

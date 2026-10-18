@@ -5,7 +5,7 @@ description: sdcore Rust 框架的实际依赖来源定位、仓库身份验证�
 
 # Rust sdcore 源码定位
 
-适用范围：使用 rust-sdcore Skill 修改公共底座、核验框架版本或判断业务项目与 sdcore 的边界时必须读取。
+适用范围：使用 sdkit-rust-core Skill 修改公共底座、核验框架版本或判断业务项目与 sdcore 的边界时必须读取。
 
 - 当前尚未确认 sdcore 的独立权威 GitHub 仓库地址；禁止猜测为 huwenlong92/sdcore 或其他未核实路径。
 - 必须从目标项目 Cargo.toml、Cargo.lock、workspace、path/git dependency、项目 AGENTS.md 与现有 checkout 确认真实依赖和 revision。

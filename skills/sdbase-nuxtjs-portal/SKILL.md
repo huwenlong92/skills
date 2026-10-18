@@ -7,7 +7,7 @@ description: 开发基于 huwenlong92/sdbase-nuxtjs-portal 模板的 Nuxt 4 门�
 
 本 skill 适用于 Nuxt 门户仓库。禁止把 Vue 后台的 table、drawer、`src/views` 或后台菜单约定应用到 Nuxt 门户。路径均以目标项目根目录为基准。
 
-## 仓库定位（兼容迁移阶段）
+## 仓库定位
 
 开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。本 Skill 是新名称主入口，旧名称仅供明确指定的兼容任务使用。
 

@@ -7,7 +7,7 @@ description: 开发基于 huwenlong92/sdbase-vab-admin 完整 Vab、Vue 3、Elem
 
 本 skill 仅适用于基于 Vab 的 Vue 后台仓库，不适用于 Nuxt 门户。所有 reference 路径均以目标项目根目录为基准。
 
-## 仓库定位（兼容迁移阶段）
+## 仓库定位
 
 开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。本 Skill 是新名称主入口，旧名称仅供明确指定的兼容任务使用。
 

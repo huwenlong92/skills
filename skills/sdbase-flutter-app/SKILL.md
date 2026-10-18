@@ -1,6 +1,6 @@
 ---
 name: sdbase-flutter-app
-description: 用于基于 SDBase Flutter App 的 Android/iOS Flutter 项目开发、调试、测试与评审；适用于 Riverpod、go_router、Dio、JWT 和 SQLite 缓存，不适用于普通 Vue/Nuxt 项目。
+description: 用于基于 SDBase Flutter App 的 Android/iOS Flutter 项目开发、调试、测试与评审；适用于 Riverpod、go_router、Dio、JWT 和 SQLite 缓存，不适用于未采用本模板的普通 Flutter 或 Vue/Nuxt 项目。
 ---
 
 # sdbase-flutter-app

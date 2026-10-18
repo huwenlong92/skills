@@ -5,9 +5,9 @@ description: 开发基于 huwenlong92/sdbase-go 完整模板的 Gin、GORM、Pos
 
 # SDKit Go 后端
 
-仅当目标仓库采用 sdkitgo 约定，或用户明确要求使用这些约定时，才使用本 skill。本文中的路径均以目标项目根目录为基准。
+仅当目标仓库已核实采用 SDBase Go 完整模板，或用户明确要求迁入该模板约定时，才使用本 skill。普通 Go 项目与 sdbase-lite 不触发。本文中的路径均以目标项目根目录为基准。
 
-## 仓库定位（兼容迁移阶段）
+## 仓库定位
 
 开始任务前必须读取 [权威仓库定位](references/repository.md)，先核验目标项目身份与模板来源；不能仅凭语言或项目目录名推断。本 Skill 是新名称主入口，旧名称仅供明确指定的兼容任务使用。
 
