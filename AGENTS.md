@@ -43,6 +43,10 @@
 
 涉及并行仓库写入时，必须遵守 [按需 PR 感知与冲突处理](standards/collaboration-awareness.md)。只在任务开始、写入前及 Push/合并前检查相关远端状态；禁止为感知检查主动触发 CI。
 
+## 知识检索与沉淀
+
+自然语言任务隐含已有项目资料、历史技术经验或值得沉淀的知识时，按 [Knowledge Retrieval & Capture V1](standards/knowledge-retrieval-capture.md) 进行按需检索、候选分类与阶段摘要。自动识别不增加仓库写入、项目创建、发布或跨 Workspace 授权。
+
 ## Skill 场景感知与开发执行
 
 涉及 Skill 的自动选择、跨 Skill 协作或能力降级时，必须遵守 [Skill Orchestration V1](standards/skill-orchestration.md)。涉及多阶段、跨会话或高风险开发任务时，必须遵守 [Development Execution V1](standards/development-execution.md) 的计划基线、阶段验收与偏差门禁。两份协议不取代各 Skill 自身规则，不构成额外的提交、合并、数据库写入或部署授权。

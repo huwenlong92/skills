@@ -1,0 +1,485 @@
+{
+  "main": "8b22285aa2abba995e88f49718800c167c7e2413",
+  "pulls": [
+    {
+      "baseRefOid": "8b22285aa2abba995e88f49718800c167c7e2413",
+      "files": [
+        {
+          "path": ".sdkit/plans/project-bootstrap-hardening.md",
+          "additions": 14,
+          "deletions": 0
+        },
+        {
+          "path": "AGENTS.md",
+          "additions": 4,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/bootstrap-standards-retirement/RESULT.md",
+          "additions": 15,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/bootstrap-standards-retirement/branch-checks.json",
+          "additions": 48,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/bootstrap-standards-retirement/local-regression.json",
+          "additions": 160,
+          "deletions": 0
+        },
+        {
+          "path": "scripts/check_project_skill_discovery.py",
+          "additions": 66,
+          "deletions": 0
+        },
+        {
+          "path": "scripts/project_skill_bootstrap.py",
+          "additions": 65,
+          "deletions": 0
+        },
+        {
+          "path": "scripts/project_skill_global.py",
+          "additions": 76,
+          "deletions": 0
+        },
+        {
+          "path": "scripts/project_skill_io.py",
+          "additions": 150,
+          "deletions": 0
+        },
+        {
+          "path": "scripts/test_project_skill_global.py",
+          "additions": 59,
+          "deletions": 0
+        },
+        {
+          "path": "scripts/test_project_skill_safety.py",
+          "additions": 224,
+          "deletions": 0
+        },
+        {
+          "path": "standards/codex-global-AGENTS.recommended.md",
+          "additions": 86,
+          "deletions": 0
+        },
+        {
+          "path": "standards/codex-global-agents-migration.md",
+          "additions": 35,
+          "deletions": 0
+        },
+        {
+          "path": "standards/project-skill-bootstrap.md",
+          "additions": 52,
+          "deletions": 0
+        }
+      ],
+      "headRefName": "feat/project-skill-bootstrap-v1",
+      "headRefOid": "50ba0de9d26d1b471068607ec4a5e11ce6274b9e",
+      "isDraft": true,
+      "mergeable": "MERGEABLE",
+      "number": 14,
+      "state": "OPEN",
+      "title": "feat(standards): Project Skill Bootstrap V1 global-first",
+      "updatedAt": "2026-10-18T03:08:55Z"
+    },
+    {
+      "baseRefOid": "8b22285aa2abba995e88f49718800c167c7e2413",
+      "files": [
+        {
+          "path": ".sdkit/plans/standards-retirement-audit.md",
+          "additions": 14,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/engineering-standards-retirement/AUDIT.md",
+          "additions": 439,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/engineering-standards-retirement/RESULT.md",
+          "additions": 11,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/engineering-standards-retirement/audit.json",
+          "additions": 6230,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/engineering-standards-retirement/branch-checks.json",
+          "additions": 48,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/engineering-standards-retirement/local-regression.json",
+          "additions": 160,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/SKILL.md",
+          "additions": 5,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/api/request.md",
+          "additions": 10,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/assets/media.md",
+          "additions": 1,
+          "deletions": 1
+        },
+        {
+          "path": "skills/nuxtjs/references/code/base.md",
+          "additions": 4,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/code/i18n.md",
+          "additions": 35,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/code/seo.md",
+          "additions": 24,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/components/remote-options.md",
+          "additions": 3,
+          "deletions": 3
+        },
+        {
+          "path": "skills/nuxtjs/references/config/env.md",
+          "additions": 8,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/layers/layouts.md",
+          "additions": 26,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/performance.md",
+          "additions": 32,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/realtime.md",
+          "additions": 34,
+          "deletions": 0
+        },
+        {
+          "path": "skills/nuxtjs/references/router/page-meta.md",
+          "additions": 9,
+          "deletions": 4
+        },
+        {
+          "path": "skills/nuxtjs/references/store/state.md",
+          "additions": 9,
+          "deletions": 2
+        },
+        {
+          "path": "skills/nuxtjs/references/structure/directories.md",
+          "additions": 1,
+          "deletions": 1
+        },
+        {
+          "path": "skills/nuxtjs/references/ui/style.md",
+          "additions": 2,
+          "deletions": 2
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/SKILL.md",
+          "additions": 5,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/api/request.md",
+          "additions": 10,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/assets/media.md",
+          "additions": 1,
+          "deletions": 1
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/code/base.md",
+          "additions": 4,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/code/i18n.md",
+          "additions": 35,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/code/seo.md",
+          "additions": 24,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/components/remote-options.md",
+          "additions": 3,
+          "deletions": 3
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/config/env.md",
+          "additions": 8,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/layers/layouts.md",
+          "additions": 26,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/performance.md",
+          "additions": 32,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/realtime.md",
+          "additions": 34,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/router/page-meta.md",
+          "additions": 9,
+          "deletions": 4
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/store/state.md",
+          "additions": 9,
+          "deletions": 2
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/structure/directories.md",
+          "additions": 1,
+          "deletions": 1
+        },
+        {
+          "path": "skills/sdbase-nuxtjs-portal/references/ui/style.md",
+          "additions": 2,
+          "deletions": 2
+        }
+      ],
+      "headRefName": "audit/engineering-standards-retirement-20261018",
+      "headRefOid": "865c319ecbef1e267bacd704503b1ae7e19c621b",
+      "isDraft": true,
+      "mergeable": "MERGEABLE",
+      "number": 15,
+      "state": "OPEN",
+      "title": "docs(nuxt): 一次性规范审计与门户规则补齐",
+      "updatedAt": "2026-10-18T03:08:58Z"
+    },
+    {
+      "baseRefOid": "8b22285aa2abba995e88f49718800c167c7e2413",
+      "files": [
+        {
+          "path": ".sdkit/plans/vab-standards-retirement.md",
+          "additions": 14,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/vab-standards-retirement/RESULT.md",
+          "additions": 11,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/vab-standards-retirement/branch-checks.json",
+          "additions": 48,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/vab-standards-retirement/local-regression.json",
+          "additions": 160,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-vab-admin/SKILL.md",
+          "additions": 1,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-vab-admin/references/code/base.md",
+          "additions": 2,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-vab-admin/references/framework.md",
+          "additions": 8,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-vab-admin/references/performance.md",
+          "additions": 29,
+          "deletions": 0
+        },
+        {
+          "path": "skills/vab-admin/SKILL.md",
+          "additions": 1,
+          "deletions": 0
+        },
+        {
+          "path": "skills/vab-admin/references/code/base.md",
+          "additions": 2,
+          "deletions": 0
+        },
+        {
+          "path": "skills/vab-admin/references/framework.md",
+          "additions": 8,
+          "deletions": 0
+        },
+        {
+          "path": "skills/vab-admin/references/performance.md",
+          "additions": 29,
+          "deletions": 0
+        }
+      ],
+      "headRefName": "docs/vab-standards-retirement-20261018",
+      "headRefOid": "68b8da3716053d5092c3060564c2029389e49ec4",
+      "isDraft": true,
+      "mergeable": "MERGEABLE",
+      "number": 16,
+      "state": "OPEN",
+      "title": "docs(vab): 迁移性能测量与原生 ESM 规范",
+      "updatedAt": "2026-10-18T03:09:00Z"
+    },
+    {
+      "baseRefOid": "8b22285aa2abba995e88f49718800c167c7e2413",
+      "files": [
+        {
+          "path": ".sdkit/plans/go-standards-retirement.md",
+          "additions": 14,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/go-standards-retirement/RESULT.md",
+          "additions": 11,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/go-standards-retirement/branch-checks.json",
+          "additions": 48,
+          "deletions": 0
+        },
+        {
+          "path": "docs/acceptance/go-standards-retirement/local-regression.json",
+          "additions": 160,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-go/references/framework/boundary.md",
+          "additions": 20,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-go/references/models/struct.md",
+          "additions": 6,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdbase-go/references/service/handler.md",
+          "additions": 4,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdkitgo/references/framework/boundary.md",
+          "additions": 20,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdkitgo/references/models/struct.md",
+          "additions": 6,
+          "deletions": 0
+        },
+        {
+          "path": "skills/sdkitgo/references/service/handler.md",
+          "additions": 4,
+          "deletions": 0
+        }
+      ],
+      "headRefName": "docs/go-standards-retirement-20261018",
+      "headRefOid": "4959778ae5380836fd810f2ac7f03ed1c9baab46",
+      "isDraft": true,
+      "mergeable": "MERGEABLE",
+      "number": 17,
+      "state": "OPEN",
+      "title": "docs(go): 补齐联调依赖与基础设施安全规范",
+      "updatedAt": "2026-10-18T03:09:03Z"
+    },
+    {
+      "baseRefOid": "8b22285aa2abba995e88f49718800c167c7e2413",
+      "files": [
+        {
+          "path": "catalog.json",
+          "additions": 5,
+          "deletions": 0
+        },
+        {
+          "path": "skills/foundry/SKILL.md",
+          "additions": 6,
+          "deletions": 2
+        },
+        {
+          "path": "skills/ui-design/README.md",
+          "additions": 20,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/SKILL.md",
+          "additions": 31,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/references/handoff.md",
+          "additions": 17,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/references/interaction.md",
+          "additions": 15,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/references/responsive.md",
+          "additions": 15,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/references/review.md",
+          "additions": 15,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/references/visual.md",
+          "additions": 15,
+          "deletions": 0
+        },
+        {
+          "path": "skills/ui-design/tests/acceptance.md",
+          "additions": 27,
+          "deletions": 0
+        },
+        {
+          "path": "standards/skill-orchestration.md",
+          "additions": 6,
+          "deletions": 0
+        }
+      ],
+      "headRefName": "feat/ui-design-v1",
+      "headRefOid": "5983179b279dcc8c75b62c43bb19962c6580e316",
+      "isDraft": true,
+      "mergeable": "MERGEABLE",
+      "number": 18,
+      "state": "OPEN",
+      "title": "feat(skill): add focused ui-design V1 and handoff guidance",
+      "updatedAt": "2026-10-18T03:51:54Z"
+    }
+  ]
+}

@@ -28,6 +28,12 @@
 - 只有旧版 Skill 可访问、且其 description 仍允许当前开发任务时，允许以 Degraded 使用旧版；若已收窄为显式兼容用途，必须停止正常开发路由或读取可访问且适用的新入口源码，不得静默越过触发边界。不得为解决选择问题自动安装、删除或覆盖旧入口。
 - `sdbase-lite`、`sdbase-admin-lite`、`sdbase-flutter-app` 必须按其各自模板身份单独选择；禁止给 lite 套用完整 Go 多服务/PostgreSQL 或 Vab 动态菜单/RBAC 规则，禁止把 Flutter 未接入 SDK 描述成已实现。Rust core 身份必须从实际 Cargo 依赖解析，不得推测仓库地址。
 
+## 隐式知识检索与沉淀
+
+- 自然语言任务依赖已存在产品项目的 PRD、设计、技术决策或进度时，必须按需路由 Foundry 检索权威产品文档；涉及既有技术经验、跨项目可复用排障或专题，且存在明确个人知识语境或可识别既有专题时，必须按需路由 WikiOps 检索知识库。两类证据均必要时可组合，但每个写入子任务仍只有唯一 Primary。
+- 检索与候选捕获遵守 [Knowledge Retrieval & Capture V1](knowledge-retrieval-capture.md)：索引优先、正文按需、当前会话去重、阶段性摘要、写入授权独立。普通无历史关联问答不强制检索私有仓库。
+- 仅有 Skill 描述和协议不能保证所有 Agent 都自动发现或监听其他会话；不得把静态规范测试当成跨模型真实触发验证。
+
 ## 场景与反例
 
 | 场景 | Primary | 条件性辅助 | 禁止误触发 |
@@ -39,11 +45,17 @@
 | 查询开发数据库 | sdenv 或已验证连接入口 | Schema 比对时数据库协作规范 | 不执行 DDL |
 | Git 同步 | 项目 Git 协作规范 | 相关 PR 感知 | 不丢弃本地改动 |
 | 老项目模板演进 | 已验证技术栈 Skill | 模板差异与 Git 协作 | 不整体覆盖业务代码 |
+| UI 设计稿与交接 | sdkit-ui-design | 已确认 PRD 由 foundry 提供；不开发业务代码 | 不执行 Git 发布或原型 Runtime 操作 |
 | 产品文档 | foundry | 必要时 Git 协作 | 不开发正式业务代码 |
 | Wiki | wikiops | 必要时 Git 协作 | 不覆盖 PRD 事实源 |
 | Skill 维护 | sdkit-skills | Git 协作 | 不接管业务开发 |
 
 只讨论方案时允许读取相关规范，但不得将讨论视为写入、合并或部署授权。
+
+## UI 设计路由
+
+- 纯视觉稿、页面布局、交互状态和设计交接任务以 `sdkit-ui-design` 为 Primary；Foundry 仅提供产品上下文。正式代码实现仍以实际技术栈 Skill 为 Primary，sdkit-ui-design 只提供已确认设计约束。
+- 原型版本管理、源码迁移和发布仍由 Foundry 及目标仓库处理，不因新增 sdkit-ui-design 自动授权提交或部署。
 
 ## 能力、授权与降级
 
