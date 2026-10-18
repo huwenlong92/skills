@@ -56,3 +56,14 @@ class IntentTests(unittest.TestCase):
     def test_unknown_operation_rejected(self):
         x=sample();x["operations"][0]["type"]="not_a_real_operation"
         with self.assertRaises(ValueError):mod.validate(x)
+
+    def test_legacy_risk_labels_remain_blocked(self):
+        for label in ("DROP SCHEMA CASCADE", "DELETE FROM", "seed_reset",
+                      "orm_drop_recreate", "dynamic_sql", "unknown_sql"):
+            with self.subTest(label=label):
+                x=sample();x["operations"][0]["type"]=label
+                x["operations"][0]["risk"]="additive"
+                result=mod.validate(x)
+                self.assertEqual(result["status"],"blocked")
+                self.assertFalse(result["executionAuthorized"])
+                self.assertTrue(any("high-risk" in v for v in result["reasons"]))
