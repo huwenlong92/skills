@@ -1,0 +1,7 @@
+{
+  "base_count": 21,
+  "local_count": 23,
+  "main_count": 22,
+  "result_count": 23,
+  "resolution": "compare three stages; preserve all main entries in order; append local-only templateops; identical common entries"
+}

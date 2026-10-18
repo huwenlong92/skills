@@ -118,6 +118,11 @@
       "name": "sdkit-dbops",
       "category": "operations",
       "path": "skills/sdkit-dbops"
+    },
+    {
+      "name": "sdkit-templateops",
+      "category": "operations",
+      "path": "skills/sdkit-templateops"
     }
   ]
 }
