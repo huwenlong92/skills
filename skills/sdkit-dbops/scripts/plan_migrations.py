@@ -24,6 +24,7 @@ def digest(obj):
 def history_map(doc):
     if not isinstance(doc, dict) or not isinstance(doc.get("migrations"), list):
         raise ValueError("invalid history")
+    _load_sibling("validate_history").validate(doc)
     out = {}
     for m in doc["migrations"]:
         if not isinstance(m, dict) or not isinstance(m.get("migrationId"), str) or not isinstance(m.get("checksum"), str) or not SHA.fullmatch(m["checksum"]) or m.get("status") != "applied":
@@ -100,7 +101,7 @@ def plan(source, target, safety=None):
     gate = safety_gate(safety)
     safety_hash = digest(safety) if safety is not None else None
     decision = "blocked"  # Offline plans never satisfy the execution safety gate.
-    semantic={"apiVersion":"sdkit.dev/migration-plan/v1","sourceCommit":source["evidence"]["sourceCommit"],"sourceEvidenceFingerprint":digest(source["evidence"]),"targetEvidenceFingerprint":digest(target["evidence"]),"sourceHistoryFingerprint":digest(source["history"]),"sourceSchemaFingerprint":source["snapshotFingerprint"],"sourceIdentity":source["identity"],"target":target["identity"],"preconditions":{"historyFingerprint":digest(target["history"]),"schemaFingerprint":target["snapshotFingerprint"],"normalizerVersion":target["normalizerVersion"]},"state":state,"decision":decision,"safetyGate":gate,"safetyEvidenceFingerprint":safety_hash,"steps":[{"migrationId":k,"checksum":a[k],"risk":"requires_review"} for k in sorted(a.keys()-b.keys())] if state=="local_ahead" else [],"executionAuthorized":False}
+    semantic={"apiVersion":"sdkit.dev/migration-plan/v1","sourceCommit":source["evidence"]["sourceCommit"],"sourceEvidenceFingerprint":digest(source["evidence"]),"targetEvidenceFingerprint":digest(target["evidence"]),"sourceHistoryFingerprint":digest(source["history"]),"sourceSchemaFingerprint":source["snapshotFingerprint"],"sourceNormalizerVersion":source["normalizerVersion"],"sourceIdentity":dict(source["identity"],scope=sorted(source["identity"]["scope"])),"target":dict(target["identity"],scope=sorted(target["identity"]["scope"])),"preconditions":{"historyFingerprint":digest(target["history"]),"schemaFingerprint":target["snapshotFingerprint"],"normalizerVersion":target["normalizerVersion"]},"state":state,"decision":decision,"safetyGate":gate,"safetyEvidenceFingerprint":safety_hash,"steps":[{"migrationId":k,"checksum":a[k],"risk":"requires_review"} for k in sorted(a.keys()-b.keys())] if state=="local_ahead" else [],"executionAuthorized":False}
     return {**semantic,"planHash":digest(semantic)}
 def main():
     p=argparse.ArgumentParser()
