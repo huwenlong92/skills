@@ -7,7 +7,7 @@ from plan_migrations import digest
 def validate(doc):
     if not isinstance(doc,dict) or not isinstance(doc.get("planHash"),str):
         raise ValueError("invalid plan")
-    expected={"apiVersion","sourceCommit","target","preconditions","state","decision","steps","executionAuthorized","planHash"}
+    expected={"apiVersion","sourceCommit","sourceHistoryFingerprint","sourceSchemaFingerprint","sourceIdentity","target","preconditions","state","decision","safetyGate","safetyEvidenceFingerprint","steps","executionAuthorized","planHash"}
     if set(doc) != expected or doc.get("apiVersion") != "sdkit.dev/migration-plan/v1":
         raise ValueError("invalid plan structure")
     if doc.get("decision") not in ("candidate", "requires_approval", "blocked") or not isinstance(doc.get("steps"), list):
@@ -15,6 +15,8 @@ def validate(doc):
     body={k:v for k,v in doc.items() if k!="planHash"}
     if doc["planHash"]!=digest(body):
         raise ValueError("plan hash mismatch")
+    if not isinstance(doc.get("safetyGate"), dict) or doc["safetyGate"].get("status") != "blocked" or doc.get("decision") != "blocked":
+        raise ValueError("untrusted safety decision")
     if doc.get("executionAuthorized") is not False:
         raise ValueError("execution must not be authorized")
     return {"status":"valid","executionAuthorized":False}
