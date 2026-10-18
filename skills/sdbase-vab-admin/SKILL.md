@@ -22,6 +22,7 @@ description: 开发基于 huwenlong92/sdbase-vab-admin 完整 Vab、Vue 3、Elem
 
 | 修改内容 | 读取 |
 |---|---|
+| 首屏、分包、resize/scroll 高频副作用 | [performance.md](references/performance.md) |
 | 新增、移动文件或目录，判断目录职责 | [structure/directories.md](references/structure/directories.md) |
 | `library`、layout、全局 plugin、router core、构建或框架行为 | [framework.md](references/framework.md) |
 | Vue/TypeScript 基础、import、store 命名、组件事件 | [code/base.md](references/code/base.md) |
