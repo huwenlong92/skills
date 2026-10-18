@@ -12,6 +12,8 @@ SHA = re.compile(r"^[a-f0-9]{64}$")
 def validate(doc):
     if not isinstance(doc, dict) or not isinstance(doc.get("migrations"), list):
         raise ValueError("invalid history")
+    if set(doc) - {"migrations", "attempts"}:
+        raise ValueError("unknown history fields")
     seen = set()
     for m in doc["migrations"]:
         if not isinstance(m, dict) or not MID.fullmatch(str(m.get("migrationId", ""))) or not SHA.fullmatch(str(m.get("checksum", ""))):
@@ -20,12 +22,16 @@ def validate(doc):
             datetime.strptime(m["migrationId"][:16], "%Y%m%dT%H%M%SZ")
         except ValueError as exc:
             raise ValueError("invalid timestamp") from exc
+        if set(m) - {"migrationId", "checksum", "status"}:
+            raise ValueError("unknown migration fields")
         if m.get("status") != "applied" or m["migrationId"] in seen:
             raise ValueError("unresolved or duplicate migration")
         seen.add(m["migrationId"])
     attempts = doc.get("attempts", [])
     if not isinstance(attempts, list) or any(not isinstance(a, dict) or a.get("status") in ("running", "failed", "unknown") for a in attempts):
         raise ValueError("unresolved attempts")
+    if any(set(a) - {"status"} for a in attempts):
+        raise ValueError("unknown attempt fields")
     return {"status": "valid", "count": len(seen)}
 
 def main():
