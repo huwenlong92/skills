@@ -1,4 +1,4 @@
-# ui-design
+# sdkit-ui-design
 
 跨项目 UI 设计与开发交接 Skill。只处理设计稿、交互状态、响应式与设计复核，不负责实现或发布。
 
