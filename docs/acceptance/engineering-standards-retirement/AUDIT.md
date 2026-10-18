@@ -418,6 +418,41 @@
 | R408 | `vue/admin/workflow.md:26` 完成前验收 | - 必须检查页面主文件职责：只能做查询区、操作区、表格、分页、打开子组件、监听 `reload`、刷新列表；如果承载表单弹窗、详情抽屉、审核、导入、上传、状态变更等独立交互，必须重新拆组件。 - 必须检查新增文件名：不能出现 `<module>-<page>-xxx.vue` 这类长文件名；页面组件应使用 `components/edit/index.vue`、`components/detail/index.vue` 这类短目录结构。 | sdbase-vab-admin | 已覆盖 | 保留现有 Skill 定义，不重复迁移 | `skills/sdbase-vab-admin/references/workflow.md` | 静态对账；既有技术栈 Reference 已承接此规则组；实例路径不迁移 |
 | R409 | `vue/admin/workflow.md:43` 常见失败原因 | - 没有先找相似页面，导致结构和项目不一致。 - 没有读 `framework.md` 就改 `library` 或 router core。 | sdbase-vab-admin | 已覆盖 | 保留现有 Skill 定义，不重复迁移 | `skills/sdbase-vab-admin/references/workflow.md` | 静态对账；既有技术栈 Reference 已承接此规则组；实例路径不迁移 |
 
+
+## UI / 原型规则 R027–R044：2026-10-18 源码对账补充
+
+本节为后续增量核验，**不改动上方 409 组原始审计、覆盖统计、来源指纹或 audit.json**。下列“规范归属可关闭”不代表原型运行、发布或浏览器验收通过；未取得完整跨仓库测试证据的项目继续保留阻塞。所有来源为各仓库 main 的只读源码快照，后续实现可能变化。
+
+| ID | 规范归属与处理决定 | 实现/验证状态 |
+|---|---|---|
+| R027 | 设计由 sdkit-ui-design；原型交付由 Foundry；实现由模板 Skill | 规范归属可关闭；跨系统交付待验证 |
+| R028 | Design Token 由 sdkit-ui-design 定义设计要求，宿主组件由项目实现 | 规范归属可关闭；不复制固定宿主 Token |
+| R029 | 视觉原则由 sdkit-ui-design 承接；废弃跨项目强制浅色风格 | 规范归属可关闭；保留项目既有设计系统 |
+| R030 | 字体尺度由项目 Token/可访问性要求决定；废弃旧固定尺寸普适性 | 规范归属可关闭；不把历史数字作为强制值 |
+| R031 | Header 所有权由 sdkit-ui-design 约束，布局实现由对应模板 | 规范归属可关闭；禁止 CSS 反向隐藏代替契约 |
+| R032 | 导航视觉由 sdkit-ui-design 承接，导航实现由宿主 | 规范归属可关闭；废弃跨宿主固定像素 |
+| R033 | 控件状态和触控可访问性由 sdkit-ui-design 承接 | 规范归属可关闭；不统一强制按钮尺寸 |
+| R034 | 卡片/列表视觉层级由 sdkit-ui-design 承接 | 规范归属可关闭；项目实现仍需评审 |
+| R035 | 响应式/可访问性由 sdkit-ui-design 承接 | 规范归属可关闭；浏览器验收另计 |
+| R036 | 数据所有权、订阅、缓存归具体技术栈和业务系统 | 待逐技术栈对账；不迁入纯视觉 Skill |
+| R037 | 设计验收由 sdkit-ui-design，真实页面测试由项目负责 | 规范归属可关闭；旧固定视口不作唯一门禁 |
+| R038 | 禁止视觉回退由 sdkit-ui-design 的现有设计系统约束 | 规范归属可关闭；不引入宿主固定尺寸 |
+| R039 | 原型源码、版本、交付由 Foundry，运行/发布由对应系统 | 规范归属可关闭；端到端交付未验证 |
+| R040 | 交付能力需分别声明，由 Foundry 协调 Content Engine/Runtime | 规范归属可关闭；完整能力验收待验证 |
+| R041 | Manifest、Release、Latest、SHA-256 由 Content Engine 负责 | 已见实现；模块级 Latest 与完整消费者兼容仍待验证 |
+| R042 | 页面目录/导航 Schema 须由内容生产端与消费端共同确认 | **阻塞**：现有 UI Manifest 只有 id/path/title 等字段，未验证 group/default/deep-link 与版本化导航协议 |
+| R043 | Runtime 负责独立 Origin/鉴权/CSP；UI 宿主负责导航消息校验 | **部分通过**：Runtime 先鉴权再读取且 no-store；本地 srcdoc bridge 使用 postMessage('*')、仅检查 source/page，缺少精确 Origin、版本、路径身份验证；两种模式分别验收 |
+| R044 | 构建与对象校验由 Content Engine；运行及浏览器验收由 Runtime/宿主 | **部分通过**：已见 SHA-256、不可变对象读回及 Latest 后置；未完成连续切页、版本切换、失败反馈、双实例隔离的端到端证据 |
+
+### 实际源码依据与边界
+
+- `huwenlong92/skills` main：`skills/sdkit-ui-design/references/{visual,interaction,responsive}.md`；`skills/foundry/references/prototypes.md`，分别约束视觉交互与原型交付。
+- `huwenlong92/sdkit-content-engine` main：`src/ui-manifest.mjs`、`src/ui-package.mjs`、`src/ui-publisher.mjs`、`src/prototype-registry.mjs`；Registry 写入要求独占锁，expected hash 不是无锁 CAS；发布端 SHA/Latest 不证明浏览器验收。
+- `huwenlong92/sdkit-prototype-runtime` main：`runtime/handler.mjs`、`runtime/published-registry.mjs`、`src/ui-runtime-response.mjs`；服务端先鉴权，独立 Origin/CSP 和 no-store 已在源码中出现，未进行本轮线上安全测试。
+- `huwenlong92/sdkit-ui-web` main：`src/components/ui/prototype-frame/{bridge.ts,index.vue}`、`tests/prototype-bridge.test.mjs`；本地 srcdoc 桥接不等于正式独立 Runtime 消息协议，不能宣称 R042/R043 完整通过。
+
+关闭条件：R036 补技术栈证据；R041 验证模块级 Latest；R042 确定并测试版本化导航 Schema；R043 分别验证本地 srcdoc 和远端 Runtime 消息安全；R044 补齐跨版本、连续导航、缺失页、双实例及发布恢复浏览器验收。上述事项不属于本 PR 自动实现范围，**engineering-standards 仍不具备删除条件**。
+
 ## 非 Markdown 配方
 
 - `npm/package/templates/Makefile`、`templates/deploy/release/sync-github-public`：仅审计，不执行。npmops 已包含对应配方与发布/白名单语义，旧项目内 token 配置和个人仓库默认值不迁移，现行 config/auth 规则优先。
