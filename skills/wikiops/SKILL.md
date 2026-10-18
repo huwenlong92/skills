@@ -1,6 +1,6 @@
 ---
 name: wikiops
-description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用来源回答，按仓库规范将聊天中的方法、排障、决策与摘录入库，维护过期/重复知识、主题与来源，迁移旧笔记，并维护 VitePress 构建和 Cloudflare 发布与访问控制。包含 DeepSeek 分享对话读取与提取；用户要求查 Wiki/知识库、回顾以前的做法、记录、归档、沉淀知识或维护 Wiki 时使用，不负责产品 PRD 的权威维护。
+description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用来源回答，按仓库规范将聊天中的方法、排障、决策与摘录入库，维护过期/重复知识、主题与来源，迁移旧笔记，并维护 VitePress 构建和 Cloudflare 发布与访问控制。包含 DeepSeek 分享对话读取与提取；用户要求查 Wiki/知识库、回顾以前的做法，或当前任务隐含需要已记录的个人技术经验、可复用方法与专题时按需检索；识别聊天中值得沉淀的知识候选，用户要求记录、归档或维护 Wiki 时按授权写入，不负责产品 PRD 的权威维护。
 ---
 
 # WikiOps 知识库协作
@@ -12,6 +12,7 @@ description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用�
 | 任务 | 必须读取 |
 |---|---|
 | 定位知识库、跨会话恢复、云端读写与提交 | [Workspace 配置](references/workspace.md)、[Repository Resolver](references/resolver.md)、[仓库协作](references/repository.md) |
+| 隐含需要既有技术经验、专题检索，或阶段结束有可复用知识候选 | [知识检索与回答](references/answer.md)、[聊天入库](references/capture.md)；涉及写入再读 [知识写入](references/writing.md) |
 | “查一下知识库”“我以前怎么做的”“根据 Wiki 回答”，搜索与综合回答 | [仓库协作](references/repository.md)、[知识检索与回答](references/answer.md) |
 | 更新主题索引 | [仓库协作](references/repository.md)、[知识写入](references/writing.md) |
 | “记录一下”“沉淀一下”“归档一下”，保存聊天中的方法、排障、决策或资料摘录 | [仓库协作](references/repository.md)、[知识写入](references/writing.md)、[聊天入库](references/capture.md) |

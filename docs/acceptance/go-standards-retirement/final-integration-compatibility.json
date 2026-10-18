@@ -1,0 +1,13 @@
+{
+  "historical_evidence_files": 3,
+  "historical_evidence_changed": [],
+  "reference_compatibility": {
+    "new": "sdbase-go",
+    "old": "sdkitgo",
+    "identical_shared_references": 35,
+    "expected_identity_difference": [
+      "repository.md"
+    ]
+  },
+  "routing_changed_against_main": []
+}

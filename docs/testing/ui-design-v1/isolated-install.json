@@ -1,0 +1,29 @@
+{
+  "initial_attempt": "exit 1 for four commands: target parent must exist; no install occurred",
+  "after_mkdir": [
+    {
+      "skill": "ui-design",
+      "exit_code": 0,
+      "stdout": "install completed: ui-design",
+      "stderr": ""
+    },
+    {
+      "skill": "foundry",
+      "exit_code": 0,
+      "stdout": "install completed: foundry",
+      "stderr": ""
+    },
+    {
+      "skill": "sdbase-nuxtjs-portal",
+      "exit_code": 0,
+      "stdout": "install completed: sdbase-nuxtjs-portal",
+      "stderr": ""
+    },
+    {
+      "skill": "sdbase-flutter-app",
+      "exit_code": 0,
+      "stdout": "install completed: sdbase-flutter-app",
+      "stderr": ""
+    }
+  ]
+}

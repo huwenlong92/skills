@@ -1,0 +1,61 @@
+[
+  {
+    "command": [
+      "python3",
+      "skills/sdkit-skills/scripts/manager.py",
+      "install",
+      "sdkit-ui-design",
+      "--target",
+      "<temp>/codex-home-integrated/skills"
+    ],
+    "exit_code": 0,
+    "stdout": "install completed: sdkit-ui-design",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "skills/sdkit-skills/scripts/manager.py",
+      "install",
+      "foundry",
+      "--target",
+      "<temp>/codex-home-integrated/skills"
+    ],
+    "exit_code": 0,
+    "stdout": "install completed: foundry",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "skills/sdkit-skills/scripts/manager.py",
+      "install",
+      "sdbase-nuxtjs-portal",
+      "--target",
+      "<temp>/codex-home-integrated/skills"
+    ],
+    "exit_code": 0,
+    "stdout": "install completed: sdbase-nuxtjs-portal",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "skills/sdkit-skills/scripts/manager.py",
+      "install",
+      "sdbase-flutter-app",
+      "--target",
+      "<temp>/codex-home-integrated/skills"
+    ],
+    "exit_code": 0,
+    "stdout": "install completed: sdbase-flutter-app",
+    "stderr": ""
+  },
+  {
+    "command": "CODEX_HOME=<temp>/codex-home-integrated codex login status",
+    "exit_code": 1,
+    "stderr": "Not logged in",
+    "model_invocations": 0,
+    "credentials_copied": false
+  }
+]
