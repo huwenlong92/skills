@@ -14,6 +14,26 @@ description: sdkitgo 业务项目复用 sdkit、识别框架缺口以及区分 c
 - 必须搜索实际版本中已有的公开 API、facade、capability、provider 和 driver；已有能力满足契约时，业务项目必须直接复用或只做薄 adapter。
 - 禁止用项目 wrapper、兼容分支、重复实现或局部补丁绕过已经确认的 sdkit 缺陷。
 
+## 本地联调与已发布依赖
+
+- 必须使用实际消费项目 go.mod 的 replace 表达本地 sdkit 联调；禁止为此新建 go.work/go.work.sum 隐式覆盖发布版本。已有工作区只能读取核验，不得因本规则删除或覆盖未知配置。
+- 只有实际调试本地 sdkit 时允许添加 replace，目标必须是已核验的模块根目录，禁止指向 core 子目录；能用项目相对路径时必须用相对路径，只有源码不在可移植相对目录且本次明确是本地联调时才允许本机路径，禁止进入发布制品。
+- 正常开发和镜像打包必须使用已确认的 require 发布版本。core 发布后必须移除临时 replace，升级到实际已发布版本并同步 go.mod/go.sum；禁止用 GOWORK=off 掩盖遗留工作区来源问题。
+- 镜像构建前必须检查依赖来源和上下文边界。工作区确实声明源码构建时，必须按项目已确认方案提供同一源码，禁止默默回退不兼容版本或复制 core 实现。
+
+正向形态（在虚构消费项目模块根目录，源码关系已经核验）：
+
+```sh
+go mod edit -replace=example.com/framework=../framework
+# 发布后，用实际已发布版本替换占位版本并验证。
+go mod edit -dropreplace=example.com/framework
+go get example.com/framework@vX.Y.Z
+go mod tidy
+go test ./...
+```
+
+反例：替换到 ../framework/core，或把构建上下文外的本机 replace 提交为通用发布配置。必须核验模块路径、消费版本、go.sum 与编译/相关测试，并在最终报告说明本地联调替换是否已移除。
+
 ## 先区分五种代码
 
 新增公共 package 前必须先按行为分类，禁止只凭目录名或类型名判断：

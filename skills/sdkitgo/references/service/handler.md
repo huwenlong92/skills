@@ -7,6 +7,10 @@ description: sdkitgo 常规 Gin handler 的目录分类、直接 GORM list/detai
 
 本文定义 sdkitgo 常规 Gin handler 的目录、函数形态和直接查表习惯。新增、修改、拆分或评审 `app/{service}/handler/**/*.go` 时必须读取本文；请求绑定读取 [request.md](request.md)，响应读取 [http/response.md](../http/response.md)，CRUD 写接口读取 [write-handler.md](write-handler.md)，非 CRUD 写动作读取 [action-handler.md](action-handler.md)，查询 projection 读取 [database/projection.md](../database/projection.md)。
 
+## 基础设施保护范围
+
+实际完整模板已包含 `app/admin/handler/system`、`security`、`ops` 等基础设施管理面时，业务需求、业务表重建或规范化禁止顺带修改这些目录；只有用户明确点名对应基础设施模块才允许修改。必须从实际目录与 Router 核对保护对象，不把业务目录仅因同名就当作基础设施。本规则不要求新建这些目录，也不授权重排模板路由。
+
 ## 目录与文件
 
 handler 使用一级业务模块目录分类，资源作为文件：
