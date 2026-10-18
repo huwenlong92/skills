@@ -30,6 +30,23 @@ class GlobalBootstrapTests(unittest.TestCase):
     def test_invalid_encoding(self):
         with self.assertRaises(UnicodeError):
             m.plan(b"\xff")
+    def test_existing_user_blocks_preserved(self):
+        raw = b"<!-- BEGIN: no-superpowers -->\nKeep original\n<!-- END: no-superpowers -->\n"
+        updated = m.plan(raw)
+        self.assertTrue(updated.startswith(raw))
+        self.assertEqual(m.plan(updated), updated)
+
+    def test_legacy_sources_are_report_only(self):
+        raw = b"engineering-standards nuxtjs sdkitgo"
+        findings = m.audit(raw)
+        self.assertIn("legacy-skill-reference", [x["type"] for x in findings])
+        self.assertIn("legacy-standards-source", [x["type"] for x in findings])
+        self.assertTrue(m.plan(raw).startswith(raw))
+
+    def test_invalid_existing_user_markers_block(self):
+        with self.assertRaises(ValueError):
+            m.plan(b"<!-- BEGIN: wiki-knowledge-vault -->")
+
     def test_digest(self):
         self.assertEqual(len(m.digest(b"hello")), 64)
     def test_existing_block_preserves_tail(self):
