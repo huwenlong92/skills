@@ -29,3 +29,12 @@ class HistoryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             mod.validate({"migrations": [], "attempts": [{"status": "unknown"}]})
 
+
+    def test_unrecognized_attempt_status(self):
+        with self.assertRaises(ValueError):
+            mod.validate({"migrations": [], "attempts": [{"status": "success"}]})
+
+    def test_missing_attempt_status(self):
+        with self.assertRaises(ValueError):
+            mod.validate({"migrations": [], "attempts": [{}]})
+
