@@ -44,3 +44,15 @@ class BaselineTests(unittest.TestCase):
         doc["dialect"] = "unknown"
         with self.assertRaises(ValueError):
             mod.validate(doc)
+
+    def test_integer_checksum_rejected(self):
+        doc = baseline()
+        doc["checksum"] = int("1" * 64)
+        with self.assertRaises(ValueError):
+            mod.validate(doc)
+
+    def test_integer_fingerprint_rejected(self):
+        doc = baseline()
+        doc["schemaFingerprint"] = int("1" * 64)
+        with self.assertRaises(ValueError):
+            mod.validate(doc)
