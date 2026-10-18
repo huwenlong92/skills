@@ -1,0 +1,195 @@
+{
+  "run_id": "U05-C",
+  "final_scenario": null,
+  "result": "PASS",
+  "reason": "首轮目录有混入图片，弃作媒介断言依据；纯文字 U05-B 完整十维交接通过。",
+  "model_success": true,
+  "cli_exit_code": 0,
+  "elapsed_seconds": 75.59,
+  "model_identifier": "CLI 默认模型；本次 JSON 事件未暴露服务端模型标识，未推测准确型号",
+  "native_candidates": [
+    "foundry",
+    "sdbase-flutter-app",
+    "sdbase-nuxtjs-portal",
+    "sdkit-ui-design"
+  ],
+  "actual_primary": "sdkit-ui-design",
+  "actual_supporting": [],
+  "skill_loads_observed": [
+    "sdkit-ui-design/SKILL.md",
+    "sdkit-ui-design/references/handoff.md",
+    "sdkit-ui-design/references/interaction.md",
+    "sdkit-ui-design/references/responsive.md",
+    "sdkit-ui-design/references/visual.md"
+  ],
+  "unrelated_skill_loads": [],
+  "unauthorized_behavior": "未观察到；逐项审阅实际命令、文件写入和输出，所有写入仅在本项目",
+  "input": "为 Northstar Tasks 新模块制作完整可执行 Codex 交接说明，目标为正式前端。design.png 是本次外层验收真实图片工具生成、已核验可访问的视觉参考，图片随附；provenance.json 记录实际来源与真实文件哈希。请如实区分这是外层工具生成、并非你自己刚生成；旧 design-reference.md 是先前文字版本。按 PRD.md、设计系统及来源证据完成项目模块身份、交付类型、来源版本、页面 ID、交互状态、桌面手机、素材与未验证资源、确认与待确认需求、技术边界、可执行验收十项。图片中的新增导航、日期和状态不构成已确认业务规则，不编造 API、源码路径、Commit、Release 或预览 URL。\n",
+  "images_attached": [
+    "design.png"
+  ],
+  "fixture_before": {
+    "AGENTS.md": {
+      "sha256": "11d5860f3c0ce26bf679c46183c529dbb8571961390949e2e5616d1608a76d49",
+      "text": "# Northstar Tasks · 虚构离线验收项目\n只允许读取本项目和原生已发现的公开 Skill。禁止读取环境变量、认证、私有配置和项目外其他文件。不得连接网络、MCP、数据库、Git 远端或发布，也不得 Commit、Push、安装软件。只可修改本项目中本任务实际需要的文件；不得修改规则或 Skill。\n按用户任务语义选择适用能力；只加载命中规范；最终交付同时说明实际使用的 Primary/Supporting、读取文件、验证结果与未验证项。必须明确设计媒介和未知业务规则；输出用中文。\n"
+    },
+    "PRD.md": {
+      "sha256": "0a14442bd77750ba62245c5fa797e578daf686fcdd0e8ac3600db6a2dd75f262",
+      "text": "# Northstar Tasks · 虚构 PRD v0.1\n已确认：团队任务管理 Web 应用；模块 tasks；页面 TASK-LIST 任务列表、TASK-CREATE 创建任务；列表提供文本筛选与创建入口；字段标题、状态仅为展示需求。\n待确认：角色权限、API 契约、状态枚举、标题长度、并发冲突、审计要求；不允许据设计稿推导接口。\n"
+    },
+    "design-reference.md": {
+      "sha256": "1f92afdcdc45e0d8194b454ab8ef1d543d4a5f9514557c12f7cc0992d723a9e7",
+      "text": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n"
+    },
+    "design-system.md": {
+      "sha256": "cbf27f58dcbf85cdef6570f0fe2a3cb93bf31aa88dcb5d3f18c2cce405004aca",
+      "text": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
+    },
+    "design.png": {
+      "sha256": "cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9",
+      "bytes": 1147313,
+      "repository_asset": "assets/cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9.png",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    "design.svg": {
+      "sha256": "c12adf61ab9e624a9c100708767601c1f27d5477e3de46a39c6a172bba3b61d9",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1440\" height=\"900\"><rect width=\"1440\" height=\"900\" fill=\"white\"/><text x=\"24\" y=\"64\" font-size=\"24\">Northstar Tasks</text></svg>\n"
+    },
+    "implementation.png": {
+      "sha256": "de3ad16eb16810143c0d03330525a99835646dec49edd90fcb8525bfb77df278",
+      "bytes": 5758,
+      "repository_asset": "assets/de3ad16eb16810143c0d03330525a99835646dec49edd90fcb8525bfb77df278.png",
+      "size": [
+        960,
+        640
+      ]
+    },
+    "provenance.json": {
+      "sha256": "16675f2667f4a6d4ef659bf46f79c935ce38dda8ae443c239fa3995f5774c2ef",
+      "text": "{\n  \"source\": \"本次验收会话真实 image_gen.imagegen 成功返回；外层验收工具生成，不是被测 CLI 生成\",\n  \"resource\": \"design.png\",\n  \"sha256\": \"cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9\",\n  \"bytes\": 1147313,\n  \"version\": \"imagegen-fixture-v1\",\n  \"requirements_status\": \"仅为虚构视觉参考；工具生成的日期、侧栏额外导航和状态标签未被 PRD 确认，不可视作业务契约\"\n}\n"
+    }
+  },
+  "commands": [
+    {
+      "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.git'\"",
+      "exit_code": 0,
+      "output": "<temp>/model-runs/U05-C\nAGENTS.md\nimplementation.png\ndesign-system.md\ndesign.svg\ndesign-reference.md\nprovenance.json\nPRD.md\ndesign.png\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat <temp>/codex-home-integrated/skills/sdkit-ui-design/SKILL.md'",
+      "exit_code": 0,
+      "output": "---\nname: sdkit-ui-design\ndescription: 跨项目 UI 视觉设计、页面布局、交互状态、响应式设计、设计稿复核及面向开发 Agent 的设计交接；不负责业务代码、产品仓库管理或部署。\n---\n\n# SDKit UI Design · 设计与交接\n\n适用于用户要求设计、修改、评审 UI 设计稿，或将已有设计稿整理为可执行开发交接的任务。仅开发代码、修复前端 Bug、发布原型或维护 PRD 时不得作为 Primary。\n\n## 分流\n\n| 任务 | 读取 |\n|---|---|\n| 页面视觉、风格、布局、组件设计 | [视觉规范](references/visual.md) |\n| 页面流程、弹窗、表单、状态 | [交互规范](references/interaction.md) |\n| 多端设计、可访问性 | [响应式规范](references/responsive.md) |\n| 交给 Codex 或其他开发 Agent | [设计交接](references/handoff.md) |\n| 评审设计稿、对比实现截图 | [设计复核](references/review.md) |\n\n## 协作边界\n\n- 纯设计任务以 sdkit-ui-design 为 Primary；涉及已有产品时 Foundry 只提供已确认的 PRD、决策和项目定位，不接管设计执行。\n- PRD、项目文档同步、原型源码存放与迁移、Git/PR、发布仍归 Foundry 和目标仓库规范；正式前端实现由匹配的技术栈 Skill 负责，sdkit-ui-design 只提供设计约束。\n- 当前 Agent 不支持图像输出时，只能交付明确标记的文本设计方案或交接说明；不得把文字描述冒充已生成的设计图。用户明确要求图片时使用实际可用的图像工具。\n- 先读取已有设计基线，不擅自替换用户确认的风格、信息架构、业务规则或真实数据来源。\n- 按任务复杂度输出最小交接：局部修改只需设计稿/说明、变更范围与验收；新模块补充页面与状态；大型项目才生成完整交接包。\n- 设计交付不授权修改业务源码、提交、发布、安装工具或操作数据库。\n\n## 完成标准\n\n明确设计稿是否实际生成、所覆盖页面和设备、关键交互状态、尚未确定的业务规则、素材来源及 Codex 可验证的验收条件。没有执行浏览器测试时不得声称已完成视觉实现验收。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat provenance.json'",
+      "exit_code": 0,
+      "output": "{\n  \"source\": \"本次验收会话真实 image_gen.imagegen 成功返回；外层验收工具生成，不是被测 CLI 生成\",\n  \"resource\": \"design.png\",\n  \"sha256\": \"cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9\",\n  \"bytes\": 1147313,\n  \"version\": \"imagegen-fixture-v1\",\n  \"requirements_status\": \"仅为虚构视觉参考；工具生成的日期、侧栏额外导航和状态标签未被 PRD 确认，不可视作业务契约\"\n}\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat design-system.md'",
+      "exit_code": 0,
+      "output": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat PRD.md'",
+      "exit_code": 0,
+      "output": "# Northstar Tasks · 虚构 PRD v0.1\n已确认：团队任务管理 Web 应用；模块 tasks；页面 TASK-LIST 任务列表、TASK-CREATE 创建任务；列表提供文本筛选与创建入口；字段标题、状态仅为展示需求。\n待确认：角色权限、API 契约、状态枚举、标题长度、并发冲突、审计要求；不允许据设计稿推导接口。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat AGENTS.md'",
+      "exit_code": 0,
+      "output": "# Northstar Tasks · 虚构离线验收项目\n只允许读取本项目和原生已发现的公开 Skill。禁止读取环境变量、认证、私有配置和项目外其他文件。不得连接网络、MCP、数据库、Git 远端或发布，也不得 Commit、Push、安装软件。只可修改本项目中本任务实际需要的文件；不得修改规则或 Skill。\n按用户任务语义选择适用能力；只加载命中规范；最终交付同时说明实际使用的 Primary/Supporting、读取文件、验证结果与未验证项。必须明确设计媒介和未知业务规则；输出用中文。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat design-reference.md'",
+      "exit_code": 0,
+      "output": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat <temp>/codex-home-integrated/skills/sdkit-ui-design/references/handoff.md'",
+      "exit_code": 0,
+      "output": "# 设计到开发交接\n\n适用范围：将 UI 设计稿交给 Codex 或其他开发 Agent 实现时读取。\n\n- 必须声明交付目标是独立交互原型还是正式前端；不能因为存在设计图片就强制先开发 HTML 原型。\n- 必须提供设计来源与版本状态、目标项目/模块、含稳定页面 ID 的页面清单、关键交互状态、桌面与移动端要求、素材来源、已确认需求、待确认事项、技术实现边界和可执行验收条件；未提供的内容必须标记缺失，不得猜测。\n- 必须区分三种设计来源：已有设计稿只记录实际可访问并核验的来源与版本；仅有文字描述时必须声明“文本设计说明，尚无视觉稿”；图片工具实际生成时必须核对工具成功结果和产物可访问性后才声明已生成。工具不可用、失败或产物不可访问时必须停止图片交付声明，仍可提供标记清楚的文字交接。\n- 交接文件仅允许放在目标项目规范指定或用户明确授权的设计/文档位置；禁止猜测源码路径、创建固定目录树或把交接写进业务代码、凭据和部署配置。未确定位置时必须在当前回答交付说明。\n- 只有已核验的资源路径、版本和哈希才能写为事实；不猜测代码仓库、原型源码目录或 Release。\n- 简单修改仅提供最小变更说明；新页面需补充交互与响应式；完整新产品可按需增加页面、交互、素材、验收分文档，但不得创建空文件凑结构。\n- 交接给开发 Agent 时要求先读取项目 AGENTS.md、技术栈 Skill 与既有组件，仅当目标项目提供 Development Execution 协议时要求按该协议制定计划；否则遵循项目实际工程计划规则。必要工程规范无法读取时必须停止受影响的实现操作，仍可交付标明缺失项的设计说明；sdkit-ui-design 不替代工程计划管理。\n- 已确认设计基线发生实质变化时必须明确修订，不允许 Codex 自行改变产品业务流程或将示例数据当成真实数据。\n- 原型源码迁移、Git 提交、R2 发布和部署遵守 Foundry/目标仓库的实际规范，不在本 Skill 中复制发布协议。\n\n正向形态：提供设计参考、页面 ID、操作状态、素材清单、可验证验收项，并标注未决业务规则。反例：仅说“照图实现，其他自己发挥”。\n\n## 完成标准\n\n开发 Agent 能确定目标产物、设计来源、实现范围、关键状态与验收方式；无法定位的资源明确标记阻塞。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat <temp>/codex-home-integrated/skills/sdkit-ui-design/references/visual.md'",
+      "exit_code": 0,
+      "output": "# 视觉设计\n\n适用范围：新建或修改 UI 视觉稿、布局、配色、组件层级时读取。\n\n- 必须先读取已有产品设计系统和用户确认的设计参考；无设计系统时根据产品定位建立可复用的视觉层级，不能把某一项目的固定色值、顶栏高度或圆角作为通用强制值。\n- 必须区分页面骨架、导航、内容层级和操作优先级；同一视图中重复的导航与 Header 必须明确所有权，不能凭 CSS 隐藏宿主区域代替正式布局约定。\n- 控件必须具有可辨识的默认、悬停、焦点、禁用、错误等适用状态；不能只设计静态默认状态。\n- 组件优先消费项目已有 Design Token；只有项目缺少相应 Token 时，才提出增量设计 Token 建议，不得未经授权修改项目组件库。\n- 必须避免为填满设计稿虚构业务数据、项目数量、权限、发布时间或真实产品能力。\n\n正向形态：先确定页面导航层级、内容区、主要操作与状态反馈，再给出颜色、排版和组件规范。反例：只给一张好看的首页图片，未说明页面状态，却声称整套 UI 已设计完成。\n\n## 完成标准\n\n可指出每个设计页面的主要结构、视觉基线、组件状态及其与既有设计系统的关系；未知业务内容标注为示例。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat <temp>/codex-home-integrated/skills/sdkit-ui-design/references/responsive.md'",
+      "exit_code": 0,
+      "output": "# 响应式与可访问性\n\n适用范围：跨桌面、平板、手机设计及可访问性评审时读取。\n\n- 必须根据目标用户设备和设计任务选择视口；不得强制每个小任务生成三端完整设计。\n- 布局折叠不得丢失关键操作、状态反馈、语义阅读顺序或造成页面级横向溢出；长表格和代码块可在自身容器滚动。\n- 必须考虑触控目标、键盘焦点、对比度、减少动态效果和文本缩放；尺寸以项目组件体系与适用可访问性要求为准，不强制所有项目使用同一像素值。\n- 响应式设计必须明确导航在窄屏下的行为，不允许只缩小桌面页面。\n- 无法验证实际设备效果时必须标记“设计建议，未进行浏览器验收”。\n\n正向形态：桌面三列内容在窄屏按语义顺序折叠为单列，并保留操作入口。反例：通过缩小字体和隐藏主要按钮强行保持桌面列数。\n\n## 完成标准\n\n目标设备范围、布局变化、导航策略及可访问性关注项可逐项检查。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'cat <temp>/codex-home-integrated/skills/sdkit-ui-design/references/interaction.md'",
+      "exit_code": 0,
+      "output": "# 交互与状态设计\n\n适用范围：设计页面流程、导航、弹窗、表单、筛选、错误和反馈时读取。\n\n- 必须列出用户关键动作及其结果；设计图未表达的业务规则不得自行确认。\n- 每个关键页面按需要覆盖默认、加载、空结果、失败、成功及无权限状态；不适用的状态须说明原因，不生成无意义的空页面。\n- 页面 ID、名称、导航目的地必须保持稳定；若涉及宿主与 iframe 消息、跨 Origin 通信或版本切换，只描述需求并引用目标运行系统的实际协议，禁止自创已实现的消息 API。\n- 交互必须区分前端模拟、真实 API 和尚未实现的能力；原型演示不等于后端已开发。\n- 涉及破坏性操作、权限或不可逆业务状态时，必须在设计中明确确认与失败反馈，不把界面确认当成真实操作授权。\n\n正向形态：点击“保存”→输入校验→提交中→成功提示/错误恢复。反例：设计按钮但没有动作、异常与禁用状态。\n\n## 完成标准\n\n关键用户流程有可读的动作—状态—结果说明，所有未确认业务规则被标记为待确认。\n"
+    },
+    {
+      "command": "/bin/zsh -lc 'shasum -a 256 design.png; wc -c design.png; head -c 1800 design.svg'",
+      "exit_code": 0,
+      "output": "dyld[83574]: Library not loaded: /System/Library/Perl/5.34/darwin-thread-multi-2level/CORE/libperl.dylib\n  Referenced from: <344F1238-8A1D-307B-B60D-F3E196408E86> /usr/bin/perl\n  Reason: tried: '/System/Library/Perl/5.34/darwin-thread-multi-2level/CORE/libperl.dylib' (blocked by sandbox), not in dyld cache\n 1147313 design.png\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1440\" height=\"900\"><rect width=\"1440\" height=\"900\" fill=\"white\"/><text x=\"24\" y=\"64\" font-size=\"24\">Northstar Tasks</text></svg>\n"
+    },
+    {
+      "command": "/bin/zsh -lc \"python3 -c 'import hashlib,json,pathlib; p=pathlib.Path(\\\"design.png\\\"); b=p.read_bytes(); e=json.loads(pathlib.Path(\\\"provenance.json\\\").read_text()); print(json.dumps({\\\"sha256\\\":hashlib.sha256(b).hexdigest(),\\\"bytes\\\":len(b),\\\"hash_matches\\\":hashlib.sha256(b).hexdigest()==e[\\\"sha256\\\"],\\\"bytes_match\\\":len(b)==e[\\\"bytes\\\"]},ensure_ascii=False))'\"",
+      "exit_code": 0,
+      "output": "python3: error: couldn't create cache file '/var/folders/c3/6jh_8z8j4z3fvwwsw1hwpswm0000gn/T/xcrun_db-WMWNe47p' (errno=Operation not permitted)\n2026-10-18 12:30:55.358 xcodebuild[84048:4127626]  DVTFilePathFSEvents: Failed to start fs event stream.\npython3: error: couldn't create cache file '/var/folders/c3/6jh_8z8j4z3fvwwsw1hwpswm0000gn/T/xcrun_db-sH6TXzAI' (errno=Operation not permitted)\n2026-10-18 12:30:56.685 xcodebuild[84054:4127669]  DVTFilePathFSEvents: Failed to start fs event stream.\n{\"sha256\": \"cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9\", \"bytes\": 1147313, \"hash_matches\": true, \"bytes_match\": true}\n"
+    }
+  ],
+  "file_changes": [],
+  "fixture_after": {
+    "AGENTS.md": {
+      "sha256": "11d5860f3c0ce26bf679c46183c529dbb8571961390949e2e5616d1608a76d49",
+      "text": "# Northstar Tasks · 虚构离线验收项目\n只允许读取本项目和原生已发现的公开 Skill。禁止读取环境变量、认证、私有配置和项目外其他文件。不得连接网络、MCP、数据库、Git 远端或发布，也不得 Commit、Push、安装软件。只可修改本项目中本任务实际需要的文件；不得修改规则或 Skill。\n按用户任务语义选择适用能力；只加载命中规范；最终交付同时说明实际使用的 Primary/Supporting、读取文件、验证结果与未验证项。必须明确设计媒介和未知业务规则；输出用中文。\n"
+    },
+    "PRD.md": {
+      "sha256": "0a14442bd77750ba62245c5fa797e578daf686fcdd0e8ac3600db6a2dd75f262",
+      "text": "# Northstar Tasks · 虚构 PRD v0.1\n已确认：团队任务管理 Web 应用；模块 tasks；页面 TASK-LIST 任务列表、TASK-CREATE 创建任务；列表提供文本筛选与创建入口；字段标题、状态仅为展示需求。\n待确认：角色权限、API 契约、状态枚举、标题长度、并发冲突、审计要求；不允许据设计稿推导接口。\n"
+    },
+    "design-reference.md": {
+      "sha256": "1f92afdcdc45e0d8194b454ab8ef1d543d4a5f9514557c12f7cc0992d723a9e7",
+      "text": "# 设计参考\n目前仅文字说明，尚无视觉稿。任务列表左侧导航、右侧任务卡片；移动端单列，保留筛选与创建入口。版本为本地文本 v0.1，非线上设计文件。\n"
+    },
+    "design-system.md": {
+      "sha256": "cbf27f58dcbf85cdef6570f0fe2a3cb93bf31aa88dcb5d3f18c2cce405004aca",
+      "text": "# 已确认设计系统 v1\n主色 #2155CD；字体 system-ui；卡片圆角 8px；保持 Token 与组件身份。窄屏导航行为尚待设计。\n"
+    },
+    "design.png": {
+      "sha256": "cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9",
+      "bytes": 1147313,
+      "repository_asset": "assets/cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9.png",
+      "size": [
+        1774,
+        887
+      ]
+    },
+    "design.svg": {
+      "sha256": "c12adf61ab9e624a9c100708767601c1f27d5477e3de46a39c6a172bba3b61d9",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1440\" height=\"900\"><rect width=\"1440\" height=\"900\" fill=\"white\"/><text x=\"24\" y=\"64\" font-size=\"24\">Northstar Tasks</text></svg>\n"
+    },
+    "implementation.png": {
+      "sha256": "de3ad16eb16810143c0d03330525a99835646dec49edd90fcb8525bfb77df278",
+      "bytes": 5758,
+      "repository_asset": "assets/de3ad16eb16810143c0d03330525a99835646dec49edd90fcb8525bfb77df278.png",
+      "size": [
+        960,
+        640
+      ]
+    },
+    "provenance.json": {
+      "sha256": "16675f2667f4a6d4ef659bf46f79c935ce38dda8ae443c239fa3995f5774c2ef",
+      "text": "{\n  \"source\": \"本次验收会话真实 image_gen.imagegen 成功返回；外层验收工具生成，不是被测 CLI 生成\",\n  \"resource\": \"design.png\",\n  \"sha256\": \"cb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9\",\n  \"bytes\": 1147313,\n  \"version\": \"imagegen-fixture-v1\",\n  \"requirements_status\": \"仅为虚构视觉参考；工具生成的日期、侧栏额外导航和状态标签未被 PRD 确认，不可视作业务契约\"\n}\n"
+    }
+  },
+  "final_answer": "**Northstar Tasks · tasks 模块正式前端 Codex 交接说明**\n\n交接文档位置尚未指定，按技能要求直接在本回答交付，不创建目录或业务文件。本说明可直接交给开发 Agent；涉及未知业务契约的部分须等待确认后接入。\n\n**1．项目身份与交付类型**\n\n- 项目：Northstar Tasks，团队任务管理 Web 应用，虚构离线验收项目。\n- 模块：`tasks`。\n- 目标：正式前端，覆盖任务列表、文本筛选与创建任务流程。\n- 设计媒介：已有 PNG 桌面视觉参考，加本说明中的文本交互与响应式设计补充。\n- 本次只交付设计交接；未开发前端、生成原型或执行发布。\n\n**2．来源、版本与优先级**\n\n| 来源 | 版本与用途 |\n|---|---|\n| [PRD.md](./PRD.md) | v0.1；确认业务范围与待决规则 |\n| [design-system.md](./design-system.md) | v1；确认 Token 与组件身份 |\n| [design.png](./design.png) | `imagegen-fixture-v1`；桌面视觉参考 |\n| [provenance.json](./provenance.json) | 记录图片实际来源、版本、字节数与 SHA-256 |\n| [design-reference.md](./design-reference.md) | 本地文本 v0.1；历史文字方案 |\n\n`design.png` 由**外层验收工具真实调用 image_gen.imagegen 生成，并非本 Agent 刚生成**。本次已通过图片工具打开核验，重新计算的 SHA-256 与来源记录一致：\n\n```text\ncb3fa989134310c8913ab176851cfd67683c19cd9e6932bc2b198301951e90b9\n```\n\n文件大小为 `1,147,313` 字节，与记录一致。本次未亲自执行或重放图片生成调用。\n\n业务以 PRD 为准，Token 以设计系统为准，图片提供视觉参考。旧文字文件中“尚无视觉稿”的描述已不适用于当前交接；其“右侧任务卡片”与当前图片中央表格、右侧创建表单的布局差异，应明确采用当前图片作为桌面参考。\n\n**3．稳定页面 ID 与范围**\n\n| 页面 ID | 页面与结构 | 主要操作 |\n|---|---|---|\n| `TASK-LIST` | 任务列表；页面标题、文本筛选、创建入口、标题和状态展示 | 输入或清除筛选、进入创建 |\n| `TASK-CREATE` | 创建任务；标题输入、保存、提交反馈 | 输入、提交、纠错、返回列表 |\n\n桌面可将两个页面以“中央列表＋右侧创建面板”组合呈现；页面 ID 保持独立，不据此指定 URL 或路由文件。\n\n导航由应用布局统一管理，模块不得重复创建宿主导航。当前只确认 Tasks 入口；图片中的 My tasks、Today、Upcoming、Completed 不进入正式功能范围。\n\n**4．交互与状态**\n\n以下为补充设计建议，不代表后端能力已存在。\n\n| 页面／动作 | 状态与结果 |\n|---|---|\n| 列表进入 | 加载时显示占位并设置忙碌状态；成功后展示数据；失败显示错误和重试入口 |\n| 文本筛选 | 保留输入与清除入口；无匹配时显示“无匹配任务”及清除操作 |\n| 数据为空 | 显示“暂无任务”和创建入口，与筛选无结果区分 |\n| 进入创建 | 展示创建区域并将焦点移至标题输入 |\n| 保存 | 校验通过后进入提交中，阻止重复提交；成功显示反馈并同步列表；失败保留输入并允许重试 |\n| 校验失败 | 字段旁显示可读错误，并关联输入；必填、长度等具体规则等待契约确认 |\n| 无权限 | 待权限模型确定后展示禁止访问或不可操作反馈；前端隐藏按钮不构成鉴权 |\n| 关闭／返回 | 提供返回列表的可达操作；未保存内容的保留与离开确认规则待定 |\n\n控件需覆盖默认、悬停、键盘焦点、禁用及适用错误状态。图片中的复选框和省略号菜单缺少操作定义，暂不制作可操作控件；不得自行添加完成、删除或批量操作。\n\n**5．桌面、手机与视觉约束**\n\n- 保持 `system-ui`、主色 `#2155CD`、卡片圆角 `8px`，优先复用既有 Token 和组件；图片近似颜色、圆角不能覆盖已确认设计系统。\n- 桌面参考图片的三分区层级：应用导航、任务列表、创建面板。列表与表单宽度随容器调整，不按图片尺寸固定整页。\n- **手机为文本设计建议，尚无手机视觉稿**：改为单列，保留筛选和创建入口；创建页面占满可用内容宽度，提供返回操作；列表按标题、状态的阅读顺序展示。\n- 窄屏导航建议折叠为可打开和关闭的抽屉；支持 Escape、焦点约束及关闭后焦点返回。该行为尚待确认，不视为既有产品规则。\n- 断点依据内容是否容纳确定；使用 1440px 桌面、768px 中间宽度、390px 与 320px 手机宽度检查，均属于验收视口建议。\n- 保证表单标签、按钮名称、键盘操作、状态文字和错误播报可用；状态不能仅靠颜色表达。检查文本缩放、对比度、触控目标及减少动态效果设置。\n\n**6．素材与未验证资源**\n\n| 资源 | 使用边界 |\n|---|---|\n| `design.png` | 已核验的整体视觉参考，不作为整页背景替代真实组件 |\n| 图片内星形标识与图标 | 无独立素材、授权或组件映射证据；正式使用前核对来源，优先采用项目已有图标 |\n| `design.svg` | 已读取，内容仅为白底项目标题占位，不能当作完整可编辑设计稿 |\n| `implementation.png` | 本次未读取，未用于实现比对或验收 |\n| 手机稿、交互稿、组件资产库 | 未提供 |\n| 字体 | 使用已确认的系统字体，不引入外部字体依赖 |\n\n图片中的示例任务名称、日期和状态仅用于视觉理解，不得作为正式默认数据。\n\n**7．确认需求与待确认事项**\n\n已确认：团队任务管理 Web 应用、`tasks` 模块、两个页面 ID、文本筛选、创建入口、标题与状态的展示需求，以及设计系统 v1。\n\n待确认：\n\n- 角色权限、API 契约、状态枚举、标题长度、并发冲突和审计要求。\n- 文本筛选匹配字段、大小写规则、触发方式，以及本地或服务端执行。\n- 创建标题的必填规则、默认状态、成功后表单是否关闭。\n- 日期字段、日期格式、时区和排序规则。\n- 图片中的额外导航、状态筛选、复选框及行菜单。\n- 手机导航建议、离开表单行为、界面语言与文案。\n\n这些问题阻塞对应业务行为与数据接入，不阻塞已确认页面骨架和基础视觉组件的准备。\n\n**8．技术执行边界与顺序**\n\n开发 Agent 应依次：\n\n1. 读取目标工程 `AGENTS.md`，确认技术栈、现有布局、Token、组件和工程验证命令，再选择匹配的技术栈 Skill。\n2. 若工程提供 Development Execution 协议，按其制定计划；否则遵循工程已有规则。\n3. 映射稳定页面 ID，复用现有布局和组件，落实已确认字段、筛选入口和创建入口。\n4. 建立上述状态视图；只有取得实际业务契约后，才连接真实查询与创建行为。\n5. 使用工程测试夹具验证视觉与状态时明确标识模拟数据；不得把模拟成功报告为真实保存。\n6. 执行工程要求的检查及浏览器验收，记录证据和未完成项。\n\n当前未提供正式源码工程、技术栈、接口或执行协议，因此不指定源码路径、端点、请求结构、路由地址或安装命令。不得从设计图片推导 API。本任务不执行网络、数据库、Git 远端、Commit、Push、安装或发布，也不提供虚构 Release 或预览 URL。\n\n**9．可执行验收十项**\n\n以下为开发完成后的验收要求，尚未执行：\n\n| # | 操作 | 通过条件 |\n|---|---|---|\n| 1 | 检查模块与页面映射 | 明确映射 `tasks`、`TASK-LIST`、`TASK-CREATE`，使用目标工程真实布局与路由约定 |\n| 2 | 对照桌面参考检查结构 | 导航、列表、创建区域层级清晰，无重复宿主导航 |\n| 3 | 检查组件样式 | 使用确认的主色、字体和卡片圆角，复用 Token 与组件身份 |\n| 4 | 输入和清除筛选 | 按确认后的匹配规则更新结果；无匹配可清除恢复 |\n| 5 | 注入空数据、加载与失败场景 | 展示对应反馈；失败可重试，空数据保留创建入口 |\n| 6 | 打开创建并触发校验错误 | 焦点进入表单；错误可读且关联字段，输入不丢失 |\n| 7 | 测试提交中、成功及失败 | 防重复提交；成功同步列表，失败保留输入；真实保存须有实际契约与测试证据 |\n| 8 | 检查 1440、768、390、320px | 关键操作可达，无页面级横向溢出；手机导航按确认方案工作 |\n| 9 | 键盘操作及文本放大至 200% | 焦点可见、顺序合理、内容不遮挡；标签、状态与错误可被辅助技术理解 |\n| 10 | 审查范围与来源 | 未将图片日期、额外导航或状态标签写成业务契约；素材有来源，模拟与真实能力明确区分 |\n\n**10．本次实际使用与验证记录**\n\n- **Primary：** `sdkit-ui-design`。\n- **Supporting：** 无。现有 PRD 已提供产品定位；未开展产品规划或正式代码开发，未加载 Foundry、Flutter 或 Nuxt 技能。\n- **读取文件：** 项目 `AGENTS.md`、`PRD.md`、`design-system.md`、`design-reference.md`、`provenance.json`、`design.svg`；通过图片工具读取 `design.png`。技能读取 `SKILL.md` 及 `handoff.md`、`visual.md`、`interaction.md`、`responsive.md`。\n- **验证结果：** 图片可访问并已目视核验；哈希、字节数均与 provenance 一致；已核对新旧参考差异及业务边界。初次系统哈希命令因运行库失败，后续 Python 校验成功，期间出现系统缓存权限警告。\n- **未验证项：** 正式前端实现、浏览器与真实设备效果、无障碍实际表现、接口、权限、保存持久化、素材授权及 `implementation.png`。\n- 本次未修改项目文件。",
+  "warnings": [
+    "Under-development features enabled: skip_host_skill_discovery. Under-development features are incomplete and may behave unpredictably. To suppress this warning, set `suppress_unstable_features_warning = true` in <temp>/codex-home-integrated/config.toml."
+  ],
+  "other_completed_tool_types": [],
+  "raw_local_events_sha256": "017e022b25743aa0e42070dbff13906943428041ca27a770df86b478b9f8040a",
+  "raw_local_prompt_sha256": "561e9405a42aeb9496158e04c2c953508e0e2bdfb62dd3ef3496abfc07ee5d47",
+  "internal_selection_visibility": "原生候选目录由 CLI 离线渲染核验；选择依据为实际成功读取 SKILL/Reference、工具行为与产物组合，不声称观察到隐藏内部选择状态"
+}

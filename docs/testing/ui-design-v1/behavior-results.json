@@ -1,0 +1,317 @@
+{
+  "cli_runs": 18,
+  "cli_completed": 18,
+  "cli_failures": 0,
+  "image_generation_calls": 1,
+  "total_outer_model_invocations": 19,
+  "final_scenarios": {
+    "U01": "U01",
+    "U02": "U02",
+    "U03": "U03",
+    "U04": "U04",
+    "U05": "U05-B",
+    "U06": "U06",
+    "U07": "U07",
+    "U08": "U08",
+    "U09": "U09-R1",
+    "U10": "U10-R1",
+    "U11": "U11",
+    "U12": "U12"
+  },
+  "runs": [
+    {
+      "run_id": "U01",
+      "final_scenario": "U01",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md",
+        "sdkit-ui-design/references/visual.md"
+      ],
+      "reason": "真实产生两份桌面/手机 SVG 与设计说明，XML 验证；不宣称浏览器或真实业务通过。"
+    },
+    {
+      "run_id": "U01-R1",
+      "final_scenario": null,
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md",
+        "sdkit-ui-design/references/visual.md"
+      ],
+      "reason": "真实产生两份桌面/手机 SVG 与设计说明，XML 验证；不宣称浏览器或真实业务通过。"
+    },
+    {
+      "run_id": "U02",
+      "final_scenario": "U02",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/handoff.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md",
+        "sdkit-ui-design/references/visual.md"
+      ],
+      "reason": "直接使用已提供 PRD，无需加载 Foundry；未将 Foundry 作为第二 Primary。"
+    },
+    {
+      "run_id": "U03",
+      "final_scenario": "U03",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md",
+        "sdkit-ui-design/references/visual.md"
+      ],
+      "reason": "保留主色/字体/圆角，移动端单列与导航建议；初次 rg 无匹配退出 1，完成后重查退出 0。"
+    },
+    {
+      "run_id": "U04",
+      "final_scenario": "U04",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/interaction.md"
+      ],
+      "reason": "五类表单状态和失败恢复；可编辑字段、必填及长度等保持待确认。"
+    },
+    {
+      "run_id": "U05",
+      "final_scenario": null,
+      "result": "BLOCKED",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/handoff.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md"
+      ],
+      "reason": "首轮夹具歧义或缺少应有刺激；保留真实响应，仅用于观察路由，完整场景由独立修正版重测"
+    },
+    {
+      "run_id": "U05-A",
+      "final_scenario": null,
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/handoff.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md"
+      ],
+      "reason": "首轮目录有混入图片，弃作媒介断言依据；纯文字 U05-B 完整十维交接通过。"
+    },
+    {
+      "run_id": "U05-B",
+      "final_scenario": "U05",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/handoff.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md"
+      ],
+      "reason": "首轮目录有混入图片，弃作媒介断言依据；纯文字 U05-B 完整十维交接通过。"
+    },
+    {
+      "run_id": "U05-C",
+      "final_scenario": null,
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/handoff.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md",
+        "sdkit-ui-design/references/visual.md"
+      ],
+      "reason": "首轮目录有混入图片，弃作媒介断言依据；纯文字 U05-B 完整十维交接通过。"
+    },
+    {
+      "run_id": "U06",
+      "final_scenario": "U06",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/review.md"
+      ],
+      "reason": "真实附带两个合成 PNG，报告蓝变橙红和左界右移约 48px；无交互/权限通过声明。"
+    },
+    {
+      "run_id": "U07",
+      "final_scenario": "U07",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdbase-nuxtjs-portal",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdbase-nuxtjs-portal/SKILL.md",
+        "sdbase-nuxtjs-portal/references/code/base.md",
+        "sdbase-nuxtjs-portal/references/code/page.md",
+        "sdbase-nuxtjs-portal/references/components/business-options.md",
+        "sdbase-nuxtjs-portal/references/components/placement.md",
+        "sdbase-nuxtjs-portal/references/modules/placement.md",
+        "sdbase-nuxtjs-portal/references/repository.md",
+        "sdbase-nuxtjs-portal/references/ui/style.md",
+        "sdbase-nuxtjs-portal/references/workflow.md"
+      ],
+      "reason": "技术栈入口及实际 Reference 加载，修改既有页面；未接真实 API。Node 执行受权限限制，未冒称构建通过。"
+    },
+    {
+      "run_id": "U08",
+      "final_scenario": "U08",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdbase-flutter-app",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdbase-flutter-app/SKILL.md",
+        "sdbase-flutter-app/references/repository.md",
+        "sdbase-flutter-app/references/workflow.md"
+      ],
+      "reason": "技术栈入口，实际将 String title = 42 改为 String title = '42'；未运行 Flutter。夹具本地 Git 检查退出 128，诚实报告。"
+    },
+    {
+      "run_id": "U09",
+      "final_scenario": null,
+      "result": "BLOCKED",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "foundry",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "foundry/SKILL.md",
+        "foundry/references/collaboration.md",
+        "foundry/references/documents.md",
+        "foundry/references/repository.md",
+        "foundry/references/resolver.md",
+        "foundry/references/workspace.md"
+      ],
+      "reason": "首轮夹具歧义或缺少应有刺激；保留真实响应，仅用于观察路由，完整场景由独立修正版重测"
+    },
+    {
+      "run_id": "U09-R1",
+      "final_scenario": "U09",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "foundry",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "foundry/SKILL.md",
+        "foundry/references/collaboration.md",
+        "foundry/references/documents.md",
+        "foundry/references/repository.md"
+      ],
+      "reason": "含实际未确认协作草案的重测；Foundry 只输出增量建议，候选未变成已确认需求。"
+    },
+    {
+      "run_id": "U10",
+      "final_scenario": null,
+      "result": "BLOCKED",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "foundry",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "foundry/SKILL.md",
+        "foundry/references/publishing.md",
+        "foundry/references/repository.md",
+        "foundry/references/resolver.md",
+        "foundry/references/workspace.md"
+      ],
+      "reason": "首轮夹具歧义或缺少应有刺激；保留真实响应，仅用于观察路由，完整场景由独立修正版重测"
+    },
+    {
+      "run_id": "U10-R1",
+      "final_scenario": "U10",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "foundry",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "foundry/SKILL.md",
+        "foundry/references/publishing.md",
+        "foundry/references/repository.md",
+        "foundry/references/resolver.md",
+        "foundry/references/workspace.md"
+      ],
+      "reason": "含实际离线 HTML 原型的重测；Foundry 读取发布规范并因目标协议/授权缺失停止，无真实发布。"
+    },
+    {
+      "run_id": "U11",
+      "final_scenario": "U11",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdkit-ui-design",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdkit-ui-design/SKILL.md",
+        "sdkit-ui-design/references/interaction.md",
+        "sdkit-ui-design/references/responsive.md",
+        "sdkit-ui-design/references/visual.md"
+      ],
+      "reason": "实际图像生成工具禁用；只交付 Markdown，未冒称生成图片。"
+    },
+    {
+      "run_id": "U12",
+      "final_scenario": "U12",
+      "result": "PASS",
+      "model_success": true,
+      "cli_exit_code": 0,
+      "actual_primary": "sdbase-nuxtjs-portal",
+      "actual_supporting": [],
+      "skill_loads_observed": [
+        "sdbase-nuxtjs-portal/SKILL.md",
+        "sdbase-nuxtjs-portal/references/api/request.md",
+        "sdbase-nuxtjs-portal/references/repository.md",
+        "sdbase-nuxtjs-portal/references/workflow.md"
+      ],
+      "reason": "Nuxt 技术栈核查 API 契约，列出缺失项后停止；无代码或接口虚构。"
+    }
+  ]
+}
