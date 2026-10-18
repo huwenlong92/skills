@@ -106,3 +106,25 @@ def apply_gate(plan, doc, *, user_authorized=False, approved_digest=None, git_fr
         if "*" not in p:
             unique_owner(doc, p)
     return True
+
+def exact_toolchain(required, actual):
+    """Compare already-discovered exact runtime versions without invoking managers."""
+    require(isinstance(required, str) and bool(required) and isinstance(actual, str) and bool(actual), "TE-2001", "version evidence missing")
+    require(required == actual, "TE-2001", "runtime mismatch")
+    return True
+
+def lock_consistent(declared_digest, resolved_digest):
+    """Compare previously computed declaration/lock dependency fingerprints."""
+    require(isinstance(declared_digest, str) and bool(declared_digest) and isinstance(resolved_digest, str) and bool(resolved_digest), "TE-2002", "lock evidence missing")
+    require(declared_digest == resolved_digest, "TE-2002", "lock drift")
+    return True
+
+def classify_change(base, target, project):
+    """Conservative content-level three-way classification for a single file."""
+    if target == base:
+        return "unchanged"
+    if project != base and target != project:
+        return "review"
+    if target is None and project != base:
+        return "blocked"
+    return "safe_candidate"
