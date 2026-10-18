@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "identity",
+    "history",
+    "snapshotFingerprint",
+    "normalizerVersion",
+    "evidence"
+  ],
+  "properties": {
+    "identity": {
+      "type": "object"
+    },
+    "history": {
+      "type": "object"
+    },
+    "snapshotFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "normalizerVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "sourceCommit",
+        "collector",
+        "capturedAt"
+      ],
+      "properties": {
+        "sourceCommit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collector": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capturedAt": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

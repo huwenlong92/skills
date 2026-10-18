@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "apiVersion",
+    "sourceCommit",
+    "target",
+    "preconditions",
+    "state",
+    "decision",
+    "steps",
+    "executionAuthorized",
+    "planHash"
+  ],
+  "properties": {
+    "apiVersion": {
+      "const": "sdkit.dev/migration-plan/v1"
+    },
+    "sourceCommit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "object"
+    },
+    "preconditions": {
+      "type": "object"
+    },
+    "state": {
+      "enum": [
+        "equal",
+        "local_ahead",
+        "remote_ahead",
+        "diverged",
+        "schema_drift",
+        "history_mismatch",
+        "checksum_mismatch",
+        "unknown"
+      ]
+    },
+    "decision": {
+      "enum": [
+        "candidate",
+        "requires_approval",
+        "blocked"
+      ]
+    },
+    "steps": {
+      "type": "array"
+    },
+    "executionAuthorized": {
+      "const": false
+    },
+    "planHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}
