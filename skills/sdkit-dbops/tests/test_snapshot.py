@@ -36,3 +36,31 @@ class SnapshotTests(unittest.TestCase):
         obj["dsn"] = "unexpected"
         self.assertEqual(mod.compare(obj, snap())["status"], "unknown")
 
+
+    def test_boolean_number_distinction(self):
+        a = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": True}}])
+        b = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": 1}}])
+        self.assertEqual(mod.compare(a, b)["status"], "drift")
+
+    def test_integer_float_distinction(self):
+        a = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": 1}}])
+        b = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": 1.0}}])
+        self.assertEqual(mod.compare(a, b)["status"], "drift")
+
+    def test_signed_zero_distinction(self):
+        a = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": -0.0}}])
+        b = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": 0.0}}])
+        self.assertEqual(mod.compare(a, b)["status"], "drift")
+
+    def test_unknown_coverage_field(self):
+        a = snap()
+        a["coverage"]["extra"] = "discarded"
+        self.assertEqual(mod.compare(a, snap())["status"], "unknown")
+
+    def test_nan_rejected(self):
+        a = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": float("nan")}}])
+        self.assertEqual(mod.compare(a, snap())["status"], "unknown")
+
+    def test_infinity_rejected(self):
+        a = snap([{"kind": "table", "schema": "public", "name": "a", "attributes": {"x": float("inf")}}])
+        self.assertEqual(mod.compare(a, snap())["status"], "unknown")
