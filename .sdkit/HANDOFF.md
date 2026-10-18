@@ -1,7 +1,10 @@
 # 验收交接
 
-最后核验：2026-10-18。任务为 PR #13 最终本地验收，原始 Head、阶段与权限见 [计划](plans/pr13-final-acceptance.md)。
+最后核验：2026-10-18。任务为 PR #13 Codex 真实行为验收。
 
-恢复必须先检查 Git/远端 Head；不得覆盖其他 Worktree 或未知修改。行为测试阻塞与重测步骤见 [验收步骤](../standards/engineering-protocol-acceptance.md)。修复、测试、提交和 Push 状态必须从实际 Git 与命令输出重新核验，不得以本文件代替事实源。
+- [真实验收计划](plans/pr13-codex-behavior.md)与[完整报告](../docs/testing/engineering-v1/2026-10-18-report.md)：T01–T10 最终全部通过，14 次模型调用成功；原始 BLOCKED、重测、命令与文件证据保留。
+- 协议测试 17、Manager 测试 37、Skill 校验 12 均通过，未发现本轮所测计划/规范/范围漂移；报告说明覆盖边界。
+- 本轮只维护 PR #13；#12 保留给其他会话。禁止合并、部署、Ready 切换或自动进入 GitOps/DBOps。
+- 恢复必须核对 Git、PR 最新 Head 与 Draft，不得把计划中阶段记录当作交付事实源；最终提交和 Push 以实际 Git 为准。原始日志不提交，不得把凭据、个人路径或会话标识加入仓库。
 
-离线静态与集成验收已通过，命令及退出码见 [状态证据](STATUS.md)。真实行为仍未验证，下一步仅为已授权的行为重测或人工验收；本次不实施 GitOps/DBOps。当前交付将保持 Draft；不得把普通 Push 解释为行为验收通过或发布。
+[前轮计划](plans/pr13-final-acceptance.md)保留历史基线与 revision；前轮行为未验证的结论已由本轮实际调用更新。

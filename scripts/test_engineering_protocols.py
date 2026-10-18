@@ -52,7 +52,8 @@ class ProtocolTests(unittest.TestCase):
 
     def test_local_relative_links(self):
         docs = [ROOT / "AGENTS.md", *sorted((ROOT / "standards").glob("*.md")),
-                *sorted((ROOT / ".sdkit").rglob("*.md"))]
+                *sorted((ROOT / ".sdkit").rglob("*.md")),
+                *sorted((ROOT / "docs/testing/engineering-v1").rglob("*.md"))]
         for doc in docs:
             # Code examples are not Markdown links. Check inline and reference links.
             prose = re.sub(r"^(`{3,}|~{3,}).*?^\1[^\n]*$", "",
