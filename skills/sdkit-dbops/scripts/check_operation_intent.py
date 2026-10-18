@@ -5,7 +5,7 @@ import json
 import re
 from pathlib import Path
 
-SHA = re.compile(r"^[a-f0-9]{64}\\Z")
+SHA = re.compile(r"^[a-f0-9]{64}\Z")
 RISKS = {"read_only", "additive", "structural", "destructive", "unknown"}
 ENVIRONMENTS = {"local", "shared_dev", "staging", "production"}
 DANGEROUS = {"drop", "truncate", "delete", "overwrite", "reset", "rebuild"}
