@@ -95,3 +95,33 @@ class SafetyIntegrationTests(unittest.TestCase):
         target["evidence"]["capturedAt"] = "2026-10-18T01:00:00Z"
         second = plan.plan(sample("local"), target, safety())
         self.assertNotEqual(first["planHash"], second["planHash"])
+
+    def test_source_normalizer_invalidates_plan(self):
+        source = sample("local")
+        first = plan.plan(source, sample("remote"), safety())
+        source["normalizerVersion"] = "2"
+        second = plan.plan(source, sample("remote"), safety())
+        self.assertNotEqual(first["planHash"], second["planHash"])
+
+    def test_nested_authorization_rehashed_rejected(self):
+        p = plan.plan(sample("local"), sample("remote"), safety())
+        p["safetyGate"]["executionAuthorized"] = True
+        p["planHash"] = plan.digest({k: v for k, v in p.items() if k != "planHash"})
+        with self.assertRaises(ValueError):
+            validate_plan.validate(p)
+
+    def test_invalid_migration_id_rejected(self):
+        source = sample("local")
+        source["history"]["migrations"] = [{"migrationId": "001", "checksum": "a" * 64, "status": "applied"}]
+        with self.assertRaises(ValueError):
+            plan.plan(source, sample("remote"), safety())
+
+    def test_scope_order_stable(self):
+        source = sample("local")
+        target = sample("remote")
+        source["identity"]["scope"] = ["public", "analytics"]
+        target["identity"]["scope"] = ["public", "analytics"]
+        a = plan.plan(source, target, safety())
+        source["identity"]["scope"] = ["analytics", "public"]
+        target["identity"]["scope"] = ["analytics", "public"]
+        self.assertEqual(a["planHash"], plan.plan(source, target, safety())["planHash"])
