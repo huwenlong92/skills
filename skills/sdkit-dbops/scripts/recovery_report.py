@@ -15,6 +15,8 @@ def report(evidence):
         raise ValueError("invalid target identity")
     if evidence["failureState"] not in STATES:
         raise ValueError("invalid failure state")
+    if evidence["lastKnownStep"] is not None and not isinstance(evidence["lastKnownStep"], str):
+        raise ValueError("invalid last known step")
     if not isinstance(evidence["observations"], list):
         raise ValueError("invalid observations")
     return {"status": "investigation_required",
