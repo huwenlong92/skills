@@ -32,3 +32,17 @@ class IntentTests(unittest.TestCase):
     def test_unknown_fields(self):
         x=sample();x["unexpected"]="yes"
         with self.assertRaises(ValueError):mod.validate(x)
+
+    def test_out_of_scope_rejected(self):
+        x=sample();x["operations"][0]["objects"]=["private.users"]
+        with self.assertRaises(ValueError):mod.validate(x)
+    def test_nonstring_risk_rejected(self):
+        x=sample();x["operations"][0]["risk"]=[]
+        with self.assertRaises(ValueError):mod.validate(x)
+    def test_nonstring_environment_rejected(self):
+        x=sample();x["environment"]=[]
+        with self.assertRaises(ValueError):mod.validate(x)
+    def test_no_execution_even_with_declared_grant(self):
+        x=sample();x["environment"]="shared_dev"
+        x["approval"]={"signature":"claimed"}
+        self.assertFalse(mod.validate(x)["executionAuthorized"])
