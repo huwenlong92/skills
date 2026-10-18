@@ -47,11 +47,14 @@ def inspect(root, dialect, layout):
                         "reviewRequired": True, "riskTokens": flags})
     if layout == "multi":
         for other in sorted(DIALECTS - {dialect}):
-            sibling = base / other / "migrations"
-            if sibling.is_symlink():
+            other_root = base / other
+            sibling = other_root / "migrations"
+            if other_root.is_symlink() or sibling.is_symlink():
                 raise ValueError("symlink in sibling migration path")
             if sibling.is_dir():
                 for candidate in sibling.iterdir():
+                    if candidate.is_symlink():
+                        raise ValueError("symlink in sibling migration file: " + candidate.name)
                     if candidate.is_file() and candidate.suffix == ".sql" and candidate.stem in names:
                         raise ValueError("cross-dialect migration id collision: " + candidate.stem)
     return {"status": "review_required" if entries else "empty", "dialect": dialect,
