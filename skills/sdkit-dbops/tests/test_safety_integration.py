@@ -125,3 +125,17 @@ class SafetyIntegrationTests(unittest.TestCase):
         source["identity"]["scope"] = ["analytics", "public"]
         target["identity"]["scope"] = ["analytics", "public"]
         self.assertEqual(a["planHash"], plan.plan(source, target, safety())["planHash"])
+
+    def test_invalid_step_id_rehashed_rejected(self):
+        p = plan.plan(sample("local"), sample("remote"), safety())
+        p["steps"] = [{"migrationId": "001", "checksum": "a" * 64, "risk": "requires_review"}]
+        p["planHash"] = plan.digest({k: v for k, v in p.items() if k != "planHash"})
+        with self.assertRaises(ValueError):
+            validate_plan.validate(p)
+
+    def test_extra_safety_field_rehashed_rejected(self):
+        p = plan.plan(sample("local"), sample("remote"), safety())
+        p["safetyGate"]["unknown"] = "forged"
+        p["planHash"] = plan.digest({k: v for k, v in p.items() if k != "planHash"})
+        with self.assertRaises(ValueError):
+            validate_plan.validate(p)
