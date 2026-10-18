@@ -22,3 +22,17 @@ class SnapshotTests(unittest.TestCase):
     def test_duplicate(self):
         x={"kind":"table","schema":"public","name":"a"}
         self.assertEqual(mod.compare(snap([x,x]),snap())["status"],"unknown")
+
+    def test_unknown_object_field(self):
+        obj = {"kind": "table", "schema": "public", "name": "a", "unexpected": True}
+        self.assertEqual(mod.compare(snap([obj]), snap())["status"], "unknown")
+
+    def test_invalid_attributes(self):
+        obj = {"kind": "table", "schema": "public", "name": "a", "attributes": []}
+        self.assertEqual(mod.compare(snap([obj]), snap())["status"], "unknown")
+
+    def test_unknown_snapshot_field(self):
+        obj = snap()
+        obj["dsn"] = "unexpected"
+        self.assertEqual(mod.compare(obj, snap())["status"], "unknown")
+
