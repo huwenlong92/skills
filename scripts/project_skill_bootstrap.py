@@ -5,9 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
-import shutil
-import sys
-import tempfile
+from project_skill_io import apply, read, markers
 
 START = "<!-- sdkit-skill-bootstrap:start -->"
 END = "<!-- sdkit-skill-bootstrap:end -->"
@@ -18,26 +16,24 @@ def sha(data):
 
 def plan(raw, skill, template, revision, old):
     text = raw.decode("utf-8")
-    if text.count(START) != text.count(END) or text.count(START) > 1:
-        raise ValueError("malformed bootstrap markers")
+    parts = markers(text, START, END)
     if old and MAPPINGS.get(old) != skill:
         raise ValueError("invalid old/new mapping")
     # Existing unmanaged legacy references require human review: do not rewrite custom prose.
-    if old and re.search(r"(?<![\w-])" + re.escape(old) + r"(?![\w-])", text.replace(START, "").replace(END, "")):
+    if old and re.search(r"(?<![\w-])" + re.escape(old) + r"(?![\w-])", "".join(parts) if parts else text):
         raise ValueError("legacy reference outside managed block; review required")
-    block = ("\n" + START + "\n## SDKit Skill 接入\n\n"
+    block = (START + "\n## SDKit Skill 接入\n\n"
              + f"- 已核验模板：`{template}`，版本：`{revision}`。\n"
              + f"- Primary Skill：`{skill}`；必须核验实际项目身份与已安装 Skill。\n"
              + "- 共享协议权威来源：`huwenlong92/skills` 的 `standards/skill-orchestration.md`、`standards/development-execution.md`、`standards/project-skill-bootstrap.md`；"
-             + "仅通过可用的已安装 Skill 或 Git Provider 读取，不把跨仓库路径当作本地相对链接。\n"
+             + "仅从已核验的完整 skills 源码仓库或 Git Provider 读取，不把跨仓库路径当作本地相对链接。\n"
              + "- 必要规范无法读取时停止受影响操作；本入口不授权提交、数据库写入或部署。\n"
              + END + "\n")
-    if START in text:
-        a, b = text.split(START, 1)
-        _, c = b.split(END, 1)
-        result = a.rstrip("\n") + block + c.lstrip("\n")
+    if parts:
+        result = parts[0] + block.rstrip("\n") + parts[1]
     else:
-        result = text.rstrip("\n") + "\n" + block
+        separator = "" if not text or text.endswith("\n\n") else "\n" if text.endswith("\n") else "\n\n"
+        result = text + separator + block
     return result.encode("utf-8")
 
 def main():
@@ -51,51 +47,19 @@ def main():
     p.add_argument("--apply", action="store_true")
     p.add_argument("--authorized", action="store_true")
     args = p.parse_args()
-    root = Path(args.project).resolve()
-    target = root / "AGENTS.md"
-    if not root.is_dir() or target.is_symlink():
-        p.error("invalid project or symlink AGENTS.md")
     if not re.fullmatch(r"[A-Za-z0-9_.-]+", args.template) or not re.fullmatch(r"[A-Za-z0-9_.-]{7,80}", args.revision):
         p.error("template identity/revision must be verified identifiers")
-    raw = target.read_bytes() if target.exists() else b""
     try:
+        root, original = read(args.project)
+        raw = original[1]
         new = plan(raw, args.skill, args.template, args.revision, args.old_skill)
-    except (UnicodeError, ValueError) as exc:
+        if args.apply:
+            result = apply(root, original, new, args.authorized, args.expected_sha256)
+        else:
+            result = {"status": "dry-run", "changed": raw != new, "before_sha256": sha(raw), "after_sha256": sha(new), "draft": new.decode("utf-8")}
+    except (OSError, UnicodeError, ValueError) as exc:
         p.error(str(exc))
-    changed = raw != new
-    if args.apply and changed:
-        if not args.authorized or not args.expected_sha256:
-            p.error("--apply requires --authorized and --expected-sha256")
-        if args.expected_sha256 != sha(raw):
-            p.error("stale source hash; refusing write")
-        if target.exists() and target.read_bytes() != raw:
-            p.error("concurrent change detected")
-        backup = None
-        if target.exists():
-            import os
-            fd, name = tempfile.mkstemp(prefix="sdkit-agents-backup-", suffix=".md")
-            os.close(fd)
-            backup = Path(name)
-            backup.write_bytes(raw)
-        import os
-        fd, name = tempfile.mkstemp(prefix=".AGENTS.", dir=root)
-        os.close(fd)
-        temp = Path(name)
-        try:
-            temp.write_bytes(new)
-            if target.exists():
-                temp.chmod(target.stat().st_mode & 0o777)
-            if target.exists() and target.read_bytes() != raw:
-                raise RuntimeError("concurrent change detected")
-            temp.replace(target)
-            if target.read_bytes() != new:
-                raise RuntimeError("post-write verification failed")
-        finally:
-            if temp.exists():
-                temp.unlink()
-        print(json.dumps({"status": "updated", "backup": str(backup) if backup else None, "sha256": sha(new)}, ensure_ascii=False))
-    else:
-        print(json.dumps({"status": "dry-run" if not args.apply else "unchanged", "changed": changed, "before_sha256": sha(raw), "after_sha256": sha(new)}, ensure_ascii=False))
+    print(json.dumps(result, ensure_ascii=False))
 
 if __name__ == "__main__":
     main()
