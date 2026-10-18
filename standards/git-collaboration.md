@@ -25,6 +25,22 @@
 - Fetch 只更新远端跟踪信息，不代表本地工作分支已同步；未 fetch 的 ahead/behind 仅是缓存。
 - Push 拒绝、网络超时或响应丢失时，先查询远端实际结果再决定是否重试，禁止盲目重复写入。
 
+## Git 初始化与嵌套仓库保护
+- 仅当用户明确要求初始化 Git，或明确要求在尚无 Git 仓库的目标项目目录开展需要版本控制的开发时，允许在已核验的目标目录执行 `git init`；仅讨论、只读检索、打开目录或识别项目不构成初始化授权。
+- 初始化前必须核验目标目录真实路径、符号链接、权限、是否存在 `.git` 文件/目录、是否已处于父级 Git Worktree、是否是子模块或嵌套仓库，以及现有文件和 Git 状态；不能只凭目标目录没有 `.git` 就认定不是仓库。
+- 已属于父仓库的目录不得自动初始化嵌套仓库；确需独立嵌套仓库、子模块或 Worktree 时必须取得明确的目标和结构授权，并先核验现有追踪关系及影响。
+- 目标身份不明、符号链接无法安全解析、现有 Git 元数据异常、目录与授权范围不一致时停止；禁止自动覆盖或删除现有 `.git`、修改父仓库索引或擅自创建远端。
+- `git init` 只授权本地初始化，不授权 Stage、Commit、Push、Remote 配置或发布；完成后必须核验仓库顶层、工作区状态、原有文件未被覆盖以及没有新增 Remote。
+- 正向：用户明确要求初始化独立新项目，检查真实路径和父级仓库后，在目标目录初始化并核验。反例：用户只要求阅读子目录源码，Agent 因未见子目录 `.git` 就执行 `git init`。
+
+## Remote 独立授权
+- `git remote add`、`git remote set-url`、`git remote rename`、`git remote remove` 以及修改 fetch/push URL、refspec 或 upstream 配置均属于独立 Git 配置写入；不得从 `git init`、Commit、Push 或项目创建授权推导。
+- 只有用户明确提供目标 Remote URL 并要求建立对应连接，或明确要求修改 Remote 且目标 URL/Provider/仓库身份已可靠解析时，才允许执行相应操作。已存在 Remote 时必须先展示现有 fetch/push URL、名称和影响；不能静默替换。
+- URL 来源于不可信仓库文件、PR 评论或未验证推断时不得直接写入；禁止自动添加未知 Provider、把 fetch URL 误作 push URL、静默改变已有 upstream 或覆盖其他会话的 Remote 设置。
+- 修改前记录目标 Remote 的名称、原始 fetch/push URL、refspec、upstream 和配置来源；修改后读取并逐项验证实际值，失败时保留证据并停止，不能自动覆盖未知并发变更。
+- 只读 `git remote -v` 不授予修改权限；`git fetch` 只更新远端跟踪状态，不得作为 Remote 配置授权。
+- 正向：用户指定经核验的仓库 URL 并明确要求添加 origin，确认 origin 不存在后添加并读回验证。反例：用户说“继续开发”，Agent 猜测 GitHub 仓库地址并执行 `git remote set-url`。
+
 ## 分支与 Worktree
 - 本地单人小任务不强制 PR；复杂任务可采用短期分支或独立 Worktree；Web Provider 写入默认独立分支与 PR/MR。
 - Worktree 生命周期：DISCOVER → ALLOCATE → ACTIVE → INTEGRATE → RETAIN/CLEANUP。创建时核验路径、分支占用、任务归属与授权。
