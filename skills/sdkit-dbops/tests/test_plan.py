@@ -11,6 +11,7 @@ class PlanTests(unittest.TestCase):
         source=sample();target=sample();target["identity"]["environmentId"]="remote-dev"
         p=m.plan(source,target)
         self.assertEqual(p["state"],"equal")
+        self.assertEqual(p["decision"],"blocked")
         self.assertFalse(p["executionAuthorized"])
         self.assertEqual(p["planHash"],m.digest({k:v for k,v in p.items() if k!="planHash"}))
     def test_local_ahead(self):
