@@ -4,3 +4,4 @@
 |---|---|---|---|
 | pr13-final-acceptance | verified | feat/engineering-orchestration-execution-v1-20261018 / PR #13 | [验收计划](plans/pr13-final-acceptance.md) |
 | pr13-codex-behavior | verified | feat/engineering-orchestration-execution-v1-20261018 / PR #13 | [真实行为验收](plans/pr13-codex-behavior.md) |
+| pr13-final-integration | verified | feat/engineering-orchestration-execution-v1-20261018 / PR #13 | [最终集成验收](plans/pr13-final-integration.md) |
