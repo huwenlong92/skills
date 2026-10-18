@@ -38,3 +38,7 @@ class HistoryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             mod.validate({"migrations": [], "attempts": [{}]})
 
+
+    def test_integer_checksum_rejected(self):
+        with self.assertRaises(ValueError):
+            mod.validate({"migrations": [{"migrationId": MID, "checksum": int("1" * 64), "status": "applied"}]})
