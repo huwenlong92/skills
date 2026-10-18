@@ -47,6 +47,7 @@ def main():
     p.add_argument("--template", required=True)
     p.add_argument("--revision", required=True)
     p.add_argument("--old-skill", choices=sorted(MAPPINGS))
+    p.add_argument("--expected-sha256")
     p.add_argument("--apply", action="store_true")
     p.add_argument("--authorized", action="store_true")
     args = p.parse_args()
@@ -63,15 +64,23 @@ def main():
         p.error(str(exc))
     changed = raw != new
     if args.apply and changed:
-        if not args.authorized:
-            p.error("--apply requires --authorized")
+        if not args.authorized or not args.expected_sha256:
+            p.error("--apply requires --authorized and --expected-sha256")
+        if args.expected_sha256 != sha(raw):
+            p.error("stale source hash; refusing write")
         if target.exists() and target.read_bytes() != raw:
             p.error("concurrent change detected")
         backup = None
         if target.exists():
-            backup = Path(tempfile.mkstemp(prefix="sdkit-agents-backup-", suffix=".md")[1])
+            import os
+            fd, name = tempfile.mkstemp(prefix="sdkit-agents-backup-", suffix=".md")
+            os.close(fd)
+            backup = Path(name)
             backup.write_bytes(raw)
-        temp = Path(tempfile.mkstemp(prefix=".AGENTS.", dir=root)[1])
+        import os
+        fd, name = tempfile.mkstemp(prefix=".AGENTS.", dir=root)
+        os.close(fd)
+        temp = Path(name)
         try:
             temp.write_bytes(new)
             if target.exists():
