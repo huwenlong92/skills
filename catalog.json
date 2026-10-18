@@ -108,6 +108,11 @@
       "name": "sdbase-nuxtjs-portal",
       "category": "template",
       "path": "skills/sdbase-nuxtjs-portal"
+    },
+    {
+      "name": "ui-design",
+      "category": "product",
+      "path": "skills/ui-design"
     }
   ]
 }
