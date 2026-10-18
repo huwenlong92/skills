@@ -16,7 +16,9 @@
     "sourceSchemaFingerprint",
     "sourceIdentity",
     "safetyGate",
-    "safetyEvidenceFingerprint"
+    "safetyEvidenceFingerprint",
+    "sourceEvidenceFingerprint",
+    "targetEvidenceFingerprint"
   ],
   "properties": {
     "apiVersion": {
@@ -97,6 +99,14 @@
           "pattern": "^[a-f0-9]{64}$"
         }
       ]
+    },
+    "sourceEvidenceFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "targetEvidenceFingerprint": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
     }
   }
 }
