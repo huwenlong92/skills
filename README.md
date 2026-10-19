@@ -63,7 +63,7 @@ python3 skills/sdkit-skills/scripts/manager.py update sdbase-go --target /path/t
 
 | Skill | 适用范围 |
 |---|---|
-| `sdkit-go-core` | Go sdkit 框架自身的 `core`、`pkg`、facade、driver 与 runtime |
+| `sdkit-go-core` | 公开 `huwenlong92/sdkit-go` 框架自身的 `core`、`pkg`、facade、driver 与 runtime |
 | `sdkit-rust-core` | 维护或消费 Rust sdcore，以实际 Cargo 依赖定位源码 |
 | `sdbase-go` | SDBase 完整 Go 模板：sdkitgo、Gin、GORM、PostgreSQL |
 | `sdbase-lite` | SQLite、Cookie Session、单 Web Go 工具 |

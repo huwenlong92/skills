@@ -5,9 +5,9 @@ description: sdkit 当前兼容入口的权威源码定位、模板版本核验�
 
 # 权威源码与项目身份
 
-适用范围：使用 `sdkit` 开始项目开发、模板能力核对或跨仓库修改前必须读取。本文件属于旧名称兼容阶段，计划迁移名称为 `sdkit-go-core`，但当前安装和触发仍使用 `sdkit`。
+适用范围：仅在用户明确指定旧名称 `sdkit` 的历史兼容、维护或迁移任务时读取；正常开发主入口为 `sdkit-go-core`。
 
-- 权威源码：`https://github.com/huwenlong92/sdkit`；访问时检查实际默认分支和当前 SHA，不把历史版本当成最新实现。
+- 历史源码：`https://github.com/huwenlong92/sdkit`，仅用于本次明确指定的历史兼容或维护。正常开发使用新入口 `sdkit-go-core` 与公开仓库 `https://github.com/huwenlong92/sdkit-go`；禁止自动修改旧仓库、同步新仓库变更或覆盖旧 tag。
 - 定位边界：共享 Go 框架源码，只有修改框架时使用。
 - 先根据当前工作目录、Git root、origin、项目 AGENTS.md、TEMPLATE.md 与依赖确认目标业务仓库。项目名称或语言本身不能证明采用该模板。
 - 若项目由模板复制创建，应核对并记录项目采用的模板 commit；模板最新 main 不代表业务项目已升级。

@@ -6,7 +6,7 @@
 
 | 旧 Skill | 目标 Skill | 分类 | 目标源码 |
 | --- | --- | --- | --- |
-| sdkit | sdkit-go-core | framework | huwenlong92/sdkit |
+| sdkit | sdkit-go-core | framework | huwenlong92/sdkit-go |
 | rust-sdcore | sdkit-rust-core | framework | 实际 sdcore 依赖/checkout |
 | sdkitgo | sdbase-go | template | huwenlong92/sdbase-go |
 | vab-admin | sdbase-vab-admin | template | huwenlong92/sdbase-vab-admin |

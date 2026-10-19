@@ -1,11 +1,11 @@
 ---
 name: sdkit-go-core
-description: 维护 huwenlong92/sdkit Go 共享框架源码的 core、pkg、runtime、capability、driver、公共 API 与消费方测试时使用；普通 Go 业务项目不触发。
+description: 维护 huwenlong92/sdkit-go 共享 Go 框架源码的 core、pkg、runtime、capability、driver、公共 API 与消费方测试时使用；普通 Go 业务项目不触发。
 ---
 
-# sdkit
+# sdkit-go
 
-本 skill 只处理 Go sdkit 框架仓库。完整 Go 模板业务项目必须使用 `sdbase-go`；采用 SDBase Lite 的 SQLite 单 Web 项目必须使用 `sdbase-lite`。只有任务明确修改 sdkit 框架源码时才使用本 skill。
+本 skill 只处理 Go sdkit-go 框架仓库。完整 Go 模板业务项目必须使用 `sdbase-go`；采用 SDBase Lite 的 SQLite 单 Web 项目必须使用 `sdbase-lite`。只有任务明确修改 sdkit 框架源码时才使用本 skill。
 
 ## 仓库定位
 
