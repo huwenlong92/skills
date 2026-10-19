@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shlex
 import subprocess
 import sys
 import tomllib
@@ -88,6 +89,38 @@ def argv(value):
     return value
 
 
+def audit_build(root, command, seen=None):
+    """阻断可识别的隐式写入；不能替代 Agent 对任意程序调用链的人工审阅。"""
+    seen = set() if seen is None else seen
+    text = ' '.join(command)
+    require(not re.search(r'\bwrangler(?:@\S+)?\s+(?:pages\s+deploy|deploy|r2|kv|d1|secret|queues|versions|deployments)\b', text), "构建入口包含云端写入或不受支持的 Wrangler 子命令")
+    require(not re.search(r'\b(?:terraform\s+(?:apply|destroy)|git\s+push|gh\s+workflow\s+run)\b', text), "构建入口包含发布、CI 或基础设施写入")
+    if command[0] in {'npm', 'pnpm', 'yarn'} and len(command) >= 3 and command[1] == 'run':
+        name = command[2]
+        require(name not in seen, "构建脚本存在循环引用")
+        seen.add(name)
+        package = json.loads(local_path(root, 'package.json').read_text(encoding='utf-8'))
+        scripts = package.get('scripts', {})
+        require(name in scripts, "构建 package script 不存在")
+        for key in ['pre' + name, name, 'post' + name]:
+            if key in scripts:
+                audit_build(root, shlex.split(scripts[key]), seen.copy())
+    for part in command:
+        if part.endswith(('.sh', '.py', '.js', '.mjs', '.cjs')) or part.startswith(('deploy/', 'scripts/')):
+            path = local_path(root, part)
+            if path.is_file() and path.suffix != '.json':
+                key = path.relative_to(root).as_posix()
+                require(key not in seen, "构建文件存在循环引用")
+                seen.add(key)
+                # 分词仅用于发现显式危险调用；动态执行、插件和 source 必须人工检查。
+                audit_build(root, shlex.split(path.read_text(encoding='utf-8'), comments=True), seen.copy())
+
+
+def guard_dynamic_config(root):
+    for name in ['wrangler.ts', 'wrangler.js', 'wrangler.mjs', 'wrangler.cjs', '.wrangler/deploy/config.json']:
+        require(not (root / name).exists(), "框架动态或重定向配置未适配，停止执行")
+
+
 def load(root, plan, target):
     data = json.loads(local_path(root, plan).read_text(encoding='utf-8'))
     require(data.get('schema_version') == 1, "计划 schema_version 必须为 1")
@@ -100,8 +133,10 @@ def load(root, plan, target):
     require(re.fullmatch(r'\d+\.\d+\.\d+', t.get('wrangler_version', '')), "必须锁定精确 Wrangler 版本")
     argv(t.get('cli'))
     argv(t.get('build'))
+    audit_build(root, t['build'])
     require(isinstance(t.get('required_files'), list) and t['required_files'], "必须声明必要产物")
     config = local_path(root, t.get('config'))
+    guard_dynamic_config(root)
     c = read_config(config)
     require(isinstance(c, dict), "Wrangler 配置必须为对象")
     require(not c.get('build'), "Wrangler 自定义 build hook 必须先适配，禁止隐式重复构建")
@@ -128,6 +163,7 @@ def load(root, plan, target):
         if effective.get('account_id'):
             require(effective['account_id'] == t['account_id'], "Worker env 账户与计划不一致")
     else:
+        require(config.parent == root and config.name in {'wrangler.toml', 'wrangler.json', 'wrangler.jsonc'}, "Pages 必须使用项目根目录标准配置，不支持 --config")
         require(c.get('name') == t['project'], "Pages name 与计划不一致")
         require(not env, "Pages 不能套用 Worker 命名 env")
         branch, production = t.get('branch'), t.get('production_branch')
@@ -205,8 +241,13 @@ def worker_flags(t):
 
 
 def build(root, t):
+    guard_dynamic_config(root)
+    config_bytes = local_path(root, t['config']).read_bytes()
+    audit_build(root, t['build'])
     cli_check(root, t)
     execute(root, t['build'])
+    guard_dynamic_config(root)
+    require(local_path(root, t['config']).read_bytes() == config_bytes, "构建改写了生效配置，停止发布")
     if t['kind'] == 'worker':
         execute(root, t['cli'] + ['deploy', '--config', t['config'], *worker_flags(t), '--dry-run', '--outdir', t['output']])
     return artifacts(root, t)
@@ -261,7 +302,7 @@ def deploy(root, t, args):
     after = source(root)
     require(after == before, "构建期间 Git 状态变化，停止发布")
     command = t['cli'] + (['deploy', '--config', t['config'], *worker_flags(t)] if t['kind'] == 'worker' else [
-        'pages', 'deploy', t['output'], '--config', t['config'], '--project-name', t['project'],
+        'pages', 'deploy', t['output'], '--project-name', t['project'],
         '--branch', t['branch'], '--commit-hash', before['sha'], '--commit-dirty=' + str(before['dirty']).lower()])
     directory = local_path(root, '.sdkit/cloudflare/.local')
     require(git(root, 'check-ignore', '.sdkit/cloudflare/.local/last-deploy.json'), "必须先忽略本地发布记录目录")
@@ -296,7 +337,7 @@ def main():
         elif args.command == 'preview':
             cli_check(root, t)
             artifacts(root, t)
-            command = ['dev', '--config', t['config'], *worker_flags(t), '--ip', 'localhost'] if t['kind'] == 'worker' else ['pages', 'dev', t['output'], '--config', t['config'], '--ip', 'localhost']
+            command = ['dev', '--config', t['config'], *worker_flags(t), '--ip', 'localhost'] if t['kind'] == 'worker' else ['pages', 'dev', t['output'], '--ip', 'localhost']
             execute(root, t['cli'] + command)
         elif args.command == 'verify':
             require(args.origin, 'verify 必须显式指定 origin')

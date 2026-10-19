@@ -13,8 +13,8 @@
 ## 存放位置与工具
 
 - 新发布计划允许放在项目根目录下 `.sdkit/cloudflare/release.json`，示例见 [release.example.json](../assets/release.example.json)；既有 `deploy/cloudflare/` 必须先复用，禁止无授权批量迁移。
-- Wrangler 配置允许放在项目已确认的根目录或框架规定目录；禁止在 Skill 安装目录保存项目配置，禁止为个人账户或 Token 新增项目内配置。
-- 第一版没有个人配置读取需求，因此禁止创建空的个人 config。后续引入时必须默认使用 `~/.config/sdkit/skills/cfops/config.json`，显式路径覆盖默认值；迁移必须验证旧内容、目标不存在、权限和实际读取结果，验证前保留原件。
+- Pages 必须使用项目根目录标准 `wrangler.toml`、`wrangler.json` 或 `wrangler.jsonc` 自动发现，禁止向 Pages dev/deploy 传 `--config`；Worker 配置允许放在项目已确认的根目录或框架规定目录；禁止在 Skill 安装目录保存项目配置，禁止为个人账户或 Token 新增项目内配置。
+- 第一版没有个人配置读取需求，因此禁止创建空的个人 config。后续引入时必须默认使用 `~/.config/sdkit/skills/sdkit-cfops/config.json`，显式路径覆盖默认值；迁移必须验证旧内容、目标不存在、权限和实际读取结果，验证前保留原件。
 - 必须使用项目安装并锁定的 Wrangler，核对 lockfile 与 `--version`；脚本按计划的精确版本阻断漂移。禁止自动安装或升级 latest；缺工具时报告缺口。
 - 必须保留项目已验证的 TOML/JSON/JSONC 格式及 compatibility_date，禁止为发布顺手转换格式或推进兼容日期。字段语义必须查询项目 schema 和 [官方配置](https://developers.cloudflare.com/workers/wrangler/configuration/)。
 

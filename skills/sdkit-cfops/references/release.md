@@ -28,7 +28,7 @@ python3 .sdkit/cloudflare/cfops.py deploy --target review \
 
 `--write` 只防误触发，不证明已取得人类授权。助手强制 CLI 精确版本、显式账户、源码 SHA、生产工作区清洁，并重新构建；禁止将这些检查宣传成云端预检通过。
 
-- Pages 必须显式传 project-name、branch、commit-hash 和真实 commit-dirty；Worker 必须使用明确配置与 env。当前命令依据见 [Pages CLI](https://developers.cloudflare.com/workers/wrangler/commands/pages/)及 [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/commands/)。必须在实际执行前按项目锁定版本再验证。
+- Pages dev/deploy 必须依赖项目根目录标准配置自动发现，禁止传 `--config`；该限制已由锁定 Wrangler 4.130.0 的真实本地 CLI 验证，帮助文本不代替执行验证。Pages 必须显式传 project-name、branch、commit-hash 和真实 commit-dirty；Worker 必须使用明确配置与 env。当前命令依据见 [Pages CLI](https://developers.cloudflare.com/workers/wrangler/commands/pages/)及 [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/commands/)。必须在实际执行前按项目锁定版本再验证。
 - helper 不解析易变 CLI 文本中的部署 ID；必须从 Provider 读回部署 ID、版本、URL、环境、SHA 和绑定信息，补入交接。失败时本地状态只记 failed-or-unknown，禁止猜测云端没有写入。
 
 ## 完成标准

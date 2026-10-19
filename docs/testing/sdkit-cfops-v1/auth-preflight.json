@@ -1,0 +1,8 @@
+{
+  "command": "codex -c cli_auth_credentials_store=\"file\" login status",
+  "exit_code": 1,
+  "isolated_home": true,
+  "credential_env_inherited": false,
+  "credential_files_copied": false,
+  "status": "NOT_LOGGED_IN"
+}

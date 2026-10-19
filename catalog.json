@@ -125,9 +125,9 @@
       "path": "skills/sdkit-templateops"
     },
     {
-      "name": "cfops",
+      "name": "sdkit-cfops",
       "category": "operations",
-      "path": "skills/cfops"
+      "path": "skills/sdkit-cfops"
     }
   ]
 }

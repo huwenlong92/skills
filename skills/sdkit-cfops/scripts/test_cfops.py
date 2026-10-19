@@ -151,6 +151,33 @@ else:
         self.t['output'] = '.'
         with self.assertRaises(cf.CheckError): self.load()
 
+    def test_pages_nonroot_config_stops(self):
+        (self.root/'wrangler.toml').rename(self.root/'alternate.toml')
+        self.t['config'] = 'alternate.toml'
+        with self.assertRaises(cf.CheckError): self.load()
+
+    def test_dynamic_and_redirected_config_stops(self):
+        for name in ['wrangler.ts', '.wrangler/deploy/config.json']:
+            with self.subTest(name=name):
+                self.write(name, '{}')
+                with self.assertRaises(cf.CheckError): self.load()
+                (self.root/name).unlink()
+
+    def test_explicit_deploy_hidden_in_build_stops(self):
+        self.t['build'] = ['pnpm', 'exec', 'wrangler', 'pages', 'deploy', 'dist']
+        with self.assertRaises(cf.CheckError): self.load()
+        self.assertFalse((self.root/'calls.jsonl').exists())
+
+    def test_package_lifecycle_side_effect_stops(self):
+        self.write('package.json', json.dumps({'scripts':{'build':'vite build','postbuild':'wrangler pages deploy dist'}}))
+        self.t['build'] = ['pnpm', 'run', 'build']
+        with self.assertRaises(cf.CheckError): self.load()
+
+    def test_script_infrastructure_side_effect_stops(self):
+        self.write('build.sh', 'terraform apply\n')
+        self.t['build'] = ['sh', 'build.sh']
+        with self.assertRaises(cf.CheckError): self.load()
+
     def test_no_write_no_build(self):
         args = self.args(); args.write = False
         with self.assertRaises(cf.CheckError): cf.deploy(self.root, self.t, args)
@@ -181,12 +208,36 @@ else:
         self.write('.git/MERGE_HEAD', 'f'*40)
         with self.assertRaises(cf.CheckError): cf.source(self.root)
 
+    def test_rebase_blocks(self):
+        (self.root/'.git/rebase-merge').mkdir()
+        with self.assertRaises(cf.CheckError): cf.source(self.root)
+
+    def test_build_failure_does_not_upload(self):
+        self.write('build.py', 'raise SystemExit(9)\n')
+        with patch.dict(os.environ, {'CLOUDFLARE_ACCOUNT_ID':'0'*32}):
+            with self.assertRaises(cf.CheckError): cf.deploy(self.root, self.t, self.args())
+        self.assertFalse((self.root/'calls.jsonl').exists())
+        self.assertFalse((self.root/'.sdkit/cloudflare/.local/last-deploy.json').exists())
+
+    def test_build_generated_redirect_does_not_upload(self):
+        self.write('build.py', "from pathlib import Path\np=Path('.wrangler/deploy');p.mkdir(parents=True);(p/'config.json').write_text('{}')\n")
+        with patch.dict(os.environ, {'CLOUDFLARE_ACCOUNT_ID':'0'*32}):
+            with self.assertRaises(cf.CheckError): cf.deploy(self.root, self.t, self.args())
+        self.assertFalse((self.root/'calls.jsonl').exists())
+
+    def test_build_config_rewrite_does_not_upload(self):
+        self.write('build.py', "from pathlib import Path\nPath('wrangler.toml').write_text('name=\"other\"')\n")
+        with patch.dict(os.environ, {'CLOUDFLARE_ACCOUNT_ID':'0'*32}):
+            with self.assertRaises(cf.CheckError): cf.deploy(self.root, self.t, self.args())
+        self.assertFalse((self.root/'calls.jsonl').exists())
+
     def test_preview_deploy_true_dirty_receipt(self):
         self.write('dirty.txt', 'authorized preview')
         with patch.dict(os.environ, {'CLOUDFLARE_ACCOUNT_ID':'0'*32}):
             cf.deploy(self.root, self.t, self.args())
         call = json.loads((self.root/'calls.jsonl').read_text())
         self.assertIn('--commit-dirty=true', call)
+        self.assertNotIn('--config', call)
         self.assertEqual(call[call.index('--branch')+1], 'review')
         receipt = json.loads((self.root/'.sdkit/cloudflare/.local/last-deploy.json').read_text())
         self.assertTrue(receipt['dirty'])
@@ -206,6 +257,18 @@ else:
             with self.assertRaises(cf.CheckError): cf.deploy(self.root, self.t, self.args())
         record = json.loads((self.root/'.sdkit/cloudflare/.local/last-deploy.json').read_text())
         self.assertEqual(record['status'], 'failed-or-unknown')
+        calls = (self.root/'calls.jsonl').read_text().splitlines()
+        self.assertEqual(len(calls), 1)  # 响应未知时不重试、不回滚。
+        self.assertNotIn('rollback', calls[0])
+
+    def test_no_resource_or_ci_side_effects(self):
+        protected = ['protected/r2/latest.json','protected/dns.json','protected/access.json','protected/database.sql','.github/workflows/ci.yml']
+        for name in protected:self.write(name, 'unchanged fixture')
+        with patch.dict(os.environ, {'CLOUDFLARE_ACCOUNT_ID':'0'*32}):cf.deploy(self.root, self.t, self.args())
+        for name in protected:self.assertEqual((self.root/name).read_text(),'unchanged fixture')
+        calls = [json.loads(line) for line in (self.root/'calls.jsonl').read_text().splitlines()]
+        self.assertEqual(len(calls),1)
+        self.assertEqual(calls[0][:2],['pages','deploy'])
 
 
 class Probes(unittest.TestCase):

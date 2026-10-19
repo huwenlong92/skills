@@ -1,0 +1,69 @@
+{
+  "results": [
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "skills/sdkit-cfops/scripts",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "summary": "上传命令完成；部署 ID、版本、URL、绑定及真实访问必须另行核验\n上传命令完成；部署 ID、版本、URL、绑定及真实访问必须另行核验\n上传命令完成；部署 ID、版本、URL、绑定及真实访问必须另行核验\n.........................................\n----------------------------------------------------------------------\nRan 41 tests in 5.543s\n\nOK"
+    },
+    {
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "skills/sdkit-skills/scripts",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "summary": "............................................\n----------------------------------------------------------------------\nRan 44 tests in 1.055s\n\nOK"
+    },
+    {
+      "command": [
+        "python3",
+        "skills/sdkit-skills/scripts/manager.py",
+        "validate",
+        "--all"
+      ],
+      "exit_code": 0,
+      "summary": "validated 24 skills"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check_markdown_links.py"
+      ],
+      "exit_code": 0,
+      "summary": "Markdown: 369 files, 1230 relative links, 2 anchors, 0 errors"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "summary": ""
+    },
+    {
+      "command": [
+        "naming-and-sensitive-scan"
+      ],
+      "exit_code": 0,
+      "old_source_paths": [],
+      "sensitive_matches": [],
+      "catalog_entries": 1
+    }
+  ],
+  "all_pass": true
+}

@@ -1,5 +1,5 @@
 ---
-name: cfops
+name: sdkit-cfops
 description: 为 Cloudflare Pages 静态站、Nuxt Pages SSR 和独立 Worker 核对发布目标，维护构建发布脚本，执行已授权部署、上线验收与回滚检查；不负责业务代码、R2 内容版本、数据库操作或 DNS/Access 管理。
 ---
 

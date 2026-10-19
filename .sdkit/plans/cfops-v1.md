@@ -3,7 +3,7 @@
 - 任务 ID：cfops-v1；revision：1；日期：2026-10-20。
 - 原始 Git 基线：19ca264157342e135351acbac17c1d432747c994；执行起点 main。交付分支 feat/cfops-v1-20261020。
 - 已确认：用户同意提炼 Pages 静态、Nuxt Pages SSR、Worker 的发布流程；追加授权完成后提交、Push 并创建 PR，由 Skill 总控另行验收。
-- 允许修改：skills/cfops/**、catalog.json、README.md 中 cfops 的最小登记、本任务计划与 .sdkit 交接增量。
+- 允许修改：skills/sdkit-cfops/**、catalog.json、README.md 中 cfops 的最小登记、本任务计划与 .sdkit 交接增量。
 - 禁止：覆盖已有无关修改；业务项目写入、真实云部署、全局安装、数据库操作、CI 主动触发、合并 PR。
 - Primary：sdkit-skills；Supporting：skill-creator（创建与脚本验证）、wrangler（命令事实核验）。命中 references：Manager workflow；cfops 自身五份 references。
 - 恢复入口：本文件、任务表、实际 Git diff 与本任务测试。

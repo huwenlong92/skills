@@ -1,0 +1,13 @@
+{
+  "install": "PASS",
+  "update": "PASS",
+  "modified_copy_update_blocked": "PASS",
+  "manifest_match": true,
+  "independent_skill": "sdkit-cfops",
+  "native_codex_skills_list": "PASS",
+  "discovered_once": true,
+  "host_skills_leaked": false,
+  "model_calls": 0,
+  "automatic_routing": "NOT_TESTED",
+  "credential_files_copied": false
+}

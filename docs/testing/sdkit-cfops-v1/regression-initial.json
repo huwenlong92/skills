@@ -1,0 +1,9 @@
+{
+  "status": "FAIL",
+  "command": "Skill Manager unittest discover",
+  "tests": 44,
+  "failures": 1,
+  "reason": "报告先引用尚未生成的 regression.json，链接检查正确阻断；已调整证据生成顺序",
+  "code_or_skill_failure": false,
+  "additional_naming_failure": "本轮计划中的历史旧源码路径文字被残留扫描阻断，已改为无失效路径的表述"
+}

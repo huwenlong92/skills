@@ -5,9 +5,11 @@
 ## 布局与接入
 
 - 允许将本 Skill 的 [cfops.py](../scripts/cfops.py) 复制至项目 `.sdkit/cloudflare/cfops.py`，公共发布计划放同目录 `release.json`；禁止写入 node_modules、框架生成目录或全局工具目录。已有入口允许包装本助手，禁止建立两套独立发布事实源。
+- 助手会检查显式命令、声明的 package scripts（含 pre/post 生命周期）及可见脚本中的明显发布命令；这只是保守阻断，不能证明动态代码、插件、source 或外部程序无副作用，未知调用链必须停止并人工审阅。
 - 必须先审阅 `build` 数组和它调用的脚本、package scripts、框架配置及生命周期；无 shell 拼接不能保证构建无副作用。禁止将部署、资源创建、数据迁移或远端写入藏在 build 中。
 - 新增的本地结果目录 `.sdkit/cloudflare/.local/` 必须加入项目 `.gitignore`；禁止提交包含环境变量、凭据或原始日志的记录。
 - 计划中的路径必须相对项目根目录；Wrangler 自身的 output/main 相对配置文件目录解析。禁止使用工作站绝对路径、越界路径、符号链接产物或非普通文件。
+- 助手必须阻断根目录动态 `wrangler.ts/js/mjs/cjs` 和 `.wrangler/deploy/config.json` 重定向配置，必须在执行前和构建后重复检查，并在构建改写生效配置时停止；禁止忽略框架生成配置后发布原始配置。
 - 助手支持 TOML（Python 3.11+）、JSON、JSONC 的显式配置；框架自动生成配置、动态配置与特殊 bundle 必须按锁定版本适配，禁止声称本助手已覆盖。
 
 ## 按产物分流
