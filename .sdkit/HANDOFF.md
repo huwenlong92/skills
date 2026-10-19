@@ -2,7 +2,7 @@
 
 ## cfops V1（2026-10-20）
 
-新增独立 Cloudflare 发布 Skill，计划与证据见 [cfops-v1](plans/cfops-v1.md)。本地 31 个定向测试、44 个 Manager/迁移测试、24 Skill 和全仓 Markdown 链接检查通过。quick_validate 缺 PyYAML，已用仓库严格校验替代；未安装依赖。真实 Wrangler、云端部署、Provider 读回和自然语言跨 Agent 行为未验收，交由 Skill 总控通过 Draft PR 独立验证。当前授权仅源码、提交、Push 和 PR；禁止合并、全局安装、业务修改或云发布。
+已提交并推送 [Draft PR #28](https://github.com/huwenlong92/skills/pull/28)，新增独立 Cloudflare 发布 Skill，计划与证据见 [cfops-v1](plans/cfops-v1.md)。本地 31 个定向测试、44 个 Manager/迁移测试、24 Skill 和全仓 Markdown 链接检查通过。quick_validate 缺 PyYAML，已用仓库严格校验替代；未安装依赖。真实 Wrangler、云端部署、Provider 读回和自然语言跨 Agent 行为未验收，交由 Skill 总控通过 Draft PR 独立验证。当前授权仅源码、提交、Push 和 PR；禁止合并、全局安装、业务修改或云发布。
 
 ## PR #20 A05 最新验收
 

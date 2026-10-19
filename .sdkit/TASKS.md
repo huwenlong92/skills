@@ -20,4 +20,4 @@
 
 | pr24-main-sync | verified（本地回归） | feat/template-evolution-v1 / PR #24 | [同步计划](plans/pr24-main-sync.md) |
 
-| cfops-v1 | verified（本地；待总控验收） | feat/cfops-v1-20261020 | [计划](plans/cfops-v1.md) |
+| cfops-v1 | verified（本地与 PR 交付；待总控验收） | feat/cfops-v1-20261020 / PR #28 | [计划](plans/cfops-v1.md) |
