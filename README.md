@@ -17,7 +17,7 @@ Opinionated SDKit 工程约定，以可升级 Agent Skills 的形式分发。它
 | 语言 language | 暂无，后续按需新增 |
 | 框架 framework | `sdkit-go-core`、`sdkit-rust-core`（兼容：`sdkit`、`rust-sdcore`） |
 | 模板 template | `sdbase-go`、`sdbase-lite`、`sdbase-vab-admin`、`sdbase-admin-lite`、`sdbase-nuxtjs-portal`、`sdbase-flutter-app`（兼容：`sdkitgo`、`vab-admin`、`nuxtjs`） |
-| 运维 operations | `dockerops`、`npmops`、`sdenv`、`swops` |
+| 运维 operations | `dockerops`、`npmops`、`cfops`、`sdenv`、`swops` |
 | 产品 product | `foundry`、`wikiops` |
 | 管理 management | `sdkit-skills` |
 
@@ -76,6 +76,7 @@ python3 skills/sdkit-skills/scripts/manager.py update sdbase-go --target /path/t
 | `sdenv` | 通过已安装的 sdenv 使用 Docker context 中的数据库与基础服务，动态解析配置并完成查询、结构检查、备份恢复和连接排查 |
 | `npmops` | 统一包父目录下的新包创建/查找，源码身份检查，以及 npm 包结构、校验与发布流程 |
 | `swops` | Linux 软件安装方式、升级迁移与回滚、卸载保留数据、服务验证及运维文档 |
+| [`cfops`](skills/cfops/SKILL.md) | Cloudflare Pages 静态站、Nuxt Pages SSR 与 Worker 的目标预检、构建发布、上线验收及回滚检查 |
 | `wikiops` | 检索知识库并引用来源回答，聊天方法、排障与决策入库，旧知识维护、迁移和 VitePress / Cloudflare 门户维护，包含 DeepSeek 分享提取 |
 | `foundry`（专用） | 绑定 `huwenlong92/product-docs` 的产品规划、PRD、技术方案、App/官网原型、项目初始化导入与交付验收 |
 

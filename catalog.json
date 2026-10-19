@@ -123,6 +123,11 @@
       "name": "sdkit-templateops",
       "category": "operations",
       "path": "skills/sdkit-templateops"
+    },
+    {
+      "name": "cfops",
+      "category": "operations",
+      "path": "skills/cfops"
     }
   ]
 }
