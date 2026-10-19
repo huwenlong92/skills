@@ -1,5 +1,13 @@
 # 已核验状态
 
+## PR #28 · sdkit-cfops 最终本地验收（2026-10-20）
+
+命名统一及范围内修复已完成。[报告](../docs/testing/sdkit-cfops-v1/REPORT.md)与[计划](plans/pr28-final-local.md)为恢复入口：真实本地 Wrangler/助手/边界 16 PASS，专项 Python 41 PASS，独立安装/更新/原生发现通过。隔离 Codex Home 未登录，C01–C06 全部 BLOCKED，模型请求 0；不得声称自动路由或整体行为验收通过。未登录 Cloudflare、未使用真实 Token、未部署、未写资源/数据/业务/全局配置、未主动触发 Actions。当前授权允许普通 Commit/Push 与更新 PR，保持 Draft，禁止 Ready/合并；最终 Head 以远端读回核验。
+
+## cfops V1（2026-10-20）
+
+已提交并推送 [Draft PR #28](https://github.com/huwenlong92/skills/pull/28)，新增独立 Cloudflare 发布 Skill，计划与证据见 [cfops-v1](plans/cfops-v1.md)。本地 31 个定向测试、44 个 Manager/迁移测试、24 Skill 和全仓 Markdown 链接检查通过。quick_validate 缺 PyYAML，已用仓库严格校验替代；未安装依赖。真实 Wrangler、云端部署、Provider 读回和自然语言跨 Agent 行为未验收，交由 Skill 总控通过 Draft PR 独立验证。当前授权仅源码、提交、Push 和 PR；禁止合并、全局安装、业务修改或云发布。
+
 ## PR #20 A05 最新验收
 
 A01–A16 最终 16 PASS / 0 FAIL / 0 BLOCKED。A05 已真实创建专用测试 Draft PR 并核验；[本轮报告](../docs/testing/git-collaboration-v1/REPORT.md)与[最终回归](../docs/testing/git-collaboration-v1/a05-regression.json)为恢复入口。main DBOps 增量普通整合，Git 语义未改。具备本任务受控 Ready 技术条件，实际 PR #20 继续 Draft；最终 SHA/Push/mergeable 依远端交付读回。禁止合并/Ready/部署/主动 CI；全局规则退出由专题 A 独立裁定。此前 BLOCKED 属历史快照。

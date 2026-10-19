@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "targets": {
+    "review": {
+      "kind": "pages-nuxt",
+      "project": "example-portal",
+      "account_id": "00000000000000000000000000000000",
+      "config": "wrangler.toml",
+      "environment": "preview",
+      "production_branch": "release",
+      "branch": "review",
+      "wrangler_version": "4.130.0",
+      "cli": ["pnpm", "exec", "wrangler"],
+      "build": ["pnpm", "run", "build:cloudflare"],
+      "output": "dist",
+      "required_files": ["_worker.js/index.js", "_routes.json"],
+      "probes": [
+        {"path": "/", "status": 200, "content_type": "text/html", "contains": "Example portal"}
+      ]
+    }
+  }
+}

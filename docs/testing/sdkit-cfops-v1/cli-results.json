@@ -1,0 +1,146 @@
+{
+  "wrangler_version": "4.130.0",
+  "credentials_inherited": false,
+  "real_cloud_commands_executed": false,
+  "copied_dependency_packages": 36,
+  "business_project_reads_denied": true,
+  "fixture_compatibility_date": "2026-09-01",
+  "nuxt_scope": "synthetic Nitro Pages artifact shape; no real Nuxt build claimed",
+  "results": [
+    {
+      "id": "version",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "4.130.0"
+      ]
+    },
+    {
+      "id": "pages-deploy-help",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "--project-name",
+        "--branch",
+        "--commit-hash",
+        "--commit-dirty"
+      ]
+    },
+    {
+      "id": "pages-preview-help",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "--ip",
+        "--port"
+      ]
+    },
+    {
+      "id": "worker-dry-run",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "dry-run"
+      ]
+    },
+    {
+      "id": "worker-output",
+      "class": "real-wrangler-offline",
+      "status": "PASS"
+    },
+    {
+      "id": "helper-build-pages-static",
+      "class": "helper-with-real-wrangler",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "artifact_sha256="
+      ]
+    },
+    {
+      "id": "helper-wrong-project",
+      "class": "helper-negative-offline",
+      "exit_code": 1,
+      "status": "PASS",
+      "expected_markers": [
+        "Pages name"
+      ]
+    },
+    {
+      "id": "helper-wrong-environment",
+      "class": "helper-negative-offline",
+      "exit_code": 1,
+      "status": "PASS",
+      "expected_markers": [
+        "分支与声明环境冲突"
+      ]
+    },
+    {
+      "id": "helper-wrong-version",
+      "class": "helper-negative-offline",
+      "exit_code": 1,
+      "status": "PASS",
+      "expected_markers": [
+        "Wrangler 实际版本"
+      ]
+    },
+    {
+      "id": "helper-wrong-account",
+      "class": "helper-negative-offline",
+      "exit_code": 1,
+      "status": "PASS",
+      "expected_markers": [
+        "配置账户"
+      ]
+    },
+    {
+      "id": "helper-dynamic-config",
+      "class": "helper-negative-offline",
+      "exit_code": 1,
+      "status": "PASS",
+      "expected_markers": [
+        "动态或重定向配置"
+      ]
+    },
+    {
+      "id": "helper-build-pages-nuxt-shape",
+      "class": "helper-with-real-wrangler",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "artifact_sha256="
+      ]
+    },
+    {
+      "id": "helper-build-worker",
+      "class": "helper-with-real-wrangler",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "artifact_sha256="
+      ]
+    },
+    {
+      "id": "network-denial",
+      "class": "sandbox-boundary",
+      "status": "PASS",
+      "exit_code": 0
+    },
+    {
+      "id": "pages-static-preview",
+      "class": "real-wrangler-loopback",
+      "status": "PASS",
+      "http_body_verified": true
+    },
+    {
+      "id": "pages-nuxt-shape-preview",
+      "class": "real-wrangler-loopback",
+      "status": "PASS",
+      "http_body_verified": true
+    }
+  ]
+}

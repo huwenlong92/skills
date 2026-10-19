@@ -1,0 +1,12 @@
+{
+  "SKILL.md": "cb58280de0ade179ffa187e02ca4e9ef1302bd27bf1305dd82a9898fc643196d",
+  "assets/Makefile": "583aa2ac42acc9d94400487588ac6d884751ddc59a5cf574c8275b9a7ca97dcf",
+  "assets/release.example.json": "b639fbffd54e97b62847783166172c268c91c91a1c1f6ba1d0ea552f14720863",
+  "references/release.md": "475b2b3c851df29029f358f6437ea26c1ead3684120f5d03a9a0498ff7e76981",
+  "references/rollback.md": "a2809ca53442ceed88cffef54165226dcf23f9121d735224197e4a01ea0f213b",
+  "references/scripts.md": "8d942780e87e1925d471f39d9ba0ebc41dc9cc822afc9807d0b9ee09bdaead8b",
+  "references/target.md": "00970a37f2be5927ac0aa0282cb89df331bceae32fc51076154f55288b14febf",
+  "references/verification.md": "98ecfdde615cc40e343136674885d9eb0d69afb54bdbbb2dfee82f6a75bd54a1",
+  "scripts/cfops.py": "c666c47ecbe40056c382f5b52a2e31a8a8f7e132def1b09eeae02b88340cca2b",
+  "scripts/test_cfops.py": "12cdbed440a1fd24811235f3eba169ec092aeefd946905da9f78284d5d88909d"
+}

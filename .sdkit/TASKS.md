@@ -19,3 +19,7 @@
 | pr24-final-local | verified（本地协议） | feat/template-evolution-v1 / PR #24 | [计划](plans/pr24-final-local.md) |
 
 | pr24-main-sync | verified（本地回归） | feat/template-evolution-v1 / PR #24 | [同步计划](plans/pr24-main-sync.md) |
+
+| cfops-v1 | verified（本地与 PR 交付；待总控验收） | feat/cfops-v1-20261020 / PR #28 | [计划](plans/cfops-v1.md) |
+
+| pr28-final-local | implemented（本地通过；6 模型 BLOCKED；交付按 PR 读回） | feat/cfops-v1-20261020 / PR #28 | [验收计划](plans/pr28-final-local.md) |

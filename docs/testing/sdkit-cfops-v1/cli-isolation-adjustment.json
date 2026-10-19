@@ -1,0 +1,71 @@
+{
+  "wrangler_version": "4.130.0",
+  "credentials_inherited": false,
+  "real_cloud_commands_executed": false,
+  "nuxt_scope": "synthetic Nitro Pages artifact shape; no real Nuxt build claimed",
+  "results": [
+    {
+      "id": "version",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "4.130.0"
+      ]
+    },
+    {
+      "id": "pages-deploy-help",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "--project-name",
+        "--branch",
+        "--commit-hash",
+        "--commit-dirty"
+      ]
+    },
+    {
+      "id": "pages-preview-help",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "--ip",
+        "--port"
+      ]
+    },
+    {
+      "id": "worker-dry-run",
+      "class": "real-wrangler-offline",
+      "exit_code": 0,
+      "status": "PASS",
+      "expected_markers": [
+        "dry-run"
+      ]
+    },
+    {
+      "id": "worker-output",
+      "class": "real-wrangler-offline",
+      "status": "PASS"
+    },
+    {
+      "id": "network-denial",
+      "class": "sandbox-boundary",
+      "status": "PASS",
+      "exit_code": 0
+    },
+    {
+      "id": "pages-static-preview",
+      "class": "real-wrangler-loopback",
+      "status": "FAIL",
+      "http_body_verified": false
+    },
+    {
+      "id": "pages-nuxt-shape-preview",
+      "class": "real-wrangler-loopback",
+      "status": "FAIL",
+      "http_body_verified": false
+    }
+  ]
+}
