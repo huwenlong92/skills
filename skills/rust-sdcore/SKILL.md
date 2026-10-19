@@ -11,6 +11,7 @@ description: 仅用于明确指定旧名称 rust-sdcore 的历史安装、兼容
 
 | 任务 | 必须读取 |
 |---|---|
+| 源码定位、Cargo 依赖、固定 tag、CI/Docker 接入与版本升级 | [源码与固定版本](references/repository.md) |
 | 所有匹配任务：确认共享能力与业务边界 | [能力归属与结构](references/core.md) |
 | route、handler、middleware、auth、前端 API | [能力归属与结构](references/core.md)、[路由与鉴权](references/routing.md) |
 | 本地 Web、process、SSE/reporter 联调、agent-node、部署验收 | [能力归属与结构](references/core.md)、[本地联调](references/workflow.md) |

@@ -33,6 +33,12 @@ fn captures_fixed_command_output() {
 
 反例：为测试 runner 直接调用生产部署、真实消息流或远端数据库，或只断言内部 helper 的实现步骤。
 
+## 依赖与版本升级验收
+
+- 来源、固定 tag、锁文件及升级边界必须遵守[源码与固定版本](repository.md)，本文件只规定匹配的验收，不另维护版本号或仓库地址。
+- 依赖迁移或升级后，必须使用 Cargo 实际解析结果核对 sdcore 的完整 Git commit、features 与源码路径，并运行消费方的 `cargo check --locked` 和相关 `cargo test --locked`；只修改声明或底座测试通过不能代替消费方验证。
+- 修改底座 feature 行为时，必须覆盖受影响的默认、最小或组合 features，并验证实际消费方所用组合。修改 CI/Docker 依赖获取方式时，必须验证相应构建入口不依赖本机 SDK 或额外凭据；未执行的入口必须明确标记待验证。
+
 ## 验证范围
 
 - 修改共享底座必须运行对应 crate 的测试，并至少验证一个实际消费方的 cargo check 或相关测试。消费方源码或构建环境不可用时必须报告缺口，禁止声称已完成消费验收。
@@ -42,9 +48,9 @@ fn captures_fixed_command_output() {
 
 ```bash
 # 在已经确认的 sdcore workspace 根目录执行，包名从 Cargo.toml 解析。
-cargo test -p sdcore
+cargo test -p sdcore --locked
 # 在实际消费方根目录执行。
-cargo check
+cargo check --locked
 ```
 
 ## 完成标准
