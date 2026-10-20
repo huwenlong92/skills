@@ -86,3 +86,13 @@ func FromServiceContext[T any](ctx *runtime.ServiceContext[T]) *Service {
 - 必须验证同一进程的两个 service 实例不会通过包级全局变量互相覆盖 capability。
 - 必须搜索 capability package 中的 `defaultService`、`Default()`、Gin、response 和普通数据库 CRUD；无法证明符合上述形态的命中不通过。
 - Core facade capability bridge 必须与实际依赖的 facade API 对照，确认没有复制 driver、连接池、重试和 close 行为。
+
+## Core 与项目能力的消费边界
+
+适用范围：本节限定前文“必须通过 FromServiceContext 访问”的对象，仅指项目自有、具有明确作用域的业务能力，禁止将该规则套用于已有稳定公共 API 的 Core 默认能力。
+
+普通业务必须直接调用 Core 公开 API；Facade/Bootstrap/Provider/Service 构造允许必要显式解析。多 App、ServiceLocal、多租户与请求级 Auth/Session 必须保持实例和请求隔离。禁止在声明阶段提前捕获依赖，禁止业务层自建/关闭公共能力。
+
+正向形态：项目 ServiceLocal client 由构造函数解析后显式注入；公共任务查询使用 `queue.ListTasks(ctx, query)`。反例：普通 Handler 先查 Runtime，再获取同一个默认 Operations。
+
+验收：逐项核对 Core 默认能力与项目自有能力的消费路径，验证 default conflict、缺失依赖、隔离与外部资源借用，禁止为了消除兼容符号删除旧入口。

@@ -86,3 +86,16 @@ func Provider() runtime.ServiceProvider[*bootstrap.Config] {
 - 必须核对 service kind、group、name、required capability 和 runtime capability 与实际启动依赖一致。
 - Provider 只能包含注册、声明、config loader 绑定和 wiring；不得出现业务 handler、task、job、event 执行逻辑或配置默认值。
 - 必须运行 service provider 构建或启动测试，并验证必需 capability 缺失和 config loader 失败会阻止 service 创建。
+
+## 公共能力工厂与业务消费
+
+适用范围：Bootstrap、Provider、公共 Capability 和 Service 构造。
+
+- Bootstrap 必须注册公共能力工厂，Provider 必须声明所需能力名称；Runtime 负责初始化与关闭。已由公共工厂提供的能力禁止在每个 Provider 重复创建。服务私有 capability/config loader 仍可在 RuntimeCapabilities 中声明。
+- 构造依赖其他能力的组件时必须声明 dependency，并在初始化回调内从所属 App 解析；禁止在声明阶段提前捕获默认数据库、Redis 或 Operations。
+- 普通 Service 必须使用已初始化的 Core API，禁止重复注册、初始化或关闭公共能力；业务依赖、事务边界、多租户与特殊实例允许显式传入。
+- Router 只组织路由、Middleware、权限与 Handler 绑定；禁止重复解析或构造 Queue/Crontab Operations。请求实例隔离 Middleware 的选择必须明确记录作用域。
+
+正向形态：Bootstrap 注册公共 `database` 工厂；Provider 使用 `RequireCapabilities(database.Name)`；Handler 使用 `database.Gorm(c.Request.Context())`。需要多实例时，Service 构造解析并传入所属实例，禁止在普通 Handler 中调用 `ResolveAppCapability`。
+
+验收：验证初始化依赖顺序、缺失依赖失败、共享工厂每 App 一次、ServiceLocal 隔离、Shutdown 所有权以及 run/serve；HTTP method/path/权限/响应契约必须保持兼容。
