@@ -39,7 +39,7 @@ app/console/handler/
 
 - 常规 handler 必须是包级函数：`func Xxx(c *gin.Context)`。
 - 常规 query、options 和 CRUD handler 禁止定义 `Handler struct`、`NewHandler`、receiver method 或返回 `gin.HandlerFunc` 的端点工厂。
-- 仅当基础设施管理 handler 已经存在并且必须持有 runtime operation facade 时，才允许保持项目既有 struct 形态；禁止把该例外复制到普通业务 CRUD。
+- 仅当业务依赖、请求身份或特殊实例需要显式注入时允许 Handler struct；禁止仅为保存 Core Operations 创建转发对象。
 - Handler 直接使用 core database facade 和 GORM 完成请求绑定、业务校验、查询、projection、普通写入和必要事务。
 - 禁止为单个 HTTP query/CRUD 新建 service、repository、manager、usecase、operation wrapper 或一组一对一转发 helper。
 - 不同 HTTP service 即使访问同一张表，也必须分别维护请求、权限条件、查询和 response projection，禁止建立包含所有入口字段的通用 CRUD service 或 DTO。
@@ -69,7 +69,7 @@ func GetCatalogItemList(c *gin.Context) {
 		CreatedAt time.Time `json:"created_at"`
 	}, 0)
 
-	model := database.DB.WithContext(c.Request.Context()).
+	model := database.Gorm(c.Request.Context()).
 		Table(database.Table(&models.CatalogItem{}) + " AS item").
 		Where("item.deleted_at IS NULL")
 	if search := strings.TrimSpace(request.Search); search != "" {
@@ -130,7 +130,7 @@ func GetCatalogItemDetail(c *gin.Context) {
 		Name     string            `json:"name"`
 		Status   int16             `json:"status"`
 	}
-	model := database.DB.WithContext(c.Request.Context()).
+	model := database.Gorm(c.Request.Context()).
 		Table(database.Table(&models.CatalogItem{}) + " AS item").
 		Joins("INNER JOIN " + database.Table(&models.CatalogCategory{}) + " AS category ON category.id = item.category_id AND category.deleted_at IS NULL").
 		Where("item.id = ? AND item.deleted_at IS NULL", request.ID).
@@ -170,7 +170,7 @@ func GetCatalogCategoryOptions(c *gin.Context) {
 		Label string `json:"label"`
 		Code  string `json:"code"`
 	}, 0)
-	if err := database.DB.WithContext(c.Request.Context()).
+	if err := database.Gorm(c.Request.Context()).
 		Table(database.Table(&models.CatalogCategory{}) + " AS category").
 		Where("category.deleted_at IS NULL").
 		Where("category.status = ?", models.CatalogCategoryStatusEnabled).
@@ -239,3 +239,28 @@ func GetCatalogItemStatusOptions(c *gin.Context) {
   ```
 
 - 必须继续执行 [request.md](request.md)、[http/response.md](../http/response.md)、[write-handler.md](write-handler.md)、[database/query.md](../database/query.md) 和 [database/projection.md](../database/projection.md) 中本次命中的检查。
+
+## Core 公共 API 使用
+
+适用范围：普通 Handler、业务 Service、Queue/Crontab 管理入口。
+
+- 已初始化的公共能力必须直接使用 Core API；禁止普通业务调用 `FromServiceContext`、`RuntimeFromServiceContext`、`OperationsFromServiceContext`、`ResolveAppCapability` 或 `ResolveServiceCapability`。禁止仅为保存/转发 Operations 构造 Handler/Service。
+- 业务 Service、请求身份、多租户或特殊实例确有依赖时允许构造函数注入，必须记录作用域和所有权；禁止为形式统一引入全局单例或 DI 框架。
+- 数据库、Redis、Logger 必须通过同步 getter 使用，禁止直接读取可变 `database.DB`、`redis.RDB`、`logger.L`。请求取消、超时、事务和链路追踪必须透传 context。
+
+正向 Gin 形态（通用示意）：
+
+```go
+func ListTasks(c *gin.Context) {
+    tasks, err := queue.ListTasks(c.Request.Context(), queue.TaskQuery{})
+    if err != nil {
+        response.Error(c, err)
+        return
+    }
+    response.Success(c, tasks)
+}
+```
+
+反例：在 Handler 内 `operations, _ := queueops.FromServiceContext(ctx)`，或 Router 通过 `NewQueueHandler(operations)` 建立一对一转发。
+
+验收：离线静态检查必须限定真实业务目录、识别 import alias、输出文件/行号/原因；Bootstrap/Provider/Facade/测试不误报，例外必须逐项记录原因。必须运行 HTTP 兼容测试及受影响模块测试，外部真实服务未授权时标记 SKIP。
