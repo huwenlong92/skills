@@ -1,0 +1,6 @@
+{
+  "skills/sdkit-dbops/SKILL.md": "fa84c6a993c4ddda22d6c67e2d2031ef8bdf7cbe1675a3d450229bbec7de8e7b",
+  "skills/sdkit-dbops/references/recovery.md": "53641a6191b2aaa0cb360734d04b6541160e1d0ab2c3a125352c8750ce2ff9c9",
+  "skills/sdkit-dbops/references/schema-snapshot.md": "7a98946de44001a7c2d45e698f6d69f1f483b58acf25bce6f30a67cd118c7fb4",
+  "skills/sdkit-dbops/references/range-partitions.md": "a270d4307664d73570cb9a8e8f2c11a2cb0c07e7f598208bf08bc6602db34e93"
+}

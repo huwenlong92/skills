@@ -101,3 +101,7 @@ main `226465e5f951cc1f1394a1c91e4c3f682f822b83` 普通合入；唯一 AGENTS 冲
 ## PR #20 · #24 合入 main 后的最终集成
 
 main 已前进到 957c5e49a53acc8343b09a4a875a430db57deac2；普通合入，三个共享状态文件冲突逐项保留双方内容，Orchestration 为新 main 加原有 Git 入口。19 次模型结果保留，最终 15 PASS/0 FAIL/1 BLOCKED（A05 Provider）；Git 门禁语义未改。最新静态/链接/Manager 与模板47场景回归见本轮报告，保持 Draft，不合并或部署。
+
+## RANGE维护规范V1（2026-10-21）
+
+独立分支仅补充现有sdkit-dbops分区维护/安全恢复规则及链接，V1不连接/执行SQL，不新增或安装Skill。24 Skill/链接/95项DBOps测试通过；真实PostgreSQL证据来自配套sdbase-go项目工具，不扩大本Skill权限。见[验收](plans/range-maintenance-v1-20261021-review.md)。两仓Draft正文已准备，用户于2026-10-22明确授权本轮Stage/Commit/Push/Create-PR，最终状态以GitHub为准；不合并/发布/安装/部署/主动CI。原main、未知docs/ideas与所有Worktree保留。
