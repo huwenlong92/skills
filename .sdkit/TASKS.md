@@ -1,5 +1,7 @@
 # 任务
 
+- range-skill-closeout-20261022 | safe main sync verified; template RANGE usage reference and 61 offline tests verified; Draft delivery authorized, final state per GitHub | codex/sdbase-go-range-skill-20261022 | [计划](plans/range-skill-closeout-20261022.md)
+
 | ID | 状态 | 负责分支 | 计划 |
 |---|---|---|---|
 | pr13-final-acceptance | verified | feat/engineering-orchestration-execution-v1-20261018 / PR #13 | [验收计划](plans/pr13-final-acceptance.md) |

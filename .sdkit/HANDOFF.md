@@ -105,3 +105,7 @@ main 已前进到 957c5e49a53acc8343b09a4a875a430db57deac2；普通合入，三�
 ## RANGE维护规范V1（2026-10-21）
 
 独立分支仅补充现有sdkit-dbops分区维护/安全恢复规则及链接，V1不连接/执行SQL，不新增或安装Skill。24 Skill/链接/95项DBOps测试通过；真实PostgreSQL证据来自配套sdbase-go项目工具，不扩大本Skill权限。见[验收](plans/range-maintenance-v1-20261021-review.md)。两仓Draft正文已准备，用户于2026-10-22明确授权本轮Stage/Commit/Push/Create-PR，最终状态以GitHub为准；不合并/发布/安装/部署/主动CI。原main、未知docs/ideas与所有Worktree保留。
+
+## RANGE 模板 Skill 收尾（2026-10-22）
+
+本轮两仓main已安全ff-only同步，Skills独立分支仅补充sdbase-go的RANGE模板使用路由/reference；DBops通用安全规范不改。原部署9项、64忽略文件、草稿、Worktree与安装文件受保护，不执行SQL或改Go。用户已明确授权Stage/Commit/普通Push及一个Draft，最终校验与交付以[计划](plans/range-skill-closeout-20261022.md)及GitHub为准；不合并、发布、部署、安装或主动CI。
