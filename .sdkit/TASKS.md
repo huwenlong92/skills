@@ -23,3 +23,5 @@
 | cfops-v1 | verified（本地与 PR 交付；待总控验收） | feat/cfops-v1-20261020 / PR #28 | [计划](plans/cfops-v1.md) |
 
 | pr28-final-local | implemented（本地通过；6 模型 BLOCKED；交付按 PR 读回） | feat/cfops-v1-20261020 / PR #28 | [验收计划](plans/pr28-final-local.md) |
+
+- range-maintenance-v1-20261021 | local sdkit-dbops reference/links/tests verified; paired Go PostgreSQL acceptance complete; Git delivery explicitly authorized on 2026-10-22; final state per GitHub | codex/range-maintenance-v1-20261021 | [计划](plans/range-maintenance-v1-20261021.md)
