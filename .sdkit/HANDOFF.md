@@ -109,3 +109,9 @@ main 已前进到 957c5e49a53acc8343b09a4a875a430db57deac2；普通合入，三�
 ## RANGE 模板 Skill 收尾（2026-10-22）
 
 本轮两仓main已安全ff-only同步，Skills独立分支仅补充sdbase-go的RANGE模板使用路由/reference；DBops通用安全规范不改。原部署9项、64忽略文件、草稿、Worktree与安装文件受保护，不执行SQL或改Go。用户已明确授权Stage/Commit/普通Push及一个Draft，最终校验与交付以[计划](plans/range-skill-closeout-20261022.md)及GitHub为准；不合并、发布、部署、安装或主动CI。
+
+## RANGE Retention V1.1（2026-10-22）
+
+独立分支codex/range-retention-v11-20261022，预建daily/清理monthly、12/6/12个月delete/keep、单一共享SQL及首次启用门禁。只在本轮新建数据库验证，不清理原验收数据、不安装Skill。进度与验收见[计划](plans/range-retention-v11-20261022.md)，最终Git交付以实时结果为准。
+
+本轮Git交付已于2026-10-22获得用户明确授权：两仓精确Stage/Commit/普通Push及两个互相引用的Draft PR。源码测试冻结，最终身份以GitHub PR为准，不合并/发布/部署/安装/主动CI。
