@@ -32,7 +32,7 @@
 | `system_crontab_run_log_partition` | `accesslog.go` | Crontab 执行日志 |
 | `system_queue_task_partition` | `queue_task.go` | Queue 三表，同月整体事务 |
 
-三项当前均为 `@every 6h`、`Enabled: true`、`AllowDB: false`、`AllowOverlap: false`；`window.go` 按 UTC 检查上月、当前月、下月。缺失空月通过已有 Ensure 幂等补建；DEFAULT 有目标月数据或挂载/边界错误时只报错，不自动搬迁。冲突月份失败后仍检查其他月份，Queue 同月三表失败则整体回滚。
+三项当前均为 `@daily`、`Enabled: true`、`AllowDB: false`、`AllowOverlap: false`；`window.go` 按 UTC 检查上月、当前月、下月。缺失空月通过已有 Ensure 幂等补建；DEFAULT 有目标月数据或挂载/边界错误时只报错，不自动搬迁。冲突月份失败后仍检查其他月份，Queue 同月三表失败则整体回滚。
 
 检查时必须先确认 crontab 服务/聚合实例运行及任务注册，再从 Admin 运维模板、runtime、runs、logs 核对 Key、状态、时间和错误；路由以 `app/admin/router.go` 的 `ops/crontab/{templates,runtime,runs,logs}` 及部署前缀为准。结合日志的 `job_id`、`template_key`、`partition_month` 与已获授权取得的分区 catalog、DEFAULT 按月统计确认缺口。没有运行记录不等于缺少分区，日志成功也不能代替对象核验。
 
@@ -48,14 +48,14 @@
 | DEFAULT 冲突/积压检查 | `scripts/maintenance/range-month.sql` | 默认预览，报告选定月状态及 DEFAULT 全部非空月份，不自动修复 |
 | DEFAULT 数据迁移 | `scripts/maintenance/range-month.sql` | `apply` / `move_default` 默认关闭，必须独立授权 |
 | 窗口外历史补建 | `scripts/maintenance/range-month.sql` | 明确单个 UTC 月份并独立授权，不自动扫描全部历史 |
-| 历史分区清理 | `scripts/maintenance/range-retention.sql` | 默认 Dry-run，不接入启动或自动 Crontab |
+| 历史分区清理 | `scripts/maintenance/range-retention.sql` | 手动默认 Dry-run；自动任务须先审查首次启用 |
 | 备份恢复 | DBops 安全流程及项目已核验工具 | 独立授权，不能用重跑 Ensure 代替恢复 |
 
 DEFAULT 迁移、清理、备份恢复、未知提交状态、预算/锁窗口调整及对象定制必须转交 DBops 审查。模板使用必须确认下列边界，具体安全判据统一引用 DBops：
 
 - `apply=true` 不产生授权；DEFAULT 迁移必须明确月份、五表实际对象、总行数预算和备份恢复证据，采用项目已验证的单月事务批次入口，不默认自动迁移。
 - 预览也会短暂加锁。环境、依赖、备份或权限不明，以及锁/预算检查失败时必须停止，禁止自动放宽参数。
-- 清理必须核验活动、可重试任务及跨月引用，禁止 `CASCADE`；模板启动不自动删除历史分区。
+- 清理必须核验活动、可重试任务及跨月引用，禁止 `CASCADE`；未确认数据库的模板启动不获得删除权限。
 - UNKNOWN COMMIT 必须先调查，禁止自动重放；已提交成功不反向 DROP。正式数据库由人按安全流程处理，AI 不执行维护。
 
 ## 离线检查与新项目继承
@@ -75,3 +75,14 @@ env -u SDBASE_RANGE_CONFIG GOPROXY=off GOSUMDB=off go test -mod=readonly ./tests
 ## 完成标准
 
 必须记录采用的源码 SHA，核对五表/三 Key/窗口/SQL 文件与源码一致，说明自动范围、人工确认项及未执行项。Skill 修改须通过格式、references 相对链接、Catalog 和既有路由检查；人工复核 DBops Supporting 可达且未形成重复职责。未运行数据库测试必须标记 SKIP，禁止把离线 PASS 描述为数据库验收；不得自动安装、发布或启用生产任务。
+
+
+## Retention V1.1 模板使用
+
+必须核对目标项目是否已升级到V1.1。三个预建Key不变，周期改为@daily。三个新增清理Key为 `system_access_log_retention`、`system_crontab_run_log_retention`、`system_queue_task_retention`，通过原registry注册@monthly。`accesslog.go`中的SystemAccessLogRetentionMode/Months默认delete/12，SystemCrontabRunLogRetentionMode/Months默认delete/6；`queue_task.go`中的SystemQueueTaskRetentionMode/Months默认delete/12，Queue三表共同保护。修改对应Go常量，keep为永久保留；禁止新增YAML、策略表或集中策略中心。
+
+必须先按DBops完成首次启用安全审查，再由获授权操作者为维护进程设置精确库名 `SDBASE_RANGE_RETENTION_APPROVED_DATABASE`；未设置或不匹配时失败，不删除。禁止从连接配置自动填入门禁，变量不是授权/备份证据，已有库升级不代表允许删除。正式库仍禁止AI操作。
+
+共享判定源为 `app/crontab/templates/partition/retention.sql`：Go嵌入，手动包装相对include。容器/stdin客户端使用项目 `scripts/maintenance/render-retention.py` 离线展开后交给已核验入口，禁止另写Go规则；手动all/6个月Dry-run默认不等于自动三组期限。具体参数、启用/撤销及Run/Log查询见项目RANGE-RETENTION.md。`tests/models/retention_test.go`的真实测试只接受新建隔离库配置与显式精确 `SDBASE_RETENTION_TEST_DB`，禁止用既有库消除SKIP。
+
+完成核验：必须明确自动策略/首次启用授权/keep和安全判定唯一来源，按项目真实隔离测试及Run/Log证据审查；Skill本身仍不连接、不执行SQL，不自动安装。

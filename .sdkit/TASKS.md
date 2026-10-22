@@ -27,3 +27,7 @@
 | pr28-final-local | implemented（本地通过；6 模型 BLOCKED；交付按 PR 读回） | feat/cfops-v1-20261020 / PR #28 | [验收计划](plans/pr28-final-local.md) |
 
 - range-maintenance-v1-20261021 | local sdkit-dbops reference/links/tests verified; paired Go PostgreSQL acceptance complete; Git delivery explicitly authorized on 2026-10-22; final state per GitHub | codex/range-maintenance-v1-20261021 | [计划](plans/range-maintenance-v1-20261021.md)
+
+## RANGE Retention V1.1（2026-10-22）
+
+独立分支codex/range-retention-v11-20261022，预建daily/清理monthly、12/6/12个月delete/keep、单一共享SQL及首次启用门禁。只在本轮新建数据库验证，不清理原验收数据、不安装Skill。进度与验收见[计划](plans/range-retention-v11-20261022.md)，最终Git交付以实时结果为准。
