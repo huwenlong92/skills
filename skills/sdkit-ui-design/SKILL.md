@@ -11,11 +11,20 @@ description: 跨项目 UI 视觉设计、页面布局、交互状态、响应式
 
 | 任务 | 读取 |
 |---|---|
+| 静态高保真单页生成、主稿选择 | [高保真设计](references/high-fidelity.md) |
+| 可运行交互原型的状态定义与设计验收 | [原型设计](references/prototype-design.md) |
+| PNG 资产、Manifest、模块 ZIP 交付 | [资产交付](references/asset-delivery.md) |
 | 页面视觉、风格、布局、组件设计 | [视觉规范](references/visual.md) |
 | 页面流程、弹窗、表单、状态 | [交互规范](references/interaction.md) |
 | 多端设计、可访问性 | [响应式规范](references/responsive.md) |
 | 交给 Codex 或其他开发 Agent | [设计交接](references/handoff.md) |
 | 评审设计稿、对比实现截图 | [设计复核](references/review.md) |
+
+## 双工作流边界
+
+- 高保真设计稿的 artifact_type 为 high_fidelity；只交付静态图与可验证资产，不能冒充可运行原型。
+- 交互原型的 artifact_type 为 interactive_prototype；必须定义并验证实际操作行为，不能用静态图片代替。
+- 高保真图片交付可调用 `python scripts/design_delivery.py build --plan plan.json --source input --output delivery`，随后使用 `verify --output delivery`；计划格式见资产交付 Reference。该脚本不得用于原型源码发布。
 
 ## 协作边界
 
