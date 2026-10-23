@@ -20,6 +20,7 @@ def valid_png(data):
             crc = struct.unpack_from(">I", data, offset+8+length)[0]
             if zlib.crc32(tag+body) != crc: return False
             if not all(65 <= c <= 90 or 97 <= c <= 122 for c in tag): return False
+            if tag[0] < 97 and tag not in (b'IHDR', b'PLTE', b'IDAT', b'IEND'): return False
             if not chunks and (tag != b"IHDR" or length != 13): return False
             if tag == b"IHDR":
                 if chunks or length != 13: return False
@@ -28,11 +29,32 @@ def valid_png(data):
                 if (depth,color) not in ((1,0),(2,0),(4,0),(8,0),(16,0),(8,2),(16,2),(1,3),(2,3),(4,3),(8,3),(8,4),(16,4),(8,6),(16,6)): return False
                 if compression or filtering or interlace not in (0,1): return False
                 dimensions = (width,height)
-            if tag == b"IDAT": compressed.extend(body)
+            if tag == b'PLTE':
+                if b'PLTE' in chunks or b'IDAT' in chunks or color in (0,4) or not length or length % 3 or length > 768: return False
+                if color == 3 and length//3 > 2**depth: return False
+            if tag == b"IDAT":
+                if color == 3 and b'PLTE' not in chunks: return False
+                if b'IDAT' in chunks and chunks[-1] != b'IDAT': return False
+                compressed.extend(body)
             if tag == b"IEND":
                 if length or offset+12 != len(data) or not compressed or dimensions is None: return False
-                raw = zlib.decompress(bytes(compressed))
-                return bool(raw) and b"IHDR" in chunks and b"IDAT" in chunks
+                # PNG scanline lengths include one filter byte per row, also for Adam7 passes.
+                passes = ((0,0,1,1),) if not interlace else ((0,0,8,8),(4,0,8,8),(0,4,4,8),(2,0,4,4),(0,2,2,4),(1,0,2,2),(0,1,1,2))
+                channels = {0:1,2:3,3:1,4:2,6:4}[color]
+                rows = []
+                for x,y,dx,dy in passes:
+                    w,h = max(0,(width-x+dx-1)//dx),max(0,(height-y+dy-1)//dy)
+                    if w and h: rows.append((1+(w*depth*channels+7)//8,h))
+                expected = sum(size*count for size,count in rows)
+                decoder = zlib.decompressobj()
+                raw = decoder.decompress(bytes(compressed),expected+1)
+                if len(raw) != expected or not decoder.eof or decoder.unused_data or decoder.unconsumed_tail: return False
+                pos = 0
+                for size,count in rows:
+                    for _ in range(count):
+                        if raw[pos] > 4: return False
+                        pos += size
+                return True
             chunks.append(tag)
             offset += 12 + length
     except (ValueError,struct.error,zlib.error,OverflowError):
@@ -47,31 +69,48 @@ def safe(path):
         raise ValueError("unsafe or non-ASCII path: " + str(path))
     return p.as_posix()
 
+def unlinked(path):
+    """Reject symlinks before resolve(), including existing ancestor components."""
+    path = Path(path).absolute()
+    if any(p.is_symlink() for p in (path,*path.parents)):
+        raise ValueError('linked path: '+str(path))
+    return path
+
 def verify(root):
-    root = Path(root)
+    root = unlinked(root)
+    unlinked(root/'manifest.json')
     manifest = json.loads((root/"manifest.json").read_text(encoding="utf-8"))
-    if manifest.get("path_base") != "manifest_directory" or manifest.get("artifact_type") != "high_fidelity":
+    if not isinstance(manifest,dict) or manifest.get('schema_version') != '1.0' or 'original_zip_path' in manifest or manifest.get("path_base") != "manifest_directory" or manifest.get("artifact_type") != "high_fidelity":
         raise ValueError("invalid manifest contract")
     if not isinstance(manifest.get("assets"),list): raise ValueError("invalid assets")
-    paths = set()
+    paths, hashes = set(), {}
     for a in manifest["assets"]:
+        if not isinstance(a,dict) or not {'path','module','page_id','page_name','kind','sha256','bytes','status'} <= a.keys():
+            raise ValueError('missing asset fields')
+        if not isinstance(a['page_id'],str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]*',a['page_id']) or any(not isinstance(a[k],str) or not a[k].strip() for k in ('page_name','status')):
+            raise ValueError('invalid page metadata')
+        if not isinstance(a['sha256'],str) or not re.fullmatch(r'[a-f0-9]{64}',a['sha256']) or type(a['bytes']) is not int or a['bytes'] <= 0:
+            raise ValueError('invalid hash/size')
         if not isinstance(a.get("module"),str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*",a["module"]) or a.get("kind") not in ("selected","history"):
             raise ValueError("invalid module/kind")
         path = safe(a["path"])
         if path in paths or "original_zip_path" in a: raise ValueError("duplicate/legacy path")
         paths.add(path)
-        f = root/path
-        if not f.is_file() or any(part.is_symlink() for part in (f,*f.parents) if part != root and root in part.parents):
+        f = unlinked(root/path)
+        if not f.is_file():
             raise ValueError("missing/linked asset: "+path)
         data = f.read_bytes()
         if not valid_png(data) or digest(data) != a["sha256"] or len(data) != a["bytes"]:
             raise ValueError("asset mismatch: "+path)
+        hashes.setdefault(a['sha256'],[]).append(path)
+    if manifest.get('duplicate_sha256') != {h:p for h,p in hashes.items() if len(p)>1}:
+        raise ValueError('duplicate hash metadata mismatch')
     modules = {a["module"] for a in manifest["assets"]}
     if {p.name for p in root.glob("*.zip")} != {m+".zip" for m in modules}:
         raise ValueError("ZIP set mismatch")
     for module in modules:
         expected = {a["path"] for a in manifest["assets"] if a["module"] == module}
-        archive = root/(module+".zip")
+        archive = unlinked(root/(module+".zip"))
         with zipfile.ZipFile(archive) as z:
             names = z.namelist()
             if len(names) != len(expected) or set(names) != expected or z.testzip() is not None:
@@ -82,7 +121,7 @@ def verify(root):
     return len(paths)
 
 def build(plan_path, source, output):
-    source, output = Path(source).resolve(), Path(output)
+    source, output = unlinked(source).resolve(), unlinked(output)
     if output.exists() and any(output.iterdir()): raise ValueError("output must be empty")
     plan = json.loads(Path(plan_path).read_text(encoding="utf-8"))
     output.mkdir(parents=True, exist_ok=True)
@@ -96,7 +135,7 @@ def build(plan_path, source, output):
             for i, name in enumerate(names, 1):
                 relative = Path(name)
                 if relative.is_absolute() or ".." in relative.parts: raise ValueError("unsafe source")
-                src = (source/relative).resolve()
+                src = unlinked(source/relative).resolve()
                 if not src.is_relative_to(source) or not src.is_file() or src.is_symlink():
                     raise ValueError("missing source")
                 data = src.read_bytes()

@@ -22,7 +22,7 @@ class DeliveryTest(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
-        self.root = Path(self.tmp.name)
+        self.root = Path(self.tmp.name).resolve()
         self.source = self.root/"source"
         self.source.mkdir()
         (self.source/"image.png").write_bytes(self.png())
@@ -86,6 +86,96 @@ class DeliveryTest(unittest.TestCase):
         m=json.loads((self.out/"manifest.json").read_text())
         m["assets"][0]["module"]="unknown"
         (self.out/"manifest.json").write_text(json.dumps(m))
+        with self.assertRaises(ValueError): d.verify(self.out)
+
+    def test_png_scanline_integrity(self):
+        def chunk(tag, data):
+            return struct.pack('>I', len(data))+tag+data+struct.pack('>I', zlib.crc32(tag+data))
+        header = self.png()[:33]
+        for raw in (b'\0', b'\x05\xff\0\0', b'\0\xff\0\0extra'):
+            with self.subTest(raw=raw):
+                payload = header+chunk(b'IDAT', zlib.compress(raw))+chunk(b'IEND', b'')
+                self.assertFalse(d.valid_png(payload))
+
+    def test_png_formats_and_compressed_stream(self):
+        def chunk(tag, data):
+            return struct.pack('>I',len(data))+tag+data+struct.pack('>I',zlib.crc32(tag+data))
+        for depth,color,raw,palette in ((1,0,b'\0\0',b''),(8,6,b'\0\xff\0\0\xff',b''),(1,3,b'\0\0',chunk(b'PLTE',b'\xff\0\0'))):
+            for interlace in (0,1):
+                with self.subTest(depth=depth,color=color,interlace=interlace):
+                    header=d.PNG+chunk(b'IHDR',struct.pack('>IIBBBBB',1,1,depth,color,0,0,interlace))
+                    self.assertTrue(d.valid_png(header+palette+chunk(b'IDAT',zlib.compress(raw))+chunk(b'IEND',b'')))
+        header=self.png()[:33]
+        for compressed in (zlib.compress(b'\0\xff\0\0')[:-1],zlib.compress(b'\0\xff\0\0')+b'extra'):
+            self.assertFalse(d.valid_png(header+chunk(b'IDAT',compressed)+chunk(b'IEND',b'')))
+
+    def test_source_symlinks_rejected(self):
+        (self.source/'linked.png').symlink_to(self.source/'image.png')
+        (self.source/'linked-dir').symlink_to(self.source, target_is_directory=True)
+        for index,name in enumerate(('linked.png', 'linked-dir/image.png', '../outside.png', '/outside.png')):
+            with self.subTest(name=name):
+                plan = json.loads(self.plan.read_text())
+                plan['pages'][0]['selected'] = name
+                self.plan.write_text(json.dumps(plan))
+                with self.assertRaises(ValueError): d.build(self.plan,self.source,self.root/f'out-{index}')
+
+    def test_output_symlink_rejected(self):
+        target = self.root/'outside'
+        target.mkdir()
+        self.out.symlink_to(target, target_is_directory=True)
+        with self.assertRaises(ValueError): d.build(self.plan,self.source,self.out)
+        self.assertEqual(list(target.iterdir()), [])
+
+    def test_delivery_symlinks_rejected(self):
+        d.build(self.plan,self.source,self.out)
+        for relative in ('manifest.json', 'profile.zip', 'selected/profile/profile-home.png', 'selected/profile'):
+            with self.subTest(relative=relative):
+                path = self.out/relative
+                saved = self.root/('saved-'+path.name)
+                path.rename(saved)
+                path.symlink_to(saved, target_is_directory=saved.is_dir())
+                try:
+                    with self.assertRaises(ValueError): d.verify(self.out)
+                finally:
+                    path.unlink()
+                    saved.rename(path)
+
+    def test_zip_missing_and_changed_members(self):
+        d.build(self.plan,self.source,self.out)
+        for members in ({}, {'selected/profile/profile-home.png': b'changed'}, {'../escape.png': self.png()}):
+            with self.subTest(members=list(members)):
+                with d.zipfile.ZipFile(self.out/'profile.zip','w') as z:
+                    for name,data in members.items(): z.writestr(name,data)
+                with self.assertRaises(ValueError): d.verify(self.out)
+
+    def test_missing_file_rejected(self):
+        d.build(self.plan,self.source,self.out)
+        (self.out/'selected/profile/profile-home.png').unlink()
+        with self.assertRaises(ValueError): d.verify(self.out)
+
+    def test_manifest_required_fields_and_hashes(self):
+        d.build(self.plan,self.source,self.out)
+        original = json.loads((self.out/'manifest.json').read_text())
+        import copy
+        for field,value in (('sha256','0'*64),('bytes',True),('page_id','../bad'),('page_name',None),('status',None),('path','../escape.png')):
+            with self.subTest(field=field):
+                m = copy.deepcopy(original)
+                m['assets'][0][field] = value
+                (self.out/'manifest.json').write_text(json.dumps(m))
+                with self.assertRaises(ValueError): d.verify(self.out)
+        m = copy.deepcopy(original)
+        del m['assets'][0]['page_name']
+        (self.out/'manifest.json').write_text(json.dumps(m))
+        with self.assertRaises(ValueError): d.verify(self.out)
+
+    def test_duplicate_manifest_metadata_rejected(self):
+        plan = json.loads(self.plan.read_text())
+        plan['pages'].append({'id':'another','name':'另一个','module':'profile','selected':'image.png'})
+        self.plan.write_text(json.dumps(plan))
+        d.build(self.plan,self.source,self.out)
+        m = json.loads((self.out/'manifest.json').read_text())
+        m['duplicate_sha256'] = {}
+        (self.out/'manifest.json').write_text(json.dumps(m))
         with self.assertRaises(ValueError): d.verify(self.out)
 
 if __name__=="__main__": unittest.main()
