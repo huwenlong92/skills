@@ -3,6 +3,8 @@ import importlib.util
 import json
 import tempfile
 import unittest
+import struct
+import zlib
 from pathlib import Path
 
 spec = importlib.util.spec_from_file_location("delivery", Path(__file__).resolve().parents[1]/"scripts"/"design_delivery.py")
@@ -10,13 +12,20 @@ d = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(d)
 
 class DeliveryTest(unittest.TestCase):
+    @staticmethod
+    def png():
+        def chunk(tag, data):
+            return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data))
+        return (d.PNG + chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0))
+                + chunk(b"IDAT", zlib.compress(b"\0\xff\x00\x00")) + chunk(b"IEND", b""))
+
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         self.source = self.root/"source"
         self.source.mkdir()
-        (self.source/"image.png").write_bytes(d.PNG+b"example")
+        (self.source/"image.png").write_bytes(self.png())
         self.plan = self.root/"plan.json"
         self.plan.write_text(json.dumps({"pages":[{"id":"profile-home","name":"我的首页","module":"profile","selected":"image.png"}]},ensure_ascii=False),encoding="utf-8")
         self.out = self.root/"delivery"
@@ -55,5 +64,28 @@ class DeliveryTest(unittest.TestCase):
         d.build(self.plan,self.source,self.out)
         m=json.loads((self.out/"manifest.json").read_text())
         self.assertEqual(len(m["duplicate_sha256"]),1)
+
+    def test_corrupt_png_rejected(self):
+        for payload in (d.PNG+b"invalid", self.png()[:-7], self.png()[:-1]+b"X"):
+            (self.source/"image.png").write_bytes(payload)
+            with self.subTest(payload=payload[-8:]):
+                with self.assertRaises(ValueError): d.build(self.plan,self.source,self.out)
+
+    def test_duplicate_zip_entry_rejected(self):
+        d.build(self.plan,self.source,self.out)
+        archive=self.out/"profile.zip"
+        import warnings
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore",UserWarning)
+            with d.zipfile.ZipFile(archive,"a") as z:
+                z.writestr("selected/profile/profile-home.png",self.png())
+        with self.assertRaises(ValueError): d.verify(self.out)
+
+    def test_invalid_manifest_module_rejected(self):
+        d.build(self.plan,self.source,self.out)
+        m=json.loads((self.out/"manifest.json").read_text())
+        m["assets"][0]["module"]="unknown"
+        (self.out/"manifest.json").write_text(json.dumps(m))
+        with self.assertRaises(ValueError): d.verify(self.out)
 
 if __name__=="__main__": unittest.main()
