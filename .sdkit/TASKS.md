@@ -31,3 +31,5 @@
 ## RANGE Retention V1.1（2026-10-22）
 
 独立分支codex/range-retention-v11-20261022，预建daily/清理monthly、12/6/12个月delete/keep、单一共享SQL及首次启用门禁。只在本轮新建数据库验证，不清理原验收数据、不安装Skill。进度与验收见[计划](plans/range-retention-v11-20261022.md)，最终Git交付以实时结果为准。
+
+| ui-design-auto-archive | awaiting_review | feat/ui-design-auto-archive | [通用注册与自动归档](plans/ui-design-auto-archive.md) |

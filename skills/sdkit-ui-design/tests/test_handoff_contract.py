@@ -60,4 +60,34 @@ class HandoffContractTests(unittest.TestCase):
         self.assertEqual(re.findall(r'^([\w-]+):', match.group(1), re.M), ['name','description'])
 
 
+    def test_project_resolution_priority_and_ambiguity(self):
+        terms = ('1. 用户明确指定的项目标识', '2. 当前会话已确认的项目身份', '3. 当前 ChatGPT 项目的唯一业务产品身份', '4. 已核验的既有项目绑定')
+        positions = [self.mcp.index(term) for term in terms]
+        self.assertEqual(positions, sorted(positions))
+        self.contains(self.mcp, ('不要求用户重复输入', '多个合理候选', '必须询问', '不能仅凭相似名称、目录名称或聊天标题', '不得假定宿主自动提供隐藏项目资料'))
+
+    def test_independent_authorization_states(self):
+        self.contains(self.mcp, ('PROJECT_IDENTIFIED', 'REGISTRATION_AUTHORIZED', 'SAVE_AUTHORIZED', 'ASSET_SAVED', 'GIT_HANDOFF_PENDING', '注册权限不代表保存授权', '不代表项目读写权限', '工具发现不等于权限'))
+
+    def test_save_authorization_reuse_and_reset(self):
+        self.contains(self.entry, ('自动归档入口', '不逐张重复询问'))
+        self.contains(self.mcp, ('未获 SAVE_AUTHORIZED 时必须先询问', '禁止先注册或上传再补问', '同一项目、同一已确认任务范围', '不逐张询问', '切换项目、撤销授权', '必须重新确认', '不能跨项目自动继承'))
+
+    def test_registration_cannot_bypass_binding_or_permissions(self):
+        self.contains(self.mcp, ('artifact_project_resolve', 'artifact_project_register', '项目存在则复用', 'FORBIDDEN/UNAUTHORIZED 不能解释为项目不存在', '不得用注册绕过绑定或接管历史项目', '重新 resolve 核验', '无写权限时必须停止上传', '禁止提交自报 Grants', '不得编造已读取服务器策略'))
+
+    def test_fallbacks_are_explicit_and_fail_closed(self):
+        self.contains(self.mcp, ('MCP 未连接', '当前服务版本不支持自动注册', 'REGISTRATION_PERMISSION_REQUIRED', 'PROJECT_REGISTRATION_CONFLICT', 'LEGACY_BINDING_REQUIRED', 'PROJECT_AUTHORIZATION_REQUIRED', 'BLOCKED', '禁止近似重绘、截图替代或虚构成功回执'))
+
+    def test_fixed_set_chain_and_no_git_requirement(self):
+        self.contains(self.mcp, ('artifact_begin', 'artifact_receive', 'artifact_status', 'artifact_commit', 'artifact_list', 'artifact_download', 'artifact_recover', '复用原', 'upload_id', '每个页面必须保留独立文件', 'high_fidelity', 'prototype', '宿主不保证必然提供可用原图引用', '原字节 SHA-256'))
+        self.assertNotIn('PROJECT_REGISTRATION_POLICIES_JSON=', self.mcp)
+        self.assertNotIn('"$schema"', self.mcp)
+
+    def test_archive_matrix_is_not_real_model_evidence(self):
+        matrix = (SKILL/'tests/acceptance.md').read_text(encoding='utf-8')
+        self.assertEqual(re.findall(r'^\| (A\d{2}) \|', matrix, re.M), [f'A{i:02d}' for i in range(1,11)])
+        self.contains(matrix, ('STATIC_ONLY', '尚未通过真实 ChatGPT/Agent 会话验收', '原生 fileParams', 'GIT_HANDOFF_PENDING'))
+
+
 if __name__ == '__main__': unittest.main()
