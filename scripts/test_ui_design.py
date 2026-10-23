@@ -36,7 +36,10 @@ class UIDesignTests(unittest.TestCase):
     def test_reference_quality_and_standalone_links(self):
         skill = ROOT / 'skills/sdkit-ui-design'
         refs = sorted((skill / 'references').glob('*.md'))
-        self.assertEqual({p.stem for p in refs}, {'handoff', 'interaction', 'responsive', 'review', 'visual'})
+        entry = (skill / 'SKILL.md').read_text(encoding='utf-8')
+        routed = set(re.findall(r'\]\(references/([a-z-]+)\.md\)', entry))
+        self.assertEqual({p.stem for p in refs}, routed)
+        self.assertTrue({'handoff', 'interaction', 'responsive', 'review', 'visual'} <= routed)
         for path in refs:
             text = path.read_text(encoding='utf-8')
             with self.subTest(reference=path.name):
