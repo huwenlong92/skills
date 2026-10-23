@@ -115,3 +115,10 @@ main 已前进到 957c5e49a53acc8343b09a4a875a430db57deac2；普通合入，三�
 独立分支codex/range-retention-v11-20261022，预建daily/清理monthly、12/6/12个月delete/keep、单一共享SQL及首次启用门禁。只在本轮新建数据库验证，不清理原验收数据、不安装Skill。进度与验收见[计划](plans/range-retention-v11-20261022.md)，最终Git交付以实时结果为准。
 
 本轮Git交付已于2026-10-22获得用户明确授权：两仓精确Stage/Commit/普通Push及两个互相引用的Draft PR。源码测试冻结，最终身份以GitHub PR为准，不合并/发布/部署/安装/主动CI。
+
+## 设计资产自动归档协作（独立 Draft，待验收）
+
+- 基线 skills b2626326；独立分支 feat/ui-design-auto-archive，主工作区未知 docs/ideas/ 与所有既有 Worktree 保留。只更新 sdkit-ui-design 工作流/交接/静态验收，不安装 Skill，不改 Foundry 或业务项目。
+- 配套 MCP 基线96ddaa53 的通用注册补丁，服务器协议在服务仓库；Skill 只按实际工具和结果消费。唯一身份直接复用，保存授权按项目/任务范围继承，切换/歧义/撤销/越界询问，原图不可访问 BLOCKED，Git 独立。
+- manager validate --all 24 Skill；Markdown相对链接0错误；Skill自身35项、UI/工程协议26项（共61项）静态通过。A01–A10仅STATIC_ONLY，真实ChatGPT/Codex自动执行、fileParams/MinIO回读尚未验收。
+- 两仓普通Commit/Push及互相引用Draft，不合并、部署、重启、主动CI或真实OAuth/MinIO修改。最终Head/PR以GitHub为准。

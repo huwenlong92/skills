@@ -14,7 +14,7 @@ description: 跨项目 UI 视觉设计、页面布局、交互状态、响应式
 | 静态高保真单页生成、主稿选择 | [高保真设计](references/high-fidelity.md) |
 | 可运行交互原型的状态定义与设计验收 | [原型设计](references/prototype-design.md) |
 | PNG 资产、Manifest、模块 ZIP 交付 | [资产交付](references/asset-delivery.md) |
-| 经授权用 MCP 保存设计原图、版本与交接 | [MCP 设计资产交付](references/mcp-delivery.md) |
+| 项目识别、授权后的连续设计自动归档、MCP 注册与原图交接 | [MCP 设计资产交付](references/mcp-delivery.md) |
 | 已保存资产进入项目 Git 设计交接与 Revision | [Git 设计交接](references/git-handoff.md) |
 | 页面视觉、风格、布局、组件设计 | [视觉规范](references/visual.md) |
 | 页面流程、弹窗、表单、状态 | [交互规范](references/interaction.md) |
@@ -28,6 +28,10 @@ description: 跨项目 UI 视觉设计、页面布局、交互状态、响应式
 - 交互原型在 Artifact Contract V1 的 artifact_type 为 prototype；必须定义并验证实际操作行为，不能用静态图片代替。
 - 高保真图片交付可调用 `python scripts/design_delivery.py build --plan plan.json --source input --output delivery`，随后使用 `verify --output delivery`；计划格式见资产交付 Reference。该脚本不得用于原型源码发布。
 - 真实 MCP 的文件集协议及版本由 Design Delivery 服务维护；本 Skill 只规定设计身份、交接字段与校验门禁。MinIO 保存成功不等于 Git 设计交接完成，Git 绑定不是上传前提。
+
+## 自动归档入口
+
+设计会话涉及保存时必须读取 [MCP 设计资产交付](references/mcp-delivery.md)。必须依次核验唯一项目、用户保存授权、服务器项目权限及必要的注册能力；项目身份唯一且已有同项目同任务范围的有效保存授权时，必须直接复用并连续归档，不逐张重复询问。身份不明、尚未授权、切换项目、撤销或超范围时必须按该 Reference 询问或停止；原图不可访问时必须报告 BLOCKED。注册权限不代表保存授权，MinIO 归档不代表 Git 交接。
 
 ## 协作边界
 
