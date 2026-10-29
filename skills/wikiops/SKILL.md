@@ -14,6 +14,7 @@ description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用�
 | 定位知识库、跨会话恢复、云端读写与提交 | [Workspace 配置](references/workspace.md)、[Repository Resolver](references/resolver.md)、[仓库协作](references/repository.md) |
 | 隐含需要既有技术经验、专题检索，或阶段结束有可复用知识候选 | [知识检索与回答](references/answer.md)、[聊天入库](references/capture.md)；涉及写入再读 [知识写入](references/writing.md) |
 | “查一下知识库”“我以前怎么做的”“根据 Wiki 回答”，搜索与综合回答 | [仓库协作](references/repository.md)、[知识检索与回答](references/answer.md) |
+| 新增或修改分类、目录、文章及其可见性，移动、删除或重分类 | [知识写入](references/writing.md)、[Source Visibility V1](references/visibility.md) |
 | 更新主题索引 | [仓库协作](references/repository.md)、[知识写入](references/writing.md) |
 | “记录一下”“沉淀一下”“归档一下”，保存聊天中的方法、排障、决策或资料摘录 | [仓库协作](references/repository.md)、[知识写入](references/writing.md)、[聊天入库](references/capture.md) |
 | 核验旧知识、更新过期命令、合并相似文章、修复链接或处理历史草稿 | [仓库协作](references/repository.md)、[知识维护](references/maintenance.md) |
@@ -26,7 +27,7 @@ description: 管理 GitHub 私有 Wiki 知识库：检索既有知识并引用�
 
 1. 从明确的 Workspace 选择或 Primary 确定目标，使用 Resolver 验证仓库身份和本地/远端能力；读取最新根 AGENTS.md、主题注册表及命中的规范。
 2. 先搜索已有相关知识，区分用户确认、来源陈述、Agent 分析及未验证事项。
-3. 查询任务按已读证据回答并引用来源；只有要求写入或维护时，才更新仓库允许位置的内容、来源和索引，并检测并发修改。
+3. 查询任务按已读证据回答并引用来源；只有要求写入或维护时，才更新仓库允许位置的内容、来源和索引，并检测并发修改。分类、目录或文章维护必须读取 [Source Visibility V1](references/visibility.md)，检查后代影响，禁止将生命周期变更自动映射为 visibility。
 4. 查询任务交付答案、来源与未确认范围；写入任务按仓库规则验证并提交，分别报告写入、CI、部署和访问验收状态。
 
 ## 共同门禁

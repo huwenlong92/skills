@@ -18,6 +18,7 @@ description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、�
 | 自动识别既有项目知识需求、按需检索、捕获项目文档候选与阶段摘要 | [知识检索与捕获](references/capture.md)、[仓库与项目路由](references/repository.md)、[文档协作](references/documents.md) |
 | 识别项目、继续已有项目或定位文档 | [Workspace 配置](references/workspace.md)、[Repository Resolver](references/resolver.md)、[仓库与项目路由](references/repository.md) |
 | 起草、修改、同步 PRD、研究、技术方案、技术文档、产品设计规范 | [仓库与项目路由](references/repository.md)、[文档协作](references/documents.md) |
+| 新增或修改 PM 项目、目录、文档及其可见性，移动或删除内容 | [文档协作](references/documents.md)、[Source Visibility V1](references/visibility.md) |
 | 生成、修改、完善、继续交互原型 | [仓库与项目路由](references/repository.md)、[交互原型](references/prototypes.md)、[提交与验收](references/publishing.md) |
 | 请求同步、提交、发布、核对线上地址或排查发布失败 | [仓库与项目路由](references/repository.md)、[提交与验收](references/publishing.md) |
 | 初始化项目、导入已有本地项目、增量同步或检查 slug 冲突 | [仓库与项目路由](references/repository.md)、[项目初始化与导入](references/onboarding.md)、[文档协作](references/documents.md) |
@@ -37,7 +38,7 @@ description: Foundry 专用 Skill，用于产品规划、PRD、技术方案、�
 
 1. 判断当前是讨论、文档同步、原型开发还是发布验收；只加载命中的 references。
 2. 涉及仓库时先读取 [Workspace 配置](references/workspace.md) 与 [Repository Resolver](references/resolver.md)，确定唯一目标；本地可用时优先本地 Git，否则使用已授权 Provider。再读取目标仓库最新 `PROJECTS.md`、`AGENTS.md` 和适用子规范。
-3. 区分已确认决策、草案和建议；增量修改，保持既有约束及历史版本。
+3. 区分已确认决策、草案和建议；增量修改，保持既有约束及历史版本。涉及项目、目录或文档维护时必须读取 [Source Visibility V1](references/visibility.md)，检查受影响后代，禁止以生命周期变化代替可见性决定。
 4. 交互原型完成后检查并同步必要的 PRD、Design、Docs 和版本说明，按仓库最新 Git/PR 规范默认创建 PR、验证 CI 并在授权范围内合并；其他独立文档仅在用户明确要求同步时提交。
 5. 分别报告提交、构建、线上部署和真实访问验证状态；不可把任一步的成功代替下一步。
 
