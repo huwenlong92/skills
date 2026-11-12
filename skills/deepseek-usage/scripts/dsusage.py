@@ -114,13 +114,11 @@ def read_snapshots():
 
 
 def interval_spend(previous, current):
-    return (
-        current["topped_up"]
-        - previous["topped_up"]
-        + current["granted"]
-        - previous["granted"]
-        - (current["total"] - previous["total"])
-    )
+    """Balance deltas cannot separate spend from top-ups, so flag increases."""
+    delta = current["total"] - previous["total"]
+    if delta > 0:
+        return 0.0, True
+    return round(-delta, 4), False
 
 
 def build_report(days):
@@ -130,10 +128,14 @@ def build_report(days):
 
     daily = {}
     counts = {}
+    topups = {}
     for previous, current in zip(rows, rows[1:]):
         day = current["date"]
-        daily[day] = daily.get(day, 0.0) + interval_spend(previous, current)
+        value, has_topup = interval_spend(previous, current)
+        daily[day] = daily.get(day, 0.0) + value
         counts[day] = counts.get(day, 0) + 1
+        if has_topup:
+            topups[day] = topups.get(day, 0) + 1
 
     daily = {d: v for d, v in daily.items() if start.isoformat() <= d <= today.isoformat()}
     first_ts = rows[0]["ts"] if rows else None
@@ -144,6 +146,7 @@ def build_report(days):
         "snapshots": len(rows),
         "daily": {d: round(v, 2) for d, v in sorted(daily.items())},
         "intervals": counts,
+        "topups": topups,
         "first_snapshot": first_ts,
         "partial": start.isoformat() <= (first_ts or "")[:10] <= today.isoformat(),
     }
@@ -176,6 +179,9 @@ def print_report(report, days):
     if report["partial"]:
         print("")
         print(f"注意：最早快照为 {report['first_snapshot']}，该日消耗不完整。")
+    flagged = [d for d in report["daily"] if report["topups"].get(d)]
+    if flagged:
+        print(f"注意：{'、'.join(flagged)} 存在余额上升区间（充值或赠送），该区间消耗无法拆分，已按 0 计。")
     if days > 1:
         missing = [
             (report["start"] and date.fromisoformat(report["start"]) + timedelta(days=offset)).isoformat()
