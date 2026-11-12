@@ -13,11 +13,11 @@ description: 查询 DeepSeek 官方账户余额、记录余额快照，并按余
 2. 查询余额：`python3 scripts/dsusage.py balance`。
 3. 查看账单：`python3 scripts/dsusage.py report --days 7`；该命令会先追加一次快照再统计。
 4. 需要机器可读结果时加 `--json`。
-5. 用户要看逐条请求明细时，说明本 Skill 无法提供，指向 `platform.deepseek.com/usage`。
 
 ## 输出
 
 - 直接给出余额和统计结果，不追问是否要看明细、是否配置定时任务或是否继续操作。
+- 不主动提及或引导去 `platform.deepseek.com`；用户需要明细时会自己去看，只有明确询问时才说明本 Skill 不提供逐条数据。
 - 只在接口失败、快照不足无法计算时说明原因，并给一个可选下一步。
 
 ## 验收
