@@ -26,9 +26,11 @@
 - 文件存在符号链接、未知修改、模板身份不明、托管标记损坏或并发哈希变化时停止。
 - 变更前备份原始字节并记录哈希，写入后检查权限、内容和第二次运行零差异；备份不提交 Git。不得自动 Commit、Push、合并、部署或触发 CI。
 
-## Codex 全局接入工具
+## 全局共享指令接入工具
 
-`scripts/project_skill_global.py` 仅修改 Codex 全局 AGENTS.md 中带有独立标记的托管区块；默认 dry-run。写入必须显式传入授权标志与 dry-run 返回的原始 SHA-256。已有未托管内容逐字节保留；标记异常时拒绝修改。写入前备份，目标改变则拒绝写入；重复执行无差异。
+`scripts/project_skill_global.py` 只修改目标目录 `AGENTS.md` 中带有独立标记的托管区块；默认目标为 Codex 全局 `~/.codex/AGENTS.md`，可用 `--codex-home` 或 `CODEX_HOME` 指定；默认 dry-run。写入必须显式传入授权标志与 dry-run 返回的原始 SHA-256。已有未托管内容逐字节保留；标记异常时拒绝修改。写入前备份，目标改变则拒绝写入；重复执行无差异。
+
+多 Agent 共享部署时，真身放在 Agent 中立的 `~/.agents/AGENTS.md`，Codex 的 `~/.codex/AGENTS.md` 用软链指向它，Claude 用 `@~/.agents/AGENTS.md` 导入。脚本以 `O_NOFOLLOW` 打开目标，遇到软链会拒绝（`ELOOP`），因此必须把 `--codex-home`/`CODEX_HOME` 指向真身所在目录（如 `--codex-home ~/.agents`）；不要指向只放软链的目录。单 Agent 部署沿用默认 Codex 布局即可，两种部署的授权、哈希校验与零差异复跑要求完全一致。
 
 建议的全局入口要求：识别项目真实模板来源，按 [Skill Orchestration](skill-orchestration.md) 选择唯一 Primary，按 [Development Execution](development-execution.md) 约束长任务；先遵守项目 AGENTS.md 和实际安装状态，禁止自动安装/卸载、项目批量改写和越权提交。
 

@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Safely manage one bounded SDKit block in Codex global AGENTS.md."""
+"""Safely manage one bounded SDKit block in a target directory's AGENTS.md.
+
+The default target is Codex global ~/.codex/AGENTS.md. Shared multi-agent
+deployments keep the real file at ~/.agents/AGENTS.md and pass
+--codex-home ~/.agents, because symlinked targets are rejected (O_NOFOLLOW).
+"""
 import argparse
 import hashlib
 import json
@@ -53,7 +58,7 @@ def plan(raw):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--codex-home")
+    p.add_argument("--codex-home", help="directory containing AGENTS.md; defaults to $CODEX_HOME or ~/.codex; use ~/.agents for shared deployments")
     p.add_argument("--apply", action="store_true")
     p.add_argument("--authorized", action="store_true")
     p.add_argument("--expected-sha256")
