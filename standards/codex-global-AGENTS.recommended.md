@@ -78,7 +78,7 @@
 <!-- sdkit-global-bootstrap:start -->
 ## SDKit Skill 自动协作
 
-- 开发任务先识别项目 AGENTS.md、真实模板来源、锁定版本与已安装 Skill，按适用的新主入口选择唯一 Primary；旧名称仅用于已验证的历史兼容，禁止重复选择。
+- 开发任务先识别项目 AGENTS.md、真实模板来源、锁定版本与已安装 Skill，再按任务作用域各选唯一 Primary：core（框架源码）、项目模板（`sdbase-*`）、工具链与语言规范、知识与设计；跨作用域组合是正常用法。同一作用域内不得同时使用新旧名称，完整版与 Lite 不得混用，旧名称仅用于已验证的历史兼容。
 - 遵守 huwenlong92/skills 的 standards/skill-orchestration.md、standards/development-execution.md 和 standards/project-skill-bootstrap.md；从已核验的完整 skills 源码仓库或 Git Provider 读取；独立 Skill 安装不包含根 standards/，不把跨仓库路径当作本地文件。
 - 简单任务按需检查；长任务保持计划基线、阶段验收、偏差审批和中断恢复。项目规则优先于全局默认值，规则冲突时停止受影响操作。
 - 默认不修改项目 AGENTS.md；仅在项目确需持久化且本次明确授权时最小补齐。禁止覆盖未知本地改动；本入口不授予 Skill 安装/卸载、Git 写入、数据库变更或发布权限，这些操作必须依据本次明确授权。
