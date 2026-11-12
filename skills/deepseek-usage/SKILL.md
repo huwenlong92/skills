@@ -1,0 +1,23 @@
+---
+name: deepseek-usage
+description: 查询 DeepSeek 官方账户余额、记录余额快照，并按余额差值统计每日真实消耗。用户询问 DeepSeek 余额、账单、用量、今天或最近花了多少钱、核对 platform.deepseek.com 账单时使用。
+---
+
+# DeepSeek 用量
+
+只用官方余额接口与本地快照，不依赖模型价目表，不改动任何远端配置。
+
+## 执行流程
+
+1. 读取 [用量规则](references/usage.md) 确认凭据来源、数据目录与统计口径。
+2. 查询余额：`python3 scripts/dsusage.py balance`。
+3. 查看账单：`python3 scripts/dsusage.py report --days 7`；该命令会先追加一次快照再统计。
+4. 需要机器可读结果时加 `--json`。
+5. 用户要看逐条请求明细时，说明本 Skill 无法提供，指向 `platform.deepseek.com/usage`。
+
+## 验收
+
+- 余额数值来自接口返回，不凭模型估算或历史对话推断。
+- 报告必须标明统计区间、快照数量与数据不足的日期。
+- 充值或赠送额度变化不得计入消耗。
+- 接口失败时报告 HTTP 状态与凭据来源名称，不打印密钥。
